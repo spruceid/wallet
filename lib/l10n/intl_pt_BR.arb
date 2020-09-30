@@ -1,0 +1,12 @@
+{
+  "@@last_modified": "2020-09-29T18:24:19.298198",
+  "@@locale": "pt_BR",
+  "genericError": "Ocorreu um erro!",
+  "credentialListTitle": "Credenciais",
+  "credentialDetailIssuedBy": "emitido por {issuer}",
+  "listActionRefresh": "Atualizar",
+  "listActionViewList": "Ver lista",
+  "listActionViewGrid": "Ver grid",
+  "listActionFilter": "Filtrar",
+  "listActionSort": "Ordenar"
+}
