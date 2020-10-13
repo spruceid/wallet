@@ -22,79 +22,117 @@ class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
-  String get genericError {
-    return Intl.message(
-      'An error has occurred!',
-      name: 'genericError',
-      desc: 'Generic error message',
-    );
-  }
+  String get appTitle => Intl.message(
+        'Credible',
+        name: 'appTitle',
+        desc: 'App title',
+      );
 
-  String get credentialListTitle {
-    return Intl.message(
-      'Credentials',
-      name: 'credentialListTitle',
-      desc: 'Title for the Credentials List Page',
-    );
-  }
+  String get genericError => Intl.message(
+        'An error has occurred!',
+        name: 'genericError',
+        desc: 'Generic error message',
+      );
 
-  String credentialDetailIssuedBy(String issuer) {
-    return Intl.message('issued by {issuer}',
-        name: 'credentialDetailIssuedBy',
-        desc: 'Credential issuer on detail page',
-        args: [issuer]);
-  }
+  String get onBoardingStartSubtitle => Intl.message(
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        name: 'onBoardingStartSubtitle',
+        desc: 'On boarding start page subtitle',
+      );
 
-  String get listActionRefresh {
-    return Intl.message(
-      'Refresh',
-      name: 'listActionRefresh',
-      desc: 'List action button to refresh the content',
-    );
-  }
+  String get onBoardingStartButton => Intl.message(
+        "Let's Start",
+        name: 'onBoardingStartButton',
+        desc: 'On boarding start page button text',
+      );
 
-  String get listActionViewList {
-    return Intl.message(
-      'View as list',
-      name: 'listActionViewList',
-      desc: 'List action button to set view to list mode',
-    );
-  }
+  String get onBoardingTosTitle => Intl.message(
+        'Terms & Conditions',
+        name: 'onBoardingTosTitle',
+        desc: 'On boarding terms and conditions page title',
+      );
 
-  String get listActionViewGrid {
-    return Intl.message(
-      'View as grid',
-      name: 'listActionViewGrid',
-      desc: 'List action button to set view to grid mode',
-    );
-  }
+  String get onBoardingTosButton => Intl.message(
+        'Accept',
+        name: 'onBoardingTosButton',
+        desc: 'On boarding terms and conditions page button text',
+      );
 
-  String get listActionFilter {
-    return Intl.message(
-      'Filter',
-      name: 'listActionFilter',
-      desc: 'List action button to open filter options',
-    );
-  }
+  String get onBoardingGenTitle => Intl.message(
+        'Private Key Generation',
+        name: 'onBoardingGenTitle',
+        desc: 'On boarding private key generation page title',
+      );
 
-  String get listActionSort {
-    return Intl.message(
-      'Sort',
-      name: 'listActionSort',
-      desc: 'List action button to open sort options',
-    );
-  }
+  String get onBoardingGenButton => Intl.message(
+        'Generate',
+        name: 'onBoardingGenButton',
+        desc: 'On boarding private key generation page button text',
+      );
+
+  String get onBoardingSuccessTitle => Intl.message(
+        'Identity created!',
+        name: 'onBoardingSuccessTitle',
+        desc: 'On boarding success page title',
+      );
+
+  String get onBoardingSuccessButton => Intl.message(
+        'Continue',
+        name: 'onBoardingSuccessButton',
+        desc: 'On boarding success page button text',
+      );
+
+  String get credentialListTitle => Intl.message(
+        'Credentials',
+        name: 'credentialListTitle',
+        desc: 'Title for the Credentials List Page',
+      );
+
+  String credentialDetailIssuedBy(String issuer) =>
+      Intl.message('issued by {issuer}',
+          name: 'credentialDetailIssuedBy',
+          desc: 'Credential issuer on detail page',
+          args: [issuer]);
+
+  String get listActionRefresh => Intl.message(
+        'Refresh',
+        name: 'listActionRefresh',
+        desc: 'List action button to refresh the content',
+      );
+
+  String get listActionViewList => Intl.message(
+        'View as list',
+        name: 'listActionViewList',
+        desc: 'List action button to set view to list mode',
+      );
+
+  String get listActionViewGrid => Intl.message(
+        'View as grid',
+        name: 'listActionViewGrid',
+        desc: 'List action button to set view to grid mode',
+      );
+
+  String get listActionFilter => Intl.message(
+        'Filter',
+        name: 'listActionFilter',
+        desc: 'List action button to open filter options',
+      );
+
+  String get listActionSort => Intl.message(
+        'Sort',
+        name: 'listActionSort',
+        desc: 'List action button to open sort options',
+      );
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
-  List<Locale> get supportedLocales {
-    return const <Locale>[
-      Locale('en', ''),
-      Locale('pt', 'BR'),
-    ];
-  }
+  List<Locale> get supportedLocales =>
+      const <Locale>[
+        Locale('en', ''),
+        Locale('pt', 'BR'),
+      ];
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);

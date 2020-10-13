@@ -1,6 +1,7 @@
 import 'package:credible/app/pages/credentials/bloc.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/module.dart';
+import 'package:credible/app/shared/palette.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,17 +45,25 @@ class _CredentialsStreamState extends State<CredentialsStream> {
           if (snapshot.hasError) {
             return SafeArea(
               child: Scaffold(
+                backgroundColor: Palette.background,
                 appBar: AppBar(
+                  backgroundColor: Colors.white,
+                  centerTitle: true,
                   title: Text(localizations.genericError),
-                  actions: <Widget>[
-                    IconButton(
-                      tooltip: localizations.listActionRefresh,
-                      icon: Icon(Icons.refresh),
-                      onPressed: () {},
-                    ),
-                  ],
                 ),
-                body: Center(child: Text(localizations.genericError)),
+                body: Center(
+                  child: Column(
+                    children: <Widget>[
+                      IconButton(
+                        tooltip: localizations.listActionRefresh,
+                        icon: Icon(Icons.refresh),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(height: 16.0),
+                      Text(localizations.genericError),
+                    ],
+                  ),
+                ),
               ),
             );
           } else {

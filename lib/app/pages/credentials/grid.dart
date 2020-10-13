@@ -1,5 +1,6 @@
 import 'package:credible/app/pages/credentials/grid_item.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/shared/palette.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,14 @@ class CredentialsGrid extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Palette.background,
         appBar: AppBar(
-          title: Text(localizations.credentialListTitle),
+          centerTitle: true,
+          backgroundColor: Colors.white,
+          textTheme: Theme.of(context).textTheme,
+          title: Text(
+            localizations.credentialListTitle,
+          ),
           actions: <Widget>[
             IconButton(
               tooltip: localizations.listActionViewList,
@@ -44,7 +51,7 @@ class CredentialsGrid extends StatelessWidget {
           shrinkWrap: true,
           crossAxisCount: 2,
           children:
-              items.map((item) => CredentialsGridItem(item: item)).toList(),
+          items.map((item) => CredentialsGridItem(item: item)).toList(),
         ),
       ),
     );
