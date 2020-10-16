@@ -12,7 +12,7 @@ class CredentialsBloc extends Disposable {
       BehaviorSubject<List<CredentialModel>>();
 
   Future findAll(/* dynamic filters */) async {
-    repository
+    await repository
         .findAll(/* filters */)
         .then((values) => credentials$.add(values));
   }

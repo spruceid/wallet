@@ -9,9 +9,9 @@ class AppLocalizations {
   static const AppLocalizationsDelegate delegate = AppLocalizationsDelegate();
 
   static Future<AppLocalizations> load(Locale locale) {
-    final String name =
+    final name =
         locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
-    final String localeName = Intl.canonicalizedLocale(name);
+    final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
       return AppLocalizations();
@@ -66,24 +66,76 @@ class AppLocalizations {
 
   String get onBoardingGenButton => Intl.message(
         'Generate',
-        name: 'onBoardingGenButton',
-        desc: 'On boarding private key generation page button text',
-      );
+    name: 'onBoardingGenButton',
+    desc: 'On boarding private key generation page button text',
+  );
 
-  String get onBoardingSuccessTitle => Intl.message(
+  String get onBoardingSuccessTitle =>
+      Intl.message(
         'Identity created!',
         name: 'onBoardingSuccessTitle',
         desc: 'On boarding success page title',
       );
 
-  String get onBoardingSuccessButton => Intl.message(
+  String get onBoardingSuccessButton =>
+      Intl.message(
         'Continue',
         name: 'onBoardingSuccessButton',
         desc: 'On boarding success page button text',
       );
 
-  String get credentialListTitle => Intl.message(
-        'Credentials',
+  String get credentialDetailShare =>
+      Intl.message(
+        'Share by QR code',
+        name: 'credentialDetailShare',
+        desc: 'Share action on credential detail page',
+      );
+
+  String get credentialDetailDelete =>
+      Intl.message(
+        'Delete credential',
+        name: 'credentialDetailDelete',
+        desc: 'Delete action on credential detail page',
+      );
+
+  String get credentialDetailCopyFieldValue =>
+      Intl.message(
+        'Copied field value to clipboard!',
+        name: 'credentialDetailCopyFieldValue',
+        desc: 'Copy field value action on credential detail page',
+      );
+
+  String get credentialPresentConfirm =>
+      Intl.message(
+        'Yes, please!',
+        name: 'credentialPresentConfirm',
+        desc: 'Confirm action on credential presentation',
+      );
+
+  String get credentialPresentCancel =>
+      Intl.message(
+        'Not now',
+        name: 'credentialPresentCancel',
+        desc: 'Cancel action on credential presentation',
+      );
+
+  String get credentialReceiveConfirm =>
+      Intl.message(
+        'Add to wallet',
+        name: 'credentialReceiveConfirm',
+        desc: 'Confirm action on credential reception',
+      );
+
+  String get credentialReceiveCancel =>
+      Intl.message(
+        'Not for now',
+        name: 'credentialReceiveCancel',
+        desc: 'Cancel action on credential reception',
+      );
+
+  String get credentialListTitle =>
+      Intl.message(
+        'My wallet',
         name: 'credentialListTitle',
         desc: 'Title for the Credentials List Page',
       );
@@ -145,7 +197,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   bool _isSupported(Locale locale) {
     if (locale != null) {
-      for (Locale supportedLocale in supportedLocales) {
+      for (final supportedLocale in supportedLocales) {
         if (supportedLocale.languageCode == locale.languageCode) {
           return true;
         }

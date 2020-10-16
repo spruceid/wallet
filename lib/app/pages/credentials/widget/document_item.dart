@@ -1,14 +1,15 @@
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class DetailLabeledValue extends StatelessWidget {
+class DocumentItemWidget extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
   final String label;
   final String value;
 
-  const DetailLabeledValue({
+  const DocumentItemWidget({
     Key key,
     this.scaffoldKey,
     this.label,
@@ -22,7 +23,9 @@ class DetailLabeledValue extends StatelessWidget {
           onLongPress: () {
             Clipboard.setData(ClipboardData(text: value));
             scaffoldKey.currentState.showSnackBar(SnackBar(
-              content: Text('Copied field value to clipboard!'),
+              content: Text(
+                AppLocalizations.of(context).credentialDetailCopyFieldValue,
+              ),
             ));
           },
           child: Container(

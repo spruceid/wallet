@@ -20,7 +20,7 @@ class CredentialsList extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Palette.background,
           appBar: CustomAppBar(
-            title: AppLocalizations.of(context).appTitle,
+            title: AppLocalizations.of(context).credentialListTitle,
           ),
           bottomNavigationBar: CustomNavBar(index: 0),
           body: SingleChildScrollView(

@@ -1,5 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/labeled_value.dart';
+import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/app_bar.dart';
 import 'package:credible/app/shared/widget/hero_workaround.dart';
@@ -85,111 +85,21 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               ),
               Transform.translate(
                 offset: Offset(0.0, -64.0),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(24.0),
-                    boxShadow: <BoxShadow>[
-                      BoxShadow(
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 2.0,
-                        color: Palette.shadow,
-                      ),
-                    ],
-                  ),
-                  child: Column(
+                child: DocumentWidget(
+                  scaffoldKey: scaffoldKey,
+                  item: widget.item,
+                  trailing: Column(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 24.0,
-                          vertical: 8.0,
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.2,
-                              height: MediaQuery.of(context).size.width * 0.2,
-                              decoration: BoxDecoration(
-                                color: Colors.pinkAccent,
-                                borderRadius: BorderRadius.circular(16.0),
-                              ),
-                            ),
-                            const SizedBox(height: 16.0),
-                            TooltipText(
-                              text: 'Richard Hooper, MD',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1
-                                  .apply(color: Colors.black),
-                            ),
-                            const SizedBox(height: 4.0),
-                            TooltipText(
-                              text: 'Internal Medicine',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1
-                                  .apply(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 16.0),
-                      DetailLabeledValue(
-                        scaffoldKey: scaffoldKey,
-                        label: 'NPI:',
-                        value: '4876hTG97',
-                      ),
-                      const SizedBox(height: 8.0),
-                      DetailLabeledValue(
-                        scaffoldKey: scaffoldKey,
-                        label: 'E-MAIL:',
-                        value: 'richard@doximity.com',
-                      ),
-                      const SizedBox(height: 8.0),
-                      DetailLabeledValue(
-                        scaffoldKey: scaffoldKey,
-                        label: 'ISSUED BY:',
-                        value: widget.item.issuer,
-                      ),
-                      const SizedBox(height: 8.0),
-                      DetailLabeledValue(
-                        scaffoldKey: scaffoldKey,
-                        label: 'ISSUED AT:',
-                        value: 'San Francisco, CA',
-                      ),
-                      const SizedBox(height: 8.0),
-                      Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: DetailLabeledValue(
-                              scaffoldKey: scaffoldKey,
-                              label: 'EXPIRATION:',
-                              value: '10/2021',
-                            ),
-                          ),
-                          Expanded(
-                            child: DetailLabeledValue(
-                              scaffoldKey: scaffoldKey,
-                              label: 'STATUS:',
-                              value: 'VALID',
-                            ),
-                          ),
-                        ],
-                      ),
+                    children: [
                       const SizedBox(height: 24.0),
                       Material(
                         color: Colors.transparent,
                         child: Tooltip(
-                          message: 'Share by QR code',
+                          message: localizations.credentialDetailShare,
                           child: InkWell(
                             onTap: () {
                               Modular.to.pushNamed(
-                                "/qr-code",
+                                '/qr-code/display',
                                 arguments: widget.item.id,
                               );
                             },
@@ -209,7 +119,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                                   ),
                                   const SizedBox(width: 16.0),
                                   Text(
-                                    'Share by QR code',
+                                    localizations.credentialDetailShare,
                                     style:
                                         Theme.of(context).textTheme.bodyText1,
                                   ),
@@ -229,7 +139,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                   vertical: 16.0,
                 ),
                 onPressed: () {},
-                child: Text('Delete credential'),
+                child: Text(localizations.credentialDetailDelete),
               ),
               const SizedBox(height: 32.0),
             ],

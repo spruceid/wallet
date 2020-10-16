@@ -38,7 +38,7 @@ android {
 
     defaultConfig {
         applicationId "com.spruceid.credible"
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName

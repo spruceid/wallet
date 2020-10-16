@@ -1,3 +1,4 @@
+import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,18 +16,28 @@ class CustomAppBar extends PreferredSize {
     this.trailing,
   }) : super(
           child: null,
-          preferredSize: Size.fromHeight(96.0),
+          preferredSize: Size.fromHeight(80.0),
         );
 
   @override
-  Widget build(BuildContext context) => Stack(
+  Widget build(BuildContext context) =>
+      Stack(
         children: <Widget>[
           Container(
             alignment: Alignment.bottomCenter,
-            color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: <BoxShadow>[
+                BoxShadow(
+                  color: Palette.shadow,
+                  offset: Offset(0.0, 2.0),
+                  blurRadius: 2.0,
+                ),
+              ],
+            ),
             padding: const EdgeInsets.only(
-              top: 16.0,
-              bottom: 24.0,
+              top: 12.0,
+              bottom: 16.0,
               left: 8.0,
               right: 8.0,
             ),
@@ -34,14 +45,17 @@ class CustomAppBar extends PreferredSize {
               tag: tag,
               text: title,
               textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .subtitle1,
             ),
           ),
           Container(
             alignment: Alignment.bottomCenter,
             padding: const EdgeInsets.only(
-              top: 16.0,
-              bottom: 12.0,
+              top: 12.0,
+              bottom: 8.0,
               left: 8.0,
               right: 8.0,
             ),

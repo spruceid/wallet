@@ -11,7 +11,7 @@ class OnBoardingSuccessPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Palette.background,
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0,
@@ -26,10 +26,14 @@ class OnBoardingSuccessPage extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                      Icon(
-                        Icons.check_circle,
-                        color: Palette.primary,
-                        size: MediaQuery.of(context).size.width * 0.33,
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.66,
+                        height: MediaQuery.of(context).size.width * 0.66,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage('assets/image/success.png'),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 16.0),
                       Text(
@@ -42,14 +46,18 @@ class OnBoardingSuccessPage extends StatelessWidget {
               ),
               const SizedBox(height: 48.0),
               CustomButton(
-                borderColor: Palette.text,
+                color: Palette.navyBlue,
                 onPressed: () {
                   Modular.to.pushReplacementNamed('/credentials');
                 },
                 child: Text(
                   localizations.onBoardingSuccessButton,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .button
+                      .apply(color: Colors.white),
                 ),
               ),
             ],

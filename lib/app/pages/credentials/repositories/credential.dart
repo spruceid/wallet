@@ -44,7 +44,7 @@ class CredentialsRepository extends Disposable {
 
     return _mockData.firstWhere(
       (d) => d.id == id,
-      orElse: null,
+      orElse: () => null,
     );
   }
 

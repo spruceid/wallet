@@ -29,21 +29,22 @@ class AppWidget extends StatelessWidget {
           fontWeight: FontWeight.normal,
         ),
         bodyText2: GoogleFonts.montserrat(
-          fontSize: 12.0,
           color: Palette.text,
+          fontSize: 12.0,
           fontWeight: FontWeight.normal,
         ),
-        button: GoogleFonts.montserrat(
-          fontSize: 14.0,
+        button: GoogleFonts.poppins(
           color: Palette.text,
+          fontSize: 14.0,
+          fontWeight: FontWeight.w500,
         ),
         overline: GoogleFonts.montserrat(
-          fontSize: 10.0,
           color: Palette.text,
+          fontSize: 10.0,
         ),
         caption: GoogleFonts.montserrat(
-          fontSize: 14.0,
           color: Colors.black,
+          fontSize: 14.0,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -54,7 +55,7 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        initialRoute: "/splash",
+    initialRoute: '/splash',
         navigatorKey: Modular.navigatorKey,
         onGenerateRoute: Modular.generateRoute,
         theme: _themeData,

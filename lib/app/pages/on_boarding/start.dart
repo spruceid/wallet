@@ -17,7 +17,7 @@ class OnBoardingStartPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0,
-            vertical: 32.0,
+            vertical: 24.0,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -37,14 +37,17 @@ class OnBoardingStartPage extends StatelessWidget {
               ),
               Flexible(flex: 3, child: Container()),
               CustomButton(
-                borderColor: Palette.text,
+                color: Palette.navyBlue,
                 onPressed: () {
                   Modular.to.pushReplacementNamed('/on-boarding/tos');
                 },
                 child: Text(
                   localizations.onBoardingStartButton,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme.of(context)
+                      .textTheme
+                      .button
+                      .apply(color: Colors.white),
                 ),
               ),
             ],

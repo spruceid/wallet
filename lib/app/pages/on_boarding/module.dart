@@ -18,22 +18,22 @@ class OnBoardingModule extends ChildModule {
   @override
   List<ModularRouter> get routers => [
         ModularRouter(
-          "/start",
+          '/start',
           child: (context, args) => OnBoardingStartPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ModularRouter(
-          "/tos",
+          '/tos',
           child: (context, args) => OnBoardingTosPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ModularRouter(
-          "/gen",
+          '/gen',
           child: (context, args) => OnBoardingGenPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ModularRouter(
-          "/success",
+          '/success',
           child: (context, args) => OnBoardingSuccessPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),

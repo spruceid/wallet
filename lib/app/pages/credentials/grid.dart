@@ -51,7 +51,7 @@ class CredentialsGrid extends StatelessWidget {
           shrinkWrap: true,
           crossAxisCount: 2,
           children:
-          items.map((item) => CredentialsGridItem(item: item)).toList(),
+              items.map((item) => CredentialsGridItem(item: item)).toList(),
         ),
       ),
     );

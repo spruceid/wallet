@@ -4,6 +4,8 @@ import 'package:credible/app/pages/credentials/grid.dart';
 import 'package:credible/app/pages/credentials/list.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/pages/credentials/stream.dart';
+import 'package:credible/app/pages/present/present.dart';
+import 'package:credible/app/pages/receive/receive.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -20,23 +22,35 @@ class CredentialsModule extends ChildModule {
   @override
   List<ModularRouter> get routers => [
         ModularRouter(
-          "/list",
-          child: (context, args) => CredentialsStream(
-            child: (context, items) => CredentialsList(items: items),
-          ),
+          '/list',
+          child: (context, args) =>
+              CredentialsStream(
+                child: (context, items) => CredentialsList(items: items),
+              ),
           transition: TransitionType.fadeIn,
         ),
-        ModularRouter(
-          "/grid",
-          child: (context, args) => CredentialsStream(
+    ModularRouter(
+      '/grid',
+      child: (context, args) =>
+          CredentialsStream(
             child: (context, items) => CredentialsGrid(items: items),
           ),
-          transition: TransitionType.fadeIn,
-        ),
-        ModularRouter(
-          "/detail",
-          child: (context, args) => CredentialsDetail(item: args.data),
-          transition: TransitionType.rightToLeftWithFade,
-        ),
-      ];
+      transition: TransitionType.fadeIn,
+    ),
+    ModularRouter(
+      '/detail',
+      child: (context, args) => CredentialsDetail(item: args.data),
+      transition: TransitionType.rightToLeftWithFade,
+    ),
+    ModularRouter(
+      '/receive',
+      child: (context, args) => CredentialsReceivePage(item: args.data),
+      transition: TransitionType.rightToLeftWithFade,
+    ),
+    ModularRouter(
+      '/present',
+      child: (context, args) => CredentialsPresentPage(item: args.data),
+      transition: TransitionType.rightToLeftWithFade,
+    ),
+  ];
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrCodePage extends StatelessWidget {
+class QrCodeDisplayPage extends StatelessWidget {
   final String data;
 
-  const QrCodePage({
+  const QrCodeDisplayPage({
     Key key,
     this.data,
   }) : super(key: key);

@@ -11,6 +11,7 @@ class OnBoardingGenPage extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24.0,
@@ -19,24 +20,31 @@ class OnBoardingGenPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Text(
-                localizations.onBoardingGenTitle,
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              const SizedBox(height: 24.0),
               Expanded(
-                child: Container(),
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.66,
+                  height: MediaQuery.of(context).size.width * 0.66,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/image/gen.png'),
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(height: 48.0),
               CustomButton(
-                borderColor: Palette.text,
+                color: Palette.navyBlue,
                 onPressed: () {
                   Modular.to.pushReplacementNamed('/on-boarding/success');
                 },
                 child: Text(
                   localizations.onBoardingGenButton,
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.button,
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .button
+                      .apply(color: Colors.white),
                 ),
               ),
             ],

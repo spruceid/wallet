@@ -1,3 +1,4 @@
+import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/brand.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -33,10 +34,21 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
-          body: Center(
+          body: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: <Color>[
+                  Palette.darkPurple,
+                  Palette.gradientDarkPurple,
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(24.0),
-              child: Brand(),
+              child: BrandMinimal(),
             ),
           ),
         ),
