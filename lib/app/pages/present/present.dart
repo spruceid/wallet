@@ -112,6 +112,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                   borderColor: Palette.navyBlue,
                   onPressed: () {
                     // TODO: code flow to confirm presentation
+                    Modular.to.pop();
                   },
                   child: Text(
                     localizations.credentialPresentConfirm,

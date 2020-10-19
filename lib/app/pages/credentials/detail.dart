@@ -100,7 +100,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                             onTap: () {
                               Modular.to.pushNamed(
                                 '/qr-code/display',
-                                arguments: widget.item.id,
+                                arguments: 'schema://domain.tld/receive',
                               );
                             },
                             child: Container(

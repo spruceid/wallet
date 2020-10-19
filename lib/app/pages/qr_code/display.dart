@@ -12,11 +12,12 @@ class QrCodeDisplayPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
-          body: Center(
+          body: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(32.0),
             child: QrImage(
               data: data,
               version: QrVersions.auto,
-              size: MediaQuery.of(context).size.width * 0.5,
             ),
           ),
         ),

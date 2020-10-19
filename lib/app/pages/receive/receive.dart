@@ -100,6 +100,7 @@ class _CredentialsReceivePageState extends State<CredentialsReceivePage> {
                   color: Palette.navyBlue,
                   onPressed: () {
                     // TODO: code flow to confirm reception
+                    Modular.to.pop();
                   },
                   child: Text(
                     localizations.credentialReceiveConfirm,

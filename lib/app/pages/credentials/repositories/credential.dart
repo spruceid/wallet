@@ -33,7 +33,7 @@ class CredentialsRepository extends Disposable {
     // final response =
     //     await client.get('credentials');
 
-    await Future.delayed(Duration(milliseconds: 2500));
+    await Future.delayed(Duration(milliseconds: 500));
 
     return _mockData;
   }

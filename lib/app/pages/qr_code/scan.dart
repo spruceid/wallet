@@ -31,7 +31,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         final parsed = await Ssi.parse(scanData);
 
         if (parsed is SsiCredential) {
-          await Modular.to.pushNamed(
+          await Modular.to.pushReplacementNamed(
             '/credentials/receive',
             arguments: CredentialModel(
               id: 'ab98-xyzw',
@@ -41,7 +41,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
             ),
           );
         } else if (parsed is SsiPresentation) {
-          await Modular.to.pushNamed(
+          await Modular.to.pushReplacementNamed(
             '/credentials/present',
             arguments: CredentialModel(
               id: 'ab98-xyzw',
