@@ -38,14 +38,21 @@ flutter:
   uses-material-design: true
   assets:
     - assets/brand/logo-full.svg
+    - assets/brand/logo-circular.svg
+    - assets/brand/logo-title.svg
+    - assets/brand/logo-subtitle.svg
+    - assets/brand/logo-splash.svg
     - assets/brand/logo-minimal.svg
     - assets/icon/domain.svg
-    - assets/icon/profile.png
-    - assets/icon/qr-code.png
-    - assets/icon/qr-code-white.png
-    - assets/icon/wallet.png
-    - assets/image/gen.png
-    - assets/image/success.png
+    - assets/icon/profile.svg
+    - assets/icon/profile-filled.svg
+    - assets/icon/qr-code.svg
+    - assets/icon/wallet.svg
+    - assets/icon/wallet-filled.svg
+    - assets/icon/location-target.svg
+    - assets/icon/time-clock.svg
+    - assets/image/gen.svg
+    - assets/image/scan.svg
 
   # fonts:
   #   - family: Schyler

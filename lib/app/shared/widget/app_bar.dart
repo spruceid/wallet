@@ -20,8 +20,7 @@ class CustomAppBar extends PreferredSize {
         );
 
   @override
-  Widget build(BuildContext context) =>
-      Stack(
+  Widget build(BuildContext context) => Stack(
         children: <Widget>[
           Container(
             alignment: Alignment.bottomCenter,
@@ -51,20 +50,23 @@ class CustomAppBar extends PreferredSize {
                   .subtitle1,
             ),
           ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            padding: const EdgeInsets.only(
-              top: 12.0,
-              bottom: 8.0,
-              left: 8.0,
-              right: 8.0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                leading ?? Container(width: 16.0, height: 16.0),
-                trailing ?? Container(width: 16.0, height: 16.0),
-              ],
+          Material(
+            color: Colors.transparent,
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              padding: const EdgeInsets.only(
+                top: 12.0,
+                bottom: 8.0,
+                left: 8.0,
+                right: 8.0,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  leading ?? Container(width: 16.0, height: 16.0),
+                  trailing ?? Container(width: 16.0, height: 16.0),
+                ],
+              ),
             ),
           ),
         ],

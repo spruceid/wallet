@@ -39,11 +39,11 @@ class _SplashPageState extends State<SplashPage> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: <Color>[
-                  Palette.darkPurple,
-                  Palette.gradientDarkPurple,
+                  Palette.blue,
+                  Palette.gradientBlue,
                 ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
               ),
             ),
             child: Padding(

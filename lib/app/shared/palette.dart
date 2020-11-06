@@ -3,27 +3,25 @@ import 'package:flutter/material.dart';
 class Palette {
   static const transparent = Colors.transparent;
 
-  static const red = Color(0xffE91E1E);
-  static const green = Color(0xff1E9F88);
-
   static const lightGrey = Color(0xffF6F7FA);
   static const greyPurple = Color(0xffE8E8F4);
 
-  static const darkBlue = Color(0xff012043);
-  static const navyBlue = Color(0xff1C455B);
+  static const text = Color(0xff324854);
 
-  static const lightPurple = Color(0xff9473F6);
-  static const gradientLightPurple = Color(0xff7990FF);
-  static const darkPurple = Color(0xff57458B);
-  static const gradientDarkPurple = Color(0xff526BE3);
-
-  static const text = Color(0xff012043);
-
-  static const primary = Color(0xff1E9F88);
-  static const brand = Color(0xff085567);
-
-  static const textTitle = Color(0xff274A72);
-  static const textBody = Color(0x99000000);
   static const background = Color(0xffF6F7F8);
   static const shadow = Color(0x0d000000);
+
+  static const blue = Color(0xff3A83A3);
+  static const gradientBlue = Color(0xff2C6681);
+
+  static const lighterGreen = Color(0xffA9D564);
+  static const lightGreen = Color(0xff76B562);
+  static const green = Color(0xff5B9C54);
+  static const darkGreen = Color(0xff438E73);
+  static const darkerGreen = Color(0xff324854);
+
+  static const gradientDarkGreen = Color(0xffC7DF6A);
+  static const gradientLightGreen = Color(0xff84C95F);
+
+  static const greenGrey = Color(0xff27496E);
 }

@@ -2,18 +2,13 @@ import 'package:credible/app/pages/on_boarding/gen.dart';
 import 'package:credible/app/pages/on_boarding/start.dart';
 import 'package:credible/app/pages/on_boarding/success.dart';
 import 'package:credible/app/pages/on_boarding/tos.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class OnBoardingModule extends ChildModule {
   static Inject get to => Inject<OnBoardingModule>.of();
 
   @override
-  List<Bind> get binds => [
-        // Bind((i) => CredentialsBloc(i.get())),
-        // Bind((i) => CredentialsRepository(i.get())),
-        Bind((i) => Dio()),
-      ];
+  List<Bind> get binds => [];
 
   @override
   List<ModularRouter> get routers => [

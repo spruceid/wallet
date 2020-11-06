@@ -10,8 +10,8 @@ class AppWidget extends StatelessWidget {
     final themeData = ThemeData(
       brightness: Brightness.light,
       backgroundColor: Palette.background,
-      primaryColor: Palette.primary,
-      accentColor: Palette.brand,
+      primaryColor: Palette.blue,
+      accentColor: Palette.blue,
       textTheme: TextTheme(
         subtitle1: GoogleFonts.poppins(
           color: Palette.text,
@@ -41,11 +41,12 @@ class AppWidget extends StatelessWidget {
         overline: GoogleFonts.montserrat(
           color: Palette.text,
           fontSize: 10.0,
+          letterSpacing: 0.0,
         ),
         caption: GoogleFonts.montserrat(
           color: Colors.black,
           fontSize: 14.0,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

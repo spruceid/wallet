@@ -72,7 +72,7 @@ class AppLocalizations {
 
   String get onBoardingSuccessTitle =>
       Intl.message(
-        'Identity created!',
+        'Identifier created!',
         name: 'onBoardingSuccessTitle',
         desc: 'On boarding success page title',
       );
