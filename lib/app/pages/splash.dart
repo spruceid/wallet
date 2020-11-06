@@ -1,5 +1,6 @@
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/brand.dart';
+import 'package:didkit/didkit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,6 +30,7 @@ class _SplashPageState extends State<SplashPage> {
     } else {
       await Modular.to.pushReplacementNamed('/on-boarding');
     }
+    print(await DIDKit.getVersion());
   }
 
   @override

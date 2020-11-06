@@ -105,8 +105,7 @@ class _LabeledItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      Row(
+  Widget build(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Opacity(
@@ -150,14 +149,12 @@ class CredentialsListItem extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      _BaseItem(
+  Widget build(BuildContext context) => _BaseItem(
         enabled: !(item.status != CredentialStatus.active),
-        onTap: () =>
-            Modular.to.pushNamed(
-              '/credentials/detail',
-              arguments: item,
-            ),
+        onTap: () => Modular.to.pushNamed(
+          '/credentials/detail',
+          arguments: item,
+        ),
         child: Row(
           children: <Widget>[
             Container(
