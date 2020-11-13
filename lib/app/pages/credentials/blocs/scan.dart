@@ -31,10 +31,14 @@ class ScanEventCredentialOffer extends ScanEvent {
 class ScanEventVerifiablePresentationRequest extends ScanEvent {
   final String url;
   final String key;
+  final String challenge;
+  final String domain;
 
   ScanEventVerifiablePresentationRequest(
     this.url,
     this.key,
+    this.challenge,
+    this.domain,
   );
 }
 
@@ -116,8 +120,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
         );
 
-        print(credential.data);
-
         final repository = Modular.get<CredentialsRepository>();
         await repository.insert(credential.data is String
             ? jsonDecode(credential.data)
@@ -126,7 +128,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         yield ScanStateMessage.success(
             'A new credential has been successfully added!');
       } catch (e) {
-        print(e);
         yield ScanStateMessage.error(
             'Something went wrong, please try again later.');
       }
@@ -155,27 +156,25 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
               '@context': ['https://www.w3.org/2018/credentials/v1'],
               'id': 'http://example.org/presentations/3731',
               'type': ['VerifiablePresentation'],
-              'issuer': didKey,
-              'issuanceDate': DateTime.now().toIso8601String(),
+              'holder': didKey,
               'verifiableCredential': credentials.first,
+              'verificationMethod': 'didKey',
+              'proofPurpose': 'authentication',
+              'challenge': event.challenge,
+              'domain': event.domain,
             }),
             '{}',
             key);
 
-        log(credentials.first.toString());
-        log(presentation);
-
-        final credential = await client.post(
+        await client.post(
           url,
           data: FormData.fromMap(<String, dynamic>{
-            'presentation': jsonDecode(presentation),
+            'presentation': presentation,
           }),
         );
 
-        print(credential.data);
-
         yield ScanStateMessage.success(
-            'A new credential has been successfully added!');
+            'Successfully presented your credential!');
       } catch (e) {
         yield ScanStateMessage.error(
             'Something went wrong, please try again later.');

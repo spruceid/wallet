@@ -96,7 +96,11 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                   borderColor: Palette.blue,
                   onPressed: () {
                     bloc.add(ScanEventVerifiablePresentationRequest(
-                        widget.url.toString(), 'key'));
+                      widget.url.toString(),
+                      'key',
+                      preview['challenge'],
+                      preview['domain'],
+                    ));
                   },
                   child: Text(localizations.credentialPresentConfirm),
                 ),
