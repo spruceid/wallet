@@ -1,8 +1,12 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/shared/ssi_mock.dart';
-import 'package:credible/app/shared/widget/app_bar.dart';
+import 'dart:convert';
+
+import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/widget/base/button.dart';
+import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
+import 'package:credible/localizations.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
@@ -20,71 +24,142 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
   String qrText = '';
   bool flash = false;
 
-  void _onQRViewCreated(QRViewController controller) {
-    this.controller = controller;
-    controller.scannedDataStream.listen((scanData) async {
-      controller.pauseCamera();
-      print(scanData);
+  void Function(QRViewController) _onQRViewCreated(
+    BuildContext context,
+    AppLocalizations localizations,
+  ) =>
+      (QRViewController controller) {
+        this.controller = controller;
 
-      // TODO: mock code flow after qr-code is read
-      try {
-        final parsed = await Ssi.parse(scanData);
+        final showSnackBarAndResumeScan = (String message) {
+          scaffoldKey.currentState.showSnackBar(SnackBar(
+            content: Text(message),
+          ));
 
-        if (parsed is SsiCredential) {
-          await Modular.to.pushReplacementNamed(
-            '/credentials/receive',
-            arguments: CredentialModel(
-              id: 'ab98-xyzw',
-              issuer: 'Doximity',
-              image: 'abcd12',
-              status: CredentialStatus.active,
-            ),
-          );
-        } else if (parsed is SsiPresentation) {
-          await Modular.to.pushReplacementNamed(
-            '/credentials/present',
-            arguments: CredentialModel(
-              id: 'ab98-xyzw',
-              issuer: 'Doximity',
-              image: 'abcd12',
-              status: CredentialStatus.active,
-            ),
-          );
-        }
-      } on SsiFormatException catch (e) {
-        scaffoldKey.currentState.showSnackBar(SnackBar(
-          content: Text(e.message),
-        ));
-      }
-    });
-  }
+          Future.delayed(Duration(seconds: 1), () async {
+            controller.resumeCamera();
+          });
+        };
+
+        controller.scannedDataStream.listen((scanData) async {
+          controller.pauseCamera();
+          print(scanData);
+
+          try {
+            final uri = Uri.parse(scanData);
+
+            final acceptHost = await showDialog<bool>(
+                    context: context,
+                    child: AlertDialog(
+                      title: Text(
+                        'Do you trust this host?',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      ),
+                      content: Text(
+                        uri.host,
+                        style: Theme.of(context).textTheme.subtitle2,
+                      ),
+                      actions: [
+                        BaseButton.transparent(
+                          borderColor: Palette.blue,
+                          onPressed: () {
+                            Modular.to.pop(true);
+                          },
+                          child: Text(localizations.communicationHostAllow),
+                        ),
+                        BaseButton.blue(
+                          onPressed: () {
+                            Modular.to.pop(false);
+                          },
+                          child: Text(localizations.communicationHostDeny),
+                        ),
+                      ],
+                    )) ??
+                false;
+
+            if (!acceptHost) {
+              showSnackBarAndResumeScan(
+                  'The communication request was denied.');
+              return;
+            }
+
+            final dio = Modular.get<Dio>();
+            final bloc = Modular.get<ScanBloc>();
+
+            try {
+              final url = uri.toString();
+              final response = await dio.get(url);
+              final data = response.data is String
+                  ? jsonDecode(response.data)
+                  : response.data;
+              final type = data['type'];
+
+              bloc.add(ScanEventShowPreview(data));
+
+              switch (type) {
+                case 'CredentialOffer':
+                  await Modular.to.pushReplacementNamed(
+                    '/credentials/receive',
+                    arguments: uri,
+                  );
+                  return;
+
+                case 'VerifiablePresentationRequest':
+                  await Modular.to.pushReplacementNamed(
+                    '/credentials/present',
+                    arguments: uri,
+                  );
+                  return;
+
+                default:
+                  showSnackBarAndResumeScan('Unsupported message received.');
+                  return;
+              }
+            } on DioError catch (e) {
+              print(e.message);
+
+              showSnackBarAndResumeScan(
+                  'An error occurred while connecting to the server.');
+            }
+          } on FormatException catch (e) {
+            print(e.message);
+
+            showSnackBarAndResumeScan(
+                'This QRCode does not contain a valid message.');
+          }
+        });
+      };
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          appBar: CustomAppBar(
-            title: 'Scan',
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              controller.toggleFlash();
-              setState(() {
-                flash = !flash;
-              });
-            },
-            tooltip: 'Toggle Flash',
-            child: Icon(flash ? Icons.flash_on : Icons.flash_off),
-          ),
-          bottomNavigationBar: CustomNavBar(index: 1),
-          body: QRView(
-            key: qrKey,
-            overlay: QrScannerOverlayShape(
-              borderColor: Colors.white70,
-            ),
-            onQRViewCreated: _onQRViewCreated,
-          ),
+  Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+
+    return BasePage(
+      scaffoldKey: scaffoldKey,
+      backgroundColor: Palette.background,
+      padding: EdgeInsets.zero,
+      title: 'Scan',
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     controller.toggleFlash();
+      //     setState(() {
+      //       flash = !flash;
+      //     });
+      //   },
+      //   tooltip: 'Toggle Flash',
+      //   child: Icon(flash ? Icons.flash_on : Icons.flash_off),
+      // ),
+      scrollView: false,
+      navigation: CustomNavBar(index: 1),
+      body: QRView(
+        key: qrKey,
+        overlay: QrScannerOverlayShape(
+          borderColor: Colors.white70,
         ),
-      );
+        onQRViewCreated: _onQRViewCreated(context, localizations),
+      ),
+    );
+  }
 
   @override
   void dispose() {

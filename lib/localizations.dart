@@ -66,75 +66,65 @@ class AppLocalizations {
 
   String get onBoardingGenButton => Intl.message(
         'Generate',
-    name: 'onBoardingGenButton',
-    desc: 'On boarding private key generation page button text',
-  );
+        name: 'onBoardingGenButton',
+        desc: 'On boarding private key generation page button text',
+      );
 
-  String get onBoardingSuccessTitle =>
-      Intl.message(
+  String get onBoardingSuccessTitle => Intl.message(
         'Identifier created!',
         name: 'onBoardingSuccessTitle',
         desc: 'On boarding success page title',
       );
 
-  String get onBoardingSuccessButton =>
-      Intl.message(
+  String get onBoardingSuccessButton => Intl.message(
         'Continue',
         name: 'onBoardingSuccessButton',
         desc: 'On boarding success page button text',
       );
 
-  String get credentialDetailShare =>
-      Intl.message(
+  String get credentialDetailShare => Intl.message(
         'Share by QR code',
         name: 'credentialDetailShare',
         desc: 'Share action on credential detail page',
       );
 
-  String get credentialDetailDelete =>
-      Intl.message(
+  String get credentialDetailDelete => Intl.message(
         'Delete credential',
         name: 'credentialDetailDelete',
         desc: 'Delete action on credential detail page',
       );
 
-  String get credentialDetailCopyFieldValue =>
-      Intl.message(
+  String get credentialDetailCopyFieldValue => Intl.message(
         'Copied field value to clipboard!',
         name: 'credentialDetailCopyFieldValue',
         desc: 'Copy field value action on credential detail page',
       );
 
-  String get credentialPresentConfirm =>
-      Intl.message(
+  String get credentialPresentConfirm => Intl.message(
         'Yes, please!',
         name: 'credentialPresentConfirm',
         desc: 'Confirm action on credential presentation',
       );
 
-  String get credentialPresentCancel =>
-      Intl.message(
+  String get credentialPresentCancel => Intl.message(
         'Not now',
         name: 'credentialPresentCancel',
         desc: 'Cancel action on credential presentation',
       );
 
-  String get credentialReceiveConfirm =>
-      Intl.message(
+  String get credentialReceiveConfirm => Intl.message(
         'Add to wallet',
         name: 'credentialReceiveConfirm',
         desc: 'Confirm action on credential reception',
       );
 
-  String get credentialReceiveCancel =>
-      Intl.message(
+  String get credentialReceiveCancel => Intl.message(
         'Not for now',
         name: 'credentialReceiveCancel',
         desc: 'Cancel action on credential reception',
       );
 
-  String get credentialListTitle =>
-      Intl.message(
+  String get credentialListTitle => Intl.message(
         'My wallet',
         name: 'credentialListTitle',
         desc: 'Title for the Credentials List Page',
@@ -175,13 +165,24 @@ class AppLocalizations {
         name: 'listActionSort',
         desc: 'List action button to open sort options',
       );
+
+  String get communicationHostAllow => Intl.message(
+        'Yes, allow!',
+        name: 'communicationHostAllow',
+        desc: 'Allow communication request with the presented host',
+      );
+
+  String get communicationHostDeny => Intl.message(
+        'No, deny!',
+        name: 'communicationHostDeny',
+        desc: 'Deny communication request with the presented host',
+      );
 }
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
   const AppLocalizationsDelegate();
 
-  List<Locale> get supportedLocales =>
-      const <Locale>[
+  List<Locale> get supportedLocales => const <Locale>[
         Locale('en', ''),
         Locale('pt', 'BR'),
       ];

@@ -56,7 +56,8 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-    initialRoute: '/splash',
+        title: 'Credible',
+        initialRoute: '/splash',
         navigatorKey: Modular.navigatorKey,
         onGenerateRoute: Modular.generateRoute,
         theme: _themeData,

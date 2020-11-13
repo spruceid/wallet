@@ -26,12 +26,23 @@ dependencies:
   flutter_svg: 0.19.0
   didkit:
     path: ../didkit/lib/flutter
+  bloc: ^6.1.0
+  flutter_bloc: ^6.1.1
+  sembast: ^2.4.8
+  path: ^1.7.0
+  path_provider: ^1.6.24
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   intl_translation: ^0.17.10
   pedantic: ^1.9.0
+  flutter_launcher_icons: ^0.8.1
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path: "assets/launcher_icon.png"
 
 flutter_intl:
   enabled: true
@@ -55,15 +66,3 @@ flutter:
     - assets/icon/time-clock.svg
     - assets/image/gen.svg
     - assets/image/scan.svg
-
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700

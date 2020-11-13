@@ -1,51 +1,46 @@
+import 'package:credible/app/pages/credentials/database.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:sembast/sembast.dart';
 
 class CredentialsRepository extends Disposable {
-  final Dio client;
+  CredentialsRepository();
 
-  static final _mockData = [
-    CredentialModel(
-      id: 'ab98-cd76',
-      issuer: 'Company A',
-      image: 'abcd12',
-      status: CredentialStatus.active,
-    ),
-    CredentialModel(
-      id: 'ab98-cd75',
-      issuer: 'Organization B',
-      image: 'abcd13',
-      status: CredentialStatus.expired,
-    ),
-    CredentialModel(
-      id: 'ab98-cd74',
-      issuer: 'Government C',
-      image: 'abcd14',
-      status: CredentialStatus.revoked,
-    ),
-  ];
+  Future<List<Map<String, dynamic>>> rawFindAll(/* dynamic filters */) async {
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    final data = await store.find(db);
 
-  CredentialsRepository(this.client);
+    return data.map((m) => m.value).toList();
+  }
 
   Future<List<CredentialModel>> findAll(/* dynamic filters */) async {
-    // final response =
-    //     await client.get('credentials');
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    final data = await store.find(db);
 
-    await Future.delayed(Duration(milliseconds: 500));
-
-    return _mockData;
+    return data.map((m) => CredentialModel.fromMap(m.value)).toList();
   }
 
   Future<CredentialModel> findById(String id) async {
-    // final response =
-    //     await client.get('credentials/$id');
-
-    return _mockData.firstWhere(
-      (d) => d.id == id,
-      orElse: () => null,
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    final data = await store.find(
+      db,
+      finder: Finder(
+        filter: Filter.equals('id', id),
+      ),
     );
+
+    if (data.isEmpty) return null;
+
+    return CredentialModel.fromMap(data.first.value);
+  }
+
+  Future<int> insert(Map<String, dynamic> data) async {
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    return await store.add(db, data);
   }
 
   @override

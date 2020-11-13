@@ -86,7 +86,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 _padHorizontal(BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/success');
+                    Modular.to.pushReplacementNamed('/on-boarding/gen');
                   },
                   child: Text(localizations.onBoardingTosButton),
                 )),

@@ -13,22 +13,27 @@ class BasePage extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  final Widget leadingTitle;
-  final Widget trailingTitle;
+  final String titleTag;
+  final Widget titleLeading;
+  final Widget titleTrailing;
+
+  final Widget navigation;
 
   const BasePage({
     Key key,
+    this.scaffoldKey,
+    this.backgroundColor = Palette.lightGrey,
     this.title,
-    this.body,
-    this.scrollView = true,
+    this.titleTag,
+    this.titleLeading,
+    this.titleTrailing,
     this.padding = const EdgeInsets.symmetric(
       horizontal: 24.0,
       vertical: 32.0,
     ),
-    this.backgroundColor = Palette.lightGrey,
-    this.scaffoldKey,
-    this.leadingTitle,
-    this.trailingTitle,
+    this.scrollView = true,
+    this.navigation,
+    this.body,
   }) : super(key: key);
 
   @override
@@ -40,10 +45,12 @@ class BasePage extends StatelessWidget {
         appBar: title != null && title.isNotEmpty
             ? CustomAppBar(
                 title: title,
-                leading: leadingTitle,
-                trailing: trailingTitle,
+                tag: titleTag,
+                leading: titleLeading,
+                trailing: titleTrailing,
               )
             : null,
+        bottomNavigationBar: navigation,
         body: scrollView
             ? SingleChildScrollView(
                 padding: padding,

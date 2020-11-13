@@ -4,6 +4,7 @@ import 'package:credible/app/shared/widget/brand.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class OnBoardingStartPage extends StatelessWidget {
   @override
