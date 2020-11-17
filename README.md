@@ -4,13 +4,14 @@ Credible Wallet
 
 ## Getting Started
 
-This project depends on DIDKit.
-
-For more detailed instructions on how to set it up,
-please follow [this link](https://github.com/spruceid/didkit/blob/main/lib/FFI.md)
+This project depends on [DIDKit](https://github.com/spruceid/didkit).
 
 For now it's required to build DIDKit on the side before building this project.
-You have to point to your local copy in the `pubspec.yml` file:
+
+For more detailed instructions on how to set it up,
+please follow [this link](https://github.com/spruceid/didkit/blob/main/lib/FFI.md).
+
+You have to point to your local copy in the `pubspec.yaml` file:
 
 ```yaml
 didkit:
