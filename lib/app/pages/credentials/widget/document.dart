@@ -1,7 +1,7 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/document_item.dart';
 import 'package:credible/app/shared/palette.dart';
-import 'package:credible/app/shared/widget/box_decoration.dart';
+import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

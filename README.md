@@ -4,13 +4,23 @@ Credible Wallet
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project depends on DIDKit.
 
-A few resources to get you started if this is your first Flutter project:
+For more detailed instructions on how to set it up,
+please follow [this link](https://github.com/spruceid/didkit/blob/main/lib/FFI.md)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+For now it's required to build DIDKit on the side before building this project.
+You have to point to your local copy in the `pubspec.yml` file:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```yaml
+didkit:
+    path: ../path/to/didkit/lib/flutter
+```
+
+Then, to build the flutter artifacts, run one of the following
+commands from the root of this repository:
+
+```bash
+$ flutter build apk             # Android APK
+$ flutter build appbundle       # Android Appbundle
+```
