@@ -31,11 +31,12 @@ dependencies:
   sembast: ^2.4.8
   path: ^1.7.0
   path_provider: ^1.6.24
+  uuid: ^2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  intl_translation: ^0.17.10
+  #intl_translation: ^0.17.10
   pedantic: ^1.9.0
   flutter_launcher_icons: ^0.8.1
 

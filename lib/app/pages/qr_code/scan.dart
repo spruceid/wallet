@@ -119,7 +119,8 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
               print(e.message);
 
               showSnackBarAndResumeScan(
-                  'An error occurred while connecting to the server.');
+                  'An error occurred while connecting to the server:' +
+                      e.message);
             }
           } on FormatException catch (e) {
             print(e.message);

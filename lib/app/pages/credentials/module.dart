@@ -1,18 +1,17 @@
+import 'dart:io';
+
+import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/pages/grid.dart';
 import 'package:credible/app/pages/credentials/pages/list.dart';
-import 'package:credible/app/pages/credentials/repositories/credential.dart';
-import 'package:credible/app/pages/credentials/stream.dart';
 import 'package:credible/app/pages/credentials/present.dart';
 import 'package:credible/app/pages/credentials/receive.dart';
-import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/pages/credentials/stream.dart';
+import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:sembast/sembast.dart';
-import 'package:sembast/sembast_io.dart';
 
 class CredentialsModule extends ChildModule {
   static Inject get to => Inject<CredentialsModule>.of();
@@ -22,7 +21,18 @@ class CredentialsModule extends ChildModule {
         Bind((i) => ScanBloc(i.get())),
         Bind((i) => WalletBloc(i.get())),
         Bind((i) => CredentialsRepository()),
-        Bind((i) => Dio()),
+        Bind((i) {
+          // TODO: Remove this after testing is done
+          // This allows self-signed certificates on the servers.
+          final dio = Dio();
+          (dio.httpClientAdapter as DefaultHttpClientAdapter)
+              .onHttpClientCreate = (HttpClient client) {
+            client.badCertificateCallback =
+                (X509Certificate cert, String host, int port) => true;
+            return client;
+          };
+          return dio;
+        }),
       ];
 
   @override

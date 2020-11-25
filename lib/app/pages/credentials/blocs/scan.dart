@@ -9,6 +9,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:uuid/uuid.dart';
 
 abstract class ScanEvent {}
 
@@ -129,7 +130,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             'A new credential has been successfully added!');
       } catch (e) {
         yield ScanStateMessage.error(
-            'Something went wrong, please try again later.');
+            'Something went wrong, please try again later. Error: ' + e.message);
       }
 
       await Modular.get<WalletBloc>().findAll();
@@ -151,19 +152,21 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         final repository = Modular.get<CredentialsRepository>();
         final credentials = await repository.rawFindAll();
 
+        final presentationId = 'urn:uuid:' + Uuid().v4();
         final presentation = await DIDKit.issuePresentation(
             jsonEncode({
               '@context': ['https://www.w3.org/2018/credentials/v1'],
-              'id': 'http://example.org/presentations/3731',
               'type': ['VerifiablePresentation'],
+              'id': presentationId,
               'holder': didKey,
               'verifiableCredential': credentials.first,
-              'verificationMethod': 'didKey',
+            }),
+            jsonEncode({
+              'verificationMethod': didKey,
               'proofPurpose': 'authentication',
               'challenge': event.challenge,
               'domain': event.domain,
             }),
-            '{}',
             key);
 
         await client.post(
@@ -177,7 +180,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             'Successfully presented your credential!');
       } catch (e) {
         yield ScanStateMessage.error(
-            'Something went wrong, please try again later.');
+            'Something went wrong, please try again later. Error: ' + e.message);
       }
 
       yield ScanStateSuccess();
