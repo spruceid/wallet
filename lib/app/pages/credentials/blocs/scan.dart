@@ -106,135 +106,146 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     if (event is ScanEventShowPreview) {
       yield ScanStatePreview(preview: event.preview);
     } else if (event is ScanEventCredentialOffer) {
-      yield ScanStateWorking();
+      yield* _credentialOffer(event);
+    } else if (event is ScanEventVerifiablePresentationRequest) {
+      yield* _verifiablePresentationRequest(event);
+    }
+  }
 
-      final url = event.url;
-      final keyId = event.key;
+  Stream<ScanState> _credentialOffer(
+    ScanEventCredentialOffer event,
+  ) async* {
+    yield ScanStateWorking();
 
-      try {
-        final storage = FlutterSecureStorage();
-        final key = await storage.read(key: keyId);
-        final didKey = await DIDKit.keyToDIDKey(key);
+    final url = event.url;
+    final keyId = event.key;
 
-        final credential = await client.post(
-          url,
-          data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
-        );
+    try {
+      final storage = FlutterSecureStorage();
+      final key = await storage.read(key: keyId);
+      final didKey = await DIDKit.keyToDIDKey(key);
 
-        final jsonCredential = credential.data is String
-            ? jsonDecode(credential.data)
-            : credential.data;
+      final credential = await client.post(
+        url,
+        data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
+      );
 
-        final verification = await DIDKit.verifyCredential(
-          jsonEncode(jsonCredential),
-          jsonEncode({
-            'verificationMethod': didKey,
-            'proofPurpose': 'assertionMethod',
-          }),
-        );
+      final jsonCredential = credential.data is String
+          ? jsonDecode(credential.data)
+          : credential.data;
 
-        final jsonVerification = jsonDecode(verification);
+      final verification = await DIDKit.verifyCredential(
+        jsonEncode(jsonCredential),
+        jsonEncode({
+          'verificationMethod': didKey,
+          'proofPurpose': 'assertionMethod',
+        }),
+      );
 
-        if (jsonVerification['warnings'].isNotEmpty) {
-          log(
-            'credential verification return warnings',
-            name: 'credible/scan/credential-offer',
-            error: jsonVerification['warnings'],
-          );
+      final jsonVerification = jsonDecode(verification);
 
-          yield ScanStateMessage.warning(
-              'Credential verification returned some warnings. '
-              'Check the logs for more information.');
-        }
-
-        if (jsonVerification['errors'].isNotEmpty) {
-          log(
-            'failed to verify credential',
-            name: 'credible/scan/credential-offer',
-            error: jsonVerification['errors'],
-          );
-
-          yield ScanStateMessage.error('Failed to verify credential. '
-              'Check the logs for more information.');
-        } else {
-          final repository = Modular.get<CredentialsRepository>();
-          await repository.insert(jsonCredential);
-
-          yield ScanStateMessage.success(
-              'A new credential has been successfully added!');
-        }
-      } catch (e) {
+      if (jsonVerification['warnings'].isNotEmpty) {
         log(
-          'something went wrong',
+          'credential verification return warnings',
           name: 'credible/scan/credential-offer',
-          error: e.message,
+          error: jsonVerification['warnings'],
         );
 
-        yield ScanStateMessage.error(
-            'Something went wrong, please try again later. '
+        yield ScanStateMessage.warning(
+            'Credential verification returned some warnings. '
             'Check the logs for more information.');
       }
 
-      await Modular.get<WalletBloc>().findAll();
-
-      yield ScanStateSuccess();
-
-      yield ScanStateIdle();
-    } else if (event is ScanEventVerifiablePresentationRequest) {
-      yield ScanStateWorking();
-
-      final url = event.url;
-      final keyId = event.key;
-
-      try {
-        final storage = FlutterSecureStorage();
-        final key = await storage.read(key: keyId);
-        final didKey = await DIDKit.keyToDIDKey(key);
-
-        final repository = Modular.get<CredentialsRepository>();
-        final credentials = await repository.rawFindAll();
-
-        final presentationId = 'urn:uuid:' + Uuid().v4();
-        final presentation = await DIDKit.issuePresentation(
-            jsonEncode({
-              '@context': ['https://www.w3.org/2018/credentials/v1'],
-              'type': ['VerifiablePresentation'],
-              'id': presentationId,
-              'holder': didKey,
-              'verifiableCredential': credentials.first,
-            }),
-            jsonEncode({
-              'verificationMethod': didKey,
-              'proofPurpose': 'authentication',
-              'challenge': event.challenge,
-              'domain': event.domain,
-            }),
-            key);
-
-        await client.post(
-          url,
-          data: FormData.fromMap(<String, dynamic>{
-            'presentation': presentation,
-          }),
+      if (jsonVerification['errors'].isNotEmpty) {
+        log(
+          'failed to verify credential',
+          name: 'credible/scan/credential-offer',
+          error: jsonVerification['errors'],
         );
+
+        yield ScanStateMessage.error('Failed to verify credential. '
+            'Check the logs for more information.');
+      } else {
+        final repository = Modular.get<CredentialsRepository>();
+        await repository.insert(jsonCredential);
 
         yield ScanStateMessage.success(
-            'Successfully presented your credential!');
-      } catch (e) {
-        log(
-          'something went wrong',
-          name: 'credible/scan/verifiable-presentation-request',
-          error: e.message,
-        );
-
-        yield ScanStateMessage.error(
-            'Something went wrong, please try again later. '
-            'Check the logs for more information.');
+            'A new credential has been successfully added!');
       }
+    } catch (e) {
+      log(
+        'something went wrong',
+        name: 'credible/scan/credential-offer',
+        error: e.message,
+      );
 
-      yield ScanStateSuccess();
-
-      yield ScanStateIdle();
+      yield ScanStateMessage.error(
+          'Something went wrong, please try again later. '
+          'Check the logs for more information.');
     }
+
+    await Modular.get<WalletBloc>().findAll();
+
+    yield ScanStateSuccess();
+
+    yield ScanStateIdle();
+  }
+
+  Stream<ScanState> _verifiablePresentationRequest(
+    ScanEventVerifiablePresentationRequest event,
+  ) async* {
+    yield ScanStateWorking();
+
+    final url = event.url;
+    final keyId = event.key;
+
+    try {
+      final storage = FlutterSecureStorage();
+      final key = await storage.read(key: keyId);
+      final didKey = await DIDKit.keyToDIDKey(key);
+
+      final repository = Modular.get<CredentialsRepository>();
+      final credentials = await repository.rawFindAll();
+
+      final presentationId = 'urn:uuid:' + Uuid().v4();
+      final presentation = await DIDKit.issuePresentation(
+          jsonEncode({
+            '@context': ['https://www.w3.org/2018/credentials/v1'],
+            'type': ['VerifiablePresentation'],
+            'id': presentationId,
+            'holder': didKey,
+            'verifiableCredential': credentials.first,
+          }),
+          jsonEncode({
+            'verificationMethod': didKey,
+            'proofPurpose': 'authentication',
+            'challenge': event.challenge,
+            'domain': event.domain,
+          }),
+          key);
+
+      await client.post(
+        url,
+        data: FormData.fromMap(<String, dynamic>{
+          'presentation': presentation,
+        }),
+      );
+
+      yield ScanStateMessage.success('Successfully presented your credential!');
+    } catch (e) {
+      log(
+        'something went wrong',
+        name: 'credible/scan/verifiable-presentation-request',
+        error: e.message,
+      );
+
+      yield ScanStateMessage.error(
+          'Something went wrong, please try again later. '
+          'Check the logs for more information.');
+    }
+
+    yield ScanStateSuccess();
+
+    yield ScanStateIdle();
   }
 }
