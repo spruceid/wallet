@@ -121,16 +121,58 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
         );
 
-        final repository = Modular.get<CredentialsRepository>();
-        await repository.insert(credential.data is String
+        final jsonCredential = credential.data is String
             ? jsonDecode(credential.data)
-            : credential.data);
+            : credential.data;
 
-        yield ScanStateMessage.success(
-            'A new credential has been successfully added!');
+        final verification = await DIDKit.verifyCredential(
+          jsonEncode(jsonCredential),
+          jsonEncode({
+            'verificationMethod': didKey,
+            'proofPurpose': 'assertionMethod',
+          }),
+        );
+
+        final jsonVerification = jsonDecode(verification);
+
+        if (jsonVerification['warnings'].isNotEmpty) {
+          log(
+            'credential verification return warnings',
+            name: 'credible/scan/credential-offer',
+            error: jsonVerification['warnings'],
+          );
+
+          yield ScanStateMessage.warning(
+              'Credential verification returned some warnings. '
+              'Check the logs for more information.');
+        }
+
+        if (jsonVerification['errors'].isNotEmpty) {
+          log(
+            'failed to verify credential',
+            name: 'credible/scan/credential-offer',
+            error: jsonVerification['errors'],
+          );
+
+          yield ScanStateMessage.error('Failed to verify credential. '
+              'Check the logs for more information.');
+        } else {
+          final repository = Modular.get<CredentialsRepository>();
+          await repository.insert(jsonCredential);
+
+          yield ScanStateMessage.success(
+              'A new credential has been successfully added!');
+        }
       } catch (e) {
+        log(
+          'something went wrong',
+          name: 'credible/scan/credential-offer',
+          error: e.message,
+        );
+
         yield ScanStateMessage.error(
-            'Something went wrong, please try again later. Error: ' + e.message);
+            'Something went wrong, please try again later. '
+            'Check the logs for more information.');
       }
 
       await Modular.get<WalletBloc>().findAll();
@@ -179,8 +221,15 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         yield ScanStateMessage.success(
             'Successfully presented your credential!');
       } catch (e) {
+        log(
+          'something went wrong',
+          name: 'credible/scan/verifiable-presentation-request',
+          error: e.message,
+        );
+
         yield ScanStateMessage.error(
-            'Something went wrong, please try again later. Error: ' + e.message);
+            'Something went wrong, please try again later. '
+            'Check the logs for more information.');
       }
 
       yield ScanStateSuccess();
