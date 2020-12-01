@@ -124,6 +124,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
       final didKey = await DIDKit.keyToDIDKey(key);
+      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
 
       final credential = await client.post(
         url,
@@ -137,7 +138,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final verification = await DIDKit.verifyCredential(
         jsonEncode(jsonCredential),
         jsonEncode({
-          'verificationMethod': didKey,
+          'verificationMethod': verificationMethod,
           'proofPurpose': 'assertionMethod',
         }),
       );
@@ -203,6 +204,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
       final didKey = await DIDKit.keyToDIDKey(key);
+      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
 
       final repository = Modular.get<CredentialsRepository>();
       final credentials = await repository.rawFindAll();
@@ -217,7 +219,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             'verifiableCredential': credentials.first,
           }),
           jsonEncode({
-            'verificationMethod': didKey,
+            'verificationMethod': verificationMethod,
             'proofPurpose': 'authentication',
             'challenge': event.challenge,
             'domain': event.domain,

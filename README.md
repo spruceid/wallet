@@ -66,7 +66,7 @@ Here are some of the parameters used to generate a presentation:
   - `holder` is set to the selected credential's `didKey`;
   - `verifiableCredential` is set to the credential value;
 - `options`
-  - `verificationMethod` is set to the `didKey`;
+  - `verificationMethod` is set to the DID's `verificationMethod` `id`;
   - `proofPurpose` is set to `'authentication'`;
   - `challenge` is set to the request's `challenge';
   - `domain` is set to the request's `domain';
