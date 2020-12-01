@@ -1,6 +1,8 @@
-import 'package:credible/app/pages/credentials/bloc.dart';
+import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/module.dart';
+import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ class CredentialsStream extends StatefulWidget {
 }
 
 class _CredentialsStreamState extends State<CredentialsStream> {
-  CredentialsBloc bloc = CredentialsModule.to.get<CredentialsBloc>();
+  WalletBloc bloc = CredentialsModule.to.get<WalletBloc>();
 
   @override
   void initState() {
@@ -42,19 +44,21 @@ class _CredentialsStreamState extends State<CredentialsStream> {
           final localizations = AppLocalizations.of(context);
 
           if (snapshot.hasError) {
-            return SafeArea(
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(localizations.genericError),
-                  actions: <Widget>[
+            return BasePage(
+              backgroundColor: Palette.background,
+              title: localizations.genericError,
+              body: Center(
+                child: Column(
+                  children: <Widget>[
                     IconButton(
                       tooltip: localizations.listActionRefresh,
                       icon: Icon(Icons.refresh),
                       onPressed: () {},
                     ),
+                    const SizedBox(height: 16.0),
+                    Text(localizations.genericError),
                   ],
                 ),
-                body: Center(child: Text(localizations.genericError)),
               ),
             );
           } else {

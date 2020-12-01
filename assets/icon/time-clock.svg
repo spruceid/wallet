@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="34.5" height="34.5" version="1.1" viewBox="0 0 34.5 34.5"
+    xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(-42.47 -142.92)" fill="none" stroke="#000" stroke-linecap="round">
+        <circle cx="59.72" cy="160.17" r="16" stroke-linejoin="round" stroke-width="2.5"
+            style="paint-order:fill markers stroke" />
+        <g stroke-width="2">
+            <circle cx="59.72" cy="160.17" r="2" stroke-linejoin="round"
+                style="paint-order:fill markers stroke" />
+            <path d="m59.72 158.15v-9.6217" />
+            <path d="m61.517 161.97 3.5701 3.5701" />
+        </g>
+    </g>
+</svg>

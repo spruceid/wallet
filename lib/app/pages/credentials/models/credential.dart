@@ -13,4 +13,17 @@ class CredentialModel {
     @required this.image,
     @required this.status,
   });
+
+  factory CredentialModel.fromMap(Map<String, dynamic> m) {
+    final exp = DateTime.parse(m['expirationDate']);
+
+    return CredentialModel(
+      id: m['id'],
+      issuer: m['issuer'],
+      image: '',
+      status: exp.isAfter(DateTime.now())
+          ? CredentialStatus.active
+          : CredentialStatus.expired,
+    );
+  }
 }

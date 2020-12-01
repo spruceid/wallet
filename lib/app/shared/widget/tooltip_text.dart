@@ -1,3 +1,4 @@
+import 'package:credible/app/shared/widget/hero_workaround.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -35,20 +36,9 @@ class TooltipText extends StatelessWidget {
     );
 
     if (tag != null && tag.isNotEmpty) {
-      return Hero(
+      return HeroFix(
         tag: tag,
         child: child,
-        flightShuttleBuilder: (
-          BuildContext flightContext,
-          Animation<double> animation,
-          HeroFlightDirection flightDirection,
-          BuildContext fromHeroContext,
-          BuildContext toHeroContext,
-        ) =>
-            Material(
-          color: Colors.transparent,
-          child: toHeroContext.widget,
-        ),
       );
     }
 

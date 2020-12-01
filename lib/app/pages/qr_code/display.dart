@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
-class QrCodePage extends StatelessWidget {
+class QrCodeDisplayPage extends StatelessWidget {
   final String data;
 
-  const QrCodePage({
+  const QrCodeDisplayPage({
     Key key,
     this.data,
   }) : super(key: key);
@@ -12,11 +12,12 @@ class QrCodePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
-          body: Center(
+          body: Container(
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(32.0),
             child: QrImage(
               data: data,
               version: QrVersions.auto,
-              size: MediaQuery.of(context).size.width * 0.5,
             ),
           ),
         ),
