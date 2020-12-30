@@ -123,12 +123,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDIDKey(key);
-      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
+      final didTezos = await DIDKit.keyToDIDTezos(key);
 
       final credential = await client.post(
         url,
-        data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
+        data: FormData.fromMap(<String, dynamic>{'subject_id': didTezos}),
       );
 
       final jsonCredential = credential.data is String
@@ -138,7 +137,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final verification = await DIDKit.verifyCredential(
         jsonEncode(jsonCredential),
         jsonEncode({
-          'verificationMethod': verificationMethod,
+          'verificationMethod': didTezos,
           'proofPurpose': 'assertionMethod',
         }),
       );
@@ -203,8 +202,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDIDKey(key);
-      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
+      final didTezos = await DIDKit.keyToDIDTezos(key);
 
       final repository = Modular.get<CredentialsRepository>();
       final credentials = await repository.rawFindAll();
@@ -215,11 +213,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             '@context': ['https://www.w3.org/2018/credentials/v1'],
             'type': ['VerifiablePresentation'],
             'id': presentationId,
-            'holder': didKey,
+            'holder': didTezos,
             'verifiableCredential': credentials.first,
           }),
           jsonEncode({
-            'verificationMethod': verificationMethod,
+            'verificationMethod': didTezos,
             'proofPurpose': 'authentication',
             'challenge': event.challenge,
             'domain': event.domain,
