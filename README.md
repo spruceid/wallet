@@ -254,6 +254,28 @@ The flow of events and actions is listed below:
 - App receives and stores the new credential;
 - User is redirect back to the wallet.
 
+And below is another version of the step-by-step:
+
+| Wallet | <sup>1</sup>| | Server |
+| --- | --- | :---: | ---: |
+| Scan QRCode <sup>2</sup> | | |
+| Trust Host | ○ / × | | |
+| HTTP GET | | → | https://domain.tld/endpoint |
+| | | ← | CredentialOffer |
+| Preview Credential | | | |
+| Choose DID | ○ / × | | |
+| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
+| | | ← | VerifiableCredential |
+| Verify Credential | | | |
+| Store Credential | | | |
+
+*<sup>1</sup> Whether this action requires user confirmation, exiting the flow
+early when the user denies.*  
+*<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
+will be made.*  
+*<sup>3</sup> The body of the request contains a field `subject_id` set to the
+chosen DID.*
+
 ### VerifiablePresentationRequest
 
 After receiving a `VerifiablePresentationRequest` from a trusted host, the app
@@ -281,3 +303,23 @@ The flow of events and actions is listed below:
 - App issues a presentation using `DIDKit.issuePresentation`;
 - App makes a POST request to the initial URL with the presentation;
 - User is redirect back to the wallet.
+
+And below is another version of the step-by-step:
+
+| Wallet | <sup>1</sup> | | Server |
+| --- | --- | :---: | ---: |
+| Scan QRCode <sup>2</sup> | | |
+| Trust Host | ○ / × | | |
+| HTTP GET | | → | https://domain.tld/endpoint |
+| | | ← | VerifiablePresentationRequest |
+| Preview Presentation | | | |
+| Choose Verifiable Credential | ○ / × | | |
+| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
+| | | ← | Result |
+
+*<sup>1</sup> Whether this action requires user confirmation, exiting the flow
+early when the user denies.*  
+*<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
+will be made.*  
+*<sup>3</sup> The body of the request contains a field `presentation` set to the
+verifiable presentation.*
