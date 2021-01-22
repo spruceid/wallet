@@ -79,3 +79,43 @@ The flow of events and actions is listed below:
 - App issues a presentation using `DIDKit.issuePresentation`;
 - App makes a POST request to the initial URL with the presentation;
 - User is redirect back to the wallet.
+
+## Docker Build Image
+
+We provide a docker image to easily build the android artifacts.
+
+One caveat is that, for now, you have to manually pull [DIDKit]() and [SSI]() 
+before starting the build. To do that you could run the following commands from
+the root of the project:
+
+```bash
+$ git clone https://github.com/spruceid/ssi.git ssi/
+$ git clone https://github.com/spruceid/didkit.git didkit/
+```
+
+Finally, to build android artifacts, having docker installed, run from the root
+of the project:
+
+```bash
+# docker build -f Dockerfile-apk . --tag credible-apk
+```
+
+Keep in mind the process might take quite a while to finish.
+After the image finished building, you can start an empty container with it and
+copy the artifacts from the output directory like so:
+
+```bash
+# ID=$(docker create credible-apk)
+# BUILD=/credible/build/app/outputs/flutter-apk
+
+
+// If you want to copy all architectures
+# for arch in arm64-v8a armeabi-v7a x86_64; do
+    docker cp $ID:$BUILD/app-$arch-release.apk - > app-$arch-release.apk
+  done
+
+// If you only need a specific architecture
+# docker cp $ID:$BUILD/app-YOUR_ARCH-release.apk - > app-YOUR_ARCH-release.apk
+
+# docker rm -v $ID
+```

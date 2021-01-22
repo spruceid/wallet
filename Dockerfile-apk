@@ -1,0 +1,52 @@
+FROM cirrusci/android-sdk:tools
+
+ENV RUSTUP_HOME=/usr/local/rustup
+ENV CARGO_HOME=/usr/local/cargo
+ENV PATH /usr/local/cargo/bin:$PATH
+
+ENV FLUTTER_HOME=$HOME/sdks/flutter
+ENV FLUTTER_ROOT=$FLUTTER_HOME
+
+ENV PATH $FLUTTER_HOME/bin:$PATH
+ENV PATH $FLUTTER_HOME/bin/cache/dart-sdk/bin:$PATH
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+
+RUN set -eux; \
+    \
+    url="https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init"; \
+    wget "$url"; \
+    chmod +x rustup-init; \
+    ./rustup-init -y --no-modify-path --default-toolchain nightly; \
+    rm rustup-init; \
+    chmod -R a+w $RUSTUP_HOME $CARGO_HOME
+
+RUN rustup --version
+RUN cargo --version
+RUN rustc --version
+
+RUN yes | sdkmanager \
+    "platforms;android-28" \
+    "platforms;android-29" \
+    "platforms;android-30" \
+    "build-tools;28.0.3" \
+    "ndk;21.3.6528147"
+
+RUN git clone --branch 1.22.5 https://github.com/flutter/flutter.git $FLUTTER_HOME
+
+RUN yes | flutter doctor --android-licenses
+RUN flutter doctor
+RUN chown -R root:root $FLUTTER_HOME
+
+ADD --chown=root:root . /credible
+ADD --chown=root:root ./didkit /didkit
+ADD --chown=root:root ./ssi /ssi
+
+WORKDIR /didkit
+RUN make -C lib install-rustup-android
+RUN make -C lib test
+
+WORKDIR /credible
+RUN flutter build apk \
+  --release \
+  --target-platform android-arm,android-arm64,android-x64 \
+  --split-per-abi
