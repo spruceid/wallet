@@ -29,10 +29,8 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
     // TODO: Add proper localization
     final bloc = Modular.get<ScanBloc>();
     final localizations = AppLocalizations.of(context);
-    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return BasePage(
-      scaffoldKey: scaffoldKey,
       padding: const EdgeInsets.all(16.0),
       title: 'Presentation Request',
       titleTrailing: IconButton(
@@ -83,7 +81,6 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                 ),
                 const SizedBox(height: 16.0),
                 DocumentWidget(
-                  scaffoldKey: scaffoldKey,
                   item: CredentialModel(
                     id: '',
                     issuer: '',

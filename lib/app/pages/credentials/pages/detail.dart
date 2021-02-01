@@ -1,7 +1,7 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/palette.dart';
-import 'package:credible/app/shared/widget/app_bar.dart';
+import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
@@ -30,21 +30,11 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   Widget build(BuildContext context) {
     // TODO: Add proper localization
     final localizations = AppLocalizations.of(context);
-    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return BasePage(
-      scaffoldKey: scaffoldKey,
       title: widget.item.issuer,
       titleTag: 'credential/${widget.item.id}/issuer',
-      titleLeading: IconButton(
-        onPressed: () {
-          Modular.to.pop();
-        },
-        icon: Icon(
-          Icons.arrow_back,
-          color: Palette.text,
-        ),
-      ),
+      titleLeading: BackLeadingButton(),
       navigation: CustomNavBar(index: 0),
       body: SingleChildScrollView(
         padding: EdgeInsets.zero,
@@ -54,7 +44,6 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: DocumentWidget(
-                scaffoldKey: scaffoldKey,
                 item: widget.item,
               ),
             ),

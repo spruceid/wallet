@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/shared/model/message.dart';
 import 'package:didkit/didkit.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -49,41 +50,10 @@ class ScanStateIdle extends ScanState {}
 
 class ScanStateWorking extends ScanState {}
 
-enum MessageType {
-  error,
-  warning,
-  info,
-  success,
-}
-
-extension MessageColor on MessageType {}
-
 class ScanStateMessage extends ScanState {
-  final MessageType type;
-  final String message;
+  final StateMessage message;
 
-  ScanStateMessage.error(this.message) : type = MessageType.error;
-
-  ScanStateMessage.warning(this.message) : type = MessageType.warning;
-
-  ScanStateMessage.info(this.message) : type = MessageType.info;
-
-  ScanStateMessage.success(this.message) : type = MessageType.success;
-
-  Color get color {
-    switch (type) {
-      case MessageType.error:
-        return Colors.red;
-      case MessageType.warning:
-        return Colors.yellow;
-      case MessageType.info:
-        return Colors.cyan;
-      case MessageType.success:
-        return Colors.green;
-      default:
-        return null;
-    }
-  }
+  ScanStateMessage(this.message);
 }
 
 class ScanStatePreview extends ScanState {
@@ -123,8 +93,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDIDKey(key);
-      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
+      final didKey = await DIDKit.keyToDID('key', key);
+      final verificationMethod =
+          await DIDKit.keyToVerificationMethod('key', key);
 
       final credential = await client.post(
         url,
@@ -152,9 +123,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           error: jsonVerification['warnings'],
         );
 
-        yield ScanStateMessage.warning(
+        yield ScanStateMessage(StateMessage.warning(
             'Credential verification returned some warnings. '
-            'Check the logs for more information.');
+            'Check the logs for more information.'));
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
@@ -164,14 +135,15 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           error: jsonVerification['errors'],
         );
 
-        yield ScanStateMessage.error('Failed to verify credential. '
-            'Check the logs for more information.');
+        yield ScanStateMessage(
+            StateMessage.error('Failed to verify credential. '
+                'Check the logs for more information.'));
       } else {
         final repository = Modular.get<CredentialsRepository>();
         await repository.insert(jsonCredential);
 
-        yield ScanStateMessage.success(
-            'A new credential has been successfully added!');
+        yield ScanStateMessage(StateMessage.success(
+            'A new credential has been successfully added!'));
       }
     } catch (e) {
       log(
@@ -180,9 +152,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         error: e.message,
       );
 
-      yield ScanStateMessage.error(
-          'Something went wrong, please try again later. '
-          'Check the logs for more information.');
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. '
+              'Check the logs for more information.'));
     }
 
     await Modular.get<WalletBloc>().findAll();
@@ -203,8 +175,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDIDKey(key);
-      final verificationMethod = await DIDKit.keyToVerificationMethod(key);
+      final didKey = await DIDKit.keyToDID('key', key);
+      final verificationMethod =
+          await DIDKit.keyToVerificationMethod('key', key);
 
       final repository = Modular.get<CredentialsRepository>();
       final credentials = await repository.rawFindAll();
@@ -233,7 +206,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }),
       );
 
-      yield ScanStateMessage.success('Successfully presented your credential!');
+      yield ScanStateMessage(
+          StateMessage.success('Successfully presented your credential!'));
     } catch (e) {
       log(
         'something went wrong',
@@ -241,9 +215,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         error: e.message,
       );
 
-      yield ScanStateMessage.error(
-          'Something went wrong, please try again later. '
-          'Check the logs for more information.');
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. '
+              'Check the logs for more information.'));
     }
 
     yield ScanStateSuccess();

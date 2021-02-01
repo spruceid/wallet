@@ -11,8 +11,6 @@ class BasePage extends StatelessWidget {
   final EdgeInsets padding;
   final Color backgroundColor;
 
-  final GlobalKey<ScaffoldState> scaffoldKey;
-
   final String titleTag;
   final Widget titleLeading;
   final Widget titleTrailing;
@@ -21,7 +19,6 @@ class BasePage extends StatelessWidget {
 
   const BasePage({
     Key key,
-    this.scaffoldKey,
     this.backgroundColor = Palette.lightGrey,
     this.title,
     this.titleTag,
@@ -40,7 +37,6 @@ class BasePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        key: scaffoldKey,
         backgroundColor: backgroundColor,
         appBar: title != null && title.isNotEmpty
             ? CustomAppBar(

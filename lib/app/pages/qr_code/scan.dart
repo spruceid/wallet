@@ -17,7 +17,6 @@ class QrCodeScanPage extends StatefulWidget {
 }
 
 class _QrCodeScanPageState extends State<QrCodeScanPage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   final qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController controller;
 
@@ -32,7 +31,7 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         this.controller = controller;
 
         final showSnackBarAndResumeScan = (String message) {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
             content: Text(message),
           ));
 
@@ -136,7 +135,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
     final localizations = AppLocalizations.of(context);
 
     return BasePage(
-      scaffoldKey: scaffoldKey,
       backgroundColor: Palette.background,
       padding: EdgeInsets.zero,
       title: 'Scan',
