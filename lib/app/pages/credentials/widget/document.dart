@@ -7,12 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DocumentHeader extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final CredentialModel item;
 
   const DocumentHeader({
     Key key,
-    @required this.scaffoldKey,
     @required this.item,
   }) : super(key: key);
 
@@ -48,7 +46,6 @@ class DocumentHeader extends StatelessWidget {
               ),
             ),
             DocumentItemWidget(
-              scaffoldKey: scaffoldKey,
               label: 'Status:',
               value: 'Valid',
             ),
@@ -58,13 +55,11 @@ class DocumentHeader extends StatelessWidget {
 }
 
 class DocumentBody extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final CredentialModel item;
   final Widget trailing;
 
   const DocumentBody({
     Key key,
-    @required this.scaffoldKey,
     @required this.item,
     this.trailing,
   }) : super(key: key);
@@ -80,7 +75,6 @@ class DocumentBody extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   child: DocumentItemWidget(
-                    scaffoldKey: scaffoldKey,
                     label: 'NPI:',
                     value: '4876hTG97',
                   ),
@@ -88,7 +82,6 @@ class DocumentBody extends StatelessWidget {
                 const SizedBox(width: 8.0),
                 Expanded(
                   child: DocumentItemWidget(
-                    scaffoldKey: scaffoldKey,
                     label: 'Issued by:',
                     value: item.issuer,
                   ),
@@ -97,13 +90,11 @@ class DocumentBody extends StatelessWidget {
             ),
             const SizedBox(height: 20.0),
             DocumentItemWidget(
-              scaffoldKey: scaffoldKey,
               label: 'E-mail:',
               value: 'richard@doximity.com',
             ),
             const SizedBox(height: 20.0),
             DocumentItemWidget(
-              scaffoldKey: scaffoldKey,
               label: 'Issued at:',
               value: 'San Francisco, CA',
             ),
@@ -111,15 +102,14 @@ class DocumentBody extends StatelessWidget {
             if (trailing != null) trailing,
           ],
         ),
-  );
+      );
 }
 
 class DocumentTicketSeparator extends StatelessWidget {
   const DocumentTicketSeparator();
 
   @override
-  Widget build(BuildContext context) =>
-      SizedBox(
+  Widget build(BuildContext context) => SizedBox(
         height: 48.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -159,20 +149,17 @@ class DocumentTicketSeparator extends StatelessWidget {
 }
 
 class DocumentWidget extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final CredentialModel item;
   final Widget trailing;
 
   const DocumentWidget({
     Key key,
-    @required this.scaffoldKey,
     @required this.item,
     this.trailing,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      Container(
+  Widget build(BuildContext context) => Container(
         decoration: BaseBoxDecoration(
           color: Palette.darkGreen,
           shapeColor: Palette.gradientLightGreen.withOpacity(0.2),
@@ -191,12 +178,10 @@ class DocumentWidget extends StatelessWidget {
           children: [
             const SizedBox(height: 24.0),
             DocumentHeader(
-              scaffoldKey: scaffoldKey,
               item: item,
             ),
             const DocumentTicketSeparator(),
             DocumentBody(
-              scaffoldKey: scaffoldKey,
               item: item,
               trailing: trailing,
             ),

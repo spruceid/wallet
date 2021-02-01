@@ -20,20 +20,18 @@ class CredentialsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return BlocListener(
       cubit: Modular.get<ScanBloc>(),
       listener: (context, state) {
         if (state is ScanStateMessage) {
-          scaffoldKey.currentState.showSnackBar(SnackBar(
-            backgroundColor: state.color,
-            content: Text(state.message),
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            backgroundColor: state.message.color,
+            content: Text(state.message.message),
           ));
         }
       },
       child: BasePage(
-        scaffoldKey: scaffoldKey,
         backgroundColor: Palette.background,
         title: localizations.credentialListTitle,
         padding: const EdgeInsets.symmetric(

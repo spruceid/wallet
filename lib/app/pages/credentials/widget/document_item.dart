@@ -3,13 +3,11 @@ import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 
 class DocumentItemWidget extends StatelessWidget {
-  final GlobalKey<ScaffoldState> scaffoldKey;
   final String label;
   final String value;
 
   const DocumentItemWidget({
     Key key,
-    this.scaffoldKey,
     this.label,
     this.value,
   }) : super(key: key);

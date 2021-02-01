@@ -1,6 +1,7 @@
 import 'package:credible/app/app_widget.dart';
 import 'package:credible/app/pages/credentials/module.dart';
 import 'package:credible/app/pages/on_boarding/module.dart';
+import 'package:credible/app/pages/profile/module.dart';
 import 'package:credible/app/pages/qr_code/display.dart';
 import 'package:credible/app/pages/qr_code/scan.dart';
 import 'package:credible/app/pages/splash.dart';
@@ -29,14 +30,19 @@ class AppModule extends MainModule {
           transition: TransitionType.fadeIn,
         ),
         ModularRouter(
+          '/profile',
+          module: ProfileModule(),
+          transition: TransitionType.fadeIn,
+        ),
+        ModularRouter(
           '/qr-code/scan',
           child: (context, args) => QrCodeScanPage(),
-          transition: TransitionType.rightToLeftWithFade,
+          transition: TransitionType.fadeIn,
         ),
         ModularRouter(
           '/qr-code/display',
           child: (context, args) => QrCodeDisplayPage(data: args.data),
-          transition: TransitionType.rightToLeftWithFade,
+          transition: TransitionType.fadeIn,
         ),
       ];
 

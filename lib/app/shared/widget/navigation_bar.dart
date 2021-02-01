@@ -28,13 +28,13 @@ class _CustomActiveNavIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    width: 24.0,
-    height: 24.0,
-    child: SvgPicture.asset(
-      asset,
-      color: Palette.blue,
-    ),
-  );
+        width: 24.0,
+        height: 24.0,
+        child: SvgPicture.asset(
+          asset,
+          color: Palette.blue,
+        ),
+      );
 }
 
 class CustomNavBar extends BottomNavigationBar {
@@ -49,32 +49,38 @@ class CustomNavBar extends BottomNavigationBar {
   CustomNavBar({
     @required this.index,
   }) : super(
-    currentIndex: index,
-    showSelectedLabels: false,
-    showUnselectedLabels: false,
-    onTap: (index) {
-      switch (index) {
-        case 1:
-          Modular.to.pushNamed('/qr-code/scan');
-          break;
-      }
-    },
-    items: <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-        label: 'Wallet',
-        icon: _CustomNavIcon(asset: assetWallet),
-        activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
-      ),
-      BottomNavigationBarItem(
-        label: 'QR Code',
-        icon: _CustomNavIcon(asset: assetQrCode),
-        activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
-      ),
-      BottomNavigationBarItem(
-        label: 'Profile',
-        icon: _CustomNavIcon(asset: assetProfile),
-        activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
-      ),
-    ],
-  );
+          currentIndex: index,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                Modular.to.pushReplacementNamed('/credentials');
+                break;
+              case 1:
+                Modular.to.pushReplacementNamed('/qr-code/scan');
+                break;
+              case 2:
+                Modular.to.pushReplacementNamed('/profile');
+                break;
+            }
+          },
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              label: 'Wallet',
+              icon: _CustomNavIcon(asset: assetWallet),
+              activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
+            ),
+            BottomNavigationBarItem(
+              label: 'QR Code',
+              icon: _CustomNavIcon(asset: assetQrCode),
+              activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
+            ),
+            BottomNavigationBarItem(
+              label: 'Profile',
+              icon: _CustomNavIcon(asset: assetProfile),
+              activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
+            ),
+          ],
+        );
 }
