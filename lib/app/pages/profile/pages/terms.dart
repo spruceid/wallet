@@ -1,4 +1,3 @@
-import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
@@ -10,17 +9,13 @@ class TermsPage extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
 
     return BasePage(
-      backgroundColor: Palette.background,
       title: 'Terms & Conditions',
       titleLeading: BackLeadingButton(),
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Center(
-            child: Text('Here we should add our terms and coditions.'),
+            child: Text('Here we should add our terms and conditions.'),
           ),
         ],
       ),

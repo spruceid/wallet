@@ -68,15 +68,16 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Center(
-                child: Text(
-                  '$firstName $lastName',
-                  style: Theme.of(context)
-                      .textTheme
-                      .subtitle2
-                      .apply(color: Palette.greenGrey),
+              if (firstName.isNotEmpty || lastName.isNotEmpty)
+                Center(
+                  child: Text(
+                    '$firstName $lastName',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        .apply(color: Palette.greenGrey),
+                  ),
                 ),
-              ),
               const SizedBox(height: 32.0),
               MenuItem(
                 icon: Icons.person,

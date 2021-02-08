@@ -6,6 +6,7 @@ import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:credible/localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -52,7 +53,6 @@ class _PersonalPageState extends State<PersonalPage> {
     final localizations = AppLocalizations.of(context);
 
     return BasePage(
-      backgroundColor: Palette.background,
       title: 'Personal',
       titleLeading: BackLeadingButton(),
       titleTrailing: Padding(
@@ -81,11 +81,19 @@ class _PersonalPageState extends State<PersonalPage> {
         ),
       ),
       padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
+        vertical: 32.0,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Text(
+              'Your profile data can be used to fill credentials when applicable',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
           // Center(
           //   child: Container(
           //     width: MediaQuery.of(context).size.width * 0.2,

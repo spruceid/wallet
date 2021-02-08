@@ -142,19 +142,22 @@ class _LabeledItem extends StatelessWidget {
 
 class CredentialsListItem extends StatelessWidget {
   final CredentialModel item;
+  final VoidCallback onTap;
 
   CredentialsListItem({
     Key key,
     @required this.item,
+    this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => _BaseItem(
         enabled: !(item.status != CredentialStatus.active),
-        onTap: () => Modular.to.pushNamed(
-          '/credentials/detail',
-          arguments: item,
-        ),
+        onTap: onTap ??
+            () => Modular.to.pushNamed(
+                  '/credentials/detail',
+                  arguments: item,
+                ),
         child: Row(
           children: <Widget>[
             Container(

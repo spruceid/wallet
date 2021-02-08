@@ -5,6 +5,7 @@ import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/pages/grid.dart';
 import 'package:credible/app/pages/credentials/pages/list.dart';
+import 'package:credible/app/pages/credentials/pick.dart';
 import 'package:credible/app/pages/credentials/present.dart';
 import 'package:credible/app/pages/credentials/receive.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
@@ -64,6 +65,16 @@ class CredentialsModule extends ChildModule {
         ModularRouter(
           '/present',
           child: (context, args) => CredentialsPresentPage(url: args.data),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ModularRouter(
+          '/receive',
+          child: (context, args) => CredentialsStream(
+            child: (context, items) => CredentialsPickPage(
+              items: items,
+              params: args.data,
+            ),
+          ),
           transition: TransitionType.rightToLeftWithFade,
         ),
       ];

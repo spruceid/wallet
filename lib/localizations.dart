@@ -58,6 +58,48 @@ class AppLocalizations {
         desc: 'On boarding terms and conditions page button text',
       );
 
+  String get onBoardingRecoveryTitle => Intl.message(
+        'Key Recovery',
+        name: 'onBoardingRecoveryTitle',
+        desc: 'Key recovery page title',
+      );
+
+  String get onBoardingRecoveryButton => Intl.message(
+        'Recover',
+        name: 'onBoardingRecoveryButton',
+        desc: 'Key recovery page button text',
+      );
+
+  String get onBoardingKeyTitle => Intl.message(
+        'Key',
+        name: 'onBoardingKeyTitle',
+        desc: 'Key page title',
+      );
+
+  String get onBoardingKeyRecover => Intl.message(
+        'Recover',
+        name: 'onBoardingKeyRecover',
+        desc: 'Key page recover button text',
+      );
+
+  String get onBoardingKeyGenerate => Intl.message(
+        'Generate',
+        name: 'onBoardingKeyGenerate',
+        desc: 'Key page generate button text',
+      );
+
+  String get onBoardingGenPhraseTitle => Intl.message(
+        'Recovery Phrase',
+        name: 'onBoardingGenPhraseTitle',
+        desc: 'Key generation recovery phrase page title',
+      );
+
+  String get onBoardingGenPhraseButton => Intl.message(
+        'Continue',
+        name: 'onBoardingGenPhraseButton',
+        desc: 'Key generation recovery phrase button text',
+      );
+
   String get onBoardingGenTitle => Intl.message(
         'Private Key Generation',
         name: 'onBoardingGenTitle',
