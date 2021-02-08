@@ -23,11 +23,11 @@ class CredentialsReceivePage extends StatefulWidget {
   _CredentialsReceivePageState createState() => _CredentialsReceivePageState();
 }
 
-class _CredentialsReceivePageState extends State<CredentialsReceivePage> {
+class _CredentialsReceivePageState
+    extends ModularState<CredentialsReceivePage, ScanBloc> {
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
-    final bloc = Modular.get<ScanBloc>();
     final localizations = AppLocalizations.of(context);
 
     return BasePage(
@@ -43,7 +43,7 @@ class _CredentialsReceivePageState extends State<CredentialsReceivePage> {
         ),
       ),
       body: BlocConsumer(
-        cubit: bloc,
+        bloc: store,
         listener: (context, state) {
           if (state is ScanStateSuccess) {
             Modular.to.pop();
@@ -87,13 +87,14 @@ class _CredentialsReceivePageState extends State<CredentialsReceivePage> {
                     issuer: preview['credentialPreview']['issuer'],
                     status: CredentialStatus.active,
                     image: '',
+                    data: {},
                   ),
                   // item: widget.item,
                 ),
                 const SizedBox(height: 24.0),
                 BaseButton.blue(
                   onPressed: () {
-                    bloc.add(
+                    store.add(
                         ScanEventCredentialOffer(widget.url.toString(), 'key'));
                   },
                   child: Text(localizations.credentialReceiveConfirm),

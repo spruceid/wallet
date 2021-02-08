@@ -14,9 +14,7 @@ import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class CredentialsModule extends ChildModule {
-  static Inject get to => Inject<CredentialsModule>.of();
-
+class CredentialsModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => ScanBloc(i.get())),
@@ -37,37 +35,37 @@ class CredentialsModule extends ChildModule {
       ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter(
+  List<ModularRoute> get routes => [
+        ChildRoute(
           '/list',
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsList(items: items),
           ),
           transition: TransitionType.fadeIn,
         ),
-        ModularRouter(
+        ChildRoute(
           '/grid',
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsGrid(items: items),
           ),
           transition: TransitionType.fadeIn,
         ),
-        ModularRouter(
+        ChildRoute(
           '/detail',
           child: (context, args) => CredentialsDetail(item: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/receive',
           child: (context, args) => CredentialsReceivePage(url: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/present',
           child: (context, args) => CredentialsPresentPage(url: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/receive',
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsPickPage(

@@ -23,11 +23,11 @@ class CredentialsPresentPage extends StatefulWidget {
   _CredentialsPresentPageState createState() => _CredentialsPresentPageState();
 }
 
-class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
+class _CredentialsPresentPageState
+    extends ModularState<CredentialsPresentPage, ScanBloc> {
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
-    final bloc = Modular.get<ScanBloc>();
     final localizations = AppLocalizations.of(context);
 
     return BasePage(
@@ -43,7 +43,7 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
         ),
       ),
       body: BlocConsumer(
-        cubit: bloc,
+        bloc: store,
         listener: (context, state) {
           if (state is ScanStateSuccess) {
             Modular.to.pop();

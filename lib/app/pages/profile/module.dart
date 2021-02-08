@@ -9,9 +9,7 @@ import 'package:credible/app/pages/profile/pages/terms.dart';
 import 'package:credible/app/pages/profile/profile.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class ProfileModule extends ChildModule {
-  static Inject get to => Inject<ProfileModule>.of();
-
+class ProfileModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => ProfileBloc()),
@@ -19,38 +17,38 @@ class ProfileModule extends ChildModule {
       ];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter(
+  List<ModularRoute> get routes => [
+        ChildRoute(
           '/',
           child: (context, args) => ProfilePage(),
           transition: TransitionType.fadeIn,
         ),
-        ModularRouter(
+        ChildRoute(
           '/personal',
           child: (context, args) => PersonalPage(profile: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/privacy',
           child: (context, args) => PrivacyPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/terms',
           child: (context, args) => TermsPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/recovery',
           child: (context, args) => RecoveryPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/support',
           child: (context, args) => SupportPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/notices',
           child: (context, args) => NoticesPage(),
           transition: TransitionType.rightToLeftWithFade,

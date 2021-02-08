@@ -1,15 +1,15 @@
 import 'package:credible/app/pages/profile/blocs/did.dart';
-import 'package:credible/app/pages/profile/module.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class DIDDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer(
-      cubit: ProfileModule.to.get<DIDBloc>(),
+      bloc: Modular.get<DIDBloc>(),
       listener: (context, state) {
         if (state is DIDStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -56,10 +56,12 @@ class DIDDisplay extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 16.0),
-            FlatButton(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32.0,
-                vertical: 16.0,
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 16.0,
+                ),
               ),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: did));

@@ -1,11 +1,11 @@
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/module.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 typedef CredentialsStreamBuilder = Widget Function(
   BuildContext,
@@ -24,19 +24,18 @@ class CredentialsStream extends StatefulWidget {
   _CredentialsStreamState createState() => _CredentialsStreamState();
 }
 
-class _CredentialsStreamState extends State<CredentialsStream> {
-  WalletBloc bloc = CredentialsModule.to.get<WalletBloc>();
-
+class _CredentialsStreamState
+    extends ModularState<CredentialsStream, WalletBloc> {
   @override
   void initState() {
     super.initState();
-    bloc.findAll();
+    store.findAll();
   }
 
   @override
   Widget build(BuildContext context) => StreamBuilder<List<CredentialModel>>(
         initialData: [],
-        stream: bloc.credentials$,
+        stream: store.credentials$,
         builder: (
           BuildContext context,
           AsyncSnapshot<List<CredentialModel>> snapshot,

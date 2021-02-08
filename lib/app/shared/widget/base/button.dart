@@ -1,7 +1,7 @@
 import 'package:credible/app/shared/palette.dart';
 import 'package:flutter/material.dart';
 
-class BaseButton extends FlatButton {
+class BaseButton extends OutlinedButton {
   BaseButton({
     Widget child,
     VoidCallback onPressed,
@@ -9,20 +9,22 @@ class BaseButton extends FlatButton {
     Color textColor = Palette.text,
     Color borderColor,
   }) : super(
-          color: color,
-          textColor: textColor,
-          shape: RoundedRectangleBorder(
-            side: borderColor != null
-                ? BorderSide(
-                    width: 2.0,
-                    color: borderColor,
-                  )
-                : BorderSide.none,
-            borderRadius: BorderRadius.circular(24.0),
-          ),
-          padding: const EdgeInsets.symmetric(
-            horizontal: 32.0,
-            vertical: 12.0,
+          style: OutlinedButton.styleFrom(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 32.0,
+              vertical: 12.0,
+            ),
+            shape: RoundedRectangleBorder(
+              side: borderColor != null
+                  ? BorderSide(
+                      width: 2.0,
+                      color: borderColor,
+                    )
+                  : BorderSide.none,
+              borderRadius: BorderRadius.circular(24.0),
+            ),
+            primary: color,
+            textStyle: TextStyle(color: textColor),
           ),
           onPressed: onPressed,
           child: child,
