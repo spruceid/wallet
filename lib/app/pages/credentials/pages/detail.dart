@@ -82,10 +82,12 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               ),
             ),
             const SizedBox(height: 64.0),
-            FlatButton(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 32.0,
-                vertical: 16.0,
+            TextButton(
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 16.0,
+                ),
               ),
               onPressed: () {},
               child: Text(

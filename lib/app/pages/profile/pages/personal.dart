@@ -1,6 +1,5 @@
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
-import 'package:credible/app/pages/profile/module.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -66,15 +65,13 @@ class _PersonalPageState extends State<PersonalPage> {
                 .apply(color: Palette.blue),
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                ProfileModule.to
-                    .get<ProfileBloc>()
-                    .add(ProfileEventUpdate(ProfileModel(
-                      firstName: firstNameController.text,
-                      lastName: lastNameController.text,
-                      phone: phoneController.text,
-                      location: locationController.text,
-                      email: emailController.text,
-                    )));
+                Modular.get<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                  phone: phoneController.text,
+                  location: locationController.text,
+                  email: emailController.text,
+                )));
                 Modular.to.pop();
               },
           ),

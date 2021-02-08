@@ -47,7 +47,7 @@ class CredentialsPickPage extends StatelessWidget {
         : items;
 
     return BlocListener(
-      cubit: Modular.get<ScanBloc>(),
+      bloc: Modular.get<ScanBloc>(),
       listener: (context, state) {
         if (state is ScanStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

@@ -58,8 +58,6 @@ class AppWidget extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
         title: 'Credible',
         initialRoute: '/splash',
-        navigatorKey: Modular.navigatorKey,
-        onGenerateRoute: Modular.generateRoute,
         theme: _themeData,
         localizationsDelegates: [
           AppLocalizations.delegate,
@@ -67,5 +65,5 @@ class AppWidget extends StatelessWidget {
           GlobalWidgetsLocalizations.delegate,
         ],
         supportedLocales: AppLocalizations.delegate.supportedLocales,
-      );
+      ).modular();
 }

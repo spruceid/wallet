@@ -36,44 +36,45 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
           ));
 
           Future.delayed(Duration(seconds: 1), () async {
-            controller.resumeCamera();
+            await controller.resumeCamera();
           });
         };
 
         controller.scannedDataStream.listen((scanData) async {
-          controller.pauseCamera();
+          await controller.pauseCamera();
           print(scanData);
 
           try {
-            final uri = Uri.parse(scanData);
+            final uri = Uri.parse(scanData.code);
 
             final acceptHost = await showDialog<bool>(
-                    context: context,
-                    child: AlertDialog(
-                      title: Text(
-                        'Do you trust this host?',
-                        style: Theme.of(context).textTheme.subtitle1,
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Do you trust this host?',
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                    content: Text(
+                      uri.host,
+                      style: Theme.of(context).textTheme.subtitle2,
+                    ),
+                    actions: [
+                      BaseButton.transparent(
+                        borderColor: Palette.blue,
+                        onPressed: () {
+                          Modular.to.pop(true);
+                        },
+                        child: Text(localizations.communicationHostAllow),
                       ),
-                      content: Text(
-                        uri.host,
-                        style: Theme.of(context).textTheme.subtitle2,
+                      BaseButton.blue(
+                        onPressed: () {
+                          Modular.to.pop(false);
+                        },
+                        child: Text(localizations.communicationHostDeny),
                       ),
-                      actions: [
-                        BaseButton.transparent(
-                          borderColor: Palette.blue,
-                          onPressed: () {
-                            Modular.to.pop(true);
-                          },
-                          child: Text(localizations.communicationHostAllow),
-                        ),
-                        BaseButton.blue(
-                          onPressed: () {
-                            Modular.to.pop(false);
-                          },
-                          child: Text(localizations.communicationHostDeny),
-                        ),
-                      ],
-                    )) ??
+                    ],
+                  ),
+                ) ??
                 false;
 
             if (!acceptHost) {

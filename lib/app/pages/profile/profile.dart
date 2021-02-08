@@ -1,7 +1,6 @@
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
-import 'package:credible/app/pages/profile/module.dart';
 import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
 import 'package:credible/app/shared/palette.dart';
@@ -23,8 +22,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    ProfileModule.to.get<ProfileBloc>().add(ProfileEventLoad());
-    ProfileModule.to.get<DIDBloc>().add(DIDEventLoad());
+    Modular.get<ProfileBloc>().add(ProfileEventLoad());
+    Modular.get<DIDBloc>().add(DIDEventLoad());
   }
 
   @override
@@ -32,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
     final localizations = AppLocalizations.of(context);
 
     return BlocConsumer(
-      cubit: ProfileModule.to.get<ProfileBloc>(),
+      bloc: Modular.get<ProfileBloc>(),
       listener: (context, state) {
         if (state is ProfileStateMessage) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(

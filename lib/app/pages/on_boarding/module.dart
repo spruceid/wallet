@@ -7,45 +7,43 @@ import 'package:credible/app/pages/on_boarding/success.dart';
 import 'package:credible/app/pages/on_boarding/tos.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class OnBoardingModule extends ChildModule {
-  static Inject get to => Inject<OnBoardingModule>.of();
-
+class OnBoardingModule extends Module {
   @override
   List<Bind> get binds => [];
 
   @override
-  List<ModularRouter> get routers => [
-        ModularRouter(
+  List<ModularRoute> get routes => [
+        ChildRoute(
           '/start',
           child: (context, args) => OnBoardingStartPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/tos',
           child: (context, args) => OnBoardingTosPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/key',
           child: (context, args) => OnBoardingKeyPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/recovery',
           child: (context, args) => OnBoardingRecoveryPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/gen-phrase',
           child: (context, args) => OnBoardingGenPhrasePage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/gen',
           child: (context, args) => OnBoardingGenPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
-        ModularRouter(
+        ChildRoute(
           '/success',
           child: (context, args) => OnBoardingSuccessPage(),
           transition: TransitionType.rightToLeftWithFade,
