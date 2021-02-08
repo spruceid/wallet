@@ -86,18 +86,20 @@ class _CredentialsPresentPageState extends State<CredentialsPresentPage> {
                     issuer: '',
                     status: CredentialStatus.active,
                     image: '',
+                    data: {},
                   ),
                 ),
                 const SizedBox(height: 24.0),
                 BaseButton.transparent(
                   borderColor: Palette.blue,
                   onPressed: () {
-                    bloc.add(ScanEventVerifiablePresentationRequest(
-                      widget.url.toString(),
-                      'key',
-                      preview['challenge'],
-                      preview['domain'],
-                    ));
+                    Modular.to.pushNamed('/credentials/pick',
+                        arguments: <String, dynamic>{
+                          'url': widget.url.toString(),
+                          'key': 'key',
+                          'challenge': preview['challenge'],
+                          'domain': preview['domain'],
+                        });
                   },
                   child: Text(localizations.credentialPresentConfirm),
                 ),

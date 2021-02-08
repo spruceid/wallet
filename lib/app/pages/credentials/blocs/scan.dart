@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
+import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:didkit/didkit.dart';
@@ -33,15 +34,17 @@ class ScanEventCredentialOffer extends ScanEvent {
 class ScanEventVerifiablePresentationRequest extends ScanEvent {
   final String url;
   final String key;
+  final CredentialModel credential;
   final String challenge;
   final String domain;
 
-  ScanEventVerifiablePresentationRequest(
+  ScanEventVerifiablePresentationRequest({
     this.url,
     this.key,
+    this.credential,
     this.challenge,
     this.domain,
-  );
+  });
 }
 
 abstract class ScanState {}
@@ -171,6 +174,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     final url = event.url;
     final keyId = event.key;
+    final credential = event.credential;
 
     try {
       final storage = FlutterSecureStorage();
@@ -179,9 +183,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final verificationMethod =
           await DIDKit.keyToVerificationMethod('key', key);
 
-      final repository = Modular.get<CredentialsRepository>();
-      final credentials = await repository.rawFindAll();
-
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await DIDKit.issuePresentation(
           jsonEncode({
@@ -189,7 +190,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             'type': ['VerifiablePresentation'],
             'id': presentationId,
             'holder': didKey,
-            'verifiableCredential': credentials.first,
+            'verifiableCredential': credential.toJson(),
           }),
           jsonEncode({
             'verificationMethod': verificationMethod,

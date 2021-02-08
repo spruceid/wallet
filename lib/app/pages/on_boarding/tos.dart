@@ -4,7 +4,6 @@ import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
   static const _padding = EdgeInsets.symmetric(
@@ -30,12 +29,12 @@ class OnBoardingTosPage extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 8.0),
           _padHorizontal(Text(
-            'Credible V 1.0',
+            'Credible v0.1',
             textAlign: TextAlign.center,
-            style: GoogleFonts.montserrat(
-              color: Palette.text.withOpacity(0.4),
-              fontSize: 10.0,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .overline
+                .apply(color: Palette.text.withOpacity(0.4)),
           )),
           const SizedBox(height: 8.0),
           Expanded(
@@ -86,7 +85,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 const SizedBox(height: 20.0),
                 _padHorizontal(BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/gen');
+                    Modular.to.pushReplacementNamed('/on-boarding/key');
                   },
                   child: Text(localizations.onBoardingTosButton),
                 )),

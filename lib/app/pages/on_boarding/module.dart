@@ -1,4 +1,7 @@
 import 'package:credible/app/pages/on_boarding/gen.dart';
+import 'package:credible/app/pages/on_boarding/gen_phrase.dart';
+import 'package:credible/app/pages/on_boarding/key.dart';
+import 'package:credible/app/pages/on_boarding/recovery.dart';
 import 'package:credible/app/pages/on_boarding/start.dart';
 import 'package:credible/app/pages/on_boarding/success.dart';
 import 'package:credible/app/pages/on_boarding/tos.dart';
@@ -20,6 +23,21 @@ class OnBoardingModule extends ChildModule {
         ModularRouter(
           '/tos',
           child: (context, args) => OnBoardingTosPage(),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ModularRouter(
+          '/key',
+          child: (context, args) => OnBoardingKeyPage(),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ModularRouter(
+          '/recovery',
+          child: (context, args) => OnBoardingRecoveryPage(),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ModularRouter(
+          '/gen-phrase',
+          child: (context, args) => OnBoardingGenPhrasePage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ModularRouter(
