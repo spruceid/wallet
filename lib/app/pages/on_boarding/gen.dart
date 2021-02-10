@@ -24,10 +24,11 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
     final storage = FlutterSecureStorage();
     final mnemonic = await storage.read(key: 'mnemonic');
     final entropy = bip39.mnemonicToSeedHex(mnemonic);
-    final key =
-        await DIDKit.generateEd25519KeyFromSecret(entropy.substring(0, 32));
+    // final key = await DIDKit.generateEd25519KeyFromSecret(entropy.substring(0, 32));
 
-    print(key);
+    // print(key);
+
+    final key = await DIDKit.generateEd25519Key();
 
     await storage.write(key: 'key', value: key);
     await Modular.to.pushReplacementNamed('/on-boarding/success');
