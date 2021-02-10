@@ -29,8 +29,6 @@ class StateMessage {
         return Colors.cyan;
       case MessageType.success:
         return Colors.green;
-      default:
-        return null;
     }
   }
 }

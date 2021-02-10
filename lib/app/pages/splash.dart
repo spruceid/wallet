@@ -1,6 +1,5 @@
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/brand.dart';
-import 'package:didkit/didkit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -20,14 +19,8 @@ class _SplashPageState extends State<SplashPage> {
         seconds: 2,
       ),
       () async {
-        final version = await DIDKit.getVersion();
-        print('DIDKit v$version');
-
         final storage = FlutterSecureStorage();
-
         final key = await storage.read(key: 'key') ?? '';
-
-        print(key);
 
         if (key.isEmpty) {
           await Modular.to.pushReplacementNamed('/on-boarding');

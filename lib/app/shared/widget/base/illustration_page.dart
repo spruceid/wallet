@@ -6,18 +6,18 @@ import 'package:google_fonts/google_fonts.dart';
 
 class BaseIllustrationPage extends StatelessWidget {
   final String asset;
-  final String description;
+  final String? description;
   final String action;
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   final Color backgroundColor;
 
   const BaseIllustrationPage({
-    Key key,
-    @required this.asset,
+    Key? key,
+    required this.asset,
     this.description,
-    this.action,
+    required this.action,
     this.onPressed,
     this.backgroundColor = Colors.transparent,
   }) : super(key: key);
@@ -38,9 +38,9 @@ class BaseIllustrationPage extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              if (description != null && description.isNotEmpty)
+              if (description != null && description!.isNotEmpty)
                 Text(
-                  description,
+                  description!,
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     color: Colors.white,

@@ -3,18 +3,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TooltipText extends StatelessWidget {
-  final String tag;
+  final String? tag;
   final String text;
-  final String tooltip;
+  final String? tooltip;
 
   final int maxLines;
-  final TextStyle style;
+  final TextStyle? style;
   final TextAlign textAlign;
 
   const TooltipText({
-    Key key,
+    Key? key,
     this.tag,
-    this.text,
+    required this.text,
     this.tooltip,
     this.maxLines = 1,
     this.style,
@@ -35,11 +35,13 @@ class TooltipText extends StatelessWidget {
       ),
     );
 
-    if (tag != null && tag.isNotEmpty) {
-      return HeroFix(
-        tag: tag,
-        child: child,
-      );
+    if (tag != null) {
+      if (tag!.isNotEmpty) {
+        return HeroFix(
+          tag: tag!,
+          child: child,
+        );
+      }
     }
 
     return child;

@@ -1,3 +1,4 @@
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
@@ -20,17 +21,21 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey() async {
-    final key = await DIDKit.generateEd25519Key();
-
     final storage = FlutterSecureStorage();
-    await storage.write(key: 'key', value: key);
+    final mnemonic = await storage.read(key: 'mnemonic');
+    final entropy = bip39.mnemonicToSeedHex(mnemonic);
+    final key =
+        await DIDKit.generateEd25519KeyFromSecret(entropy.substring(0, 32));
 
+    print(key);
+
+    await storage.write(key: 'key', value: key);
     await Modular.to.pushReplacementNamed('/on-boarding/success');
   }
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       title: localizations.onBoardingGenTitle,

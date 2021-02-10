@@ -1,11 +1,14 @@
+import 'package:bip39/bip39.dart' as bip39;
+import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class OnBoardingRecoveryPage extends StatelessWidget {
+class OnBoardingRecoveryPage extends StatefulWidget {
   static const _padding = EdgeInsets.symmetric(
     horizontal: 16.0,
   );
@@ -16,103 +19,73 @@ class OnBoardingRecoveryPage extends StatelessWidget {
       );
 
   @override
+  _OnBoardingRecoveryPageState createState() => _OnBoardingRecoveryPageState();
+}
+
+class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
+  late TextEditingController mnemonicController;
+  late bool buttonEnabled;
+
+  @override
+  void initState() {
+    super.initState();
+
+    mnemonicController = TextEditingController();
+    mnemonicController.addListener(() {
+      setState(() {
+        buttonEnabled = bip39.validateMnemonic(mnemonicController.text);
+      });
+    });
+
+    buttonEnabled = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
-    final scrollController = ScrollController();
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       title: localizations.onBoardingRecoveryTitle,
+      titleLeading: BackLeadingButton(),
       scrollView: false,
       padding: EdgeInsets.zero,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 32.0),
-          _padHorizontal(Text(
+          OnBoardingRecoveryPage._padHorizontal(Text(
             'Write the recovery phrase in the given order',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           )),
           const SizedBox(height: 24.0),
           Expanded(
-            child: Scrollbar(
-              isAlwaysShown: true,
-              controller: scrollController,
-              child: SingleChildScrollView(
-                controller: scrollController,
-                child: Column(
-                  children: <Widget>[
-                    const SizedBox(height: 16.0),
-                    BaseTextField(
-                      label: '1',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '2',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '3',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '4',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '5',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '6',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '7',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '8',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '9',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '10',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '11',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 8.0),
-                    BaseTextField(
-                      label: '12',
-                      controller: TextEditingController(),
-                    ),
-                    const SizedBox(height: 16.0),
-                  ],
-                ),
+            child: Center(
+              child: BaseTextField(
+                label: 'Mnemonic Phrase',
+                controller: mnemonicController,
+                error: !buttonEnabled
+                    ? 'Please enter a valid mnemonic phrase'
+                    : null,
               ),
             ),
           ),
           const SizedBox(height: 24.0),
-          _padHorizontal(BaseButton.blue(
-            onPressed: () {
-              Modular.to.pushReplacementNamed('/on-boarding/gen');
-            },
+          OnBoardingRecoveryPage._padHorizontal(BaseButton.blue(
+            onPressed: buttonEnabled
+                ? () async {
+                    final storage = FlutterSecureStorage();
+                    await storage.write(
+                      key: 'mnemonic',
+                      value: mnemonicController.text,
+                    );
+
+                    await Modular.to.pushNamedAndRemoveUntil(
+                      '/on-boarding/gen',
+                      ModalRoute.withName('/on-boarding/key'),
+                    );
+                  }
+                : null,
             child: Text(localizations.onBoardingRecoveryButton),
           )),
           const SizedBox(height: 32.0),

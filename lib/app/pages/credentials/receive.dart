@@ -15,8 +15,8 @@ class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
 
   const CredentialsReceivePage({
-    Key key,
-    @required this.url,
+    Key? key,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -25,18 +25,20 @@ class CredentialsReceivePage extends StatefulWidget {
 
 class _CredentialsReceivePageState
     extends ModularState<CredentialsReceivePage, ScanBloc> {
+  final VoidCallback goBack = () {
+    Modular.to.pushReplacementNamed('/credentials/list');
+  };
+
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       padding: const EdgeInsets.all(16.0),
       title: 'Credential Offer',
       titleTrailing: IconButton(
-        onPressed: () {
-          Modular.to.pop();
-        },
+        onPressed: goBack,
         icon: Icon(
           Icons.close,
           color: Palette.text,
@@ -46,7 +48,7 @@ class _CredentialsReceivePageState
         bloc: store,
         listener: (context, state) {
           if (state is ScanStateSuccess) {
-            Modular.to.pop();
+            goBack();
           }
         },
         builder: (context, state) {
@@ -101,9 +103,7 @@ class _CredentialsReceivePageState
                 ),
                 const SizedBox(height: 8.0),
                 BaseButton.transparent(
-                  onPressed: () {
-                    Modular.to.pop();
-                  },
+                  onPressed: goBack,
                   child: Text(localizations.credentialReceiveCancel),
                 ),
               ],

@@ -73,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     '$firstName $lastName',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle2
+                        .subtitle2!
                         .apply(color: Palette.greenGrey),
                   ),
                 ),
@@ -117,7 +117,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   'DIDKit v' + DIDKit.getVersion(),
                   style: Theme.of(context)
                       .textTheme
-                      .overline
+                      .overline!
                       .apply(color: Palette.greenGrey),
                 ),
               ),
@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   'Credible v0.1.0',
                   style: Theme.of(context)
                       .textTheme
-                      .caption
+                      .caption!
                       .apply(color: Palette.greenGrey),
                 ),
               ),

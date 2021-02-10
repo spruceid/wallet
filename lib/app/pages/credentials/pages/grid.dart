@@ -13,13 +13,13 @@ class CredentialsGrid extends StatelessWidget {
   final List<CredentialModel> items;
 
   const CredentialsGrid({
-    Key key,
-    this.items,
+    Key? key,
+    required this.items,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BlocListener(
       bloc: Modular.get<ScanBloc>(),

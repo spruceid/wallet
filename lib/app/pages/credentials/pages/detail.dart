@@ -15,8 +15,8 @@ class CredentialsDetail extends StatefulWidget {
   final CredentialModel item;
 
   const CredentialsDetail({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       title: widget.item.issuer,
@@ -73,7 +73,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                         localizations.credentialDetailShare,
                         style: Theme.of(context)
                             .textTheme
-                            .button
+                            .button!
                             .apply(color: Palette.blue),
                       ),
                     ],
@@ -94,7 +94,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 localizations.credentialDetailDelete,
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyText1!
                     .apply(color: Palette.greenGrey),
               ),
             ),

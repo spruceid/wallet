@@ -71,7 +71,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       log(
         'something went wrong',
         name: 'credible/profile/load',
-        error: e.message,
+        error: e,
       );
 
       yield ProfileStateMessage(StateMessage.error('Failed to load profile. '
@@ -114,7 +114,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       log(
         'something went wrong',
         name: 'credible/profile/update',
-        error: e.message,
+        error: e,
       );
 
       yield ProfileStateMessage(StateMessage.error('Failed to save profile. '

@@ -6,7 +6,7 @@ import 'package:sembast/sembast_io.dart';
 class WalletDatabase {
   WalletDatabase._();
 
-  static Database _db;
+  static Database? _db;
 
   static Future<Database> get db async {
     return _ensureInitialized();
@@ -15,10 +15,14 @@ class WalletDatabase {
   static Future<Database> _ensureInitialized() async {
     if (_db == null) {
       final dir = await getApplicationDocumentsDirectory();
-      await dir.create(recursive: true);
-      final dbPath = join(dir.path, 'wallet.db');
-      _db = await databaseFactoryIo.openDatabase(dbPath);
+      if (dir != null) {
+        await dir.create(recursive: true);
+        final dbPath = join(dir.path, 'wallet.db');
+        _db = await databaseFactoryIo.openDatabase(dbPath);
+      } else {
+        throw Exception('Failed to initialize local database');
+      }
     }
-    return _db;
+    return _db!;
   }
 }

@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class DocumentBody extends StatelessWidget {
   final CredentialModel item;
-  final Widget trailing;
+  final Widget? trailing;
 
   const DocumentBody({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
     this.trailing,
   }) : super(key: key);
 
@@ -48,7 +48,7 @@ class DocumentBody extends StatelessWidget {
               value: 'San Francisco, CA',
             ),
             const SizedBox(height: 20.0),
-            if (trailing != null) trailing,
+            if (trailing != null) trailing!,
           ],
         ),
       );

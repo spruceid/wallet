@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.11.0 <3.0.0"
+  sdk: ">=2.12.0-0 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,6 +35,9 @@ dependencies:
   path: ^1.8.0-nullsafety.3
   path_provider: ^2.0.0-nullsafety
   flutter_secure_storage: ^3.3.5
+
+  bip39:
+    path: ../bip39
 
   didkit:
     path: ../didkit/lib/flutter

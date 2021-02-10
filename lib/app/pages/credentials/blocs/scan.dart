@@ -8,7 +8,6 @@ import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:didkit/didkit.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
@@ -35,13 +34,13 @@ class ScanEventVerifiablePresentationRequest extends ScanEvent {
   final String url;
   final String key;
   final CredentialModel credential;
-  final String challenge;
-  final String domain;
+  final String? challenge;
+  final String? domain;
 
   ScanEventVerifiablePresentationRequest({
-    this.url,
-    this.key,
-    this.credential,
+    required this.url,
+    required this.key,
+    required this.credential,
     this.challenge,
     this.domain,
   });
@@ -63,7 +62,7 @@ class ScanStatePreview extends ScanState {
   final Map<String, dynamic> preview;
 
   ScanStatePreview({
-    @required this.preview,
+    required this.preview,
   });
 }
 
@@ -97,8 +96,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
       final didKey = await DIDKit.keyToDID('key', key);
-      final verificationMethod =
-          await DIDKit.keyToVerificationMethod('key', key);
 
       final credential = await client.post(
         url,
@@ -109,13 +106,13 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           ? jsonDecode(credential.data)
           : credential.data;
 
-      final verification = await DIDKit.verifyCredential(
-        jsonEncode(jsonCredential),
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'assertionMethod',
-        }),
-      );
+      final vcStr = jsonEncode(jsonCredential);
+      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+      final verification = await DIDKit.verifyCredential(vcStr, optStr);
+
+      print('[credible/credential-offer/verify/vc] $vcStr');
+      print('[credible/credential-offer/verify/options] $optStr');
+      print('[credible/credential-offer/verify/result] $optStr');
 
       final jsonVerification = jsonDecode(verification);
 
@@ -152,7 +149,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       log(
         'something went wrong',
         name: 'credible/scan/credential-offer',
-        error: e.message,
+        error: e,
       );
 
       yield ScanStateMessage(
@@ -213,7 +210,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       log(
         'something went wrong',
         name: 'credible/scan/verifiable-presentation-request',
-        error: e.message,
+        error: e,
       );
 
       yield ScanStateMessage(

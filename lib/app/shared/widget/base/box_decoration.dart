@@ -11,16 +11,16 @@ class BaseBoxDecoration extends Decoration {
     this.borderRadius,
     this.boxShadow,
     this.gradient,
-    this.value,
+    this.value = 0.0,
     this.anchors = const [],
   });
 
   BaseBoxDecoration copyWith({
-    Color color,
-    Color shapeColor,
-    BorderRadiusGeometry borderRadius,
-    List<BoxShadow> boxShadow,
-    Gradient gradient,
+    Color? color,
+    Color? shapeColor,
+    BorderRadiusGeometry? borderRadius,
+    List<BoxShadow>? boxShadow,
+    Gradient? gradient,
   }) {
     return BaseBoxDecoration(
       color: color ?? this.color,
@@ -31,12 +31,12 @@ class BaseBoxDecoration extends Decoration {
     );
   }
 
-  final Color color;
-  final Color shapeColor;
-  final double shapeSize;
-  final BorderRadiusGeometry borderRadius;
-  final List<BoxShadow> boxShadow;
-  final Gradient gradient;
+  final Color? color;
+  final Color? shapeColor;
+  final double? shapeSize;
+  final BorderRadiusGeometry? borderRadius;
+  final List<BoxShadow>? boxShadow;
+  final Gradient? gradient;
 
   final double value;
 
@@ -46,7 +46,7 @@ class BaseBoxDecoration extends Decoration {
   Path getClipPath(Rect rect, TextDirection textDirection) {
     if (borderRadius != null) {
       return Path()
-        ..addRRect(borderRadius.resolve(textDirection).toRRect(rect));
+        ..addRRect(borderRadius!.resolve(textDirection).toRRect(rect));
     }
     return Path()..addRect(rect);
   }
@@ -65,27 +65,26 @@ class BaseBoxDecoration extends Decoration {
   bool get isComplex => boxShadow != null;
 
   @override
-  BaseBoxDecoration lerpFrom(Decoration a, double t) {
+  BaseBoxDecoration? lerpFrom(Decoration? a, double t) {
     if (a == null) return scale(t);
     if (a is BaseBoxDecoration) return BaseBoxDecoration.lerp(a, this, t);
     return super.lerpFrom(a, t) as BaseBoxDecoration;
   }
 
   @override
-  BaseBoxDecoration lerpTo(Decoration b, double t) {
+  BaseBoxDecoration? lerpTo(Decoration? b, double t) {
     if (b == null) return scale(1.0 - t);
     if (b is BaseBoxDecoration) return BaseBoxDecoration.lerp(this, b, t);
     return super.lerpTo(b, t) as BaseBoxDecoration;
   }
 
-  static BaseBoxDecoration lerp(
-    BaseBoxDecoration a,
-    BaseBoxDecoration b,
+  static BaseBoxDecoration? lerp(
+    BaseBoxDecoration? a,
+    BaseBoxDecoration? b,
     double t,
   ) {
-    assert(t != null);
     if (a == null && b == null) return null;
-    if (a == null) return b.scale(t);
+    if (a == null) return b!.scale(t);
     if (b == null) return a.scale(1.0 - t);
     if (t == 0.0) return a;
     if (t == 1.0) return b;
@@ -141,35 +140,32 @@ class BaseBoxDecoration extends Decoration {
   }
 
   @override
-  bool hitTest(Size size, Offset position, {TextDirection textDirection}) {
+  bool hitTest(Size size, Offset position, {TextDirection? textDirection}) {
     assert((Offset.zero & size).contains(position));
     if (borderRadius != null) {
       final bounds =
-          borderRadius.resolve(textDirection).toRRect(Offset.zero & size);
+          borderRadius!.resolve(textDirection).toRRect(Offset.zero & size);
       return bounds.contains(position);
     }
     return true;
   }
 
   @override
-  _BaseBoxDecorationPainter createBoxPainter([VoidCallback onChanged]) {
-    assert(onChanged != null);
+  _BaseBoxDecorationPainter createBoxPainter([VoidCallback? onChanged]) {
     return _BaseBoxDecorationPainter(this, onChanged);
   }
 }
 
 class _BaseBoxDecorationPainter extends BoxPainter {
-  _BaseBoxDecorationPainter(this._decoration, VoidCallback onChanged)
-      : assert(_decoration != null),
-        super(onChanged);
+  _BaseBoxDecorationPainter(this._decoration, VoidCallback? onChanged)
+      : super(onChanged);
 
   final BaseBoxDecoration _decoration;
 
-  Paint _cachedBackgroundPaint;
-  Rect _rectForCachedBackgroundPaint;
+  Paint? _cachedBackgroundPaint;
+  Rect? _rectForCachedBackgroundPaint;
 
-  Paint _getBackgroundPaint(Rect rect, TextDirection textDirection) {
-    assert(rect != null);
+  Paint? _getBackgroundPaint(Rect rect, TextDirection textDirection) {
     assert(
         _decoration.gradient != null || _rectForCachedBackgroundPaint == null);
 
@@ -178,10 +174,10 @@ class _BaseBoxDecorationPainter extends BoxPainter {
             _rectForCachedBackgroundPaint != rect)) {
       final paint = Paint();
       if (_decoration.color != null) {
-        paint.color = _decoration.color;
+        paint.color = _decoration.color!;
       }
       if (_decoration.gradient != null) {
-        paint.shader = _decoration.gradient.createShader(
+        paint.shader = _decoration.gradient!.createShader(
           rect,
           textDirection: textDirection,
         );
@@ -203,7 +199,7 @@ class _BaseBoxDecorationPainter extends BoxPainter {
       canvas.drawRect(rect, paint);
     } else {
       canvas.drawRRect(
-        _decoration.borderRadius.resolve(textDirection).toRRect(rect),
+        _decoration.borderRadius!.resolve(textDirection).toRRect(rect),
         paint,
       );
     }
@@ -215,7 +211,7 @@ class _BaseBoxDecorationPainter extends BoxPainter {
     TextDirection textDirection,
   ) {
     if (_decoration.boxShadow == null) return;
-    for (final boxShadow in _decoration.boxShadow) {
+    for (final boxShadow in _decoration.boxShadow!) {
       final paint = boxShadow.toPaint();
       final bounds =
           rect.shift(boxShadow.offset).inflate(boxShadow.spreadRadius);
@@ -232,7 +228,7 @@ class _BaseBoxDecorationPainter extends BoxPainter {
       _paintBox(
         canvas,
         rect,
-        _getBackgroundPaint(rect, textDirection),
+        _getBackgroundPaint(rect, textDirection)!,
         textDirection,
       );
     }
@@ -244,9 +240,9 @@ class _BaseBoxDecorationPainter extends BoxPainter {
     TextDirection textDirection,
   ) {
     final trianglePaint = Paint();
-    trianglePaint.color = _decoration.shapeColor;
+    trianglePaint.color = _decoration.shapeColor!;
 
-    final length = (_decoration.shapeSize * 1.73205) / 2.0;
+    final length = (_decoration.shapeSize! * 1.73205) / 2.0;
 
     final triangle = Path();
     triangle.moveTo(0.0, length);
@@ -269,7 +265,7 @@ class _BaseBoxDecorationPainter extends BoxPainter {
       canvas.clipRect(rect);
     } else {
       canvas.clipRRect(
-        _decoration.borderRadius.resolve(textDirection).toRRect(rect),
+        _decoration.borderRadius!.resolve(textDirection).toRRect(rect),
       );
     }
 
@@ -296,11 +292,10 @@ class _BaseBoxDecorationPainter extends BoxPainter {
 
   @override
   void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
-    assert(configuration != null);
     assert(configuration.size != null);
-    final rect = offset & configuration.size;
+    final rect = offset & configuration.size!;
     final textDirection = configuration.textDirection;
-    _paintShadows(canvas, rect, textDirection);
+    _paintShadows(canvas, rect, textDirection!);
     _paintBackgroundColor(canvas, rect, textDirection);
     _paintTriangles(canvas, rect, textDirection);
   }

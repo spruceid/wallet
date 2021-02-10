@@ -1,19 +1,38 @@
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/pages/on_boarding/widget/word.dart';
 import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class OnBoardingGenPhrasePage extends StatelessWidget {
+class OnBoardingGenPhrasePage extends StatefulWidget {
+  @override
+  _OnBoardingGenPhrasePageState createState() =>
+      _OnBoardingGenPhrasePageState();
+}
+
+class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
+  late List<String> mnemonic;
+
+  @override
+  void initState() {
+    super.initState();
+
+    mnemonic = bip39.generateMnemonic().split(' ');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
+      titleLeading: BackLeadingButton(),
       scrollView: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -46,20 +65,10 @@ class OnBoardingGenPhrasePage extends StatelessWidget {
               runSpacing: 8.0,
               alignment: WrapAlignment.center,
               runAlignment: WrapAlignment.center,
-              children: <Widget>[
-                const PhraseWord(order: 1, word: 'this'),
-                const PhraseWord(order: 2, word: 'is'),
-                const PhraseWord(order: 3, word: 'not'),
-                const PhraseWord(order: 4, word: 'a'),
-                const PhraseWord(order: 5, word: 'real'),
-                const PhraseWord(order: 6, word: 'recovery'),
-                const PhraseWord(order: 7, word: 'phrase'),
-                const PhraseWord(order: 8, word: 'this'),
-                const PhraseWord(order: 9, word: 'is'),
-                const PhraseWord(order: 10, word: 'just'),
-                const PhraseWord(order: 11, word: 'an'),
-                const PhraseWord(order: 12, word: 'example'),
-              ],
+              children: List.generate(
+                mnemonic.length,
+                (i) => PhraseWord(order: i + 1, word: mnemonic[i]),
+              ),
             ),
           ),
           const SizedBox(height: 32.0),
@@ -77,7 +86,7 @@ class OnBoardingGenPhrasePage extends StatelessWidget {
                     'You can view your recovery phrase again later in the settings menu',
                     style: Theme.of(context)
                         .textTheme
-                        .caption
+                        .caption!
                         .apply(color: Palette.text.withOpacity(0.6)),
                   ),
                 ),
@@ -86,8 +95,17 @@ class OnBoardingGenPhrasePage extends StatelessWidget {
           ),
           const SizedBox(height: 48.0),
           BaseButton.blue(
-            onPressed: () {
-              Modular.to.pushReplacementNamed('/on-boarding/gen');
+            onPressed: () async {
+              final storage = FlutterSecureStorage();
+              await storage.write(
+                key: 'mnemonic',
+                value: mnemonic.join(' '),
+              );
+
+              await Modular.to.pushNamedAndRemoveUntil(
+                '/on-boarding/gen',
+                ModalRoute.withName('/on-boarding/key'),
+              );
             },
             child: Text(localizations.onBoardingGenPhraseButton),
           ),

@@ -7,10 +7,10 @@ class MenuItem extends StatelessWidget {
   final VoidCallback onTap;
 
   const MenuItem({
-    Key key,
-    @required this.icon,
-    @required this.title,
-    @required this.onTap,
+    Key? key,
+    required this.icon,
+    required this.title,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -43,7 +43,7 @@ class MenuItem extends StatelessWidget {
                     title,
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText1!
                         .apply(color: Palette.text),
                   ),
                 ),

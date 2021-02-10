@@ -30,7 +30,7 @@ class DIDDisplay extends StatelessWidget {
                 'Your DID is',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText2
+                    .bodyText2!
                     .apply(color: Palette.greenGrey),
               ),
             ),
@@ -47,7 +47,7 @@ class DIDDisplay extends StatelessWidget {
                       did,
                       style: Theme.of(context)
                           .textTheme
-                          .overline
+                          .overline!
                           .apply(color: Palette.greenGrey),
                       textAlign: TextAlign.center,
                     ),
@@ -70,7 +70,7 @@ class DIDDisplay extends StatelessWidget {
                 'Copy DID to clipboard',
                 style: Theme.of(context)
                     .textTheme
-                    .bodyText1
+                    .bodyText1!
                     .apply(color: Palette.greenGrey),
               ),
             ),
