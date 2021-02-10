@@ -97,7 +97,7 @@ $ flutter build ios --no-sound-null-safety --no-codesign --simulator  # iOS for 
 $ flutter run  --no-sound-null-safety                                 # Run on emulator
 ```
 
-(NOTE: While our implmentation does not require `--no-sound-null-safely` flag, some 
+(NOTE: While our implmentation uses sound null safety, we enable the `--no-sound-null-safely` flag because some 
 dependencies currently do not)
 
 If any errors are encountered, the first thing to try is running
