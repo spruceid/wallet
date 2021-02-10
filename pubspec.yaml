@@ -37,7 +37,9 @@ dependencies:
   flutter_secure_storage: ^3.3.5
 
   bip39:
-    path: ../bip39
+    git:
+      url: https://github.com/theosirian/bip39
+      ref: nullsafety
 
   didkit:
     path: ../didkit/lib/flutter
