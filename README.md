@@ -36,11 +36,13 @@ $ flutter channel dev
 $ flutter upgrade
 ```
 
-This project also depends on two other Spruce projects:
+This project also depends on two other Spruce projects, `didkit` and `ssi`.
 [DIDKit](https://github.com/spruceid/didkit), which in turn depends on
-[ssi](https://github.com/spruceid/ssi). The default assumption is that 
-these three repos (`credible`, `didkit`, and `ssi`) are in the same
-directory, though instructions for override are provided below.
+[ssi](https://github.com/spruceid/ssi). 
+
+To work with build scripts depending on relative paths, created a 
+directory named something like `spruceid` and clone `credible`, `didkit`, 
+and `ssi` next to eachother.
 
 ### Android Specific Instructions: 
 Android builds have the additional requirement of:
@@ -84,37 +86,19 @@ $ flutter doctor
 ```
 If any issues are detected, please resolve them before proceeding.
 
-If all of the Spruce dependencies are in the same directory, they will correctly
-resolve using relative paths, and the next two steps can be skipped. Otherwise,
-point `didkit` to `ssi` by editing the didkit/lib/Cargo.toml:
-
-```toml
-[dependencies]
-ssi = { path = "path/to/ssi", default-features = false }
-did-key = { path = "path/to/ssi/did-key" }
-did-tezos = { path = "path/to/ssi/did-tezos" }
-did-web = { path = "path/to/ssi/did-web", optional = true }
-```
-
-And point `Credible` to `didkit` in the credible/pubspec.yaml:
-
-```yaml
-dependencies:
-  didkit:
-    path: path/to/didkit/lib/flutter
-```
-
 Then, to build the flutter artifacts, run one of the following
 commands from the root of the `credible` repository to either build
 or run the app on an emulator/connected dev-device:
 
 ```bash
-$ flutter build apk                     # Android APK
-$ flutter build appbundle               # Android Appbundle
-$ flutter build ios                     # iOS
-$ flutter build ipa                     # iOS
-$ flutter run  --no-sound-null-safety   # Run on emulator
+$ flutter build apk --no-sound-null-safety                            # Android APK
+$ flutter build appbundle --no-sound-null-safety                      # Android Appbundle
+$ flutter build ios --no-sound-null-safety --no-codesign --simulator  # iOS for simulator
+$ flutter run  --no-sound-null-safety                                 # Run on emulator
 ```
+
+(NOTE: While our implmentation does not require `--no-sound-null-safely` flag, some 
+dependencies currently do not)
 
 If any errors are encountered, the first thing to try is running
 ```bash
