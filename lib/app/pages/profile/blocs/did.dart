@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:didkit/didkit.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -43,7 +44,7 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
 
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: 'key');
-      final did = await DIDKit.keyToDID('key', key);
+      final did = await DIDKit.keyToDID(Constants.defaultDIDMethod, key);
 
       yield DIDStateDefault(did);
     } catch (e) {
