@@ -25,7 +25,7 @@ class ProfileModule extends Module {
         ),
         ChildRoute(
           '/personal',
-          child: (context, args) => PersonalPage(profile: args.data),
+          child: (context, args) => PersonalPage(profile: args!.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(

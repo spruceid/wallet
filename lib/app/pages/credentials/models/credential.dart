@@ -1,5 +1,4 @@
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:flutter/foundation.dart';
 
 class CredentialModel {
   final String id;
@@ -10,11 +9,11 @@ class CredentialModel {
   final Map<String, dynamic> data;
 
   const CredentialModel({
-    @required this.id,
-    @required this.issuer,
-    @required this.image,
-    @required this.status,
-    @required this.data,
+    required this.id,
+    required this.issuer,
+    required this.image,
+    required this.status,
+    required this.data,
   });
 
   factory CredentialModel.fromMap(Map<String, dynamic> m) {

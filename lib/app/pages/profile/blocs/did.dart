@@ -50,7 +50,7 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
       log(
         'something went wrong',
         name: 'credible/did/load',
-        error: e.message,
+        error: e,
       );
 
       yield DIDStateMessage(StateMessage.error('Failed to load DID. '

@@ -7,9 +7,9 @@ class PhraseWord extends StatelessWidget {
   final String word;
 
   const PhraseWord({
-    Key key,
-    @required this.order,
-    @required this.word,
+    Key? key,
+    required this.order,
+    required this.word,
   }) : super(key: key);
 
   @override

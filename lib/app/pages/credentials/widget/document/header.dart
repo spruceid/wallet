@@ -9,8 +9,8 @@ class DocumentHeader extends StatelessWidget {
   final CredentialModel item;
 
   const DocumentHeader({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
   }) : super(key: key);
 
   @override
@@ -30,7 +30,7 @@ class DocumentHeader extends StatelessWidget {
                     text: 'Richard Hooper, MD',
                     style: Theme.of(context)
                         .textTheme
-                        .subtitle1
+                        .subtitle1!
                         .apply(color: Palette.lightGrey),
                   ),
                   const SizedBox(height: 4.0),
@@ -38,7 +38,7 @@ class DocumentHeader extends StatelessWidget {
                     text: 'Internal Medicine',
                     style: Theme.of(context)
                         .textTheme
-                        .bodyText1
+                        .bodyText1!
                         .apply(color: Palette.lightGrey.withOpacity(0.6)),
                   ),
                 ],

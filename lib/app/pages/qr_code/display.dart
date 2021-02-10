@@ -5,8 +5,8 @@ class QrCodeDisplayPage extends StatelessWidget {
   final String data;
 
   const QrCodeDisplayPage({
-    Key key,
-    this.data,
+    Key? key,
+    required this.data,
   }) : super(key: key);
 
   @override

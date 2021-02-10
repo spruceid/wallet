@@ -7,8 +7,8 @@ class _CustomNavIcon extends StatelessWidget {
   final String asset;
 
   const _CustomNavIcon({
-    Key key,
-    this.asset,
+    Key? key,
+    required this.asset,
   }) : super(key: key);
 
   @override
@@ -22,8 +22,8 @@ class _CustomActiveNavIcon extends StatelessWidget {
   final String asset;
 
   const _CustomActiveNavIcon({
-    Key key,
-    this.asset,
+    Key? key,
+    required this.asset,
   }) : super(key: key);
 
   @override
@@ -47,7 +47,7 @@ class CustomNavBar extends BottomNavigationBar {
   static const String assetProfileFilled = 'assets/icon/profile-filled.svg';
 
   CustomNavBar({
-    @required this.index,
+    required this.index,
   }) : super(
           currentIndex: index,
           showSelectedLabels: false,

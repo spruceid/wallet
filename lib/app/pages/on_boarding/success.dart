@@ -7,7 +7,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class OnBoardingSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BaseIllustrationPage(
       asset: 'assets/image/gen.svg',

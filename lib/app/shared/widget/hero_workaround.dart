@@ -5,9 +5,9 @@ class HeroFix extends StatelessWidget {
   final Widget child;
 
   const HeroFix({
-    Key key,
-    this.tag,
-    this.child,
+    Key? key,
+    required this.tag,
+    required this.child,
   }) : super(key: key);
 
   @override

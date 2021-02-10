@@ -7,9 +7,9 @@ class DocumentItemWidget extends StatelessWidget {
   final String value;
 
   const DocumentItemWidget({
-    Key key,
-    this.label,
-    this.value,
+    Key? key,
+    required this.label,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -20,7 +20,7 @@ class DocumentItemWidget extends StatelessWidget {
             text: label,
             style: Theme.of(context)
                 .textTheme
-                .overline
+                .overline!
                 .apply(color: Palette.lightGrey.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
@@ -28,7 +28,7 @@ class DocumentItemWidget extends StatelessWidget {
             text: value,
             style: Theme.of(context)
                 .textTheme
-                .caption
+                .caption!
                 .apply(color: Palette.lightGrey),
           ),
         ],

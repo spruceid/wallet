@@ -8,7 +8,7 @@ class CredentialsGridItem extends StatelessWidget {
   final CredentialModel item;
 
   CredentialsGridItem({
-    @required this.item,
+    required this.item,
   });
 
   Widget get _statusIcon {

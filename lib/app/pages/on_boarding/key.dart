@@ -8,7 +8,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class OnBoardingKeyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       title: localizations.onBoardingKeyTitle,
@@ -45,7 +45,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/recovery');
+                    Modular.to.pushNamed('/on-boarding/recovery');
                   },
                   child: Text(localizations.onBoardingKeyRecover),
                 ),
@@ -71,7 +71,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/gen-phrase');
+                    Modular.to.pushNamed('/on-boarding/gen-phrase');
                   },
                   child: Text(localizations.onBoardingKeyGenerate),
                 ),

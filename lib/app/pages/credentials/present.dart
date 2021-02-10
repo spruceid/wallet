@@ -15,8 +15,8 @@ class CredentialsPresentPage extends StatefulWidget {
   final Uri url;
 
   const CredentialsPresentPage({
-    Key key,
-    @required this.url,
+    Key? key,
+    required this.url,
   }) : super(key: key);
 
   @override
@@ -25,18 +25,20 @@ class CredentialsPresentPage extends StatefulWidget {
 
 class _CredentialsPresentPageState
     extends ModularState<CredentialsPresentPage, ScanBloc> {
+  final VoidCallback goBack = () {
+    Modular.to.pushReplacementNamed('/credentials/list');
+  };
+
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
       padding: const EdgeInsets.all(16.0),
       title: 'Presentation Request',
       titleTrailing: IconButton(
-        onPressed: () {
-          Modular.to.pop();
-        },
+        onPressed: goBack,
         icon: Icon(
           Icons.close,
           color: Palette.text,
@@ -46,7 +48,7 @@ class _CredentialsPresentPageState
         bloc: store,
         listener: (context, state) {
           if (state is ScanStateSuccess) {
-            Modular.to.pop();
+            goBack();
           }
         },
         builder: (context, state) {
@@ -93,7 +95,7 @@ class _CredentialsPresentPageState
                 BaseButton.transparent(
                   borderColor: Palette.blue,
                   onPressed: () {
-                    Modular.to.pushNamed('/credentials/pick',
+                    Modular.to.pushReplacementNamed('/credentials/pick',
                         arguments: <String, dynamic>{
                           'url': widget.url.toString(),
                           'key': 'key',
@@ -105,9 +107,7 @@ class _CredentialsPresentPageState
                 ),
                 const SizedBox(height: 8.0),
                 BaseButton.blue(
-                  onPressed: () {
-                    Modular.to.pop();
-                  },
+                  onPressed: goBack,
                   child: Text(localizations.credentialPresentCancel),
                 ),
               ],

@@ -52,25 +52,25 @@ class CredentialsModule extends Module {
         ),
         ChildRoute(
           '/detail',
-          child: (context, args) => CredentialsDetail(item: args.data),
+          child: (context, args) => CredentialsDetail(item: args!.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(
           '/receive',
-          child: (context, args) => CredentialsReceivePage(url: args.data),
+          child: (context, args) => CredentialsReceivePage(url: args!.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(
           '/present',
-          child: (context, args) => CredentialsPresentPage(url: args.data),
+          child: (context, args) => CredentialsPresentPage(url: args!.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(
-          '/receive',
+          '/pick',
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsPickPage(
               items: items,
-              params: args.data,
+              params: args!.data,
             ),
           ),
           transition: TransitionType.rightToLeftWithFade,

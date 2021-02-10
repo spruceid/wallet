@@ -18,7 +18,7 @@ class QrCodeScanPage extends StatefulWidget {
 
 class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
-  QRViewController controller;
+  late QRViewController controller;
 
   String qrText = '';
   bool flash = false;
@@ -42,7 +42,6 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
 
         controller.scannedDataStream.listen((scanData) async {
           await controller.pauseCamera();
-          print(scanData);
 
           try {
             final uri = Uri.parse(scanData.code);
@@ -156,14 +155,14 @@ class _QrCodeScanPageState extends State<QrCodeScanPage> {
         overlay: QrScannerOverlayShape(
           borderColor: Colors.white70,
         ),
-        onQRViewCreated: _onQRViewCreated(context, localizations),
+        onQRViewCreated: _onQRViewCreated(context, localizations!),
       ),
     );
   }
 
   @override
   void dispose() {
-    controller?.dispose();
+    controller.dispose();
     super.dispose();
   }
 }

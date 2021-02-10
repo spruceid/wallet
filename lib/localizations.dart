@@ -10,7 +10,7 @@ class AppLocalizations {
 
   static Future<AppLocalizations> load(Locale locale) {
     final name =
-        locale.countryCode.isEmpty ? locale.languageCode : locale.toString();
+        locale.countryCode!.isEmpty ? locale.languageCode : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -18,7 +18,7 @@ class AppLocalizations {
     });
   }
 
-  static AppLocalizations of(BuildContext context) {
+  static AppLocalizations? of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 

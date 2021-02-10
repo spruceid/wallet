@@ -14,8 +14,8 @@ class PersonalPage extends StatefulWidget {
   final ProfileModel profile;
 
   const PersonalPage({
-    Key key,
-    @required this.profile,
+    Key? key,
+    required this.profile,
   }) : super(key: key);
 
   @override
@@ -23,28 +23,21 @@ class PersonalPage extends StatefulWidget {
 }
 
 class _PersonalPageState extends State<PersonalPage> {
-  TextEditingController firstNameController;
-  TextEditingController lastNameController;
-  TextEditingController phoneController;
-  TextEditingController locationController;
-  TextEditingController emailController;
+  late TextEditingController firstNameController;
+  late TextEditingController lastNameController;
+  late TextEditingController phoneController;
+  late TextEditingController locationController;
+  late TextEditingController emailController;
 
   @override
   void initState() {
     super.initState();
 
-    firstNameController =
-        TextEditingController(text: widget.profile.firstName ?? '');
-
-    lastNameController =
-        TextEditingController(text: widget.profile.lastName ?? '');
-
-    phoneController = TextEditingController(text: widget.profile.phone ?? '');
-
-    locationController =
-        TextEditingController(text: widget.profile.location ?? '');
-
-    emailController = TextEditingController(text: widget.profile.email ?? '');
+    firstNameController = TextEditingController(text: widget.profile.firstName);
+    lastNameController = TextEditingController(text: widget.profile.lastName);
+    phoneController = TextEditingController(text: widget.profile.phone);
+    locationController = TextEditingController(text: widget.profile.location);
+    emailController = TextEditingController(text: widget.profile.email);
   }
 
   @override
@@ -61,7 +54,7 @@ class _PersonalPageState extends State<PersonalPage> {
             text: 'Save',
             style: Theme.of(context)
                 .textTheme
-                .bodyText1
+                .bodyText1!
                 .apply(color: Palette.blue),
             recognizer: TapGestureRecognizer()
               ..onTap = () {

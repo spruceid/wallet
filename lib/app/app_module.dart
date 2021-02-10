@@ -39,7 +39,7 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/qr-code/display',
-          child: (context, args) => QrCodeDisplayPage(data: args.data),
+          child: (context, args) => QrCodeDisplayPage(data: args!.data),
           transition: TransitionType.fadeIn,
         ),
       ];

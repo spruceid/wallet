@@ -16,8 +16,8 @@ class CredentialsStream extends StatefulWidget {
   final CredentialsStreamBuilder child;
 
   const CredentialsStream({
-    Key key,
-    this.child,
+    Key? key,
+    required this.child,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class _CredentialsStreamState
           BuildContext context,
           AsyncSnapshot<List<CredentialModel>> snapshot,
         ) {
-          final localizations = AppLocalizations.of(context);
+          final localizations = AppLocalizations.of(context)!;
 
           if (snapshot.hasError) {
             return BasePage(
@@ -61,7 +61,7 @@ class _CredentialsStreamState
               ),
             );
           } else {
-            return widget.child(context, snapshot.data);
+            return widget.child(context, snapshot.data!);
           }
         },
       );

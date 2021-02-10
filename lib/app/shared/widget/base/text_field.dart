@@ -6,13 +6,15 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData icon;
   final TextInputType type;
+  final String? error;
 
   const BaseTextField({
-    Key key,
-    @required this.label,
-    @required this.controller,
+    Key? key,
+    required this.label,
+    required this.controller,
     this.icon = Icons.edit,
     this.type = TextInputType.text,
+    this.error,
   }) : super(key: key);
 
   @override
@@ -28,7 +30,7 @@ class BaseTextField extends StatelessWidget {
           bottom: BorderSide(color: Palette.greyPurple),
         ),
       ),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         cursorColor: Palette.text,
         keyboardType: type,
@@ -43,12 +45,13 @@ class BaseTextField extends StatelessWidget {
           fillColor: Palette.text,
           hoverColor: Palette.text,
           focusColor: Palette.text,
+          errorText: error,
           hintText: label,
           hintStyle:
-              Theme.of(context).textTheme.bodyText1.apply(color: Palette.text),
+              Theme.of(context).textTheme.bodyText1!.apply(color: Palette.text),
           labelText: label,
           labelStyle:
-              Theme.of(context).textTheme.bodyText1.apply(color: Palette.text),
+              Theme.of(context).textTheme.bodyText1!.apply(color: Palette.text),
           suffixIcon: Icon(
             icon,
             color: Palette.text.withOpacity(0.4),

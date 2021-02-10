@@ -4,18 +4,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends PreferredSize {
-  final String tag;
+  final String? tag;
   final String title;
-  final Widget leading;
-  final Widget trailing;
+  final Widget? leading;
+  final Widget? trailing;
 
   CustomAppBar({
     this.tag,
-    @required this.title,
+    required this.title,
     this.leading,
     this.trailing,
   }) : super(
-          child: null,
+          child: Container(),
           preferredSize: Size.fromHeight(80.0),
         );
 
@@ -44,10 +44,7 @@ class CustomAppBar extends PreferredSize {
               tag: tag,
               text: title,
               textAlign: TextAlign.center,
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .subtitle1,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
           Material(

@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 
 class DocumentWidget extends StatelessWidget {
   final CredentialModel item;
-  final Widget trailing;
+  final Widget? trailing;
 
   const DocumentWidget({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
     this.trailing,
   }) : super(key: key);
 

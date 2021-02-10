@@ -17,7 +17,7 @@ class OnBoardingTosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context);
+    final localizations = AppLocalizations.of(context)!;
     final scrollController = ScrollController();
 
     return BasePage(
@@ -33,7 +33,7 @@ class OnBoardingTosPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
-                .overline
+                .overline!
                 .apply(color: Palette.text.withOpacity(0.4)),
           )),
           const SizedBox(height: 8.0),
@@ -79,7 +79,7 @@ class OnBoardingTosPage extends StatelessWidget {
                   'By tapping accept  “I  agree to the terms and condition as well as the disclosure of this information',
                   style: Theme.of(context)
                       .textTheme
-                      .bodyText2
+                      .bodyText2!
                       .apply(fontSizeFactor: 0.85),
                 )),
                 const SizedBox(height: 20.0),

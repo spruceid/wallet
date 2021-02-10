@@ -11,12 +11,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 class _BaseItem extends StatefulWidget {
   final Widget child;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
   final bool enabled;
 
   const _BaseItem({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.onTap,
     this.enabled = true,
   }) : super(key: key);
@@ -27,52 +27,54 @@ class _BaseItem extends StatefulWidget {
 
 class __BaseItemState extends State<_BaseItem>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
-  Animation<double> animation;
+  late AnimationController controller;
+  late Animation<double> animation;
 
   @override
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-      duration: Duration(minutes: 4),
-      vsync: this,
-    );
+    // controller = AnimationController(
+    //   duration: Duration(minutes: 4),
+    //   vsync: this,
+    // );
+    //
+    // animation = Tween<double>(begin: 0.0, end: 360.0).animate(controller)
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       controller.forward(from: 0.0);
+    //     }
+    //   });
+    //
+    // controller.forward();
+  }
 
-    animation = Tween<double>(begin: 0.0, end: 360.0).animate(controller)
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          controller.forward(from: 0.0);
-        }
-      });
-
-    controller.forward();
+  @override
+  void dispose() {
+    super.dispose();
+    // controller?.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Opacity(
         opacity: !widget.enabled ? 0.33 : 1.0,
-        child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) => Container(
-            margin: const EdgeInsets.symmetric(vertical: 4.0),
-            decoration: BaseBoxDecoration(
-              color: Palette.darkGreen,
-              shapeColor: Palette.gradientLightGreen.withOpacity(0.2),
-              value: animation.value,
-              anchors: <Alignment>[
-                Alignment.bottomRight,
-              ],
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                  color: Palette.shadow,
-                  offset: Offset(0.0, 2.0),
-                  blurRadius: 2.0,
-                ),
-              ],
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: child,
+        child: Container(
+          margin: const EdgeInsets.symmetric(vertical: 4.0),
+          decoration: BaseBoxDecoration(
+            color: Palette.darkGreen,
+            shapeColor: Palette.gradientLightGreen.withOpacity(0.2),
+            value: 1.0,
+            anchors: <Alignment>[
+              Alignment.bottomRight,
+            ],
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Palette.shadow,
+                offset: Offset(0.0, 2.0),
+                blurRadius: 2.0,
+              ),
+            ],
+            borderRadius: BorderRadius.circular(20.0),
           ),
           child: Material(
             color: Colors.transparent,
@@ -97,11 +99,11 @@ class _LabeledItem extends StatelessWidget {
   final String value;
 
   const _LabeledItem({
-    Key key,
-    @required this.icon,
-    @required this.label,
-    @required this.hero,
-    @required this.value,
+    Key? key,
+    required this.icon,
+    required this.label,
+    required this.hero,
+    required this.value,
   }) : super(key: key);
 
   @override
@@ -142,11 +144,11 @@ class _LabeledItem extends StatelessWidget {
 
 class CredentialsListItem extends StatelessWidget {
   final CredentialModel item;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   CredentialsListItem({
-    Key key,
-    @required this.item,
+    Key? key,
+    required this.item,
     this.onTap,
   }) : super(key: key);
 

@@ -4,8 +4,31 @@ import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class RecoveryPage extends StatelessWidget {
+class RecoveryPage extends StatefulWidget {
+  @override
+  _RecoveryPageState createState() => _RecoveryPageState();
+}
+
+class _RecoveryPageState extends State<RecoveryPage> {
+  late List<String> mnemonic;
+
+  @override
+  void initState() {
+    super.initState();
+    mnemonic = [];
+    loadMnemonic();
+  }
+
+  Future<void> loadMnemonic() async {
+    final storage = FlutterSecureStorage();
+    final phrase = await storage.read(key: 'mnemonic');
+    setState(() {
+      mnemonic = phrase.split(' ');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
@@ -34,20 +57,10 @@ class RecoveryPage extends StatelessWidget {
             runSpacing: 8.0,
             alignment: WrapAlignment.center,
             runAlignment: WrapAlignment.center,
-            children: <Widget>[
-              const PhraseWord(order: 1, word: 'this'),
-              const PhraseWord(order: 2, word: 'is'),
-              const PhraseWord(order: 3, word: 'not'),
-              const PhraseWord(order: 4, word: 'a'),
-              const PhraseWord(order: 5, word: 'real'),
-              const PhraseWord(order: 6, word: 'recovery'),
-              const PhraseWord(order: 7, word: 'phrase'),
-              const PhraseWord(order: 8, word: 'this'),
-              const PhraseWord(order: 9, word: 'is'),
-              const PhraseWord(order: 10, word: 'just'),
-              const PhraseWord(order: 11, word: 'an'),
-              const PhraseWord(order: 12, word: 'example'),
-            ],
+            children: List.generate(
+              mnemonic.length,
+              (i) => PhraseWord(order: i + 1, word: mnemonic[i]),
+            ),
           ),
         ],
       ),

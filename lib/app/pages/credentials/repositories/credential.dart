@@ -22,7 +22,7 @@ class CredentialsRepository extends Disposable {
     return data.map((m) => CredentialModel.fromMap(m.value)).toList();
   }
 
-  Future<CredentialModel> findById(String id) async {
+  Future<CredentialModel?> findById(String id) async {
     final db = await WalletDatabase.db;
     final store = intMapStoreFactory.store('credentials');
     final data = await store.find(

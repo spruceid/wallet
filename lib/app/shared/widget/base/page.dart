@@ -3,7 +3,7 @@ import 'package:credible/app/shared/widget/app_bar.dart';
 import 'package:flutter/material.dart';
 
 class BasePage extends StatelessWidget {
-  final String title;
+  final String? title;
 
   final Widget body;
   final bool scrollView;
@@ -11,14 +11,14 @@ class BasePage extends StatelessWidget {
   final EdgeInsets padding;
   final Color backgroundColor;
 
-  final String titleTag;
-  final Widget titleLeading;
-  final Widget titleTrailing;
+  final String? titleTag;
+  final Widget? titleLeading;
+  final Widget? titleTrailing;
 
-  final Widget navigation;
+  final Widget? navigation;
 
   const BasePage({
-    Key key,
+    Key? key,
     this.backgroundColor = Palette.lightGrey,
     this.title,
     this.titleTag,
@@ -30,7 +30,7 @@ class BasePage extends StatelessWidget {
     ),
     this.scrollView = true,
     this.navigation,
-    this.body,
+    required this.body,
   }) : super(key: key);
 
   @override
@@ -38,9 +38,9 @@ class BasePage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         backgroundColor: backgroundColor,
-        appBar: title != null && title.isNotEmpty
+        appBar: title != null && title!.isNotEmpty
             ? CustomAppBar(
-                title: title,
+                title: title!,
                 tag: titleTag,
                 leading: titleLeading,
                 trailing: titleTrailing,
