@@ -5,10 +5,9 @@ import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class CredentialsPickPage extends StatelessWidget {
+class CredentialsPickPage extends StatefulWidget {
   final List<CredentialModel> items;
   final Map<String, dynamic> params;
   final Map<String, dynamic>? query;
@@ -21,12 +20,17 @@ class CredentialsPickPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _CredentialsPickPageState createState() => _CredentialsPickPageState();
+}
+
+class _CredentialsPickPageState extends State<CredentialsPickPage> {
+  @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
 
-    final filtered = query != null
-        ? items.where((item) {
-            switch (query!['type']) {
+    final filtered = widget.query != null
+        ? widget.items.where((item) {
+            switch (widget.query!['type']) {
               case 'QueryByExample':
                 // TODO: implement QueryByExample
                 // https://w3c-ccg.github.io/vp-request-spec/#query-by-example
@@ -43,63 +47,52 @@ class CredentialsPickPage extends StatelessWidget {
                 return true;
             }
           }).toList()
-        : items;
+        : widget.items;
 
-    return BlocListener(
-      bloc: Modular.get<ScanBloc>(),
-      listener: (context, state) {
-        if (state is ScanStateMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            backgroundColor: state.message.color,
-            content: Text(state.message.message),
-          ));
-        }
-        if (state is ScanStateSuccess) {
+    return BasePage(
+      backgroundColor: Palette.background,
+      title: 'Pick a credential',
+      titleTrailing: IconButton(
+        onPressed: () {
           Modular.to.pushReplacementNamed('/credentials/list');
-        }
-      },
-      child: BasePage(
-        backgroundColor: Palette.background,
-        title: 'Pick a credential',
-        titleTrailing: IconButton(
-          onPressed: () {
-            Modular.to.pushReplacementNamed('/credentials/list');
-          },
-          icon: Icon(
-            Icons.close,
-            color: Palette.text,
+        },
+        icon: Icon(
+          Icons.close,
+          color: Palette.text,
+        ),
+      ),
+      padding: const EdgeInsets.symmetric(
+        vertical: 24.0,
+        horizontal: 16.0,
+      ),
+      body: Column(
+        children: <Widget>[
+          Text(
+            'Choose a credential from your wallet to present',
+            style: Theme.of(context).textTheme.bodyText1,
           ),
-        ),
-        padding: const EdgeInsets.symmetric(
-          vertical: 24.0,
-          horizontal: 16.0,
-        ),
-        body: Column(
-          children: <Widget>[
-            Text(
-              'Choose a credential from your wallet to present',
-              style: Theme.of(context).textTheme.bodyText1,
+          const SizedBox(height: 32.0),
+          ...List.generate(
+            filtered.length,
+            (index) => CredentialsListItem(
+              item: filtered[index],
+              onTap: () {
+                Modular.get<ScanBloc>().add(
+                  ScanEventVerifiablePresentationRequest(
+                    url: widget.params['url'],
+                    key: widget.params['key'],
+                    credential: filtered[index],
+                    challenge: widget.params['challenge'],
+                    domain: widget.params['domain'],
+                  ),
+                );
+                // TODO bloc listener wouldn't work so we're going back as soon
+                // as the event is sent
+                Modular.to.pushReplacementNamed('/credentials/list');
+              },
             ),
-            const SizedBox(height: 32.0),
-            ...List.generate(
-              filtered.length,
-              (index) => CredentialsListItem(
-                item: filtered[index],
-                onTap: () {
-                  Modular.get<ScanBloc>().add(
-                    ScanEventVerifiablePresentationRequest(
-                      url: params['url'],
-                      key: params['key'],
-                      credential: filtered[index],
-                      challenge: params['challenge'],
-                      domain: params['domain'],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

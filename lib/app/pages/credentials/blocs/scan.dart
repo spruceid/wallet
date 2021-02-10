@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:didkit/didkit.dart';
 import 'package:dio/dio.dart';
@@ -95,7 +96,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDID('key', key);
+      final didKey = await DIDKit.keyToDID(Constants.defaultDIDMethod, key);
 
       final credential = await client.post(
         url,
@@ -108,11 +109,13 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       final vcStr = jsonEncode(jsonCredential);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+      await Future.delayed(Duration(seconds: 1));
+      // TODO [bug] verification fails here for unknown reason
       final verification = await DIDKit.verifyCredential(vcStr, optStr);
 
       print('[credible/credential-offer/verify/vc] $vcStr');
       print('[credible/credential-offer/verify/options] $optStr');
-      print('[credible/credential-offer/verify/result] $optStr');
+      print('[credible/credential-offer/verify/result] $verification');
 
       final jsonVerification = jsonDecode(verification);
 
@@ -138,13 +141,13 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         yield ScanStateMessage(
             StateMessage.error('Failed to verify credential. '
                 'Check the logs for more information.'));
-      } else {
-        final repository = Modular.get<CredentialsRepository>();
-        await repository.insert(jsonCredential);
-
-        yield ScanStateMessage(StateMessage.success(
-            'A new credential has been successfully added!'));
       }
+
+      final repository = Modular.get<CredentialsRepository>();
+      await repository.insert(jsonCredential);
+
+      yield ScanStateMessage(StateMessage.success(
+          'A new credential has been successfully added!'));
     } catch (e) {
       log(
         'something went wrong',
@@ -159,8 +162,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     await Modular.get<WalletBloc>().findAll();
 
+    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
 
+    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 
@@ -176,9 +181,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     try {
       final storage = FlutterSecureStorage();
       final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDID('key', key);
+      final didKey = await DIDKit.keyToDID(Constants.defaultDIDMethod, key);
       final verificationMethod =
-          await DIDKit.keyToVerificationMethod('key', key);
+          await DIDKit.keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await DIDKit.issuePresentation(
@@ -218,8 +223,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
               'Check the logs for more information.'));
     }
 
+    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateSuccess();
 
+    await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
   }
 }
