@@ -6,7 +6,31 @@ Check out the Credible documentation [here](https://spruceid.dev/docs/credible/)
 
 # Credible
 
-Credible is a lightweight, app-store-approved wallet for individuals to manage DIDs and VCs from their mobile phones. It is white-label friendly, open-source, and build on our core SSI libraries.  Over time, we expect to integrate many DID methods and presentation protocols to make this the wallet fully-featured without being ledger-bound or vendor-favoring.
+Credible is a native mobile wallet that supports W3C Verifiable Credentials and
+Decentralized Identifiers built on [DIDKit](https://github.com/spruceid/didkit)
+and [Flutter](https://flutter.dev/). We packaged the DIDKit library written in
+Rust into a Flutter application running on both Android and iOS, using C
+bindings and Dart’s FFI capabilities. This is the wallet counterpart to the
+rich, growing toolkit supplied by DIDKit, the two pillars of a reference
+architecture for creating trusted interactions at scale.
+
+## Maturiy disclaimer
+In the v0.1 release on February 10, 2021, Credible has not yet undergone a
+formal security audit and to desired levels of confidence for suitable use in
+production systems. This implementation is currently suitable for exploratory
+work and experimentation only. We welcome feedback on the usability,
+architecture, and security of this implementation and are committed to a
+conducting a formal audit with a reputable security firm before the v1.0
+release. We are also working on large stability improvements through a
+continuous integration testing process across Android and iOS.
+
+We are setting up a process to accept contributions. Please feel free to open
+issues or PRs in the interim, but we cannot merge external changes until this
+process is in place.
+
+We are also in the process of listing Credible on the iOS TestFlight and
+Android Play Beta programs, and eventually their respective app marketplaces
+plus F-Droid.
 
 ## Getting Started
 Regardless of target platform manual build of this project has the 
