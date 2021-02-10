@@ -11,9 +11,11 @@ packages:
   bip39:
     dependency: "direct main"
     description:
-      path: "../bip39"
-      relative: true
-    source: path
+      path: "."
+      ref: nullsafety
+      resolved-ref: "55242396a50991f9199803bd7aa4440eac0462f6"
+      url: "https://github.com/theosirian/bip39"
+    source: git
     version: "1.0.4"
   bloc:
     dependency: "direct main"
