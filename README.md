@@ -14,7 +14,7 @@ bindings and Dart’s FFI capabilities. This is the wallet counterpart to the
 rich, growing toolkit supplied by DIDKit, the two pillars of a reference
 architecture for creating trusted interactions at scale.
 
-## Maturiy disclaimer
+## Maturity disclaimer
 In the v0.1 release on February 10, 2021, Credible has not yet undergone a
 formal security audit and to desired levels of confidence for suitable use in
 production systems. This implementation is currently suitable for exploratory
