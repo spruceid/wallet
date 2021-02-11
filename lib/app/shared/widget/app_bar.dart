@@ -37,8 +37,8 @@ class CustomAppBar extends PreferredSize {
             padding: const EdgeInsets.only(
               top: 12.0,
               bottom: 16.0,
-              left: 8.0,
-              right: 8.0,
+              left: 64.0,
+              right: 64.0,
             ),
             child: TooltipText(
               tag: tag,
@@ -49,6 +49,7 @@ class CustomAppBar extends PreferredSize {
           ),
           Material(
             color: Colors.transparent,
+            type: MaterialType.transparency,
             child: Container(
               alignment: Alignment.bottomCenter,
               padding: const EdgeInsets.only(
