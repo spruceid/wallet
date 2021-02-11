@@ -33,54 +33,112 @@ Android Play Beta programs, and eventually their respective app marketplaces
 plus F-Droid.
 
 ## Getting Started
-Regardless of target platform manual build of this project has the 
-following dependencies:
+To manually build Credible for either Android or iOS, you will need to install
+the following dependencies:
 
-* A nightly build of the rust compiler, most easily obtained using
-  [rustup](https://www.rust-lang.org/tools/install). Once installed, 
-  nightly can be enabled globally using:
+- Rust (`nightly`)
+- Java 7 or higher
+- Flutter (`dev` channel)
+- `DIDKit`/`SSI`
+
+### Rust
+
+It is recommended to use [rustup](https://www.rust-lang.org/tools/install) to
+manage your Rust installation.
+
+To use the `nightly` version of Rust globally, you should execute the following
+command:
 
 ```bash
 $ rustup default nightly 
 ```
 
-Or on a per-project level by running the following in the root of the 
-targeted cargo project:
+Or, if you would prefer to configure `nightly` for a single project, you should
+execute the following command at its root (where `Cargo.toml` lives).
 
 ```bash
 $ rustup override set nightly
 ```
-* Java 7 or higher
 
-* [Flutter](https://flutter.dev/docs/get-started/install) set to the 
-  dev channel. This is done on *nix type systems after installation 
-  by running:
+### Java
+
+On Ubuntu you could run:
+
+```bash
+# apt update
+# apt install openjdk-8-jdk
+```
+
+For more information, please refer to the documentation of your favorite flavour
+of Java and your operating system/package manager.
+
+### Flutter
+
+Please follow the official instalation instructions available 
+[here](https://flutter.dev/docs/get-started/install) to install Flutter,
+don't forget to also install the build dependencies for the platform you
+will be building (Android SDK/NDK, Xcode, etc).
+
+We currently only support build this project using the `dev` channel of Flutter.
+
+To change your installation to the `dev` channel, please execute the following command:
+
 ```bash
 $ flutter channel dev
 $ flutter upgrade
 ```
 
-This project also depends on two other Spruce projects, `didkit` and `ssi`.
-[DIDKit](https://github.com/spruceid/didkit), which in turn depends on
-[ssi](https://github.com/spruceid/ssi). 
+To confirm that everything is setup correctly, please run the following command
+and resolve any issues that arise before proceeding to the next steps.
 
-To work with build scripts depending on relative paths, created a 
-directory named something like `spruceid` and clone `credible`, `didkit`, 
-and `ssi` next to eachother.
+```bash
+$ flutter doctor
+```
 
-### Android Specific Instructions: 
-Android builds have the additional requirement of:
+### DIDKit and SSI
 
-[Android Studio](https://developer.android.com/studio/install) which must be
+This project also depends on two other Spruce projects, [`DIDKit`](https://github.com/spruceid/didkit)
+and [`SSI`](https://github.com/spruceid/ssi). 
+
+These projects are all configured to work with relative paths by default,
+so it is recommended to clone them all under the same root directory, for example
+`$HOME/spruceid/{didkit,ssi,credible}`.
+
+## Platform Specific Instructions
+
+### Android 
+
+To build Credible for Android, you will require both the Android SDK and NDK.
+
+These two dependencies can be easily obtained with
+[Android Studio](https://developer.android.com/studio/install), which when
+first openened 
 installed, then opened for the first time to allow further dependencies to be
 installed. Addiontally, requires the installation of Android NDK in Android 
 Studio by going to Settings > Appearance & Behavior > System Settings > 
 Android SDK. Select and install the NDK (Side by Side).
 
-After that, the following will need to be run from the root of `didkit`:
-(Note, this may take some time as it runs several builds for different targets)
+If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
+`ANDROID_SDK_ROOT` like so:
+
 ```bash
-$ export ANDROID_SDK_ROOT=/path/to/Android/sdk
+$ export ANDROID_SDK_ROOT=/path/to/Android/Sdk
+```
+
+If for some reason your `build-tools` and/or `NDK` also live in different
+locations, you can also configure the following two environment variables:
+
+```bash
+$ export ANDROID_TOOLS=/path/to/build-tools
+$ export ANDROID_NDK_HOME=/path/to/ndk
+```
+
+#### Building DIDKit
+
+To build `DIDKit` for the Android targets, you will go to the root of `DIDKit`
+and run:
+
+```bash
 $ make -C lib install-rustup-android
 $ make -C lib ../target/test/java.stamp
 $ make -C lib ../target/test/aar.stamp
@@ -88,47 +146,87 @@ $ make -C lib ../target/test/flutter.stamp
 $ cargo build
 ```
 
-### iOS Specific Instructions:
-iOS builds have the additional requirement of cocoapods, which can 
-be installed on MacOS using `brew`:
+*This may take some time as it compiles the entire project for multiple targets*
+
+### iOS
+
+To build Credible for iOS you will need to install CocoaPods, which can be done
+with Homebrew on MacOS.
+
 ```bash
 $ brew install cocoapods
 ```
 
-If building for iOS, the following will need to be run from the root of `didkit`:
-(Note, this may take some time as it runs several builds for different targets)
+#### Building DIDKit
+
+To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and
+run: 
+
 ```bash
 $ make -C lib install-rustup-ios 
 $ make -C lib ../target/test/ios.stamp
 $ cargo build
 ```
 
-### Platform agnostic final steps:
-Regardless of platform, run the following:
-```bash
-$ flutter doctor
-```
-If any issues are detected, please resolve them before proceeding.
+*This may take some time as it compiles the entire project for multiple targets*
 
-Then, to build the flutter artifacts, run one of the following
-commands from the root of the `credible` repository to either build
-or run the app on an emulator/connected dev-device:
+## Building
 
+You are now ready to build Credible.
+
+If you want to run the project on your connected device, you can use:
 ```bash
-$ flutter build apk --no-sound-null-safety                            # Android APK
-$ flutter build appbundle --no-sound-null-safety                      # Android Appbundle
-$ flutter build ios --no-sound-null-safety --no-codesign --simulator  # iOS for simulator
 $ flutter run  --no-sound-null-safety                                 # Run on emulator
 ```
 
-(NOTE: While our implmentation uses sound null safety, we enable the `--no-sound-null-safely` flag because some 
-dependencies currently do not)
+Otherwise, Flutter allows us to build many artifacts for Android and iOS, below you can
+find the most common and useful commands, all of which you should run from the root of
+Credible.
 
-If any errors are encountered, the first thing to try is running
+### Android APK
+```bash
+$ flutter build apk --no-sound-null-safety
+```
+
+### Android App Bundle
+```bash
+$ flutter build appbundle --no-sound-null-safety
+```
+
+### iOS .app for Simulator
+```bash
+$ flutter build ios --no-sound-null-safety --no-codesign --simulator
+```
+
+### iOS .app for Devices
+```bash
+$ flutter build ios --no-sound-null-safety --no-codesign
+```
+
+### iOS IPA
+```bash
+$ flutter build ipa --no-sound-null-safety
+```
+
+For more details about any of these commands you can run
+```bash
+$ flutter build $SUBCOMMAND --help
+```
+
+### Note about `nullsafety`
+While we are ready to migrate to Dart with nullsafety, a couple of the dependencies of
+the project are still lagging behind, so we need to add `--no-sound-null-safely` to both
+run and build commands for the time being.
+
+### Troubleshooting
+
+If you encounter any errors in the build process described here, please first try
+clean builds of the projects listed.
+
+For instance, on Flutter, you can delete build files to start over by running:
 ```bash
 $ flutter clean
 ```
-From the root of `credible` then retrying the build or run.
 
 ## Supported Protocols
 
