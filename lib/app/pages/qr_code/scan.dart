@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:credible/app/pages/qr_code/widget/host_dialog.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +57,16 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
       final acceptHost = await showDialog<bool>(
             context: context,
-            builder: (BuildContext context) => HostDialog(host: uri.host),
+            builder: (BuildContext context) {
+              final localizations = AppLocalizations.of(context)!;
+
+              return ConfirmDialog(
+                title: 'Do you trust this host?',
+                subtitle: uri.host,
+                yes: localizations.communicationHostAllow,
+                no: localizations.communicationHostDeny,
+              );
+            },
           ) ??
           false;
 
