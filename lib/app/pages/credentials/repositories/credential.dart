@@ -37,6 +37,20 @@ class CredentialsRepository extends Disposable {
     return CredentialModel.fromMap(data.first.value);
   }
 
+  Future<bool> deleteById(String id) async {
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    final data = await store.delete(
+      db,
+      finder: Finder(
+        filter: Filter.equals('id', id),
+        limit: 1,
+      ),
+    );
+
+    return data > 0;
+  }
+
   Future<int> insert(Map<String, dynamic> data) async {
     final db = await WalletDatabase.db;
     final store = intMapStoreFactory.store('credentials');

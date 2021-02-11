@@ -17,6 +17,11 @@ class WalletBloc extends Disposable {
         .then((values) => credentials$.add(values));
   }
 
+  Future deleteById(String id) async {
+    await repository.deleteById(id);
+    await findAll();
+  }
+
   @override
   void dispose() {
     credentials$.close();
