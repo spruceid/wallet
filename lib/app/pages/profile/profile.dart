@@ -5,6 +5,7 @@ import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
 import 'package:didkit/didkit.dart';
@@ -97,7 +98,15 @@ class _ProfilePageState extends State<ProfilePage> {
               MenuItem(
                 icon: Icons.vpn_key,
                 title: 'Recovery',
-                onTap: () => Modular.to.pushNamed('/profile/recovery'),
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) => InfoDialog(
+                      title: 'Unavailable Feature',
+                      subtitle: "This feature isn't supported yet",
+                    ),
+                  );
+                },
               ),
               MenuItem(
                 icon: Icons.support,

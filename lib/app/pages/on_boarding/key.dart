@@ -1,5 +1,6 @@
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +46,13 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushNamed('/on-boarding/recovery');
+                    showDialog(
+                      context: context,
+                      builder: (context) => InfoDialog(
+                        title: 'Unavailable Feature',
+                        subtitle: "This feature isn't supported yet",
+                      ),
+                    );
                   },
                   child: Text(localizations.onBoardingKeyRecover),
                 ),
@@ -71,7 +78,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushNamed('/on-boarding/gen-phrase');
+                    Modular.to.pushNamed('/on-boarding/gen');
                   },
                   child: Text(localizations.onBoardingKeyGenerate),
                 ),
