@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/verification_state.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
@@ -26,16 +28,10 @@ class CredentialsDetail extends StatefulWidget {
   _CredentialsDetailState createState() => _CredentialsDetailState();
 }
 
-enum VerificationState {
-  Unverified,
-  Verified,
-  VerifiedWithWarning,
-  VerifiedWithError,
-}
-
-class _CredentialsDetailState extends State<CredentialsDetail> {
+class _CredentialsDetailState
+    extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
-  VerificationState verified = VerificationState.Unverified;
+  VerificationState verification = VerificationState.Unverified;
 
   @override
   void initState() {
@@ -46,60 +42,21 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
   void verify() async {
     final vcStr = jsonEncode(widget.item.data);
     final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-    final verification = await DIDKit.verifyCredential(vcStr, optStr);
-    final jsonVerification = jsonDecode(verification);
+    final result = await DIDKit.verifyCredential(vcStr, optStr);
+    final jsonResult = jsonDecode(result);
 
-    if (jsonVerification['warnings'].isNotEmpty) {
+    if (jsonResult['warnings'].isNotEmpty) {
       setState(() {
-        verified = VerificationState.VerifiedWithWarning;
+        verification = VerificationState.VerifiedWithWarning;
       });
-    } else if (jsonVerification['errors'].isNotEmpty) {
+    } else if (jsonResult['errors'].isNotEmpty) {
       setState(() {
-        verified = VerificationState.VerifiedWithError;
+        verification = VerificationState.VerifiedWithError;
       });
     } else {
       setState(() {
-        verified = VerificationState.Verified;
+        verification = VerificationState.Verified;
       });
-    }
-  }
-
-  String verifyMessage(VerificationState verify) {
-    switch (verify) {
-      case VerificationState.Unverified:
-        return 'Verifying...';
-      case VerificationState.Verified:
-        return 'Verified';
-      case VerificationState.VerifiedWithWarning:
-        return 'Verified (with warnings)';
-      case VerificationState.VerifiedWithError:
-        return 'Failed verification';
-    }
-  }
-
-  IconData verifyIcon(VerificationState verify) {
-    switch (verify) {
-      case VerificationState.Unverified:
-        return Icons.refresh;
-      case VerificationState.Verified:
-        return Icons.check_circle_outline;
-      case VerificationState.VerifiedWithWarning:
-        return Icons.warning_amber_outlined;
-      case VerificationState.VerifiedWithError:
-        return Icons.error_outline;
-    }
-  }
-
-  Color verifyColor(VerificationState verify) {
-    switch (verify) {
-      case VerificationState.Unverified:
-        return Colors.black;
-      case VerificationState.Verified:
-        return Colors.green;
-      case VerificationState.VerifiedWithWarning:
-        return Colors.orange;
-      case VerificationState.VerifiedWithError:
-        return Colors.red;
     }
   }
 
@@ -159,7 +116,7 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
               ),
             ),
             const SizedBox(height: 64.0),
-            if (verified == VerificationState.Unverified)
+            if (verification == VerificationState.Unverified)
               Center(child: CircularProgressIndicator())
             else ...<Widget>[
               Center(
@@ -173,16 +130,16 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
-                    verifyIcon(verified),
-                    color: verifyColor(verified),
+                    verification.icon,
+                    color: verification.color,
                   ),
                   const SizedBox(width: 8.0),
                   Text(
-                    verifyMessage(verified),
+                    verification.message,
                     style: Theme.of(context)
                         .textTheme
                         .caption!
-                        .apply(color: verifyColor(verified)),
+                        .apply(color: verification.color),
                   ),
                 ],
               ),
@@ -196,7 +153,8 @@ class _CredentialsDetailState extends State<CredentialsDetail> {
                 ),
               ),
               onPressed: () {
-                // TODO implement deletion
+                store.deleteById(widget.item.id);
+                Modular.to.pop();
               },
               child: Text(
                 localizations.credentialDetailDelete,
