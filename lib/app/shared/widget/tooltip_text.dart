@@ -11,6 +11,8 @@ class TooltipText extends StatelessWidget {
   final TextStyle? style;
   final TextAlign textAlign;
 
+  final bool softWrap;
+
   const TooltipText({
     Key? key,
     this.tag,
@@ -19,6 +21,7 @@ class TooltipText extends StatelessWidget {
     this.maxLines = 1,
     this.style,
     this.textAlign = TextAlign.start,
+    this.softWrap = false,
   }) : super(key: key);
 
   @override
@@ -28,9 +31,9 @@ class TooltipText extends StatelessWidget {
       child: Text(
         text,
         textAlign: textAlign,
-        overflow: TextOverflow.ellipsis,
+        overflow: TextOverflow.fade,
         maxLines: maxLines,
-        softWrap: false,
+        softWrap: softWrap,
         style: style,
       ),
     );
