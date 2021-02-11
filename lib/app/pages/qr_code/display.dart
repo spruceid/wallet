@@ -13,16 +13,15 @@ class QrCodeDisplayPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BasePage(
-        title: '',
-        titleTrailing: BackLeadingButton(),
-        body: Scaffold(
-          body: Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(32.0),
-            child: QrImage(
-              data: data,
-              version: QrVersions.auto,
-            ),
+        title: 'QRCode',
+        titleLeading: BackLeadingButton(),
+        scrollView: false,
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(32.0),
+          child: QrImage(
+            data: data,
+            version: QrVersions.auto,
           ),
         ),
       );
