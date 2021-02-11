@@ -100,7 +100,6 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           ));
         }
         if (state is QRCodeStateHost) {
-          print('how many times');
           promptHost(state.uri);
         }
         if (state is QRCodeStateUnknown) {
