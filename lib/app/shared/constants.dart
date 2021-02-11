@@ -1,3 +1,3 @@
 class Constants {
-  static final String defaultDIDMethod = 'key';
+  static final String defaultDIDMethod = 'tz';
 }
