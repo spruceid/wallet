@@ -8,6 +8,7 @@ import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
 import 'package:didkit/didkit.dart';
@@ -57,6 +58,23 @@ class _CredentialsDetailState
       setState(() {
         verification = VerificationState.Verified;
       });
+    }
+  }
+
+  void delete() async {
+    final confirm = await showDialog<bool>(
+          context: context,
+          builder: (BuildContext context) => ConfirmDialog(
+            title: 'Do you really want to delete this credential?',
+            yes: 'Yes',
+            no: 'No',
+          ),
+        ) ??
+        false;
+
+    if (confirm) {
+      await store.deleteById(widget.item.id);
+      Modular.to.pop();
     }
   }
 
@@ -152,10 +170,7 @@ class _CredentialsDetailState
                   vertical: 16.0,
                 ),
               ),
-              onPressed: () {
-                store.deleteById(widget.item.id);
-                Modular.to.pop();
-              },
+              onPressed: delete,
               child: Text(
                 localizations.credentialDetailDelete,
                 style: Theme.of(context)
