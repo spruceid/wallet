@@ -21,6 +21,9 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
 
   Future<void> generateKey() async {
     final storage = FlutterSecureStorage();
+    // final mnemonic = await storage.read(key: 'mnemonic');
+    // final entropy = bip39.mnemonicToSeedHex(mnemonic);
+    // final key = await DIDKit.generateEd25519KeyFromSecret(entropy.substring(0, 32));
 
     // final mnemonic = await storage.read(key: 'mnemonic');
     // final entropy = bip39.mnemonicToSeedHex(mnemonic);

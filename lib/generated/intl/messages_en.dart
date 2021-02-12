@@ -21,5 +21,6 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
 
+  // ignore: always_declare_return_types
   static _notInlinedMessages(_) => <String, Function>{};
 }
