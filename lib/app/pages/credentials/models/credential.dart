@@ -17,15 +17,25 @@ class CredentialModel {
   });
 
   factory CredentialModel.fromMap(Map<String, dynamic> m) {
-    final exp = DateTime.parse(m['expirationDate']);
+    assert(m.containsKey('id'));
+    assert(m.containsKey('issuer'));
+
+    late final status;
+
+    if (m.containsKey('expirationDate')) {
+      final exp = DateTime.parse(m['expirationDate']);
+      status = exp.isAfter(DateTime.now())
+          ? CredentialStatus.active
+          : CredentialStatus.expired;
+    } else {
+      status = CredentialStatus.active;
+    }
 
     return CredentialModel(
       id: m['id'],
       issuer: m['issuer'],
       image: '',
-      status: exp.isAfter(DateTime.now())
-          ? CredentialStatus.active
-          : CredentialStatus.expired,
+      status: status,
       data: m,
     );
   }
