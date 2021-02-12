@@ -30,14 +30,8 @@ class Brand extends StatelessWidget {
           HeroFix(
             tag: 'splash/icon',
             child: Container(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.2,
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.2,
+              width: MediaQuery.of(context).size.width * 0.2,
+              height: MediaQuery.of(context).size.width * 0.2,
               child: SvgPicture.asset('assets/brand/logo-circular.svg'),
             ),
           ),

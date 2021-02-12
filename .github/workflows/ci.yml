@@ -1,0 +1,229 @@
+name: Flutter Android CI/CD
+
+# This workflow is triggered on pushes to the repository.
+
+on:
+  push:
+    branches:
+      - main
+      - e2etests
+  pull_request:
+
+env:
+  flutter_version: "1.27.0-1.0.pre"
+  didkit_version: "0.1.0"
+  ssi_version: "0.1.0"
+
+jobs:
+  android_ci:
+    # This job will run on macos virtual machine
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: main
+
+    - name: Cache didkit
+      uses: actions/cache@v2
+      id: cache-didkit
+      with:
+        path: didkit
+        key: ${{ runner.os }}-${{ env.didkit_version }}
+
+    - name: Cache ssi
+      uses: actions/cache@v2
+      id: cache-ssi
+      with:
+        path: ssi
+        key: ${{ runner.os }}-${{ env.ssi_version }}
+
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v1
+      id: cache-flutter
+      with:
+        path: /opt/hostedtoolcache/flutter
+        key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
+
+    # Clones didkit
+    - name: Clone didkit
+      uses: actions/checkout@v2
+      with:
+        repository: spruceid/didkit
+        path: didkit
+
+    # Clones ssi
+    - name: Clone SSI
+      uses: actions/checkout@v2
+      with:
+        repository: spruceid/ssi
+        path: ssi
+        submodules: 'recursive'
+
+    # Setup Java environment in order to build the Android app.
+    - name: SETUP | Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    # Setup the flutter environment.
+    - name: SETUP | Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'dev'
+
+    - name: SETUP | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: nightly
+  
+    - name: DIDKIT | rustup android
+      working-directory: ./didkit
+      run: make -C lib install-rustup-android
+
+    - name: DIDKIT | java.stamp
+      working-directory: ./didkit
+      run: make -C lib ../target/test/java.stamp
+
+    - name: DIDKIT | aar.stamp
+      working-directory: ./didkit
+      run: make -C lib ../target/test/aar.stamp
+
+    - name: DIDKIT | flutter.stamp
+      working-directory: ./didkit
+      run: make -C lib ../target/test/flutter.stamp
+
+    - name: DIDKIT | cargo build
+      working-directory: ./didkit
+      run: cargo build
+
+    - name: FLUTTER | pub get
+      working-directory: ./main
+      run: flutter pub get
+    # Check for any formatting issues in the code.
+    - name: FLUTTER | format
+      working-directory: ./main
+      run: flutter format --set-exit-if-changed .
+
+    # Statically analyze the Dart code for any errors.
+    - name: FLUTTER | analyze
+      working-directory: ./main
+      run: flutter analyze .
+
+    # Run widget tests for our flutter project.
+    - name: FLUTTER | test
+      working-directory: ./main
+      run: flutter test test/
+  
+  ios_ci:
+    # This job will run on macos virtual machine
+    runs-on: macos-latest
+    steps:
+      
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        path: main
+
+    - name: Cache didkit
+      uses: actions/cache@v2
+      id: cache-didkit
+      with:
+        path: didkit
+        key: ${{ runner.os }}-${{ env.didkit_version }}
+
+    - name: Cache ssi
+      uses: actions/cache@v2
+      id: cache-ssi
+      with:
+        path: ssi
+        key: ${{ runner.os }}-${{ env.ssi_version }}
+
+    - name: Cache Flutter dependencies
+      uses: actions/cache@v1
+      id: cache-flutter
+      with:
+        path: /opt/hostedtoolcache/flutter
+        key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
+
+    # Clones didkit
+    - name: Clone didkit
+      uses: actions/checkout@v2
+      with:
+        repository: spruceid/didkit
+        path: didkit
+
+    # Clones ssi
+    - name: Clone SSI
+      uses: actions/checkout@v2
+      with:
+        repository: spruceid/ssi
+        path: ssi
+        submodules: 'recursive'
+
+    # Setup Java environment in order to build the Android app.
+    - name: SETUP | Java
+      uses: actions/setup-java@v1
+      with:
+        java-version: '12.x'
+    # Setup the flutter environment.
+    - name: SETUP | Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        channel: 'dev'
+
+    - name: SETUP | Rust
+      uses: ATiltedTree/setup-rust@v1
+      with:
+        rust-version: nightly
+  
+    - name: DIDKIT | rustup ios
+      working-directory: ./didkit
+      run: make -C lib install-rustup-ios
+
+    - name: DIDKIT | ios.stamp
+      working-directory: ./didkit
+      run: make -C lib ../target/test/ios.stamp
+
+    - name: DIDKIT | cargo build
+      working-directory: ./didkit
+      run: cargo build
+
+    - name: FLUTTER | pub get
+      working-directory: ./main
+      run: flutter pub get
+
+    # Check for any formatting issues in the code.
+    - name: FLUTTER | format
+      working-directory: ./main
+      run: flutter format --set-exit-if-changed .
+
+    # Statically analyze the Dart code for any errors.
+    - name: FLUTTER | analyze
+      working-directory: ./main
+      run: flutter analyze .
+
+    # Run widget tests for our flutter project.
+    - name: FLUTTER | test
+      working-directory: ./main
+      run: flutter test test/
+
+    # # Build apk.
+    # - run: flutter build apk --release --no-sound-null-safety
+    
+    # # Upload generated apk to the artifacts.
+    # - name: Upload apk
+    # - uses: actions/upload-artifact@v1
+    #   with:
+    #     name: release-apk
+    #     path: build/app/outputs/apk/release/app-release.apk
+    
+    # # Build ipa.
+    # - run: flutter build ios --release --no-codesign --no-sound-null-safety
+        
+    # # Upload generated apk to the artifacts.
+    # - name: Upload IPA
+    #   uses: actions/upload-artifact@v1
+    #   with:
+    #     name: ios-build
+    #     path: build/ios/iphoneos

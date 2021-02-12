@@ -19,10 +19,12 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'pt_BR';
 
+  // ignore: always_declare_return_types
   static m0(issuer) => "emitido por ${issuer}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
 
+  // ignore: always_declare_return_types
   static _notInlinedMessages(_) => <String, Function>{
         "credentialDetailIssuedBy": m0,
         "credentialListTitle":

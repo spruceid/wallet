@@ -3,7 +3,6 @@ import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/list_item.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -26,8 +25,6 @@ class CredentialsPickPage extends StatefulWidget {
 class _CredentialsPickPageState extends State<CredentialsPickPage> {
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
-
     final filtered = widget.query != null
         ? widget.items.where((item) {
             switch (widget.query!['type']) {
