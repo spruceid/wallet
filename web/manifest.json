@@ -1,0 +1,18 @@
+{
+    "name": "credible",
+    "short_name": "credible",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Credible Wallet",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false,
+    "icons": [
+        {
+            "src": "icons/Icon-332.png",
+            "sizes": "332x332",
+            "type": "image/png"
+        }
+    ]
+}

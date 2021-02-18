@@ -1,4 +1,6 @@
 import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/widget/info_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,7 +39,7 @@ class _CustomActiveNavIcon extends StatelessWidget {
       );
 }
 
-class CustomNavBar extends BottomNavigationBar {
+class CustomNavBar extends StatelessWidget {
   final int index;
 
   static const String assetWallet = 'assets/icon/wallet.svg';
@@ -46,41 +48,58 @@ class CustomNavBar extends BottomNavigationBar {
   static const String assetProfile = 'assets/icon/profile.svg';
   static const String assetProfileFilled = 'assets/icon/profile-filled.svg';
 
-  CustomNavBar({
+  const CustomNavBar({
+    Key? key,
     required this.index,
-  }) : super(
-          currentIndex: index,
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          onTap: (index) {
-            switch (index) {
-              case 0:
-                Modular.to.pushReplacementNamed('/credentials');
-                break;
-              case 1:
-                Modular.to.pushReplacementNamed('/qr-code/scan');
-                break;
-              case 2:
-                Modular.to.pushReplacementNamed('/profile');
-                break;
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BottomNavigationBar(
+      currentIndex: index,
+      showSelectedLabels: false,
+      showUnselectedLabels: false,
+      onTap: (index) {
+        switch (index) {
+          case 0:
+            Modular.to.pushReplacementNamed('/credentials');
+            break;
+          case 1:
+            if (kIsWeb) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) => InfoDialog(
+                  title: 'Unavailable Feature',
+                  subtitle: 'This feature is not available on the browser',
+                  button: 'Ok',
+                ),
+              );
+            } else {
+              Modular.to.pushReplacementNamed('/qr-code/scan');
             }
-          },
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              label: 'Wallet',
-              icon: _CustomNavIcon(asset: assetWallet),
-              activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
-            ),
-            BottomNavigationBarItem(
-              label: 'QR Code',
-              icon: _CustomNavIcon(asset: assetQrCode),
-              activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
-            ),
-            BottomNavigationBarItem(
-              label: 'Profile',
-              icon: _CustomNavIcon(asset: assetProfile),
-              activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
-            ),
-          ],
-        );
+            break;
+          case 2:
+            Modular.to.pushReplacementNamed('/profile');
+            break;
+        }
+      },
+      items: <BottomNavigationBarItem>[
+        BottomNavigationBarItem(
+          label: 'Wallet',
+          icon: _CustomNavIcon(asset: assetWallet),
+          activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
+        ),
+        BottomNavigationBarItem(
+          label: 'QR Code',
+          icon: _CustomNavIcon(asset: assetQrCode),
+          activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
+        ),
+        BottomNavigationBarItem(
+          label: 'Profile',
+          icon: _CustomNavIcon(asset: assetProfile),
+          activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
+        ),
+      ],
+    );
+  }
 }

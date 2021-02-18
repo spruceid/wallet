@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/shared/model/message.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 abstract class ProfileEvent {}
 
@@ -49,14 +49,19 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       yield ProfileStateWorking();
 
-      final storage = FlutterSecureStorage();
-
       final firstName =
-          await storage.read(key: ProfileModel.firstNameKey) ?? '';
-      final lastName = await storage.read(key: ProfileModel.lastNameKey) ?? '';
-      final phone = await storage.read(key: ProfileModel.phoneKey) ?? '';
-      final location = await storage.read(key: ProfileModel.locationKey) ?? '';
-      final email = await storage.read(key: ProfileModel.emailKey) ?? '';
+          await SecureStorageProvider.instance.get(ProfileModel.firstNameKey) ??
+              '';
+      final lastName =
+          await SecureStorageProvider.instance.get(ProfileModel.lastNameKey) ??
+              '';
+      final phone =
+          await SecureStorageProvider.instance.get(ProfileModel.phoneKey) ?? '';
+      final location =
+          await SecureStorageProvider.instance.get(ProfileModel.locationKey) ??
+              '';
+      final email =
+          await SecureStorageProvider.instance.get(ProfileModel.emailKey) ?? '';
 
       final model = ProfileModel(
         firstName: firstName,
@@ -85,28 +90,25 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     try {
       yield ProfileStateWorking();
 
-      final storage = FlutterSecureStorage();
-
-      await storage.write(
-        key: ProfileModel.firstNameKey,
-        value: event.model.firstName,
+      await SecureStorageProvider.instance.set(
+        ProfileModel.firstNameKey,
+        event.model.firstName,
       );
-
-      await storage.write(
-        key: ProfileModel.lastNameKey,
-        value: event.model.lastName,
+      await SecureStorageProvider.instance.set(
+        ProfileModel.lastNameKey,
+        event.model.lastName,
       );
-      await storage.write(
-        key: ProfileModel.phoneKey,
-        value: event.model.phone,
+      await SecureStorageProvider.instance.set(
+        ProfileModel.phoneKey,
+        event.model.phone,
       );
-      await storage.write(
-        key: ProfileModel.locationKey,
-        value: event.model.location,
+      await SecureStorageProvider.instance.set(
+        ProfileModel.locationKey,
+        event.model.location,
       );
-      await storage.write(
-        key: ProfileModel.emailKey,
-        value: event.model.email,
+      await SecureStorageProvider.instance.set(
+        ProfileModel.emailKey,
+        event.model.email,
       );
 
       yield ProfileStateDefault(event.model);

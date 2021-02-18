@@ -2,15 +2,15 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:credible/app/interop/didkit/didkit.dart';
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
-import 'package:didkit/didkit.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class ScanEvent {}
@@ -94,9 +94,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     final keyId = event.key;
 
     try {
-      final storage = FlutterSecureStorage();
-      final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDID(Constants.defaultDIDMethod, key);
+      final key = (await SecureStorageProvider.instance.get(keyId))!;
+      final didKey = await DIDKitProvider.instance
+          .keyToDID(Constants.defaultDIDMethod, key);
 
       final credential = await client.post(
         url,
@@ -111,7 +111,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
       await Future.delayed(Duration(seconds: 1));
       // TODO [bug] verification fails here for unknown reason
-      final verification = await DIDKit.verifyCredential(vcStr, optStr);
+      final verification =
+          await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
 
       print('[credible/credential-offer/verify/vc] $vcStr');
       print('[credible/credential-offer/verify/options] $optStr');
@@ -179,14 +180,14 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     final credential = event.credential;
 
     try {
-      final storage = FlutterSecureStorage();
-      final key = await storage.read(key: keyId);
-      final didKey = await DIDKit.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod =
-          await DIDKit.keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      final key = (await SecureStorageProvider.instance.get(keyId))!;
+      final didKey = await DIDKitProvider.instance
+          .keyToDID(Constants.defaultDIDMethod, key);
+      final verificationMethod = await DIDKitProvider.instance
+          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
-      final presentation = await DIDKit.issuePresentation(
+      final presentation = await DIDKitProvider.instance.issuePresentation(
           jsonEncode({
             '@context': ['https://www.w3.org/2018/credentials/v1'],
             'type': ['VerifiablePresentation'],

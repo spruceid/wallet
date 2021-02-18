@@ -1,9 +1,9 @@
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/on_boarding/widget/word.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class RecoveryPage extends StatefulWidget {
   @override
@@ -21,8 +21,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
   }
 
   Future<void> loadMnemonic() async {
-    final storage = FlutterSecureStorage();
-    final phrase = await storage.read(key: 'mnemonic');
+    final phrase = (await SecureStorageProvider.instance.get('mnemonic'))!;
     setState(() {
       mnemonic = phrase.split(' ');
     });
