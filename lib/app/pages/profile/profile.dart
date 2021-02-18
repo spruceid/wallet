@@ -1,3 +1,4 @@
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
@@ -7,7 +8,7 @@ import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
-import 'package:didkit/didkit.dart';
+import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,7 +121,7 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 48.0),
               Center(
                 child: Text(
-                  'DIDKit v' + DIDKit.getVersion(),
+                  'DIDKit v' + DIDKitProvider.instance.getVersion(),
                   style: Theme.of(context)
                       .textTheme
                       .overline!

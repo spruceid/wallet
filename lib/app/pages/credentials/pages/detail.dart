@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
@@ -11,7 +12,6 @@ import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
-import 'package:didkit/didkit.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -43,7 +43,8 @@ class _CredentialsDetailState
   void verify() async {
     final vcStr = jsonEncode(widget.item.data);
     final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-    final result = await DIDKit.verifyCredential(vcStr, optStr);
+    final result =
+        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
     final jsonResult = jsonDecode(result);
 
     if (jsonResult['warnings'].isNotEmpty) {

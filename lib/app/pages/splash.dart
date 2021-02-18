@@ -1,8 +1,9 @@
+import 'package:credible/app/interop/didkit/didkit.dart';
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/brand.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -19,8 +20,9 @@ class _SplashPageState extends State<SplashPage> {
         seconds: 2,
       ),
       () async {
-        final storage = FlutterSecureStorage();
-        final key = await storage.read(key: 'key') ?? '';
+        print(DIDKitProvider.instance.getVersion());
+
+        final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
           await Modular.to.pushReplacementNamed('/on-boarding');

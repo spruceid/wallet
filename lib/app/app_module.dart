@@ -25,12 +25,14 @@ class AppModule extends Module {
           // TODO: Remove this after testing is done
           // This allows self-signed certificates on the servers.
           final dio = Dio();
-          (dio.httpClientAdapter as DefaultHttpClientAdapter)
-              .onHttpClientCreate = (HttpClient client) {
-            client.badCertificateCallback =
-                (X509Certificate cert, String host, int port) => true;
-            return client;
-          };
+          if (dio.httpClientAdapter is DefaultHttpClientAdapter) {
+            (dio.httpClientAdapter as DefaultHttpClientAdapter)
+                .onHttpClientCreate = (HttpClient client) {
+              client.badCertificateCallback =
+                  (X509Certificate cert, String host, int port) => true;
+              return client;
+            };
+          }
           return dio;
         }),
       ];

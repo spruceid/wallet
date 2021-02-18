@@ -1,4 +1,5 @@
 import 'package:bip39/bip39.dart' as bip39;
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -6,7 +7,6 @@ import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class OnBoardingRecoveryPage extends StatefulWidget {
   static const _padding = EdgeInsets.symmetric(
@@ -74,10 +74,9 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
           OnBoardingRecoveryPage._padHorizontal(BaseButton.blue(
             onPressed: buttonEnabled
                 ? () async {
-                    final storage = FlutterSecureStorage();
-                    await storage.write(
-                      key: 'mnemonic',
-                      value: mnemonicController.text,
+                    await SecureStorageProvider.instance.set(
+                      'mnemonic',
+                      mnemonicController.text,
                     );
 
                     await Modular.to.pushNamedAndRemoveUntil(

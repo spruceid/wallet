@@ -20,10 +20,11 @@ dependencies:
   rxdart: ^0.26.0-nullsafety.1
 
   dio: ^3.0.10
-  sembast: ^3.0.0-nullsafety.4
+  sembast: ^3.0.0
+  sembast_web: ^2.0.0
 
-  uuid: ^3.0.0-nullsafety.0
-  flutter_svg: 0.20.0-nullsafety.3
+  uuid: ^3.0.0-nullsafety.1
+  flutter_svg: ^0.20.0-nullsafety.3
 
   google_fonts: ^1.1.2
   font_awesome_flutter: ^9.0.0-nullsafety
@@ -35,6 +36,8 @@ dependencies:
   path: ^1.8.0-nullsafety.3
   path_provider: ^2.0.0-nullsafety
   flutter_secure_storage: ^3.3.5
+
+  js: ^0.6.3
 
   bip39:
     git:
