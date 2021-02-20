@@ -160,6 +160,7 @@ $ brew install cocoapods
 ### WEB
 $ make -C lib install-wasm-pack
 $ make -C lib ../target/test/wasm.stamp
+$ flutter build web --no-sound-null-safety --csp --web-renderer html --release
 
 #### Building DIDKit
 

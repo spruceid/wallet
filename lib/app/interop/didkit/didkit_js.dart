@@ -5,91 +5,95 @@ import 'package:js/js.dart';
 
 import 'didkit.dart';
 
-DIDKitProvider getProvider() {
-  return DIDKitWeb();
-}
+DIDKitProvider getProvider() => DIDKitWeb();
 
-@JS('window.DIDKit')
-class DIDKitJS {
-  external static String getVersion();
+@JS('window.DIDKit.getVersion')
+external String _getVersion();
 
-  external static String generateEd25519Key();
+@JS('window.DIDKit.generateEd25519Key')
+external String _generateEd25519Key();
 
-  external static String keyToDID(String methodName, String key);
+@JS('window.DIDKit.keyToDID')
+external String _keyToDID(String methodName, String key);
 
-  external static String keyToDIDKey(String key);
+@JS('window.DIDKit.keyToDIDKey')
+external String _keyToDIDKey(String key);
 
-  external static String keyToVerificationMethod(String methodName, String key);
+@JS('window.DIDKit.keyToVerificationMethod')
+external String _keyToVerificationMethod(String methodName, String key);
 
-  external static String issueCredential(
-      String credential, String options, String key);
+@JS('window.DIDKit.issueCredential')
+external String _issueCredential(String credential, String options, String key);
 
-  external static String verifyCredential(String credential, String options);
+@JS('window.DIDKit.verifyCredential')
+external String _verifyCredential(String credential, String options);
 
-  external static String issuePresentation(
-      String presentation, String options, String key);
+@JS('window.DIDKit.issuePresentation')
+external String _issuePresentation(
+    String presentation, String options, String key);
 
-  external static String verifyPresentation(
-      String presentation, String options);
+@JS('window.DIDKit.verifyPresentation')
+external String _verifyPresentation(String presentation, String options);
 
-  external static String resolveDID(String did, String inputMetadata);
+@JS('window.DIDKit.resolveDID')
+external String _resolveDID(String did, String inputMetadata);
 
-  external static String dereferenceDIDURL(String didUrl, String inputMetadata);
-}
+@JS('window.DIDKit.dereferenceDIDURL')
+external String _dereferenceDIDURL(String didUrl, String inputMetadata);
 
 class DIDKitWeb extends DIDKitProvider {
   @override
   String getVersion() {
-    return DIDKitJS.getVersion();
+    return _getVersion();
   }
 
   @override
   String generateEd25519Key() {
-    return DIDKitJS.generateEd25519Key();
+    return _generateEd25519Key();
   }
 
   @override
   String keyToDID(String methodName, String key) {
-    return DIDKitJS.keyToDID(methodName, key);
+    return _keyToDID(methodName, key);
   }
 
   @override
   String keyToDIDKey(String key) {
-    return DIDKitJS.keyToDIDKey(key);
+    return _keyToDIDKey(key);
   }
 
   @override
   String keyToVerificationMethod(String methodName, String key) {
-    return DIDKitJS.keyToVerificationMethod(methodName, key);
+    return _keyToVerificationMethod(methodName, key);
   }
 
   @override
   String issueCredential(String credential, String options, String key) {
-    return DIDKitJS.issueCredential(credential, options, key);
+    return _issueCredential(credential, options, key);
   }
 
   @override
   String verifyCredential(String credential, String options) {
-    return DIDKitJS.verifyCredential(credential, options);
+    return _verifyCredential(credential, options);
   }
 
   @override
   String issuePresentation(String presentation, String options, String key) {
-    return DIDKitJS.issuePresentation(presentation, options, key);
+    return _issuePresentation(presentation, options, key);
   }
 
   @override
   String verifyPresentation(String presentation, String options) {
-    return DIDKitJS.verifyPresentation(presentation, options);
+    return _verifyPresentation(presentation, options);
   }
 
   @override
   String resolveDID(String did, String inputMetadata) {
-    return DIDKitJS.resolveDID(did, inputMetadata);
+    return _resolveDID(did, inputMetadata);
   }
 
   @override
   String dereferenceDIDURL(String didUrl, String inputMetadata) {
-    return DIDKitJS.dereferenceDIDURL(didUrl, inputMetadata);
+    return _dereferenceDIDURL(didUrl, inputMetadata);
   }
 }
