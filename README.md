@@ -157,6 +157,10 @@ with Homebrew on MacOS.
 $ brew install cocoapods
 ```
 
+### WEB
+$ make -C lib install-wasm-pack
+$ make -C lib ../target/test/wasm.stamp
+
 #### Building DIDKit
 
 To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and

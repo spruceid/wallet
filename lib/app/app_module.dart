@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/module.dart';
@@ -12,6 +13,7 @@ import 'package:credible/app/pages/qr_code/scan.dart';
 import 'package:credible/app/pages/splash.dart';
 import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class AppModule extends Module {
@@ -41,32 +43,11 @@ class AppModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(
           '/splash',
-          child: (context, args) => SplashPage(),
-          transition: TransitionType.fadeIn,
-        ),
-        ModuleRoute(
-          '/on-boarding',
-          module: OnBoardingModule(),
-          transition: TransitionType.fadeIn,
-        ),
-        ModuleRoute(
-          '/credentials',
-          module: CredentialsModule(),
-          transition: TransitionType.fadeIn,
-        ),
-        ModuleRoute(
-          '/profile',
-          module: ProfileModule(),
-          transition: TransitionType.fadeIn,
-        ),
-        ChildRoute(
-          '/qr-code/scan',
-          child: (context, args) => QrCodeScanPage(),
-          transition: TransitionType.fadeIn,
-        ),
-        ChildRoute(
-          '/qr-code/display',
-          child: (context, args) => QrCodeDisplayPage(data: args!.data),
+          child: (context, args) => Scaffold(
+            body: Container(
+              child: Text('Hi there'),
+            ),
+          ),
           transition: TransitionType.fadeIn,
         ),
       ];

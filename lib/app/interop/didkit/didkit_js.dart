@@ -5,9 +5,11 @@ import 'package:js/js.dart';
 
 import 'didkit.dart';
 
-DIDKitProvider getProvider() => DIDKitWeb();
+DIDKitProvider getProvider() {
+  return DIDKitWeb();
+}
 
-@JS('DIDKit')
+@JS('window.DIDKit')
 class DIDKitJS {
   external static String getVersion();
 
