@@ -66,6 +66,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.0-nullsafety.0"
+  cryptography:
+    dependency: transitive
+    description:
+      name: cryptography
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-nullsafety.2"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -94,6 +101,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.10"
+  ed25519_hd_key:
+    dependency: "direct main"
+    description:
+      path: "../dart-ed25519-hd-key"
+      relative: true
+    source: path
+    version: "1.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -115,6 +129,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.0.0-nullsafety.4"
+  fixnum:
+    dependency: transitive
+    description:
+      name: fixnum
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter:
     dependency: "direct main"
     description: flutter
