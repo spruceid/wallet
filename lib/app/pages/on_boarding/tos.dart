@@ -48,10 +48,7 @@ class OnBoardingTosPage extends StatelessWidget {
                 ),
                 controller: scrollController,
                 child: SelectableText(
-                  List.generate(
-                    32,
-                    (index) => localizations.onBoardingStartSubtitle,
-                  ).join('\n'),
+                  '',
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
