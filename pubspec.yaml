@@ -46,7 +46,7 @@ dependencies:
 
   bip39:
     git:
-      url: https://github.com/spruceid/bip39
+      url: https://github.com/spruceid/dart-bip39
       ref: nullsafety
 
   didkit:
