@@ -36,7 +36,7 @@ class ConfirmDialog extends StatelessWidget {
           if (subtitle != null)
             Text(
               subtitle!,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.bodyText1,
             ),
           const SizedBox(height: 24.0),
           Row(
