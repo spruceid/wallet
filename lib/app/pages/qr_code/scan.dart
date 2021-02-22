@@ -132,12 +132,14 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         // ),
         scrollView: false,
         navigation: CustomNavBar(index: 1),
-        body: QRView(
-          key: qrKey,
-          overlay: QrScannerOverlayShape(
-            borderColor: Colors.white70,
+        body: SafeArea(
+          child: QRView(
+            key: qrKey,
+            overlay: QrScannerOverlayShape(
+              borderColor: Colors.white70,
+            ),
+            onQRViewCreated: onQRViewCreated,
           ),
-          onQRViewCreated: onQRViewCreated,
         ),
       ),
     );
