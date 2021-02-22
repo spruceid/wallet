@@ -109,7 +109,10 @@ class _CredentialsDetailState
                   onPressed: () {
                     Modular.to.pushNamed(
                       '/qr-code/display',
-                      arguments: widget.item.id,
+                      arguments: [
+                        widget.item.id,
+                        widget.item.id,
+                      ],
                     );
                   },
                   child: Row(
