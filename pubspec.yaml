@@ -20,8 +20,8 @@ dependencies:
   rxdart: ^0.26.0-nullsafety.1
 
   dio: ^3.0.10
-  sembast: ^3.0.0
-  sembast_web: ^2.0.0
+  sembast: ^3.0.0-nullsafety.5
+  sembast_web: ^2.0.0-nullsafety.1
 
   uuid: ^3.0.0-nullsafety.1
   flutter_svg: ^0.20.0-nullsafety.3
