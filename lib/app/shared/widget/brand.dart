@@ -43,8 +43,8 @@ class Brand extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SvgPicture.asset('assets/brand/logo-title.svg'),
-                const SizedBox(height: 16.0),
-                SvgPicture.asset('assets/brand/logo-subtitle.svg'),
+                // const SizedBox(height: 16.0),
+                // SvgPicture.asset('assets/brand/logo-subtitle.svg'),
               ],
             ),
           ),
