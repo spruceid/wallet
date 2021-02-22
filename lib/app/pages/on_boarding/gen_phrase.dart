@@ -58,7 +58,6 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 32.0),
           Expanded(
             child: Wrap(
               spacing: 16.0,
@@ -71,9 +70,11 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               ),
             ),
           ),
-          const SizedBox(height: 32.0),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 24.0,
+            ),
             child: Row(
               children: <Widget>[
                 Icon(
@@ -93,7 +94,6 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               ],
             ),
           ),
-          const SizedBox(height: 48.0),
           BaseButton.blue(
             onPressed: () async {
               await SecureStorageProvider.instance.set(
