@@ -1,6 +1,5 @@
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,7 @@ class OnBoardingKeyPage extends StatelessWidget {
               vertical: 48.0,
             ),
             child: Text(
-              'Choose how you want to add your key',
+              'Recover my identity wallet',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle1,
             ),
@@ -38,7 +37,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                     horizontal: 48.0,
                   ),
                   child: Text(
-                    'If you have previously used a wallet and have a recovery phrase, press "Recover"',
+                    'If you have previously used a wallet and have a recovery phrase',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
@@ -46,13 +45,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => InfoDialog(
-                        title: 'Unavailable Feature',
-                        subtitle: "This feature isn't supported yet",
-                      ),
-                    );
+                    Modular.to.pushNamed('/on-boarding/recovery');
                   },
                   child: Text(localizations.onBoardingKeyRecover),
                 ),
@@ -60,6 +53,17 @@ class OnBoardingKeyPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 64.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 48.0,
+            ),
+            child: Text(
+              'Generate a new wallet',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -70,7 +74,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                     horizontal: 48.0,
                   ),
                   child: Text(
-                    'Otherwise you can generate your first identifier by pressing "Generate"',
+                    'Generate a new identifier and get a new recovery phrase',
                     textAlign: TextAlign.center,
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
@@ -78,7 +82,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                 const SizedBox(height: 32.0),
                 BaseButton.blue(
                   onPressed: () {
-                    Modular.to.pushNamed('/on-boarding/gen');
+                    Modular.to.pushNamed('/on-boarding/gen-phrase');
                   },
                   child: Text(localizations.onBoardingKeyGenerate),
                 ),
