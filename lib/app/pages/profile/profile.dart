@@ -9,7 +9,6 @@ import 'package:credible/app/pages/profile/widgets/menu_item.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
-import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
