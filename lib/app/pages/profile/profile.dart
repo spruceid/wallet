@@ -96,14 +96,25 @@ class _ProfilePageState extends State<ProfilePage> {
               MenuItem(
                 icon: Icons.vpn_key,
                 title: 'Recovery',
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => InfoDialog(
-                      title: 'Unavailable Feature',
-                      subtitle: "This feature isn't supported yet",
-                    ),
-                  );
+                onTap: () async {
+                  final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => ConfirmDialog(
+                          title: 'Be careful',
+                          subtitle:
+                              'The recovery page contains sensitive information '
+                              'that will compromise your identifier in the wrong '
+                              'hands. You should not open this page in public '
+                              'or share it with anyone.',
+                          yes: 'Continue',
+                          no: 'Cancel',
+                        ),
+                      ) ??
+                      false;
+
+                  if (confirm) {
+                    await Modular.to.pushNamed('/profile/recovery');
+                  }
                 },
               ),
               MenuItem(
