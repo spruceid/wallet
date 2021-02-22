@@ -1,8 +1,12 @@
-import 'package:credible/app/interop/didkit/didkit.dart';
+import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
+import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -20,13 +24,23 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey() async {
-    // final mnemonic = (await SecureStorageProvider.instance.get(key: 'mnemonic'))!;
-    // final entropy = bip39.mnemonicToSeedHex(mnemonic);
-    // final key = await DIDKitProvider.instance.generateEd25519KeyFromSecret(entropy.substring(0, 32));
+    final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
+    final seed = bip39.mnemonicToSeed(mnemonic);
 
-    final key = await DIDKitProvider.instance.generateEd25519Key();
+    final child = await ED25519_HD_KEY.derivePath("m/0'/0'", seed);
+    final bytes = Uint8List.fromList(child.key);
+    final public = await ED25519_HD_KEY.getPublicKey(bytes);
 
-    await SecureStorageProvider.instance.set('key', key);
+    final sk = base64Url.encode(bytes);
+    final pk = base64Url.encode(public);
+    final key = {
+      'kty': 'OKP',
+      'crv': 'Ed25519',
+      'd': sk,
+      'x': pk,
+    };
+
+    await SecureStorageProvider.instance.set('key', jsonEncode(key));
     await Modular.to.pushReplacementNamed('/on-boarding/success');
   }
 
