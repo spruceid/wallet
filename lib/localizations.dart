@@ -41,7 +41,7 @@ class AppLocalizations {
       );
 
   String get onBoardingStartButton => Intl.message(
-        "Let's Start",
+        'Start',
         name: 'onBoardingStartButton',
         desc: 'On boarding start page button text',
       );
@@ -71,7 +71,7 @@ class AppLocalizations {
       );
 
   String get onBoardingKeyTitle => Intl.message(
-        'Key',
+        'Get Started',
         name: 'onBoardingKeyTitle',
         desc: 'Key page title',
       );
@@ -113,7 +113,7 @@ class AppLocalizations {
       );
 
   String get onBoardingSuccessTitle => Intl.message(
-        'Identifier created!',
+        'Identifier Created',
         name: 'onBoardingSuccessTitle',
         desc: 'On boarding success page title',
       );
@@ -143,13 +143,13 @@ class AppLocalizations {
       );
 
   String get credentialPresentConfirm => Intl.message(
-        'Yes, please!',
+        'Select credential',
         name: 'credentialPresentConfirm',
         desc: 'Confirm action on credential presentation',
       );
 
   String get credentialPresentCancel => Intl.message(
-        'Not now',
+        'Reject',
         name: 'credentialPresentCancel',
         desc: 'Cancel action on credential presentation',
       );
@@ -209,13 +209,13 @@ class AppLocalizations {
       );
 
   String get communicationHostAllow => Intl.message(
-        'Yes, allow!',
+        'Allow',
         name: 'communicationHostAllow',
         desc: 'Allow communication request with the presented host',
       );
 
   String get communicationHostDeny => Intl.message(
-        'No, deny!',
+        'Deny',
         name: 'communicationHostDeny',
         desc: 'Deny communication request with the presented host',
       );
