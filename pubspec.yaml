@@ -71,6 +71,7 @@ flutter:
     - assets/brand/logo-subtitle.svg
     - assets/brand/logo-splash.svg
     - assets/brand/logo-minimal.svg
+    - assets/brand/spruce-icon.svg
     - assets/icon/domain.svg
     - assets/icon/profile.svg
     - assets/icon/profile-filled.svg
