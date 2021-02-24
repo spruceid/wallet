@@ -1,4 +1,6 @@
 import 'package:credible/app/interop/didkit/didkit.dart';
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
+import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
@@ -129,6 +131,56 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               const SizedBox(height: 48.0),
               DIDDisplay(),
+              const SizedBox(height: 48.0),
+              TextButton(
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0,
+                    vertical: 16.0,
+                  ),
+                ),
+                onPressed: () async {
+                  final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => ConfirmDialog(
+                          title: 'Reset Wallet',
+                          subtitle:
+                              'Are you sure you want to reset your wallet?',
+                        ),
+                      ) ??
+                      false;
+
+                  if (confirm) {
+                    // TODO: Add typing confirmation
+                    await SecureStorageProvider.instance.delete('key');
+                    await SecureStorageProvider.instance.delete('mnemonic');
+                    await SecureStorageProvider.instance.delete('data');
+
+                    await SecureStorageProvider.instance
+                        .delete(ProfileModel.firstNameKey);
+                    await SecureStorageProvider.instance
+                        .delete(ProfileModel.lastNameKey);
+                    await SecureStorageProvider.instance
+                        .delete(ProfileModel.phoneKey);
+                    await SecureStorageProvider.instance
+                        .delete(ProfileModel.locationKey);
+                    await SecureStorageProvider.instance
+                        .delete(ProfileModel.emailKey);
+
+                    final repository = Modular.get<CredentialsRepository>();
+                    await repository.deleteAll();
+
+                    await Modular.to.pushReplacementNamed('/splash');
+                  }
+                },
+                child: Text(
+                  'Reset wallet',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyText1!
+                      .apply(color: Colors.redAccent),
+                ),
+              ),
               const SizedBox(height: 48.0),
               Center(
                 child: Text(
