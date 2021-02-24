@@ -6,7 +6,7 @@ import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/info_dialog.dart';
+import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
@@ -96,14 +96,25 @@ class _ProfilePageState extends State<ProfilePage> {
               MenuItem(
                 icon: Icons.vpn_key,
                 title: 'Recovery',
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) => InfoDialog(
-                      title: 'Unavailable Feature',
-                      subtitle: "This feature isn't supported yet",
-                    ),
-                  );
+                onTap: () async {
+                  final confirm = await showDialog<bool>(
+                        context: context,
+                        builder: (context) => ConfirmDialog(
+                          title: 'Be careful',
+                          subtitle:
+                              'The recovery page contains sensitive information '
+                              'that will compromise your identifier in the wrong '
+                              'hands. You should not open this page in public '
+                              'or share it with anyone.',
+                          yes: 'Continue',
+                          no: 'Cancel',
+                        ),
+                      ) ??
+                      false;
+
+                  if (confirm) {
+                    await Modular.to.pushNamed('/profile/recovery');
+                  }
                 },
               ),
               MenuItem(
