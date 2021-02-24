@@ -170,9 +170,10 @@ class CredentialsListItem extends StatelessWidget {
               ),
               child: HeroFix(
                 tag: 'credential/${item.id}/icon',
-                child: Icon(
-                  Icons.domain,
-                  size: 24.0,
+                child: SvgPicture.asset(
+                  'assets/brand/spruce-icon.svg',
+                  width: 24.0,
+                  height: 24.0,
                   color: Colors.white,
                 ),
               ),
