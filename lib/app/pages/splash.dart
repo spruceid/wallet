@@ -1,7 +1,11 @@
+import 'dart:convert';
+
+import 'package:credible/app/interop/chapi/chapi.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/brand.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -28,6 +32,23 @@ class _SplashPageState extends State<SplashPage> {
           await Modular.to.pushReplacementNamed('/on-boarding');
           return;
         }
+
+        CHAPIProvider.instance.init(
+          get: (query, done) async {
+            print(jsonDecode(query));
+            done(jsonEncode({
+              'type': 'VerifiablePresentation',
+            }));
+          },
+          store: (data, done) async {
+            print(jsonDecode(data));
+            done(jsonEncode({
+              'type': 'VerifiableCredential',
+            }));
+          },
+        );
+
+        CHAPIProvider.instance.emitReady();
 
         await Modular.to.pushReplacementNamed('/credentials');
       },

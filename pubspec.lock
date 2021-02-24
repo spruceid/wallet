@@ -14,7 +14,7 @@ packages:
       path: "."
       ref: nullsafety
       resolved-ref: "55242396a50991f9199803bd7aa4440eac0462f6"
-      url: "https://github.com/theosirian/bip39"
+      url: "https://github.com/spruceid/dart-bip39"
     source: git
     version: "1.0.4"
   bloc:
