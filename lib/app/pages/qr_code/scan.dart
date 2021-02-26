@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
-import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
@@ -117,7 +116,6 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         }
       },
       child: BasePage(
-        backgroundColor: Palette.background,
         padding: EdgeInsets.zero,
         title: 'Scan',
         // floatingActionButton: FloatingActionButton(
@@ -132,13 +130,20 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         // ),
         scrollView: false,
         navigation: CustomNavBar(index: 1),
+        extendBelow: true,
         body: SafeArea(
-          child: QRView(
-            key: qrKey,
-            overlay: QrScannerOverlayShape(
-              borderColor: Colors.white70,
+          child: Container(
+            padding: const EdgeInsets.all(8.0),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: QRView(
+                key: qrKey,
+                overlay: QrScannerOverlayShape(
+                  borderColor: Colors.white70,
+                ),
+                onQRViewCreated: onQRViewCreated,
+              ),
             ),
-            onQRViewCreated: onQRViewCreated,
           ),
         ),
       ),

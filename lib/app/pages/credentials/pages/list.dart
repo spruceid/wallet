@@ -1,7 +1,6 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/list_item.dart';
-import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
@@ -32,7 +31,6 @@ class CredentialsList extends StatelessWidget {
         }
       },
       child: BasePage(
-        backgroundColor: Palette.background,
         title: localizations.credentialListTitle,
         padding: const EdgeInsets.symmetric(
           vertical: 24.0,

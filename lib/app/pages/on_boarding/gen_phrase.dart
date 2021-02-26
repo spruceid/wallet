@@ -1,10 +1,10 @@
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/pages/on_boarding/widget/word.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/mnemonic.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -59,16 +59,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
             ),
           ),
           Expanded(
-            child: Wrap(
-              spacing: 16.0,
-              runSpacing: 8.0,
-              alignment: WrapAlignment.center,
-              runAlignment: WrapAlignment.center,
-              children: List.generate(
-                mnemonic.length,
-                (i) => PhraseWord(order: i + 1, word: mnemonic[i]),
-              ),
-            ),
+            child: MnemonicDisplay(mnemonic: mnemonic),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -79,22 +70,20 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
               children: <Widget>[
                 Icon(
                   Icons.privacy_tip_outlined,
-                  color: Palette.text.withOpacity(0.6),
+                  color: UiKit.palette.icon.withOpacity(0.6),
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     'You can view your recovery phrase again later in the settings menu',
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .apply(color: Palette.text.withOpacity(0.6)),
+                    style: Theme.of(context).textTheme.caption!.apply(
+                        color: UiKit.text.colorTextCaption.withOpacity(0.6)),
                   ),
                 ),
               ],
             ),
           ),
-          BaseButton.blue(
+          BaseButton.primary(
             onPressed: () async {
               await SecureStorageProvider.instance.set(
                 'mnemonic',

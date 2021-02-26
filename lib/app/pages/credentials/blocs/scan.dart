@@ -47,6 +47,30 @@ class ScanEventVerifiablePresentationRequest extends ScanEvent {
   });
 }
 
+class ScanEventCHAPIStore extends ScanEvent {
+  final Map<String, dynamic> data;
+  final void Function(String) done;
+
+  ScanEventCHAPIStore(
+    this.data,
+    this.done,
+  );
+}
+
+class ScanEventCHAPIGetDIDAuth extends ScanEvent {
+  final String keyId;
+  final String? challenge;
+  final String? domain;
+  final void Function(String) done;
+
+  ScanEventCHAPIGetDIDAuth(
+    this.keyId,
+    this.done, {
+    this.challenge,
+    this.domain,
+  });
+}
+
 abstract class ScanState {}
 
 class ScanStateIdle extends ScanState {}
@@ -82,6 +106,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield* _credentialOffer(event);
     } else if (event is ScanEventVerifiablePresentationRequest) {
       yield* _verifiablePresentationRequest(event);
+    } else if (event is ScanEventCHAPIStore) {
+      yield* _CHAPIStore(event);
+    } else if (event is ScanEventCHAPIGetDIDAuth) {
+      yield* _CHAPIGetDIDAuth(event);
     }
   }
 
@@ -95,12 +123,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final didKey = await DIDKitProvider.instance
+      final did = await DIDKitProvider.instance
           .keyToDID(Constants.defaultDIDMethod, key);
 
       final credential = await client.post(
         url,
-        data: FormData.fromMap(<String, dynamic>{'subject_id': didKey}),
+        data: FormData.fromMap(<String, dynamic>{'subject_id': did}),
       );
 
       final jsonCredential = credential.data is String
@@ -177,31 +205,34 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     final url = event.url;
     final keyId = event.key;
+    final challenge = event.challenge;
+    final domain = event.domain;
     final credential = event.credential;
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final didKey = await DIDKitProvider.instance
+      final did = await DIDKitProvider.instance
           .keyToDID(Constants.defaultDIDMethod, key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
       final presentation = await DIDKitProvider.instance.issuePresentation(
-          jsonEncode({
-            '@context': ['https://www.w3.org/2018/credentials/v1'],
-            'type': ['VerifiablePresentation'],
-            'id': presentationId,
-            'holder': didKey,
-            'verifiableCredential': credential.toJson(),
-          }),
-          jsonEncode({
-            'verificationMethod': verificationMethod,
-            'proofPurpose': 'authentication',
-            'challenge': event.challenge,
-            'domain': event.domain,
-          }),
-          key);
+        jsonEncode({
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          'type': ['VerifiablePresentation'],
+          'id': presentationId,
+          'holder': did,
+          'verifiableCredential': credential.toJson(),
+        }),
+        jsonEncode({
+          'verificationMethod': verificationMethod,
+          'proofPurpose': 'authentication',
+          'challenge': challenge,
+          'domain': domain,
+        }),
+        key,
+      );
 
       await client.post(
         url,
@@ -216,6 +247,157 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       log(
         'something went wrong',
         name: 'credible/scan/verifiable-presentation-request',
+        error: e,
+      );
+
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. '
+              'Check the logs for more information.'));
+    }
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateSuccess();
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateIdle();
+  }
+
+  Stream<ScanState> _CHAPIStore(
+    ScanEventCHAPIStore event,
+  ) async* {
+    yield ScanStateWorking();
+
+    final data = event.data;
+    final done = event.done;
+
+    try {
+      late final vc;
+
+      print(data['dataType']);
+      switch (data['dataType']) {
+        case 'VerifiablePresentation':
+          print('this is vp');
+          vc = data['data']['verifiableCredential'];
+          break;
+
+        case 'VerifiableCredential':
+          print('this is vc');
+          vc = data['data'];
+          break;
+
+        default:
+          print('this is sparta');
+          throw UnimplementedError('Unsupported dataType: ${data['dataType']}');
+      }
+
+      final vcStr = jsonEncode(vc);
+      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+      await Future.delayed(Duration(seconds: 1));
+      // TODO [bug] verification fails here for unknown reason
+      final verification =
+          await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+
+      print('[credible/chapi-store/verify/vc] $vcStr');
+      print('[credible/chapi-store/verify/options] $optStr');
+      print('[credible/chapi-store/verify/result] $verification');
+
+      final jsonVerification = jsonDecode(verification);
+
+      if (jsonVerification['warnings'].isNotEmpty) {
+        log(
+          'credential verification return warnings',
+          name: 'credible/scan/chapi-store',
+          error: jsonVerification['warnings'],
+        );
+
+        yield ScanStateMessage(StateMessage.warning(
+            'Credential verification returned some warnings. '
+            'Check the logs for more information.'));
+      }
+
+      if (jsonVerification['errors'].isNotEmpty) {
+        log(
+          'failed to verify credential',
+          name: 'credible/scan/chapi-store',
+          error: jsonVerification['errors'],
+        );
+
+        // done(jsonEncode(jsonVerification['errors']));
+
+        yield ScanStateMessage(
+            StateMessage.error('Failed to verify credential. '
+                'Check the logs for more information.'));
+      }
+
+      final repository = Modular.get<CredentialsRepository>();
+      await repository.insert(vc);
+
+      done(vcStr);
+
+      yield ScanStateMessage(StateMessage.success(
+          'A new credential has been successfully added!'));
+    } catch (e) {
+      log(
+        'something went wrong',
+        name: 'credible/scan/chapi-store',
+        error: e,
+      );
+
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. '
+              'Check the logs for more information.'));
+    }
+
+    await Modular.get<WalletBloc>().findAll();
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateSuccess();
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateIdle();
+  }
+
+  Stream<ScanState> _CHAPIGetDIDAuth(
+    ScanEventCHAPIGetDIDAuth event,
+  ) async* {
+    yield ScanStateWorking();
+
+    final keyId = event.keyId;
+    final challenge = event.challenge;
+    final domain = event.domain;
+    final done = event.done;
+
+    try {
+      print('before');
+      final key = (await SecureStorageProvider.instance.get(keyId))!;
+      print('key $key');
+      final did = await DIDKitProvider.instance
+          .keyToDID(Constants.defaultDIDMethod, key);
+      print('did $did');
+      final verificationMethod = await DIDKitProvider.instance
+          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      print('vm $verificationMethod');
+
+      final presentation = await DIDKitProvider.instance.DIDAuth(
+        did,
+        jsonEncode({
+          'verificationMethod': verificationMethod,
+          'proofPurpose': 'authentication',
+          'challenge': challenge,
+          'domain': domain,
+        }),
+        key,
+      );
+      print('pres $presentation');
+
+      done(presentation);
+
+      yield ScanStateMessage(
+          StateMessage.success('Successfully presented your DID!'));
+    } catch (e) {
+      log(
+        'something went wrong',
+        name: 'credible/scan/chapi-get-didauth',
         error: e,
       );
 

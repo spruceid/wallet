@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +21,7 @@ class DocumentItemWidget extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .overline!
-                .apply(color: Palette.lightGrey.withOpacity(0.6)),
+                .apply(color: UiKit.palette.credentialText.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
           TooltipText(
@@ -29,7 +29,7 @@ class DocumentItemWidget extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .caption!
-                .apply(color: Palette.lightGrey),
+                .apply(color: UiKit.palette.credentialText),
           ),
         ],
       );

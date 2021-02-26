@@ -1,6 +1,6 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:credible/app/shared/widget/hero_workaround.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
@@ -61,15 +61,15 @@ class __BaseItemState extends State<_BaseItem>
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 4.0),
           decoration: BaseBoxDecoration(
-            color: Palette.darkGreen,
-            shapeColor: Palette.gradientLightGreen.withOpacity(0.2),
+            color: UiKit.palette.credentialBackground,
+            shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
             value: 1.0,
             anchors: <Alignment>[
               Alignment.bottomRight,
             ],
             boxShadow: <BoxShadow>[
               BoxShadow(
-                color: Palette.shadow,
+                color: UiKit.palette.shadow,
                 offset: Offset(0.0, 2.0),
                 blurRadius: 2.0,
               ),
@@ -132,7 +132,7 @@ class _LabeledItem extends StatelessWidget {
               text: value,
               tooltip: '$label $value',
               style: GoogleFonts.poppins(
-                color: Palette.text,
+                color: UiKit.text.colorTextBody1,
                 fontSize: 12.0,
                 fontWeight: FontWeight.w500,
               ),
@@ -165,7 +165,6 @@ class CredentialsListItem extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                color: Palette.text,
                 borderRadius: BorderRadius.circular(16.0),
               ),
               child: HeroFix(
@@ -174,7 +173,7 @@ class CredentialsListItem extends StatelessWidget {
                   'assets/brand/spruce-icon.svg',
                   width: 24.0,
                   height: 24.0,
-                  color: Colors.white,
+                  color: UiKit.palette.icon,
                 ),
               ),
             ),
@@ -187,7 +186,7 @@ class CredentialsListItem extends StatelessWidget {
                     tag: 'credential/${item.id}/id',
                     text: item.id,
                     style: GoogleFonts.poppins(
-                      color: Palette.text,
+                      color: UiKit.text.colorTextBody1,
                       fontSize: 16.0,
                       fontWeight: FontWeight.w600,
                     ),

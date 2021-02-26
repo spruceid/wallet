@@ -28,37 +28,66 @@ class DIDKitIO extends DIDKitProvider {
   }
 
   @override
-  String keyToVerificationMethod(String methodName, String key) {
+  Future<String> keyToVerificationMethod(String methodName, String key) async {
     return DIDKit.keyToVerificationMethod(methodName, key);
   }
 
   @override
-  String issueCredential(String credential, String options, String key) {
+  Future<String> issueCredential(
+    String credential,
+    String options,
+    String key,
+  ) async {
     return DIDKit.issueCredential(credential, options, key);
   }
 
   @override
-  String verifyCredential(String credential, String options) {
+  Future<String> verifyCredential(
+    String credential,
+    String options,
+  ) async {
     return DIDKit.verifyCredential(credential, options);
   }
 
   @override
-  String issuePresentation(String presentation, String options, String key) {
+  Future<String> issuePresentation(
+    String presentation,
+    String options,
+    String key,
+  ) async {
     return DIDKit.issuePresentation(presentation, options, key);
   }
 
   @override
-  String verifyPresentation(String presentation, String options) {
+  Future<String> verifyPresentation(
+    String presentation,
+    String options,
+  ) async {
     return DIDKit.verifyPresentation(presentation, options);
   }
 
   @override
-  String resolveDID(String did, String inputMetadata) {
+  Future<String> resolveDID(
+    String did,
+    String inputMetadata,
+  ) async {
     return DIDKit.resolveDID(did, inputMetadata);
   }
 
   @override
-  String dereferenceDIDURL(String didUrl, String inputMetadata) {
+  Future<String> dereferenceDIDURL(
+    String didUrl,
+    String inputMetadata,
+  ) async {
     return DIDKit.dereferenceDIDURL(didUrl, inputMetadata);
+  }
+
+  @override
+  Future<String> DIDAuth(
+    String did,
+    String options,
+    String key,
+  ) async {
+    return DIDKit.DIDAuth(did, options, key);
   }
 }

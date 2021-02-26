@@ -1,6 +1,6 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,15 +31,13 @@ class DocumentHeader extends StatelessWidget {
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
-                        .apply(color: Palette.lightGrey),
+                        .apply(color: UiKit.palette.credentialText),
                   ),
                   const SizedBox(height: 4.0),
                   TooltipText(
                     text: 'Internal Medicine',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .apply(color: Palette.lightGrey.withOpacity(0.6)),
+                    style: Theme.of(context).textTheme.bodyText1!.apply(
+                        color: UiKit.palette.credentialText.withOpacity(0.6)),
                   ),
                 ],
               ),

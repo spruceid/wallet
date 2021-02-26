@@ -2,6 +2,7 @@
 library didkit;
 
 import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 
 import 'didkit.dart';
 
@@ -23,23 +24,49 @@ external String _keyToDIDKey(String key);
 external String _keyToVerificationMethod(String methodName, String key);
 
 @JS('window.DIDKit.issueCredential')
-external String _issueCredential(String credential, String options, String key);
+external String _issueCredential(
+  String credential,
+  String options,
+  String key,
+);
 
 @JS('window.DIDKit.verifyCredential')
-external String _verifyCredential(String credential, String options);
+external String _verifyCredential(
+  String credential,
+  String options,
+);
 
 @JS('window.DIDKit.issuePresentation')
 external String _issuePresentation(
-    String presentation, String options, String key);
+  String presentation,
+  String options,
+  String key,
+);
 
 @JS('window.DIDKit.verifyPresentation')
-external String _verifyPresentation(String presentation, String options);
+external String _verifyPresentation(
+  String presentation,
+  String options,
+);
 
 @JS('window.DIDKit.resolveDID')
-external String _resolveDID(String did, String inputMetadata);
+external String _resolveDID(
+  String did,
+  String inputMetadata,
+);
 
 @JS('window.DIDKit.dereferenceDIDURL')
-external String _dereferenceDIDURL(String didUrl, String inputMetadata);
+external String _dereferenceDIDURL(
+  String didUrl,
+  String inputMetadata,
+);
+
+@JS('window.DIDKit.DIDAuth')
+external String _DIDAuth(
+  String did,
+  String options,
+  String key,
+);
 
 class DIDKitWeb extends DIDKitProvider {
   @override
@@ -63,37 +90,90 @@ class DIDKitWeb extends DIDKitProvider {
   }
 
   @override
-  String keyToVerificationMethod(String methodName, String key) {
-    return _keyToVerificationMethod(methodName, key);
+  Future<String> keyToVerificationMethod(String methodName, String key) async {
+    return await promiseToFuture(_keyToVerificationMethod(methodName, key));
   }
 
   @override
-  String issueCredential(String credential, String options, String key) {
-    return _issueCredential(credential, options, key);
+  Future<String> issueCredential(
+    String credential,
+    String options,
+    String key,
+  ) async {
+    return await promiseToFuture(_issueCredential(
+      credential,
+      options,
+      key,
+    ));
   }
 
   @override
-  String verifyCredential(String credential, String options) {
-    return _verifyCredential(credential, options);
+  Future<String> verifyCredential(
+    String credential,
+    String options,
+  ) async {
+    return await promiseToFuture(_verifyCredential(
+      credential,
+      options,
+    ));
   }
 
   @override
-  String issuePresentation(String presentation, String options, String key) {
-    return _issuePresentation(presentation, options, key);
+  Future<String> issuePresentation(
+    String presentation,
+    String options,
+    String key,
+  ) async {
+    return await promiseToFuture(_issuePresentation(
+      presentation,
+      options,
+      key,
+    ));
   }
 
   @override
-  String verifyPresentation(String presentation, String options) {
-    return _verifyPresentation(presentation, options);
+  Future<String> verifyPresentation(
+    String presentation,
+    String options,
+  ) async {
+    return await promiseToFuture(_verifyPresentation(
+      presentation,
+      options,
+    ));
   }
 
   @override
-  String resolveDID(String did, String inputMetadata) {
-    return _resolveDID(did, inputMetadata);
+  Future<String> resolveDID(
+    String did,
+    String inputMetadata,
+  ) async {
+    return await promiseToFuture(_resolveDID(
+      did,
+      inputMetadata,
+    ));
   }
 
   @override
-  String dereferenceDIDURL(String didUrl, String inputMetadata) {
-    return _dereferenceDIDURL(didUrl, inputMetadata);
+  Future<String> dereferenceDIDURL(
+    String didUrl,
+    String inputMetadata,
+  ) async {
+    return await promiseToFuture(_dereferenceDIDURL(
+      didUrl,
+      inputMetadata,
+    ));
+  }
+
+  @override
+  Future<String> DIDAuth(
+    String did,
+    String options,
+    String key,
+  ) async {
+    return await promiseToFuture(_DIDAuth(
+      did,
+      options,
+      key,
+    ));
   }
 }

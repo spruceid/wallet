@@ -1,7 +1,7 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/list_item.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -47,7 +47,6 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         : widget.items;
 
     return BasePage(
-      backgroundColor: Palette.background,
       title: 'Pick a credential',
       titleTrailing: IconButton(
         onPressed: () {
@@ -55,7 +54,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         },
         icon: Icon(
           Icons.close,
-          color: Palette.text,
+          color: UiKit.palette.icon,
         ),
       ),
       padding: const EdgeInsets.symmetric(

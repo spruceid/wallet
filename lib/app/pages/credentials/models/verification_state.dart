@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 enum VerificationState {
@@ -38,7 +38,7 @@ extension VerifyExtension on VerificationState {
   Color get color {
     switch (this) {
       case VerificationState.Unverified:
-        return Palette.text;
+        return UiKit.text.colorTextBody1;
       case VerificationState.Verified:
         return Colors.green;
       case VerificationState.VerifiedWithWarning:
