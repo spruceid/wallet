@@ -40,10 +40,9 @@ dependencies:
   js: ^0.6.3
 
   ed25519_hd_key:
-    path: ../dart-ed25519-hd-key
-#    git:
-#      url: https://github.com/spruceid/dart-ed25519-hd-key
-#      ref: nullsafety
+    git:
+      url: https://github.com/spruceid/dart-ed25519-hd-key
+      ref: nullsafety
 
   bip39:
     git:
