@@ -27,7 +27,7 @@ class DocumentHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TooltipText(
-                    text: 'Richard Hooper, MD',
+                    text: 'John Doe',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
@@ -35,7 +35,7 @@ class DocumentHeader extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   TooltipText(
-                    text: 'Internal Medicine',
+                    text: 'Crypto Trader',
                     style: Theme.of(context).textTheme.bodyText1!.apply(
                         color: UiKit.palette.credentialText.withOpacity(0.6)),
                   ),
