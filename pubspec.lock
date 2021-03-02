@@ -104,9 +104,11 @@ packages:
   ed25519_hd_key:
     dependency: "direct main"
     description:
-      path: "../dart-ed25519-hd-key"
-      relative: true
-    source: path
+      path: "."
+      ref: nullsafety
+      resolved-ref: "1e5bd2331e04bd2bff4fb456d77d829997a16afe"
+      url: "https://github.com/spruceid/dart-ed25519-hd-key"
+    source: git
     version: "1.1.0"
   fake_async:
     dependency: transitive

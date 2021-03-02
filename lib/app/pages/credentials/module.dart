@@ -39,7 +39,7 @@ class CredentialsModule extends Module {
             url: args!.data,
             onSubmit: () {
               Modular.get<ScanBloc>().add(ScanEventCredentialOffer(
-                args.data,
+                args.data.toString(),
                 'key',
               ));
             },
@@ -66,13 +66,20 @@ class CredentialsModule extends Module {
             resource: 'credential',
             url: args!.data,
             onSubmit: (preview) {
-              Modular.to.pushReplacementNamed('/credentials/pick',
-                  arguments: <String, dynamic>{
-                    'url': args.data,
-                    'key': 'key',
-                    'challenge': preview['challenge'],
-                    'domain': preview['domain'],
-                  });
+              Modular.to.pushReplacementNamed(
+                '/credentials/pick',
+                arguments: (selection) {
+                  Modular.get<ScanBloc>().add(
+                    ScanEventVerifiablePresentationRequest(
+                      url: args.data.toString(),
+                      key: 'key',
+                      credentials: selection,
+                      challenge: preview['challenge'],
+                      domain: preview['domain'],
+                    ),
+                  );
+                },
+              );
             },
           ),
           transition: TransitionType.rightToLeftWithFade,
@@ -81,18 +88,18 @@ class CredentialsModule extends Module {
           '/chapi-present',
           child: (context, args) {
             final data = args!.data;
-            final root = data['data']['web']['VerifiablePresentation'];
+            // TODO: when CHAPI comes back so does this
+            // final root = data['data']['web']['VerifiablePresentation'];
+            final root = data['data'];
             final queries = root['query'] as List<dynamic>;
 
-            if (queries.any((query) => query['type'] == 'DIDAuth')) {
+            if (queries.first['type'] == 'DIDAuth') {
               return CredentialsPresentPage(
                 title: 'DIDAuth Request',
                 resource: 'DID',
                 yes: 'Accept',
                 url: data['url'],
                 onSubmit: (preview) async {
-                  print(root);
-
                   Modular.get<ScanBloc>().add(ScanEventCHAPIGetDIDAuth(
                     'key',
                     data['done'],
@@ -103,26 +110,29 @@ class CredentialsModule extends Module {
                   await Modular.to.pushReplacementNamed('/credentials');
                 },
               );
+            } else if (queries.first['type'] == 'QueryByExample') {
+              return CredentialsPresentPage(
+                title: 'Presentation Request',
+                resource: 'credential(s)',
+                url: data['url'],
+                onSubmit: (preview) async {
+                  await Modular.to.pushReplacementNamed(
+                    '/credentials/pick',
+                    arguments: (selection) {
+                      Modular.get<ScanBloc>().add(
+                        ScanEventCHAPIGetQueryByExample(
+                          'key',
+                          selection,
+                          data['done'],
+                          challenge: root['challenge'],
+                          domain: root['domain'],
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
             } else {
-              // return CredentialsPresentPage(
-              //   title: 'Presentation Request',
-              //   resource: 'credential',
-              //   url: data['url'],
-              //   onSubmit: (preview) async {
-              //     // Modular.get<ScanBloc>().add(ScanEventCHAPIGet(
-              //     //   args.data.query,
-              //     //   args.data.done,
-              //     // ));
-              //     await Modular.to.pushReplacementNamed('/credentials/pick',
-              //         arguments: <String, dynamic>{
-              //           'url': '',
-              //           'key': 'key',
-              //           'challenge': preview['challenge'],
-              //           'domain': preview['domain'],
-              //         });
-              //   },
-              // );
-
               throw UnimplementedError('Unimplemented Query Type');
             }
           },
@@ -133,7 +143,7 @@ class CredentialsModule extends Module {
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsPickPage(
               items: items,
-              params: args!.data,
+              onSubmit: args!.data,
             ),
           ),
           transition: TransitionType.rightToLeftWithFade,

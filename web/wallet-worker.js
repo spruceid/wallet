@@ -1,30 +1,28 @@
 const handler = async () => {
-  try {
-    await credentialHandlerPolyfill.loadOnce(MEDIATOR);
-  } catch (e) {
-    console.error("Error in loadOnce:", e);
-  }
+  const port = chrome.runtime.connect();
 
-  const registration = await WebCredentialHandler.installHandler({
-    url: `${location.origin}/index.html`,
+  const callback = (data) => {
+    const parsed = JSON.parse(data);
+    port.postMessage(parsed);
+  };
+
+  const types = {
+    "get": handlerGet,
+    "store": handlerStore,
+  };
+
+  port.onMessage.addListener(({ type, origin, event }) => {
+    const message = { event, origin };
+
+    const json = JSON.stringify(message);
+
+    if (!(type in types))
+      throw new Error("Invalid event type!");
+
+    types[type](json, callback);
   });
 
-  await registration.credentialManager.hints.set("test", {
-    name: "User",
-    enabledTypes: ["VerifiablePresentation", "VerifiableCredential"],
-  });
-
-  return WebCredentialHandler.activateHandler({
-    mediatorOrigin: MEDIATOR,
-    get: (_) => ({
-        type: 'redirect',
-        url: `${location.origin}/get.html`,
-    }),
-    store: (_) => ({
-        type: 'redirect',
-        url: `${location.origin}/store.html`,
-    }),
-  });
+  port.onDisconnect.addListener(window.close);
 };
 
-window.addEventListener("load", handler);
+window.addEventListener("wallet-ready", handler);

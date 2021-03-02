@@ -37,7 +37,7 @@ class _SplashPageState extends State<SplashPage> {
         CHAPIProvider.instance.init(
           get: (json, done) async {
             final data = jsonDecode(json);
-            final url = Uri.parse(data['credentialRequestOrigin']);
+            final url = Uri.parse(data['origin']);
 
             Modular.get<ScanBloc>().add(ScanEventShowPreview({}));
 
@@ -45,24 +45,24 @@ class _SplashPageState extends State<SplashPage> {
               '/credentials/chapi-present',
               arguments: <String, dynamic>{
                 'url': url,
-                'data': data['credentialRequestOptions'],
+                'data': data['event'],
                 'done': done,
               },
             );
           },
           store: (json, done) async {
             final data = jsonDecode(json);
-            final url = Uri.parse(data['credentialRequestOrigin']);
+            final url = Uri.parse(data['origin']);
 
             Modular.get<ScanBloc>().add(ScanEventShowPreview({
-              'credentialPreview': data['credential'],
+              'credentialPreview': data['event'],
             }));
 
             await Modular.to.pushReplacementNamed(
               '/credentials/chapi-receive',
               arguments: <String, dynamic>{
                 'url': url,
-                'data': data['credential'],
+                'data': data['event'],
                 'done': done,
               },
             );

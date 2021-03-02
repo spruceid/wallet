@@ -13,12 +13,14 @@ class _BaseItem extends StatefulWidget {
   final Widget child;
   final VoidCallback? onTap;
   final bool enabled;
+  final bool? selected;
 
   const _BaseItem({
     Key? key,
     required this.child,
     this.onTap,
     this.enabled = true,
+    this.selected,
   }) : super(key: key);
 
   @override
@@ -145,11 +147,13 @@ class _LabeledItem extends StatelessWidget {
 class CredentialsListItem extends StatelessWidget {
   final CredentialModel item;
   final VoidCallback? onTap;
+  final bool? selected;
 
   CredentialsListItem({
     Key? key,
     required this.item,
     this.onTap,
+    this.selected,
   }) : super(key: key);
 
   @override
@@ -169,12 +173,24 @@ class CredentialsListItem extends StatelessWidget {
               ),
               child: HeroFix(
                 tag: 'credential/${item.id}/icon',
-                child: SvgPicture.asset(
-                  'assets/brand/spruce-icon.svg',
-                  width: 24.0,
-                  height: 24.0,
-                  color: UiKit.palette.icon,
-                ),
+                child: selected == null
+                    ? SvgPicture.asset(
+                        'assets/brand/spruce-icon.svg',
+                        width: 24.0,
+                        height: 24.0,
+                        color: UiKit.palette.icon,
+                      )
+                    : selected!
+                        ? Icon(
+                            Icons.check_box,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          )
+                        : Icon(
+                            Icons.check_box_outline_blank,
+                            size: 24.0,
+                            color: UiKit.palette.icon,
+                          ),
               ),
             ),
             const SizedBox(width: 16.0),

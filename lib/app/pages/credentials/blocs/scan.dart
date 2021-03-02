@@ -34,14 +34,14 @@ class ScanEventCredentialOffer extends ScanEvent {
 class ScanEventVerifiablePresentationRequest extends ScanEvent {
   final String url;
   final String key;
-  final CredentialModel credential;
+  final List<CredentialModel> credentials;
   final String? challenge;
   final String? domain;
 
   ScanEventVerifiablePresentationRequest({
     required this.url,
     required this.key,
-    required this.credential,
+    required this.credentials,
     this.challenge,
     this.domain,
   });
@@ -65,6 +65,22 @@ class ScanEventCHAPIGetDIDAuth extends ScanEvent {
 
   ScanEventCHAPIGetDIDAuth(
     this.keyId,
+    this.done, {
+    this.challenge,
+    this.domain,
+  });
+}
+
+class ScanEventCHAPIGetQueryByExample extends ScanEvent {
+  final String keyId;
+  final List<CredentialModel> credentials;
+  final String? challenge;
+  final String? domain;
+  final void Function(String) done;
+
+  ScanEventCHAPIGetQueryByExample(
+    this.keyId,
+    this.credentials,
     this.done, {
     this.challenge,
     this.domain,
@@ -110,6 +126,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield* _CHAPIStore(event);
     } else if (event is ScanEventCHAPIGetDIDAuth) {
       yield* _CHAPIGetDIDAuth(event);
+    } else if (event is ScanEventCHAPIGetQueryByExample) {
+      yield* _CHAPIGetQueryByExample(event);
     }
   }
 
@@ -207,7 +225,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     final keyId = event.key;
     final challenge = event.challenge;
     final domain = event.domain;
-    final credential = event.credential;
+    final credentials = event.credentials;
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
@@ -223,7 +241,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           'type': ['VerifiablePresentation'],
           'id': presentationId,
           'holder': did,
-          'verifiableCredential': credential.toJson(),
+          'verifiableCredential': credentials.length == 1
+              ? credentials.first.toJson()
+              : credentials.map((c) => c.toJson()).toList(),
         }),
         jsonEncode({
           'verificationMethod': verificationMethod,
@@ -235,7 +255,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       );
 
       await client.post(
-        url,
+        url.toString(),
         data: FormData.fromMap(<String, dynamic>{
           'presentation': presentation,
         }),
@@ -271,23 +291,27 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     final done = event.done;
 
     try {
+      late final type;
+
+      if (data['type'] is List<dynamic>) {
+        type = data['type'].first;
+      } else {
+        type = data['type'];
+      }
+
       late final vc;
 
-      print(data['dataType']);
-      switch (data['dataType']) {
+      switch (type) {
         case 'VerifiablePresentation':
-          print('this is vp');
-          vc = data['data']['verifiableCredential'];
+          vc = data['verifiableCredential'];
           break;
 
         case 'VerifiableCredential':
-          print('this is vc');
-          vc = data['data'];
+          vc = data;
           break;
 
         default:
-          print('this is sparta');
-          throw UnimplementedError('Unsupported dataType: ${data['dataType']}');
+          throw UnimplementedError('Unsupported dataType: $type');
       }
 
       final vcStr = jsonEncode(vc);
@@ -368,15 +392,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     final done = event.done;
 
     try {
-      print('before');
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      print('key $key');
       final did = await DIDKitProvider.instance
           .keyToDID(Constants.defaultDIDMethod, key);
-      print('did $did');
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
-      print('vm $verificationMethod');
 
       final presentation = await DIDKitProvider.instance.DIDAuth(
         did,
@@ -388,7 +408,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
         }),
         key,
       );
-      print('pres $presentation');
 
       done(presentation);
 
@@ -398,6 +417,67 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       log(
         'something went wrong',
         name: 'credible/scan/chapi-get-didauth',
+        error: e,
+      );
+
+      yield ScanStateMessage(
+          StateMessage.error('Something went wrong, please try again later. '
+              'Check the logs for more information.'));
+    }
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateSuccess();
+
+    await Future.delayed(Duration(milliseconds: 100));
+    yield ScanStateIdle();
+  }
+
+  Stream<ScanState> _CHAPIGetQueryByExample(
+    ScanEventCHAPIGetQueryByExample event,
+  ) async* {
+    yield ScanStateWorking();
+
+    final keyId = event.keyId;
+    final challenge = event.challenge;
+    final domain = event.domain;
+    final credentials = event.credentials;
+    final done = event.done;
+
+    try {
+      final key = (await SecureStorageProvider.instance.get(keyId))!;
+      final did = await DIDKitProvider.instance
+          .keyToDID(Constants.defaultDIDMethod, key);
+      final verificationMethod = await DIDKitProvider.instance
+          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+
+      final presentationId = 'urn:uuid:' + Uuid().v4();
+      final presentation = await DIDKitProvider.instance.issuePresentation(
+        jsonEncode({
+          '@context': ['https://www.w3.org/2018/credentials/v1'],
+          'type': ['VerifiablePresentation'],
+          'id': presentationId,
+          'holder': did,
+          'verifiableCredential': credentials.length == 1
+              ? credentials.first.toJson()
+              : credentials.map((c) => c.toJson()).toList(),
+        }),
+        jsonEncode({
+          'verificationMethod': verificationMethod,
+          'proofPurpose': 'authentication',
+          'challenge': challenge,
+          'domain': domain,
+        }),
+        key,
+      );
+
+      done(presentation);
+
+      yield ScanStateMessage(
+          StateMessage.success('Successfully presented your credential(s)!'));
+    } catch (e) {
+      log(
+        'something went wrong',
+        name: 'credible/scan/chapi-get-querybyexample',
         error: e,
       );
 
