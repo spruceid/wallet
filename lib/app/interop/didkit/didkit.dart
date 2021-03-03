@@ -14,9 +14,6 @@ abstract class DIDKitProvider {
 
   String generateEd25519Key();
 
-  @Deprecated('Use [keyToDID]')
-  String keyToDIDKey(String key);
-
   String keyToDID(String methodName, String key);
 
   String keyToVerificationMethod(String methodName, String key);

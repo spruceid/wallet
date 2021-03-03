@@ -23,11 +23,6 @@ class DIDKitIO extends DIDKitProvider {
   }
 
   @override
-  String keyToDIDKey(String key) {
-    return DIDKit.keyToDIDKey(key);
-  }
-
-  @override
   String keyToVerificationMethod(String methodName, String key) {
     return DIDKit.keyToVerificationMethod(methodName, key);
   }

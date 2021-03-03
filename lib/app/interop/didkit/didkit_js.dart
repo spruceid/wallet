@@ -52,11 +52,6 @@ class DIDKitWeb extends DIDKitProvider {
   }
 
   @override
-  String keyToDIDKey(String key) {
-    return DIDKitJS.keyToDIDKey(key);
-  }
-
-  @override
   String keyToVerificationMethod(String methodName, String key) {
     return DIDKitJS.keyToVerificationMethod(methodName, key);
   }
