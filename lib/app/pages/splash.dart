@@ -7,6 +7,7 @@ import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/brand.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -22,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
 
     Future.delayed(
       const Duration(
-        seconds: 2,
+        milliseconds: kIsWeb ? 25 : 1000,
       ),
       () async {
         print(DIDKitProvider.instance.getVersion());
