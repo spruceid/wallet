@@ -40,6 +40,8 @@ the following dependencies:
 - Java 7 or higher
 - Flutter (`dev` channel)
 - [DIDKit](https://github.com/spruceid/didkit)/[SSI](https://github.com/spruceid/ssi)
+- `wasm-pack` (WEB)
+- `binaryen` (WEB and targeting ASM.js)
 
 ### Rust
 
@@ -81,16 +83,34 @@ and resolve any issues that arise before proceeding to the next steps.
 $ flutter doctor
 ```
 
-### DIDKit and SSI
+### `wasm-pack` (Required for both WEB targets)
 
-This project also depends on two other Spruce projects, [`DIDKit`](https://github.com/spruceid/didkit)
-and [`SSI`](https://github.com/spruceid/ssi). 
+To build the WASM target you will need `wasm-pack`, it can be obtained running:
 
-These projects are all configured to work with relative paths by default,
-so it is recommended to clone them all under the same root directory, for exampl
-e `$HOME/spruceid/{didkit,ssi,credible}`.
+```bash
+$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+```
 
-## Platform Specific Instructions
+### `binaryen`
+
+To build Credible for WEB using ASM.js you will need
+[binaryen](https://github.com/WebAssembly/binaryen), which allows the conversion
+of DIDKit WASM to ASM.js. This is necessary when you don't have WASM support and
+need to run your page in pure Javascript.
+
+More detailed instructions on
+how to build `binaryen` can be found [here](https://github.com/WebAssembly/binaryen).
+If you are in a UNIX-like distribution you just have to clone the repo and build,
+we recommend cloning into your `${HOME}`, to avoid having to specify the
+`${BINARYEN_ROOT}` variable:
+
+```bash
+$ git clone https://github.com/WebAssembly/binaryen ~/binaryen
+$ cd ~/binaryen
+$ cmake . && make
+```
+
+## Target Specific Instructions
 
 ### Android 
 
@@ -127,32 +147,16 @@ with Homebrew on MacOS.
 $ brew install cocoapods
 ```
 
-### WEB *(using WASM)*
 
-To build the WASM target you will need `wasm-pack`, it can be obtained running:
+### DIDKit and SSI
 
-```bash
-$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-```
+This project also depends on two other Spruce projects,
+[`DIDKit`](https://github.com/spruceid/didkit) and
+[`SSI`](https://github.com/spruceid/ssi). 
 
-### WEB *(using ASM.js)*
-
-To build Credible for WEB using ASM.js you will need
-[binaryen](https://github.com/WebAssembly/binaryen), which allows the conversion
-of DIDKit WASM to ASM.js. This is necessary when you don't have WASM support and
-need to run your page in pure Javascript.
-
-More detailed instructions on
-how to build `binaryen` can be found [here](https://github.com/WebAssembly/binaryen).
-If you are in a UNIX-like distribution you just have to clone the repo and run,
-we recommend cloning into your `${HOME}`, to avoid having to specify the
-`${BINARYEN_ROOT}` variable:
-
-```bash
-$ git clone https://github.com/WebAssembly/binaryen ~
-$ cd ~/binaryen
-$ cmake . && make
-```
+These projects are all configured to work with relative paths by default,
+so it is recommended to clone them all under the same root directory, for exampl
+e `$HOME/spruceid/{didkit,ssi,credible}`.
 
 ## Building DIDKit
 
@@ -189,19 +193,10 @@ $ make -C lib ../target/test/wasm.stamp
 ```
 ### WEB *using ASM.js*
 
-Make sure you read [WEB using ASM.js](#web-(using-asmjs)):
-
 ```bash
-$ make -C lib ../target/test/asmjs.stamp
+#the BINARYEN_ROOT variable can be ommited if your instalation is at ${HOME}
+$ BINARYEN_ROOT=path/to/binaryen make -C lib ../target/test/asmjs.stamp
 ```
-
-If your `binaryen` instalation folder is diferent of your `${HOME}` you will
-need to specify it:
-
-```bash
-$ BINARYEN_ROOT=${CUSTOM_BINARYEN_ROOT} make -C lib ../target/test/asmjs.stamp
-```
-
 
 ## Building Credible
 
@@ -368,18 +363,18 @@ The flow of events and actions is listed below:
 
 And below is another version of the step-by-step:
 
-| Wallet | <sup>1</sup>| | Server |
-| --- | --- | :---: | ---: |
-| Scan QRCode <sup>2</sup> | | |
-| Trust Host | ○ / × | | |
-| HTTP GET | | → | https://domain.tld/endpoint |
-| | | ← | CredentialOffer |
-| Preview Credential | | | |
-| Choose DID | ○ / × | | |
-| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
-| | | ← | VerifiableCredential |
-| Verify Credential | | | |
-| Store Credential | | | |
+| Wallet                   | <sup>1</sup> |       |                      Server |
+| ------------------------ | ------------ | :---: | --------------------------: |
+| Scan QRCode <sup>2</sup> |              |       |
+| Trust Host               | ○ / ×        |       |                             |
+| HTTP GET                 |              |   →   | https://domain.tld/endpoint |
+|                          |              |   ←   |             CredentialOffer |
+| Preview Credential       |              |       |                             |
+| Choose DID               | ○ / ×        |       |                             |
+| HTTP POST <sup>3</sup>   |              |   →   | https://domain.tld/endpoint |
+|                          |              |   ←   |        VerifiableCredential |
+| Verify Credential        |              |       |                             |
+| Store Credential         |              |       |                             |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
 early when the user denies.*  
@@ -418,16 +413,16 @@ The flow of events and actions is listed below:
 
 And below is another version of the step-by-step:
 
-| Wallet | <sup>1</sup> | | Server |
-| --- | --- | :---: | ---: |
-| Scan QRCode <sup>2</sup> | | |
-| Trust Host | ○ / × | | |
-| HTTP GET | | → | https://domain.tld/endpoint |
-| | | ← | VerifiablePresentationRequest |
-| Preview Presentation | | | |
-| Choose Verifiable Credential | ○ / × | | |
-| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
-| | | ← | Result |
+| Wallet                       | <sup>1</sup> |       |                        Server |
+| ---------------------------- | ------------ | :---: | ----------------------------: |
+| Scan QRCode <sup>2</sup>     |              |       |
+| Trust Host                   | ○ / ×        |       |                               |
+| HTTP GET                     |              |   →   |   https://domain.tld/endpoint |
+|                              |              |   ←   | VerifiablePresentationRequest |
+| Preview Presentation         |              |       |                               |
+| Choose Verifiable Credential | ○ / ×        |       |                               |
+| HTTP POST <sup>3</sup>       |              |   →   |   https://domain.tld/endpoint |
+|                              |              |   ←   |                        Result |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
 early when the user denies.*  
