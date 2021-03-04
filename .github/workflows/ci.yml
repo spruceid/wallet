@@ -75,7 +75,7 @@ jobs:
     - name: SETUP | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
-        rust-version: nightly
+        rust-version: stable
   
     - name: DIDKIT | rustup android
       working-directory: ./didkit
