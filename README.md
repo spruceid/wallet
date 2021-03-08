@@ -36,29 +36,17 @@ plus F-Droid.
 To manually build Credible for either Android or iOS, you will need to install
 the following dependencies:
 
-- Rust (`nightly`)
+- Rust
 - Java 7 or higher
 - Flutter (`dev` channel)
-- `DIDKit`/`SSI`
+- [DIDKit](https://github.com/spruceid/didkit)/[SSI](https://github.com/spruceid/ssi)
+- `wasm-pack` (WEB)
+- `binaryen` (WEB and targeting ASM.js)
 
 ### Rust
 
 It is recommended to use [rustup](https://www.rust-lang.org/tools/install) to
 manage your Rust installation.
-
-To use the `nightly` version of Rust globally, you should execute the following
-command:
-
-```bash
-$ rustup default nightly 
-```
-
-Or, if you would prefer to configure `nightly` for a single project, you should
-execute the following command at its root (where `Cargo.toml` lives).
-
-```bash
-$ rustup override set nightly
-```
 
 ### Java
 
@@ -95,16 +83,34 @@ and resolve any issues that arise before proceeding to the next steps.
 $ flutter doctor
 ```
 
-### DIDKit and SSI
+### `wasm-pack` (Required for both WEB targets)
 
-This project also depends on two other Spruce projects, [`DIDKit`](https://github.com/spruceid/didkit)
-and [`SSI`](https://github.com/spruceid/ssi). 
+To build the WASM target you will need `wasm-pack`, it can be obtained running:
 
-These projects are all configured to work with relative paths by default,
-so it is recommended to clone them all under the same root directory, for example
-`$HOME/spruceid/{didkit,ssi,credible}`.
+```bash
+$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+```
 
-## Platform Specific Instructions
+### `binaryen`
+
+To build Credible for WEB using ASM.js you will need
+[binaryen](https://github.com/WebAssembly/binaryen), which allows the conversion
+of DIDKit WASM to ASM.js. This is necessary when you don't have WASM support and
+need to run your page in pure Javascript.
+
+More detailed instructions on
+how to build `binaryen` can be found [here](https://github.com/WebAssembly/binaryen).
+If you are in a UNIX-like distribution you just have to clone the repo and build,
+we recommend cloning into your `${HOME}`, to avoid having to specify the
+`${BINARYEN_ROOT}` variable:
+
+```bash
+$ git clone https://github.com/WebAssembly/binaryen ~/binaryen
+$ cd ~/binaryen
+$ cmake . && make
+```
+
+## Target Specific Instructions
 
 ### Android 
 
@@ -133,7 +139,28 @@ $ export ANDROID_TOOLS=/path/to/build-tools
 $ export ANDROID_NDK_HOME=/path/to/ndk
 ```
 
-#### Building DIDKit
+### iOS
+
+To build Credible for iOS you will need to install CocoaPods, which can be done
+with Homebrew on MacOS.
+
+```bash
+$ brew install cocoapods
+```
+
+### DIDKit and SSI
+
+This project also depends on two other Spruce projects,
+[`DIDKit`](https://github.com/spruceid/didkit) and
+[`SSI`](https://github.com/spruceid/ssi). 
+
+These projects are all configured to work with relative paths by default,
+so it is recommended to clone them all under the same root directory, for exampl
+e `$HOME/spruceid/{didkit,ssi,credible}`.
+
+## Building DIDKit
+
+### Android
 
 To build `DIDKit` for the Android targets, you will go to the root of `DIDKit`
 and run:
@@ -150,17 +177,8 @@ $ cargo build
 
 ### iOS
 
-To build Credible for iOS you will need to install CocoaPods, which can be done
-with Homebrew on MacOS.
-
-```bash
-$ brew install cocoapods
-```
-
-#### Building DIDKit
-
-To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and
-run: 
+To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and run
+: 
 
 ```bash
 $ make -C lib install-rustup-ios 
@@ -170,18 +188,45 @@ $ cargo build
 
 *This may take some time as it compiles the entire project for multiple targets*
 
-## Building
+### Web *using WASM*
 
-You are now ready to build Credible.
-
-If you want to run the project on your connected device, you can use:
 ```bash
-$ flutter run  --no-sound-null-safety                                 # Run on emulator
+$ make -C lib ../target/test/wasm.stamp
 ```
 
-Otherwise, Flutter allows us to build many artifacts for Android and iOS, below you can
-find the most common and useful commands, all of which you should run from the root of
-Credible.
+### Web *using ASM.js*
+
+If you have installed `bynarien` somewhere other than $HOME, you will have to
+set `BYNARIEN_ROOT` as shown below, otherwise, just run the `make` command.
+
+```bash
+$ export BINARYEN_ROOT=/path/to/binaryen
+$ make -C lib ../target/test/asmjs.stamp
+```
+
+## Building Credible
+
+You are now ready to build or run Credible.
+
+### Run on emulator
+
+If you want to run the project on your connected device, you can use:
+
+```bash
+$ flutter run --no-sound-null-safety
+```
+
+### Run on browser
+
+If you want to run the project on your browser, you can use:
+
+```bash
+$ flutter run --no-sound-null-safety -d chrome --csp --release
+```
+
+Otherwise, Flutter allows us to build many artifacts for Android, iOS and WEB,
+below you can find the most common and useful commands, all of which you should
+run from the root of Credible.
 
 ### Android APK
 ```bash
@@ -208,15 +253,94 @@ $ flutter build ios --no-sound-null-safety --no-codesign
 $ flutter build ipa --no-sound-null-safety
 ```
 
+### Web
+```bash
+$ flutter build web \
+  --no-sound-null-safety \
+  --csp \
+  --release
+```
+
+If you don't have support for WASM, you'll probably need to provide your own
+`canvaskit` dependency without WASM as well as DIDKit, to do that you need to
+specify the `FLUTTER_WEB_CANVASKIT_URL` in the build command like below.
+
+```bash
+$ flutter build web \
+  --no-sound-null-safety \
+  --csp \
+  --dart-define=FLUTTER_WEB_CANVASKIT_URL=vendor/ \
+  --release
+```
+
 For more details about any of these commands you can run
 ```bash
 $ flutter build $SUBCOMMAND --help
 ```
 
 ### Note about `nullsafety`
-While we are ready to migrate to Dart with nullsafety, a couple of the dependencies of
-the project are still lagging behind, so we need to add `--no-sound-null-safely` to both
-run and build commands for the time being.
+
+While we are ready to migrate to Dart with nullsafety, a couple of the
+dependencies of the project are still lagging behind, so we need to add `--no-sound-null-safely` to both run and build commands for the time being.
+
+### Note about `canvaskit`
+
+Since by default `canvaskit` comes in a `WASM` build, in order to the `ASM.js`
+be fully supported `canvaskit` was manually built for this target.
+
+A prebuilt `canvaskit` is already included in the Credible web folder.
+
+But if you want to build it by yourself, follow these steps:
+
+- [Install `emscripten`](https://emscripten.org/docs/getting_started/downloads.html)
+
+- [Clone Skia repository and pull its dependencies](https://skia.org/user/download)
+
+```bash
+git clone https://skia.googlesource.com/skia.git --depth 1 --branch canvaskit/0.22.0
+cd skia
+python2 tools/git-sync-deps
+```
+
+- Modify build script `modules/canvaskit/compile.sh`
+
+```
+diff --git a/modules/canvaskit/compile.sh b/modules/canvaskit/compile.sh
+index 6ba58bfae9..51f0297eb6 100755
+--- a/modules/canvaskit/compile.sh
++++ b/modules/canvaskit/compile.sh
+@@ -397,6 +397,7 @@ EMCC_DEBUG=1 ${EMCXX} \
+     -s MODULARIZE=1 \
+     -s NO_EXIT_RUNTIME=1 \
+     -s INITIAL_MEMORY=128MB \
+-    -s WASM=1 \
++    -s WASM=0 \
++    -s NO_DYNAMIC_EXECUTION=1 \
+     $STRICTNESS \
+     -o $BUILD_DIR/canvaskit.js
+```
+
+- Build `canvaskit`
+
+```bash
+$ cd modules/canvaskit
+$ make debug
+```
+
+- Replace this line on `$SKIA/modules/canvaskit/canvaskit/bin/canvaskit.js`
+
+```git
+618c618
+< var isNode = !(new Function('try {return this===window;}catch(e){ return false;}')());
+---
+> var isNode = false;
+```
+
+- Copy `$SKIA/modules/canvaskit/canvaskit/bin/canvaskit.js` to
+`$CREDIBLE/web/vendor/`
+
+- Build Credible as described above.
+
 
 ### Troubleshooting
 
@@ -224,6 +348,7 @@ If you encounter any errors in the build process described here, please first tr
 clean builds of the projects listed.
 
 For instance, on Flutter, you can delete build files to start over by running:
+
 ```bash
 $ flutter clean
 ```
@@ -256,18 +381,18 @@ The flow of events and actions is listed below:
 
 And below is another version of the step-by-step:
 
-| Wallet | <sup>1</sup>| | Server |
-| --- | --- | :---: | ---: |
-| Scan QRCode <sup>2</sup> | | |
-| Trust Host | ○ / × | | |
-| HTTP GET | | → | https://domain.tld/endpoint |
-| | | ← | CredentialOffer |
-| Preview Credential | | | |
-| Choose DID | ○ / × | | |
-| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
-| | | ← | VerifiableCredential |
-| Verify Credential | | | |
-| Store Credential | | | |
+| Wallet                   | <sup>1</sup> |       |                      Server |
+| ------------------------ | ------------ | :---: | --------------------------: |
+| Scan QRCode <sup>2</sup> |              |       |
+| Trust Host               | ○ / ×        |       |                             |
+| HTTP GET                 |              |   →   | https://domain.tld/endpoint |
+|                          |              |   ←   |             CredentialOffer |
+| Preview Credential       |              |       |                             |
+| Choose DID               | ○ / ×        |       |                             |
+| HTTP POST <sup>3</sup>   |              |   →   | https://domain.tld/endpoint |
+|                          |              |   ←   |        VerifiableCredential |
+| Verify Credential        |              |       |                             |
+| Store Credential         |              |       |                             |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
 early when the user denies.*  
@@ -306,16 +431,16 @@ The flow of events and actions is listed below:
 
 And below is another version of the step-by-step:
 
-| Wallet | <sup>1</sup> | | Server |
-| --- | --- | :---: | ---: |
-| Scan QRCode <sup>2</sup> | | |
-| Trust Host | ○ / × | | |
-| HTTP GET | | → | https://domain.tld/endpoint |
-| | | ← | VerifiablePresentationRequest |
-| Preview Presentation | | | |
-| Choose Verifiable Credential | ○ / × | | |
-| HTTP POST <sup>3</sup> | | → | https://domain.tld/endpoint |
-| | | ← | Result |
+| Wallet                       | <sup>1</sup> |       |                        Server |
+| ---------------------------- | ------------ | :---: | ----------------------------: |
+| Scan QRCode <sup>2</sup>     |              |       |
+| Trust Host                   | ○ / ×        |       |                               |
+| HTTP GET                     |              |   →   |   https://domain.tld/endpoint |
+|                              |              |   ←   | VerifiablePresentationRequest |
+| Preview Presentation         |              |       |                               |
+| Choose Verifiable Credential | ○ / ×        |       |                               |
+| HTTP POST <sup>3</sup>       |              |   →   |   https://domain.tld/endpoint |
+|                              |              |   ←   |                        Result |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
 early when the user denies.*  
