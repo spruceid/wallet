@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,18 +16,19 @@ class PhraseWord extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(
           horizontal: 12.0,
-          vertical: 4.0,
+          vertical: 12.0,
         ),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.transparent,
           border: Border.all(
             width: 1.5,
-            color: Palette.text,
+            color: UiKit.palette.wordBorder,
           ),
           borderRadius: BorderRadius.circular(128.0),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
               '$order',

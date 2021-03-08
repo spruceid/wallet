@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -11,7 +11,7 @@ class BackLeadingButton extends StatelessWidget {
       },
       icon: Icon(
         Icons.arrow_back,
-        color: Palette.text,
+        color: UiKit.palette.icon,
       ),
     );
   }

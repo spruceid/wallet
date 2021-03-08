@@ -5,14 +5,12 @@ import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
-import 'package:credible/app/shared/widget/navigation_bar.dart';
 import 'package:credible/localizations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,7 +86,39 @@ class _CredentialsDetailState
       title: widget.item.issuer,
       titleTag: 'credential/${widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
-      navigation: CustomNavBar(index: 0),
+      navigation: Container(
+        padding: const EdgeInsets.all(16.0),
+        height: kBottomNavigationBarHeight * 1.75,
+        child: Tooltip(
+          message: localizations.credentialDetailShare,
+          child: BaseButton.primary(
+            onPressed: () {
+              Modular.to.pushNamed(
+                '/qr-code/display',
+                arguments: [
+                  widget.item.id,
+                  widget.item.id,
+                ],
+              );
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SvgPicture.asset(
+                  'assets/icon/qr-code.svg',
+                  width: 24.0,
+                  height: 24.0,
+                  color: UiKit.palette.icon,
+                ),
+                const SizedBox(width: 16.0),
+                Text(localizations.credentialDetailShare),
+              ],
+            ),
+          ),
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.zero,
         child: Column(
@@ -98,43 +128,6 @@ class _CredentialsDetailState
               padding: const EdgeInsets.all(16.0),
               child: DocumentWidget(
                 item: widget.item,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Tooltip(
-                message: localizations.credentialDetailShare,
-                child: BaseButton.transparent(
-                  borderColor: Palette.blue,
-                  onPressed: () {
-                    Modular.to.pushNamed(
-                      '/qr-code/display',
-                      arguments: [
-                        widget.item.id,
-                        widget.item.id,
-                      ],
-                    );
-                  },
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      SvgPicture.asset(
-                        'assets/icon/qr-code.svg',
-                        width: 24.0,
-                        height: 24.0,
-                        color: Palette.blue,
-                      ),
-                      const SizedBox(width: 16.0),
-                      Text(
-                        localizations.credentialDetailShare,
-                        style: Theme.of(context)
-                            .textTheme
-                            .button!
-                            .apply(color: Palette.blue),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
             const SizedBox(height: 64.0),
@@ -180,7 +173,7 @@ class _CredentialsDetailState
                 style: Theme.of(context)
                     .textTheme
                     .bodyText1!
-                    .apply(color: Palette.greenGrey),
+                    .apply(color: Colors.redAccent),
               ),
             ),
             const SizedBox(height: 16.0),

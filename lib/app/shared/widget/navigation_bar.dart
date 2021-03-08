@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/info_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _CustomActiveNavIcon extends StatelessWidget {
         height: 24.0,
         child: SvgPicture.asset(
           asset,
-          color: Palette.blue,
+          color: UiKit.palette.navBarIcon,
         ),
       );
 }
@@ -55,51 +55,60 @@ class CustomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: index,
-      showSelectedLabels: false,
-      showUnselectedLabels: false,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Modular.to.pushReplacementNamed('/credentials');
-            break;
-          case 1:
-            if (kIsWeb) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) => InfoDialog(
-                  title: 'Unavailable Feature',
-                  subtitle: 'This feature is not available on the browser',
-                  button: 'Ok',
-                ),
-              );
-            } else {
-              Modular.to.pushReplacementNamed('/qr-code/scan');
-            }
-            break;
-          case 2:
-            Modular.to.pushReplacementNamed('/profile');
-            break;
-        }
-      },
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          label: 'Wallet',
-          icon: _CustomNavIcon(asset: assetWallet),
-          activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
-        ),
-        BottomNavigationBarItem(
-          label: 'QR Code',
-          icon: _CustomNavIcon(asset: assetQrCode),
-          activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
-        ),
-        BottomNavigationBarItem(
-          label: 'Profile',
-          icon: _CustomNavIcon(asset: assetProfile),
-          activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
-        ),
-      ],
+    return Container(
+      padding: UiKit.constraints.navBarPadding,
+      decoration: BoxDecoration(
+        color: UiKit.palette.navBarBackground,
+        borderRadius: UiKit.constraints.navBarRadius,
+      ),
+      child: BottomNavigationBar(
+        currentIndex: index,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Modular.to.pushReplacementNamed('/credentials');
+              break;
+            case 1:
+              if (kIsWeb) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => InfoDialog(
+                    title: 'Unavailable Feature',
+                    subtitle: 'This feature is not available on the browser',
+                    button: 'Ok',
+                  ),
+                );
+              } else {
+                Modular.to.pushReplacementNamed('/qr-code/scan');
+              }
+              break;
+            case 2:
+              Modular.to.pushReplacementNamed('/profile');
+              break;
+          }
+        },
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            label: 'Wallet',
+            icon: _CustomNavIcon(asset: assetWallet),
+            activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
+          ),
+          BottomNavigationBarItem(
+            label: 'QR Code',
+            icon: _CustomNavIcon(asset: assetQrCode),
+            activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
+          ),
+          BottomNavigationBarItem(
+            label: 'Profile',
+            icon: _CustomNavIcon(asset: assetProfile),
+            activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
+          ),
+        ],
+      ),
     );
   }
 }

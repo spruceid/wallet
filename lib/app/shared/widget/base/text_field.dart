@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class BaseTextField extends StatelessWidget {
@@ -20,19 +20,18 @@ class BaseTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: UiKit.constraints.textFieldPadding,
       padding: const EdgeInsets.symmetric(
         horizontal: 24.0,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border(
-          top: BorderSide(color: Palette.greyPurple),
-          bottom: BorderSide(color: Palette.greyPurple),
-        ),
+        color: UiKit.palette.textFieldBackground,
+        border: Border.all(color: UiKit.palette.textFieldBorder),
+        borderRadius: UiKit.constraints.textFieldRadius,
       ),
       child: TextFormField(
         controller: controller,
-        cursorColor: Palette.text,
+        cursorColor: UiKit.text.colorTextBody1,
         keyboardType: type,
         maxLines: 1,
         decoration: InputDecoration(
@@ -42,19 +41,17 @@ class BaseTextField extends StatelessWidget {
           errorBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
           focusedErrorBorder: InputBorder.none,
-          fillColor: Palette.text,
-          hoverColor: Palette.text,
-          focusColor: Palette.text,
+          fillColor: UiKit.text.colorTextBody1,
+          hoverColor: UiKit.text.colorTextBody1,
+          focusColor: UiKit.text.colorTextBody1,
           errorText: error,
           hintText: label,
-          hintStyle:
-              Theme.of(context).textTheme.bodyText1!.apply(color: Palette.text),
+          hintStyle: Theme.of(context).textTheme.bodyText1!,
           labelText: label,
-          labelStyle:
-              Theme.of(context).textTheme.bodyText1!.apply(color: Palette.text),
+          labelStyle: Theme.of(context).textTheme.bodyText1!,
           suffixIcon: Icon(
             icon,
-            color: Palette.text.withOpacity(0.4),
+            color: UiKit.palette.icon.withOpacity(0.4),
           ),
         ),
       ),
