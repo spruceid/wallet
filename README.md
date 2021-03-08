@@ -138,6 +138,7 @@ locations, you can also configure the following two environment variables:
 $ export ANDROID_TOOLS=/path/to/build-tools
 $ export ANDROID_NDK_HOME=/path/to/ndk
 ```
+
 ### iOS
 
 To build Credible for iOS you will need to install CocoaPods, which can be done
@@ -146,7 +147,6 @@ with Homebrew on MacOS.
 ```bash
 $ brew install cocoapods
 ```
-
 
 ### DIDKit and SSI
 
@@ -159,8 +159,6 @@ so it is recommended to clone them all under the same root directory, for exampl
 e `$HOME/spruceid/{didkit,ssi,credible}`.
 
 ## Building DIDKit
-
-*This may take some time as it compiles the entire project for multiple targets*
 
 ### Android
 
@@ -175,7 +173,9 @@ $ make -C lib ../target/test/flutter.stamp
 $ cargo build
 ```
 
-### IOS
+*This may take some time as it compiles the entire project for multiple targets*
+
+### iOS
 
 To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and run
 : 
@@ -186,16 +186,22 @@ $ make -C lib ../target/test/ios.stamp
 $ cargo build
 ```
 
-### WEB *using WASM*
+*This may take some time as it compiles the entire project for multiple targets*
+
+### Web *using WASM*
 
 ```bash
 $ make -C lib ../target/test/wasm.stamp
 ```
-### WEB *using ASM.js*
+
+### Web *using ASM.js*
+
+If you have installed `bynarien` somewhere other than $HOME, you will have to
+set `BYNARIEN_ROOT` as shown below, otherwise, just run the `make` command.
 
 ```bash
-#the BINARYEN_ROOT variable can be ommited if your instalation is at ${HOME}
-$ BINARYEN_ROOT=path/to/binaryen make -C lib ../target/test/asmjs.stamp
+$ export BINARYEN_ROOT=/path/to/binaryen
+$ make -C lib ../target/test/asmjs.stamp
 ```
 
 ## Building Credible
@@ -203,12 +209,17 @@ $ BINARYEN_ROOT=path/to/binaryen make -C lib ../target/test/asmjs.stamp
 You are now ready to build or run Credible.
 
 ### Run on emulator
+
 If you want to run the project on your connected device, you can use:
+
 ```bash
 $ flutter run --no-sound-null-safety
 ```
+
 ### Run on browser
+
 If you want to run the project on your browser, you can use:
+
 ```bash
 $ flutter run --no-sound-null-safety -d chrome --csp --release
 ```
@@ -241,7 +252,8 @@ $ flutter build ios --no-sound-null-safety --no-codesign
 ```bash
 $ flutter build ipa --no-sound-null-safety
 ```
-### WEB (WASM)
+
+### Web
 ```bash
 $ flutter build web \
   --no-sound-null-safety \
@@ -249,7 +261,10 @@ $ flutter build web \
   --release
 ```
 
-### WEB (ASM.js)
+If you don't have support for WASM, you'll probably need to provide your own
+`canvaskit` dependency without WASM as well as DIDKit, to do that you need to
+specify the `FLUTTER_WEB_CANVASKIT_URL` in the build command like below.
+
 ```bash
 $ flutter build web \
   --no-sound-null-safety \
@@ -264,14 +279,16 @@ $ flutter build $SUBCOMMAND --help
 ```
 
 ### Note about `nullsafety`
+
 While we are ready to migrate to Dart with nullsafety, a couple of the
 dependencies of the project are still lagging behind, so we need to add `--no-sound-null-safely` to both run and build commands for the time being.
 
 ### Note about `canvaskit`
+
 Since by default `canvaskit` comes in a `WASM` build, in order to the `ASM.js`
 be fully supported `canvaskit` was manually built for this target.
 
-Vendored `canvaskit` is included in the Credible web folder.
+A prebuilt `canvaskit` is already included in the Credible web folder.
 
 But if you want to build it by yourself, follow these steps:
 
@@ -285,7 +302,7 @@ cd skia
 python2 tools/git-sync-deps
 ```
 
-- Modify build script `compile.sh`
+- Modify build script `modules/canvaskit/compile.sh`
 
 ```
 diff --git a/modules/canvaskit/compile.sh b/modules/canvaskit/compile.sh
@@ -331,6 +348,7 @@ If you encounter any errors in the build process described here, please first tr
 clean builds of the projects listed.
 
 For instance, on Flutter, you can delete build files to start over by running:
+
 ```bash
 $ flutter clean
 ```
