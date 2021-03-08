@@ -35,6 +35,43 @@ class _SplashPageState extends State<SplashPage> {
           return;
         }
 
+        CHAPIProvider.instance.init(
+          get: (json, done) async {
+            final data = jsonDecode(json);
+            final url = Uri.parse(data['origin']);
+
+            Modular.get<ScanBloc>().add(ScanEventShowPreview({}));
+
+            await Modular.to.pushReplacementNamed(
+              '/credentials/chapi-present',
+              arguments: <String, dynamic>{
+                'url': url,
+                'data': data['event'],
+                'done': done,
+              },
+            );
+          },
+          store: (json, done) async {
+            final data = jsonDecode(json);
+            final url = Uri.parse(data['origin']);
+
+            Modular.get<ScanBloc>().add(ScanEventShowPreview({
+              'credentialPreview': data['event'],
+            }));
+
+            await Modular.to.pushReplacementNamed(
+              '/credentials/chapi-receive',
+              arguments: <String, dynamic>{
+                'url': url,
+                'data': data['event'],
+                'done': done,
+              },
+            );
+          },
+        );
+
+        CHAPIProvider.instance.emitReady();
+
         await Modular.to.pushReplacementNamed('/credentials');
       },
     );
