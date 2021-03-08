@@ -16,17 +16,43 @@ abstract class DIDKitProvider {
 
   String keyToDID(String methodName, String key);
 
-  String keyToVerificationMethod(String methodName, String key);
+  Future<String> keyToVerificationMethod(String methodName, String key);
 
-  String issueCredential(String credential, String options, String key);
+  Future<String> issueCredential(
+    String credential,
+    String options,
+    String key,
+  );
 
-  String verifyCredential(String credential, String options);
+  Future<String> verifyCredential(
+    String credential,
+    String options,
+  );
 
-  String issuePresentation(String presentation, String options, String key);
+  Future<String> issuePresentation(
+    String presentation,
+    String options,
+    String key,
+  );
 
-  String verifyPresentation(String presentation, String options);
+  Future<String> verifyPresentation(
+    String presentation,
+    String options,
+  );
 
-  String resolveDID(String did, String inputMetadata);
+  Future<String> resolveDID(
+    String did,
+    String inputMetadata,
+  );
 
-  String dereferenceDIDURL(String didUrl, String inputMetadata);
+  Future<String> dereferenceDIDURL(
+    String didUrl,
+    String inputMetadata,
+  );
+
+  Future<String> DIDAuth(
+    String did,
+    String options,
+    String key,
+  );
 }
