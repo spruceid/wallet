@@ -1,5 +1,4 @@
 import 'package:credible/app/pages/profile/blocs/did.dart';
-import 'package:credible/app/shared/palette.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,10 +27,7 @@ class DIDDisplay extends StatelessWidget {
             Center(
               child: Text(
                 'Your DID is',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .apply(color: Palette.greenGrey),
+                style: Theme.of(context).textTheme.bodyText2!,
               ),
             ),
             Container(
@@ -45,10 +41,7 @@ class DIDDisplay extends StatelessWidget {
                   Expanded(
                     child: Text(
                       did,
-                      style: Theme.of(context)
-                          .textTheme
-                          .overline!
-                          .apply(color: Palette.greenGrey),
+                      style: Theme.of(context).textTheme.overline!,
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -68,10 +61,7 @@ class DIDDisplay extends StatelessWidget {
               },
               child: Text(
                 'Copy DID to clipboard',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .apply(color: Palette.greenGrey),
+                style: Theme.of(context).textTheme.bodyText1!,
               ),
             ),
           ],

@@ -1,7 +1,7 @@
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/pages/on_boarding/widget/word.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/mnemonic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -48,16 +48,7 @@ class _RecoveryPageState extends State<RecoveryPage> {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 48.0),
-          Wrap(
-            spacing: 16.0,
-            runSpacing: 8.0,
-            alignment: WrapAlignment.center,
-            runAlignment: WrapAlignment.center,
-            children: List.generate(
-              mnemonic.length,
-              (i) => PhraseWord(order: i + 1, word: mnemonic[i]),
-            ),
-          ),
+          MnemonicDisplay(mnemonic: mnemonic),
         ],
       ),
     );

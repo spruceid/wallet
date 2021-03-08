@@ -43,7 +43,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                BaseButton.blue(
+                BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed('/on-boarding/recovery');
                   },
@@ -80,7 +80,7 @@ class OnBoardingKeyPage extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 32.0),
-                BaseButton.blue(
+                BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed('/on-boarding/gen-phrase');
                   },

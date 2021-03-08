@@ -2,7 +2,7 @@ import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
@@ -13,10 +13,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
+  final VoidCallback onSubmit;
 
   const CredentialsReceivePage({
     Key? key,
     required this.url,
+    required this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,7 @@ class _CredentialsReceivePageState
         onPressed: goBack,
         icon: Icon(
           Icons.close,
-          color: Palette.text,
+          color: UiKit.palette.icon,
         ),
       ),
       body: BlocConsumer(
@@ -85,8 +87,8 @@ class _CredentialsReceivePageState
                 const SizedBox(height: 16.0),
                 DocumentWidget(
                   item: CredentialModel(
-                    id: preview['credentialPreview']['id'],
-                    issuer: preview['credentialPreview']['issuer'],
+                    id: preview['credentialPreview']['id'] ?? '',
+                    issuer: preview['credentialPreview']['issuer'] ?? '',
                     status: CredentialStatus.active,
                     image: '',
                     data: {},
@@ -94,11 +96,8 @@ class _CredentialsReceivePageState
                   // item: widget.item,
                 ),
                 const SizedBox(height: 24.0),
-                BaseButton.blue(
-                  onPressed: () {
-                    store.add(
-                        ScanEventCredentialOffer(widget.url.toString(), 'key'));
-                  },
+                BaseButton.primary(
+                  onPressed: widget.onSubmit,
                   child: Text(localizations.credentialReceiveConfirm),
                 ),
                 const SizedBox(height: 8.0),

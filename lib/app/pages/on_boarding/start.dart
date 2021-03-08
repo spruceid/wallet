@@ -19,7 +19,7 @@ class OnBoardingStartPage extends StatelessWidget {
           Flexible(flex: 1, child: Container()),
           Brand(),
           Flexible(flex: 3, child: Container()),
-          BaseButton.blue(
+          BaseButton.primary(
             onPressed: () {
               Modular.to.pushReplacementNamed('/on-boarding/tos');
             },

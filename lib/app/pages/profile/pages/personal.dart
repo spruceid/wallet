@@ -1,11 +1,10 @@
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -44,26 +43,29 @@ class _PersonalPageState extends State<PersonalPage> {
     return BasePage(
       title: 'Personal',
       titleLeading: BackLeadingButton(),
-      titleTrailing: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-        child: Text.rich(
-          TextSpan(
-            text: 'Save',
+      titleTrailing: InkWell(
+        borderRadius: BorderRadius.circular(8.0),
+        onTap: () {
+          Modular.get<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
+            firstName: firstNameController.text,
+            lastName: lastNameController.text,
+            phone: phoneController.text,
+            location: locationController.text,
+            email: emailController.text,
+          )));
+          Modular.to.pop();
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 12.0,
+            vertical: 8.0,
+          ),
+          child: Text(
+            'Save',
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!
-                .apply(color: Palette.blue),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Modular.get<ProfileBloc>().add(ProfileEventUpdate(ProfileModel(
-                  firstName: firstNameController.text,
-                  lastName: lastNameController.text,
-                  phone: phoneController.text,
-                  location: locationController.text,
-                  email: emailController.text,
-                )));
-                Modular.to.pop();
-              },
+                .apply(color: UiKit.palette.primary),
           ),
         ),
       ),

@@ -6,7 +6,6 @@ import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
-import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
@@ -47,7 +46,6 @@ class _ProfilePageState extends State<ProfilePage> {
         final lastName = model.lastName;
 
         return BasePage(
-          backgroundColor: Palette.background,
           title: 'Profile',
           padding: const EdgeInsets.symmetric(
             vertical: 24.0,
@@ -71,10 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Center(
                   child: Text(
                     '$firstName $lastName',
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle2!
-                        .apply(color: Palette.greenGrey),
+                    style: Theme.of(context).textTheme.subtitle2!,
                   ),
                 ),
               const SizedBox(height: 32.0),
@@ -184,20 +179,14 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: Text(
                   'DIDKit v' + DIDKitProvider.instance.getVersion(),
-                  style: Theme.of(context)
-                      .textTheme
-                      .overline!
-                      .apply(color: Palette.greenGrey),
+                  style: Theme.of(context).textTheme.overline!,
                 ),
               ),
               const SizedBox(height: 8.0),
               Center(
                 child: Text(
                   'Credible v0.1.0',
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .apply(color: Palette.greenGrey),
+                  style: Theme.of(context).textTheme.caption!,
                 ),
               ),
             ],

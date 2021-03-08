@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -20,6 +20,7 @@ class ConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
+      backgroundColor: UiKit.palette.appBarBackground,
       contentPadding: const EdgeInsets.only(
         top: 24.0,
         bottom: 16.0,
@@ -43,7 +44,7 @@ class ConfirmDialog extends StatelessWidget {
             children: <Widget>[
               Expanded(
                 child: BaseButton.transparent(
-                  borderColor: Palette.blue,
+                  borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop(true);
                   },
@@ -52,7 +53,8 @@ class ConfirmDialog extends StatelessWidget {
               ),
               const SizedBox(width: 16.0),
               Expanded(
-                child: BaseButton.blue(
+                child: BaseButton.primary(
+                  borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop(false);
                   },
