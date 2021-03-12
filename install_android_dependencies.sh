@@ -7,12 +7,10 @@ sudo apt install -y git lib32z1 libssl-dev pkg-config build-essential curl cmake
 # if there are any error loading the above, re-run apt update and address them before continuing!
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-##CLONE STUFF
+##CLONE SPRUCE REPOSITORIES
 git clone https://github.com/spruceid/didkit
 git clone https://github.com/spruceid/credible
 git clone --recursive https://github.com/spruceid/ssi
-
-nano didkit/lib/Makefile 
 
 ##FLUTTER
 git clone https://github.com/flutter/flutter.git -b dev $HOME/flutter
