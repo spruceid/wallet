@@ -32,7 +32,8 @@ We are also in the process of listing Credible on the iOS TestFlight and
 Android Play Beta programs, and eventually their respective app marketplaces
 plus F-Droid.
 
-## Getting Started
+## Common Dependencies
+
 To manually build Credible for either Android or iOS, you will need to install
 the following dependencies:
 
@@ -104,19 +105,21 @@ These projects are all configured to work with relative paths by default,
 so it is recommended to clone them all under the same root directory, for example
 `$HOME/spruceid/{didkit,ssi,credible}`.
 
-## Platform Specific Instructions
+## Android-Specific Instructions
 
-### Android 
+### Installing Dependencies
 
 To build Credible for Android, you will require both the Android SDK and NDK.
 
-These two dependencies can be easily obtained with
-[Android Studio](https://developer.android.com/studio/install), which when
-first openened 
-installed, then opened for the first time to allow further dependencies to be
-installed. Addiontally, requires the installation of Android NDK in Android 
-Studio by going to Settings > Appearance & Behavior > System Settings > 
-Android SDK. Select and install the NDK (Side by Side).
+These two dependencies can be easily obtained with [Android
+Studio](https://developer.android.com/studio/install), which install further
+dependencies upon first being opened after installation. Installing the
+appropriate Android NDK (often not the newest) in Android Studio can be
+accomplished by going to Settings > Appearance & Behavior > System Settings >
+Android SDK and selecting to install the "NDK (Side by Side)". An alternative
+method of installing SDK and NDK without Android Studio can be found in the
+optional [install_android_dependencies.sh](install_android_dependencies.sh)
+script included here.
 
 If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
 `ANDROID_SDK_ROOT` like so:
@@ -125,15 +128,24 @@ If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
 $ export ANDROID_SDK_ROOT=/path/to/Android/Sdk
 ```
 
-If for some reason your `build-tools` and/or `NDK` also live in different
-locations, you can also configure the following two environment variables:
+:::note Some users have experienced difficulties with cross-compilation
+artefacts missing from the newest NDK, which is downloaded by default in the
+installation process.  If you experience errors of this kind, you may have to
+manually downgrade or install multiple NDK versions as [shown
+here])(img/ndk_downgrade.png) in the Android Studio installer (screengrabbed
+from an Ubuntu installation). Alternately, running all or parts of the
+[install_android_dependencies.sh](install_android_dependencies.sh) script may be
+helpful.
+
+If your `build-tools` and/or `NDK`  live in different locations than the default ones inside /SDK/, or if you want to specify a specific NDK or build-tools version, you can manually configure the following two environment variables:
 
 ```bash
-$ export ANDROID_TOOLS=/path/to/build-tools
-$ export ANDROID_NDK_HOME=/path/to/ndk
+$ export ANDROID_TOOLS=/path/to/SDK/ndk/XX.X.XXXXX/
+$ export ANDROID_NDK_HOME=/path/to/SDK/XX.X.XXXXX/build-tools/XX.X.X/
 ```
+::: 
 
-#### Building DIDKit
+### Building DIDKit for Android
 
 To build `DIDKit` for the Android targets, you will go to the root of `DIDKit`
 and run:
@@ -148,7 +160,17 @@ $ cargo build
 
 *This may take some time as it compiles the entire project for multiple targets*
 
-### iOS
+### Android APK
+```bash
+$ flutter build apk --no-sound-null-safety
+```
+
+### Android App Bundle
+```bash
+$ flutter build appbundle --no-sound-null-safety
+```
+
+## iOS-Specific Instructions
 
 To build Credible for iOS you will need to install CocoaPods, which can be done
 with Homebrew on MacOS.
@@ -157,7 +179,7 @@ with Homebrew on MacOS.
 $ brew install cocoapods
 ```
 
-#### Building DIDKit
+### Building DIDKit
 
 To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and
 run: 
@@ -170,7 +192,7 @@ $ cargo build
 
 *This may take some time as it compiles the entire project for multiple targets*
 
-## Building
+### Building for iOS
 
 You are now ready to build Credible.
 
@@ -182,16 +204,6 @@ $ flutter run  --no-sound-null-safety                                 # Run on e
 Otherwise, Flutter allows us to build many artifacts for Android and iOS, below you can
 find the most common and useful commands, all of which you should run from the root of
 Credible.
-
-### Android APK
-```bash
-$ flutter build apk --no-sound-null-safety
-```
-
-### Android App Bundle
-```bash
-$ flutter build appbundle --no-sound-null-safety
-```
 
 ### iOS .app for Simulator
 ```bash
@@ -214,11 +226,11 @@ $ flutter build $SUBCOMMAND --help
 ```
 
 ### Note about `nullsafety`
-While we are ready to migrate to Dart with nullsafety, a couple of the dependencies of
-the project are still lagging behind, so we need to add `--no-sound-null-safely` to both
-run and build commands for the time being.
+While we are ready to migrate to Dart without nullsafety, a couple of the
+dependencies of the project are still lagging behind, so we need to add
+`--no-sound-null-safely` to both run and build commands for the time being.
 
-### Troubleshooting
+## Troubleshooting
 
 If you encounter any errors in the build process described here, please first try
 clean builds of the projects listed.
@@ -227,6 +239,9 @@ For instance, on Flutter, you can delete build files to start over by running:
 ```bash
 $ flutter clean
 ```
+Also, reviewing the
+[install_android_dependencies.sh](install_android_dependencies.sh) script may be
+helpful.
 
 ## Supported Protocols
 
