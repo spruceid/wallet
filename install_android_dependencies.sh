@@ -14,7 +14,7 @@ git clone --recursive https://github.com/spruceid/ssi
 
 ##FLUTTER
 git clone https://github.com/flutter/flutter.git -b dev $HOME/flutter
-echo "export PATH=$HOME/flutter/bin:'$PATH'" >> .bashrc 
+echo 'export PATH="$HOME/flutter/bin:$PATH"' >> $HOME/.bashrc 
 
 ##ANDROID SDK AND NDK
 cd $HOME
