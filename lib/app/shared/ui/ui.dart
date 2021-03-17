@@ -15,12 +15,14 @@ class Ui {
   final UiConstraints constraints;
   final UiText text;
 
+  // ignore: unused_element
   const Ui._credible({
     this.palette = const CrediblePalette(),
     this.constraints = const CredibleConstraints(),
     this.text = const CredibleText(),
   });
 
+  // ignore: unused_element
   const Ui._degen({
     this.palette = const DegenPalette(),
     this.constraints = const DegenConstraints(),
