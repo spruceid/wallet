@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
-import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
