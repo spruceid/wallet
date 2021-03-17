@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/interop/didkit/didkit.dart';
@@ -31,7 +33,16 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       final bytes = Uint8List.fromList(child.key);
       final public = await ED25519_HD_KEY.getPublicKey(bytes);
 
-      await SecureStorageProvider.instance.set('key', key);
+      final sk = base64Url.encode(bytes);
+      final pk = base64Url.encode(public);
+      final key = {
+        'kty': 'OKP',
+        'crv': 'Ed25519',
+        'd': sk,
+        'x': pk,
+      };
+
+      await SecureStorageProvider.instance.set('key', jsonEncode(key));
       await Modular.to.pushReplacementNamed('/on-boarding/success');
     } catch (error) {
       log(
