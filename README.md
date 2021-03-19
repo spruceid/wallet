@@ -140,8 +140,8 @@ helpful.
 If your `build-tools` and/or `NDK`  live in different locations than the default ones inside /SDK/, or if you want to specify a specific NDK or build-tools version, you can manually configure the following two environment variables:
 
 ```bash
-$ export ANDROID_TOOLS=/path/to/SDK/ndk/XX.X.XXXXX/
-$ export ANDROID_NDK_HOME=/path/to/SDK/XX.X.XXXXX/build-tools/XX.X.X/
+$ export ANDROID_TOOLS=/path/to/SDK/build-tools/XX.X.X/
+$ export ANDROID_NDK_HOME=/path/to/SDK/ndk/XX.X.XXXXX/
 ```
 ::: 
 
