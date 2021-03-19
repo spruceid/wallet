@@ -20,8 +20,8 @@ dependencies:
   rxdart: ^0.26.0-nullsafety.1
 
   dio: ^3.0.10
-  sembast: ^3.0.0
-  sembast_web: ^2.0.0
+  sembast: ^3.0.0-nullsafety.5
+  sembast_web: ^2.0.0-nullsafety.1
 
   uuid: ^3.0.0-nullsafety.1
   flutter_svg: ^0.20.0-nullsafety.3
@@ -39,9 +39,14 @@ dependencies:
 
   js: ^0.6.3
 
+  ed25519_hd_key:
+    git:
+      url: https://github.com/spruceid/dart-ed25519-hd-key
+      ref: nullsafety
+
   bip39:
     git:
-      url: https://github.com/theosirian/bip39
+      url: https://github.com/spruceid/dart-bip39
       ref: nullsafety
 
   didkit:
@@ -71,6 +76,7 @@ flutter:
     - assets/brand/logo-subtitle.svg
     - assets/brand/logo-splash.svg
     - assets/brand/logo-minimal.svg
+    - assets/brand/spruce-icon.svg
     - assets/icon/domain.svg
     - assets/icon/profile.svg
     - assets/icon/profile-filled.svg

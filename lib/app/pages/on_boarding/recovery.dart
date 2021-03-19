@@ -25,6 +25,7 @@ class OnBoardingRecoveryPage extends StatefulWidget {
 class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
   late TextEditingController mnemonicController;
   late bool buttonEnabled;
+  late bool edited;
 
   @override
   void initState() {
@@ -33,10 +34,12 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
     mnemonicController = TextEditingController();
     mnemonicController.addListener(() {
       setState(() {
+        edited = mnemonicController.text.isNotEmpty;
         buttonEnabled = bip39.validateMnemonic(mnemonicController.text);
       });
     });
 
+    edited = false;
     buttonEnabled = false;
   }
 
@@ -50,25 +53,22 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
       scrollView: false,
       padding: EdgeInsets.zero,
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 32.0),
           OnBoardingRecoveryPage._padHorizontal(Text(
-            'Write the recovery phrase in the given order',
+            'Please enter your recovery phrase',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           )),
           const SizedBox(height: 24.0),
-          Expanded(
-            child: Center(
-              child: BaseTextField(
-                label: 'Mnemonic Phrase',
-                controller: mnemonicController,
-                error: !buttonEnabled
-                    ? 'Please enter a valid mnemonic phrase'
-                    : null,
-              ),
-            ),
+          BaseTextField(
+            label: 'Mnemonic Phrase',
+            controller: mnemonicController,
+            error: edited && !buttonEnabled
+                ? 'Please enter a valid mnemonic phrase'
+                : null,
           ),
           const SizedBox(height: 24.0),
           OnBoardingRecoveryPage._padHorizontal(BaseButton.blue(
