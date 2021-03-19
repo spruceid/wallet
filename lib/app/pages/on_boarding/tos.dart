@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
@@ -34,7 +34,7 @@ class OnBoardingTosPage extends StatelessWidget {
             style: Theme.of(context)
                 .textTheme
                 .overline!
-                .apply(color: Palette.text.withOpacity(0.4)),
+                .apply(color: UiKit.text.colorTextOverline.withOpacity(0.4)),
           )),
           const SizedBox(height: 8.0),
           Expanded(
@@ -56,10 +56,10 @@ class OnBoardingTosPage extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: UiKit.palette.navBarBackground,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: Palette.shadow,
+                  color: UiKit.palette.shadow,
                   offset: Offset(-1.0, -1.0),
                   blurRadius: 4.0,
                 ),
@@ -80,7 +80,7 @@ class OnBoardingTosPage extends StatelessWidget {
                       .apply(fontSizeFactor: 0.85),
                 )),
                 const SizedBox(height: 20.0),
-                _padHorizontal(BaseButton.blue(
+                _padHorizontal(BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushReplacementNamed('/on-boarding/key');
                   },

@@ -31,10 +31,11 @@ class OnBoardingSuccessPage extends StatelessWidget {
             child: Text(
               localizations.onBoardingSuccessTitle,
               style: Theme.of(context).textTheme.subtitle1,
+              textAlign: TextAlign.center,
             ),
           ),
           Flexible(flex: 3, child: Container()),
-          BaseButton.blue(
+          BaseButton.primary(
             onPressed: () {
               Modular.to.pushReplacementNamed('/credentials');
             },

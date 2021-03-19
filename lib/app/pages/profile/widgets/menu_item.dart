@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class MenuItem extends StatelessWidget {
@@ -18,6 +18,7 @@ class MenuItem extends StatelessWidget {
     return Tooltip(
       message: title,
       child: Material(
+        color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
           child: Container(
@@ -27,7 +28,7 @@ class MenuItem extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(color: Palette.greyPurple),
+                bottom: BorderSide(color: UiKit.palette.lightBorder),
               ),
             ),
             child: Row(
@@ -35,23 +36,20 @@ class MenuItem extends StatelessWidget {
                 Icon(
                   icon,
                   size: 24.0,
-                  color: Palette.text,
+                  color: UiKit.palette.icon,
                 ),
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
                     title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .apply(color: Palette.text),
+                    style: Theme.of(context).textTheme.bodyText1!,
                   ),
                 ),
                 const SizedBox(width: 16.0),
                 Icon(
                   Icons.chevron_right,
                   size: 24.0,
-                  color: Palette.text,
+                  color: UiKit.palette.icon,
                 ),
               ],
             ),

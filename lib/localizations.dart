@@ -143,7 +143,7 @@ class AppLocalizations {
       );
 
   String get credentialPresentConfirm => Intl.message(
-        'Select credential',
+        'Select credential(s)',
         name: 'credentialPresentConfirm',
         desc: 'Confirm action on credential presentation',
       );

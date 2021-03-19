@@ -1,18 +1,18 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
 class BaseButton extends StatelessWidget {
   final Widget child;
   final VoidCallback? onPressed;
-  final Color color;
-  final Color textColor;
+  final Gradient? gradient;
+  final Color? textColor;
   final Color? borderColor;
 
   const BaseButton({
     required this.child,
     this.onPressed,
-    this.color = Colors.transparent,
-    this.textColor = Palette.text,
+    this.gradient,
+    this.textColor,
     this.borderColor,
   });
 
@@ -23,19 +23,21 @@ class BaseButton extends StatelessWidget {
   }) : this(
           child: child,
           onPressed: onPressed,
-          color: Colors.white,
-          textColor: Palette.blue,
+          gradient: LinearGradient(
+            colors: [Colors.white, Colors.white],
+          ),
+          textColor: UiKit.palette.primary,
           borderColor: borderColor,
         );
 
-  BaseButton.blue({
+  BaseButton.primary({
     required Widget child,
     VoidCallback? onPressed,
     Color? borderColor,
   }) : this(
           child: child,
           onPressed: onPressed,
-          color: Palette.blue,
+          gradient: UiKit.palette.buttonBackground,
           textColor: Colors.white,
           borderColor: borderColor,
         );
@@ -47,52 +49,46 @@ class BaseButton extends StatelessWidget {
   }) : this(
           child: child,
           onPressed: onPressed,
-          color: Colors.transparent,
-          textColor: Palette.blue,
+          gradient: LinearGradient(
+            colors: [Colors.transparent, Colors.transparent],
+          ),
+          textColor: UiKit.palette.primary,
           borderColor: borderColor,
         );
 
   @override
   Widget build(BuildContext context) {
-    if (borderColor != null) {
-      return OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 32.0,
-            vertical: 12.0,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(24.0),
-          ),
-          side: BorderSide(
-            width: 2.0,
-            color: borderColor!,
-          ),
-          primary: textColor,
-          backgroundColor: color,
-          textStyle:
-              Theme.of(context).textTheme.button!.apply(color: textColor),
-        ),
-        onPressed: onPressed,
-        child: child,
-      );
-    }
+    final gradient = this.gradient ?? UiKit.palette.buttonBackground;
+    final textColor = this.textColor ?? UiKit.text.colorTextButton;
 
-    return TextButton(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 32.0,
-          vertical: 12.0,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.0),
-        ),
-        primary: textColor,
-        backgroundColor: color,
-        textStyle: Theme.of(context).textTheme.button!.apply(color: textColor),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: gradient,
+        borderRadius: UiKit.constraints.buttonRadius,
+        border: borderColor != null
+            ? Border.all(
+                width: 2.0,
+                color: borderColor!,
+              )
+            : null,
       ),
-      onPressed: onPressed,
-      child: child,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: UiKit.constraints.buttonRadius,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: UiKit.constraints.buttonRadius,
+          child: Container(
+            alignment: Alignment.center,
+            padding: UiKit.constraints.buttonPadding,
+            child: DefaultTextStyle(
+              child: child,
+              style:
+                  Theme.of(context).textTheme.button!.apply(color: textColor),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

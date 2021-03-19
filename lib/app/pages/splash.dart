@@ -1,7 +1,13 @@
+import 'dart:convert';
+
+import 'package:credible/app/interop/chapi/chapi.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/shared/ui/ui.dart';
+import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/brand.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -17,7 +23,7 @@ class _SplashPageState extends State<SplashPage> {
 
     Future.delayed(
       const Duration(
-        seconds: 2,
+        milliseconds: kIsWeb ? 25 : 1000,
       ),
       () async {
         print(DIDKitProvider.instance.getVersion());
@@ -29,31 +35,56 @@ class _SplashPageState extends State<SplashPage> {
           return;
         }
 
+        CHAPIProvider.instance.init(
+          get: (json, done) async {
+            final data = jsonDecode(json);
+            final url = Uri.parse(data['origin']);
+
+            Modular.get<ScanBloc>().add(ScanEventShowPreview({}));
+
+            await Modular.to.pushReplacementNamed(
+              '/credentials/chapi-present',
+              arguments: <String, dynamic>{
+                'url': url,
+                'data': data['event'],
+                'done': done,
+              },
+            );
+          },
+          store: (json, done) async {
+            final data = jsonDecode(json);
+            final url = Uri.parse(data['origin']);
+
+            Modular.get<ScanBloc>().add(ScanEventShowPreview({
+              'credentialPreview': data['event'],
+            }));
+
+            await Modular.to.pushReplacementNamed(
+              '/credentials/chapi-receive',
+              arguments: <String, dynamic>{
+                'url': url,
+                'data': data['event'],
+                'done': done,
+              },
+            );
+          },
+        );
+
+        CHAPIProvider.instance.emitReady();
+
         await Modular.to.pushReplacementNamed('/credentials');
       },
     );
   }
 
   @override
-  Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          body: Container(
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: <Color>[
-                  Palette.blue,
-                  Palette.gradientBlue,
-                ],
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: BrandMinimal(),
-            ),
-          ),
+  Widget build(BuildContext context) => BasePage(
+        backgroundGradient: UiKit.palette.splashBackground,
+        scrollView: false,
+        body: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.all(24.0),
+          child: BrandMinimal(),
         ),
       );
 }

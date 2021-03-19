@@ -1,4 +1,4 @@
-import 'package:credible/app/shared/palette.dart';
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,10 +25,10 @@ class CustomAppBar extends PreferredSize {
           Container(
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: UiKit.palette.appBarBackground,
               boxShadow: <BoxShadow>[
                 BoxShadow(
-                  color: Palette.shadow,
+                  color: UiKit.palette.shadow,
                   offset: Offset(0.0, 2.0),
                   blurRadius: 2.0,
                 ),

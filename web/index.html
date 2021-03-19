@@ -1,32 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html style="
+              width: 100%;
+              height: 100%;
+              min-width: 338px;
+              min-height: 600px;
+              background-image: url(icons/logo-splash.svg), linear-gradient(150deg, #020736 3%, #300E92);
+              background-repeat: no-repeat;
+              background-position: center;
+              background-size: 20vw, cover;
+            "
+>
+
 <head>
-    <base href="/">
+  <base href="/">
 
-    <meta charset="UTF-8">
-    <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-    <meta name="description" content="A new Flutter project.">
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Degen Passport Wallet.">
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="credible">
-    <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="credible">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-    <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="icon" type="image/png" href="favicon.png" />
 
-    <title>credible</title>
-    <link rel="manifest" href="manifest.json">
+  <title>Credible</title>
+  <link rel="manifest" href="manifest.json">
 </head>
+
 <body>
-<script src="/didkit/didkit-loader.min.js" type="application/javascript"></script>
-<script>
-    DIDKitLoader.loadDIDKit();
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-</script>
-<script src="main.dart.js" type="application/javascript"></script>
+  <script src="vendor/credential-handler-polyfill.min.js" type="application/javascript"></script>
+  <script src="vendor/web-credential-handler.min.js" type="application/javascript"></script>
+  <script src="config.js" type="application/javascript"></script>
+  <script src="wallet-worker.js" type="application/javascript"></script>
 </body>
+
 </html>

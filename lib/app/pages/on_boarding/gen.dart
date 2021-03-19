@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
-import 'package:credible/app/shared/palette.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
@@ -24,24 +24,39 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey() async {
-    final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
-    final seed = bip39.mnemonicToSeed(mnemonic);
+    try {
+      final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
+      final seed = bip39.mnemonicToSeed(mnemonic);
 
-    final child = await ED25519_HD_KEY.derivePath("m/0'/0'", seed);
-    final bytes = Uint8List.fromList(child.key);
-    final public = await ED25519_HD_KEY.getPublicKey(bytes);
+      final child = await ED25519_HD_KEY.derivePath("m/0'/0'", seed);
+      final bytes = Uint8List.fromList(child.key);
+      final public = await ED25519_HD_KEY.getPublicKey(bytes);
 
-    final sk = base64Url.encode(bytes);
-    final pk = base64Url.encode(public);
-    final key = {
-      'kty': 'OKP',
-      'crv': 'Ed25519',
-      'd': sk,
-      'x': pk,
-    };
+      final sk = base64Url.encode(bytes);
+      final pk = base64Url.encode(public);
+      final key = {
+        'kty': 'OKP',
+        'crv': 'Ed25519',
+        'd': sk,
+        'x': pk,
+      };
 
-    await SecureStorageProvider.instance.set('key', jsonEncode(key));
-    await Modular.to.pushReplacementNamed('/on-boarding/success');
+      await SecureStorageProvider.instance.set('key', jsonEncode(key));
+      await Modular.to.pushReplacementNamed('/on-boarding/success');
+    } catch (error) {
+      log(
+        'something went wrong when generating a key',
+        name: 'credible/on-boarding/key-generation',
+        error: error,
+      );
+
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        backgroundColor: Colors.red,
+        content: Text('Failed to generate key, please try again'),
+      ));
+
+      await Modular.to.pushReplacementNamed('/on-boarding/key');
+    }
   }
 
   @override
@@ -55,7 +70,6 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
         padding: const EdgeInsets.all(16.0),
         child: CircularProgressIndicator(),
       ),
-      backgroundColor: Palette.background,
     );
   }
 }
