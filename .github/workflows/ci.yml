@@ -113,7 +113,7 @@ jobs:
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
       working-directory: ./main
-      run: flutter test --no-sound-null-safety test/
+      run: flutter test test/
   
   ios_ci:
     # This job will run on macos virtual machine
@@ -201,10 +201,10 @@ jobs:
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
       working-directory: ./main
-      run: flutter test --no-sound-null-safety test/
+      run: flutter test test/
 
     # # Build apk.
-    # - run: flutter build apk --release --no-sound-null-safety
+    # - run: flutter build apk --release
     
     # # Upload generated apk to the artifacts.
     # - name: Upload apk
@@ -214,7 +214,7 @@ jobs:
     #     path: build/app/outputs/apk/release/app-release.apk
     
     # # Build ipa.
-    # - run: flutter build ios --release --no-codesign --no-sound-null-safety
+    # - run: flutter build ios --release --no-codesign
         
     # # Upload generated apk to the artifacts.
     # - name: Upload IPA
