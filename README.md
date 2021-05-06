@@ -247,7 +247,7 @@ run from the root of Credible.
 
 ### iOS .app for Simulator
 ```bash
-$ flutter build ios --no-sound-null-safety --no-codesign --simulator
+$ flutter build ios --no-sound-null-safety --simulator
 ```
 
 ### iOS .app for Devices
