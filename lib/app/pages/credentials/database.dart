@@ -21,11 +21,11 @@ class WalletDatabase {
         _db = await databaseFactoryWeb.openDatabase(Constants.databaseFilename);
       } else {
         final dir = await getApplicationDocumentsDirectory();
-        if (dir != null) {
+        try {
           await dir.create(recursive: true);
           final dbPath = join(dir.path, Constants.databaseFilename);
           _db = await databaseFactoryIo.openDatabase(dbPath);
-        } else {
+        } catch (e) {
           throw Exception('Failed to initialize local database');
         }
       }

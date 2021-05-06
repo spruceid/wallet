@@ -22,7 +22,7 @@ class SecureStorageWeb extends SecureStorageProvider {
 
   @override
   Future<void> set(String key, String val) async {
-    await window.localStorage.update(
+    window.localStorage.update(
       key,
       (value) => val,
       ifAbsent: () => val,
@@ -31,6 +31,6 @@ class SecureStorageWeb extends SecureStorageProvider {
 
   @override
   Future<void> delete(String key) async {
-    await window.localStorage.remove(key);
+    window.localStorage.remove(key);
   }
 }

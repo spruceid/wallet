@@ -13,7 +13,6 @@ class HeroFix extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Hero(
         tag: tag,
-        child: child,
         flightShuttleBuilder: (
           BuildContext flightContext,
           Animation<double> animation,
@@ -25,5 +24,6 @@ class HeroFix extends StatelessWidget {
           color: Colors.transparent,
           child: toHeroContext.widget,
         ),
+        child: child,
       );
 }

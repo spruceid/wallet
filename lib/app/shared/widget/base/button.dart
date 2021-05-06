@@ -82,9 +82,9 @@ class BaseButton extends StatelessWidget {
             alignment: Alignment.center,
             padding: UiKit.constraints.buttonPadding,
             child: DefaultTextStyle(
-              child: child,
               style:
                   Theme.of(context).textTheme.button!.apply(color: textColor),
+              child: child,
             ),
           ),
         ),
