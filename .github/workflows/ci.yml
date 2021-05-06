@@ -113,7 +113,7 @@ jobs:
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
       working-directory: ./main
-      run: flutter test test/
+      run: flutter test --no-sound-null-safety test/
   
   ios_ci:
     # This job will run on macos virtual machine
@@ -161,11 +161,6 @@ jobs:
         path: ssi
         submodules: 'recursive'
 
-    # Setup Java environment in order to build the Android app.
-    - name: SETUP | Java
-      uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
     # Setup the flutter environment.
     - name: SETUP | Flutter
       uses: subosito/flutter-action@v1
@@ -206,7 +201,7 @@ jobs:
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
       working-directory: ./main
-      run: flutter test test/
+      run: flutter test --no-sound-null-safety test/
 
     # # Build apk.
     # - run: flutter build apk --release --no-sound-null-safety
