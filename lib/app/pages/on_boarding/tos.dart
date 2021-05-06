@@ -24,6 +24,7 @@ class OnBoardingTosPage extends StatelessWidget {
       title: localizations.onBoardingTosTitle,
       scrollView: false,
       padding: EdgeInsets.zero,
+      useSafeArea: false,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -68,25 +69,27 @@ class OnBoardingTosPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               vertical: 12.0,
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _padHorizontal(Text(
-                  'By tapping accept  “I  agree to the terms and condition as well as the disclosure of this information',
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .apply(fontSizeFactor: 0.85),
-                )),
-                const SizedBox(height: 20.0),
-                _padHorizontal(BaseButton.primary(
-                  onPressed: () {
-                    Modular.to.pushReplacementNamed('/on-boarding/key');
-                  },
-                  child: Text(localizations.onBoardingTosButton),
-                )),
-              ],
+            child: SafeArea(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _padHorizontal(Text(
+                    'By tapping accept  “I  agree to the terms and condition as well as the disclosure of this information',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText2!
+                        .apply(fontSizeFactor: 0.85),
+                  )),
+                  const SizedBox(height: 20.0),
+                  _padHorizontal(BaseButton.primary(
+                    onPressed: () {
+                      Modular.to.pushReplacementNamed('/on-boarding/key');
+                    },
+                    child: Text(localizations.onBoardingTosButton),
+                  )),
+                ],
+              ),
             ),
           ),
         ],

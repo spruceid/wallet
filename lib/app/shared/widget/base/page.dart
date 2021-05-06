@@ -20,6 +20,8 @@ class BasePage extends StatelessWidget {
 
   final bool? extendBelow;
 
+  final bool useSafeArea;
+
   const BasePage({
     Key? key,
     this.backgroundColor,
@@ -36,6 +38,7 @@ class BasePage extends StatelessWidget {
     this.navigation,
     this.extendBelow,
     required this.body,
+    this.useSafeArea = true,
   }) : super(key: key);
 
   @override
@@ -46,33 +49,31 @@ class BasePage extends StatelessWidget {
             ? LinearGradient(colors: [backgroundColor!])
             : UiKit.palette.pageBackground;
 
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: backgroundGradient,
-        ),
-        child: Scaffold(
-          extendBody: extendBelow ?? false,
-          backgroundColor: Colors.transparent,
-          appBar: title != null && title!.isNotEmpty
-              ? CustomAppBar(
-                  title: title!,
-                  tag: titleTag,
-                  leading: titleLeading,
-                  trailing: titleTrailing,
-                )
-              : null,
-          bottomNavigationBar: navigation,
-          body: scrollView
-              ? SingleChildScrollView(
-                  padding: padding,
-                  child: body,
-                )
-              : Padding(
-                  padding: padding,
-                  child: body,
-                ),
-        ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: backgroundGradient,
+      ),
+      child: Scaffold(
+        extendBody: extendBelow ?? false,
+        backgroundColor: Colors.transparent,
+        appBar: title != null && title!.isNotEmpty
+            ? CustomAppBar(
+                title: title!,
+                tag: titleTag,
+                leading: titleLeading,
+                trailing: titleTrailing,
+              )
+            : null,
+        bottomNavigationBar: navigation,
+        body: scrollView
+            ? SingleChildScrollView(
+                padding: padding,
+                child: useSafeArea ? SafeArea(child: body) : body,
+              )
+            : Padding(
+                padding: padding,
+                child: useSafeArea ? SafeArea(child: body) : body,
+              ),
       ),
     );
   }
