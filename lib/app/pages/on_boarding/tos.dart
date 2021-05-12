@@ -78,9 +78,7 @@ class OnBoardingTosPage extends StatelessWidget {
                   children: [
                     Text(
                       'By tapping accept  “I  agree to the terms and condition as well as the disclosure of this information',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText2,
+                      style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(height: 20.0),
                     BaseButton.primary(
