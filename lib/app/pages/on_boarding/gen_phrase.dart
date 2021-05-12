@@ -33,34 +33,27 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
-      scrollView: false,
+      scrollView: true,
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 48.0,
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'Write down these words in the right order and save them somewhere safe',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.subtitle2,
-                ),
-                const SizedBox(height: 8.0),
-                Text(
-                  'It is the only way to recover your key later if you lose access to this wallet',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ],
-            ),
+          Column(
+            children: [
+              Text(
+                'Write down these words in the right order and save them somewhere safe',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.subtitle2,
+              ),
+              const SizedBox(height: 8.0),
+              Text(
+                'It is the only way to recover your key later if you lose access to this wallet',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ],
           ),
-          Expanded(
-            child: MnemonicDisplay(mnemonic: mnemonic),
-          ),
+          const SizedBox(height: 32.0),
+          MnemonicDisplay(mnemonic: mnemonic),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
