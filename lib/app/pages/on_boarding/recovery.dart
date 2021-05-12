@@ -56,7 +56,6 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          const SizedBox(height: 32.0),
           OnBoardingRecoveryPage._padHorizontal(Text(
             'Please enter your recovery phrase',
             textAlign: TextAlign.center,
