@@ -16,33 +16,23 @@ class OnBoardingKeyPage extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 48.0,
-            ),
-            child: Text(
-              'Recover my identity wallet',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 48.0,
-                  ),
-                  child: Text(
-                    'If you have previously used a wallet and have a recovery phrase',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
+                Text(
+                  'Recover my identity wallet',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
+                Text(
+                  'If you have previously used a wallet and have a recovery phrase',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                const SizedBox(height: 20.0),
                 BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed('/on-boarding/recovery');
@@ -52,34 +42,23 @@ class OnBoardingKeyPage extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 64.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-              vertical: 48.0,
-            ),
-            child: Text(
-              'Generate a new wallet',
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.subtitle1,
-            ),
-          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 48.0,
-                  ),
-                  child: Text(
-                    'Generate a new identifier and get a new recovery phrase',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
+                Text(
+                  'Generate a new wallet',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
+                Text(
+                  'Generate a new identifier and get a new recovery phrase',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
+                const SizedBox(height: 20.0),
                 BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed('/on-boarding/gen-phrase');
