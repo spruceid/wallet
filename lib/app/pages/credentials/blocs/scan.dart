@@ -141,8 +141,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did = DIDKitProvider.instance
-          .keyToDID(Constants.defaultDIDMethod, key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
 
       final credential = await client.post(
         url,
@@ -229,8 +229,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did = DIDKitProvider.instance
-          .keyToDID(Constants.defaultDIDMethod, key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -393,8 +393,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did = DIDKitProvider.instance
-          .keyToDID(Constants.defaultDIDMethod, key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -445,8 +445,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did = DIDKitProvider.instance
-          .keyToDID(Constants.defaultDIDMethod, key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 

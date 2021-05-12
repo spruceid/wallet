@@ -43,8 +43,8 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
       yield DIDStateWorking();
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
-      final did = DIDKitProvider.instance
-          .keyToDID(Constants.defaultDIDMethod, key);
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
 
       yield DIDStateDefault(did);
     } catch (e) {
