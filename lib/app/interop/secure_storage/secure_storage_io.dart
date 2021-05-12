@@ -9,19 +9,19 @@ SecureStorageProvider getProvider() => SecureStorageIO();
 class SecureStorageIO extends SecureStorageProvider {
   @override
   Future<String?> get(String key) async {
-    final storage = await FlutterSecureStorage();
+    final storage = FlutterSecureStorage();
     return storage.read(key: key);
   }
 
   @override
   Future<void> set(String key, String val) async {
-    final storage = await FlutterSecureStorage();
+    final storage = FlutterSecureStorage();
     return storage.write(key: key, value: val);
   }
 
   @override
   Future<void> delete(String key) async {
-    final storage = await FlutterSecureStorage();
+    final storage = FlutterSecureStorage();
     return storage.delete(key: key);
   }
 }

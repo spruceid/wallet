@@ -30,13 +30,13 @@ class CredentialsModule extends Module {
         ),
         ChildRoute(
           '/detail',
-          child: (context, args) => CredentialsDetail(item: args!.data),
+          child: (context, args) => CredentialsDetail(item: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(
           '/receive',
           child: (context, args) => CredentialsReceivePage(
-            url: args!.data,
+            url: args.data,
             onSubmit: () {
               Modular.get<ScanBloc>().add(ScanEventCredentialOffer(
                 args.data.toString(),
@@ -49,7 +49,7 @@ class CredentialsModule extends Module {
         ChildRoute(
           '/chapi-receive',
           child: (context, args) => CredentialsReceivePage(
-            url: args!.data['url'],
+            url: args.data['url'],
             onSubmit: () {
               Modular.get<ScanBloc>().add(ScanEventCHAPIStore(
                 args.data['data'],
@@ -64,7 +64,7 @@ class CredentialsModule extends Module {
           child: (context, args) => CredentialsPresentPage(
             title: 'Presentation Request',
             resource: 'credential',
-            url: args!.data,
+            url: args.data,
             onSubmit: (preview) {
               Modular.to.pushReplacementNamed(
                 '/credentials/pick',
@@ -87,7 +87,7 @@ class CredentialsModule extends Module {
         ChildRoute(
           '/chapi-present',
           child: (context, args) {
-            final data = args!.data;
+            final data = args.data;
             // TODO: when CHAPI comes back so does this
             // final root = data['data']['web']['VerifiablePresentation'];
             final root = data['data'];
@@ -143,7 +143,7 @@ class CredentialsModule extends Module {
           child: (context, args) => CredentialsStream(
             child: (context, items) => CredentialsPickPage(
               items: items,
-              onSubmit: args!.data,
+              onSubmit: args.data,
             ),
           ),
           transition: TransitionType.rightToLeftWithFade,

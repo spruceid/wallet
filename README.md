@@ -186,12 +186,12 @@ $ cargo build
 
 ### Android APK
 ```bash
-$ flutter build apk --no-sound-null-safety
+$ flutter build apk
 ```
 
 ### Android App Bundle
 ```bash
-$ flutter build appbundle --no-sound-null-safety
+$ flutter build appbundle
 ```
 
 ### iOS
@@ -230,7 +230,7 @@ You are now ready to build or run Credible.
 If you want to run the project on your connected device, you can use:
 
 ```bash
-$ flutter run --no-sound-null-safety
+$ flutter run
 ```
 
 ### Run on browser
@@ -238,7 +238,7 @@ $ flutter run --no-sound-null-safety
 If you want to run the project on your browser, you can use:
 
 ```bash
-$ flutter run --no-sound-null-safety -d chrome --csp --release
+$ flutter run -d chrome --csp --release
 ```
 
 Otherwise, Flutter allows us to build many artifacts for Android, iOS and WEB,
@@ -247,23 +247,22 @@ run from the root of Credible.
 
 ### iOS .app for Simulator
 ```bash
-$ flutter build ios --no-sound-null-safety --simulator
+$ flutter build ios --simulator
 ```
 
 ### iOS .app for Devices
 ```bash
-$ flutter build ios --no-sound-null-safety --no-codesign
+$ flutter build ios --no-codesign
 ```
 
 ### iOS IPA
 ```bash
-$ flutter build ipa --no-sound-null-safety
+$ flutter build ipa
 ```
 
 ### Web
 ```bash
 $ flutter build web \
-  --no-sound-null-safety \
   --csp \
   --release
 ```
@@ -274,7 +273,6 @@ specify the `FLUTTER_WEB_CANVASKIT_URL` in the build command like below.
 
 ```bash
 $ flutter build web \
-  --no-sound-null-safety \
   --csp \
   --dart-define=FLUTTER_WEB_CANVASKIT_URL=vendor/ \
   --release
@@ -285,11 +283,6 @@ For more details about any of these commands you can run
 $ flutter build $SUBCOMMAND --help
 ```
 
-### Note about `nullsafety`
-
-
-While we are ready to migrate to Dart with nullsafety, a couple of the
-dependencies of the project are still lagging behind, so we need to add `--no-sound-null-safely` to both run and build commands for the time being.
 
 ### Note about `canvaskit`
 
