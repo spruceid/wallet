@@ -6,7 +6,7 @@ class DegenConstraints extends UiConstraints {
 
   @override
   EdgeInsets get buttonPadding => const EdgeInsets.symmetric(
-        horizontal: 32.0,
+        horizontal: 12.0,
         vertical: 20.0,
       );
 
