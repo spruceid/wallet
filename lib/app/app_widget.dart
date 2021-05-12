@@ -10,6 +10,7 @@ class AppWidget extends StatelessWidget {
       brightness: Brightness.light,
       backgroundColor: UiKit.palette.background,
       primaryColor: UiKit.palette.primary,
+      // ignore: deprecated_member_use
       accentColor: UiKit.palette.accent,
       textTheme: UiKit.text.textTheme,
     );
