@@ -19,7 +19,7 @@ jobs:
     # This job will run on macos virtual machine
     runs-on: ubuntu-latest
     steps:
-      
+
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -76,7 +76,7 @@ jobs:
       uses: ATiltedTree/setup-rust@v1
       with:
         rust-version: stable
-  
+
     - name: DIDKIT | rustup android
       working-directory: ./didkit
       run: make -C lib install-rustup-android
@@ -114,12 +114,12 @@ jobs:
     - name: FLUTTER | test
       working-directory: ./main
       run: flutter test test/
-  
+
   ios_ci:
     # This job will run on macos virtual machine
     runs-on: macos-latest
     steps:
-      
+
     - name: Checkout
       uses: actions/checkout@v2
       with:
@@ -171,7 +171,7 @@ jobs:
       uses: ATiltedTree/setup-rust@v1
       with:
         rust-version: nightly
-  
+
     - name: DIDKIT | rustup ios
       working-directory: ./didkit
       run: make -C lib install-rustup-ios
@@ -205,17 +205,17 @@ jobs:
 
     # # Build apk.
     # - run: flutter build apk --release
-    
+
     # # Upload generated apk to the artifacts.
     # - name: Upload apk
     # - uses: actions/upload-artifact@v1
     #   with:
     #     name: release-apk
     #     path: build/app/outputs/apk/release/app-release.apk
-    
+
     # # Build ipa.
     # - run: flutter build ios --release --no-codesign
-        
+
     # # Upload generated apk to the artifacts.
     # - name: Upload IPA
     #   uses: actions/upload-artifact@v1
