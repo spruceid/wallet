@@ -49,7 +49,5 @@
 	<array>
 		<string>_dartobservatory._tcp</string>
 	</array>
-	<key>io.flutter.embedded_views_preview</key>
-	<true/>
 </dict>
 </plist>
