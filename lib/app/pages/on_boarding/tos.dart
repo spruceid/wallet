@@ -11,11 +11,6 @@ class OnBoardingTosPage extends StatelessWidget {
     horizontal: 16.0,
   );
 
-  static Widget _padHorizontal(Widget child) => Padding(
-        padding: _padding,
-        child: child,
-      );
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
