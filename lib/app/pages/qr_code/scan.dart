@@ -29,6 +29,12 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    qrController.dispose();
+  }
+
+  @override
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
@@ -118,16 +124,6 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       child: BasePage(
         padding: EdgeInsets.zero,
         title: 'Scan',
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     controller.toggleFlash();
-        //     setState(() {
-        //       flash = !flash;
-        //     });
-        //   },
-        //   tooltip: 'Toggle Flash',
-        //   child: Icon(flash ? Icons.flash_on : Icons.flash_off),
-        // ),
         scrollView: false,
         navigation: CustomNavBar(index: 1),
         extendBelow: true,
