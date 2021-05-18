@@ -6,6 +6,7 @@ import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
+import 'package:credible/app/shared/widget/app_version.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
@@ -183,12 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               const SizedBox(height: 8.0),
-              Center(
-                child: Text(
-                  'Credible v0.1.0',
-                  style: Theme.of(context).textTheme.caption!,
-                ),
-              ),
+              AppVersion(),
             ],
           ),
         );

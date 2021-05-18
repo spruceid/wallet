@@ -1,4 +1,5 @@
 import 'package:credible/app/shared/ui/ui.dart';
+import 'package:credible/app/shared/widget/app_version.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/localizations.dart';
@@ -29,14 +30,7 @@ class OnBoardingTosPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 8.0),
-          _padHorizontal(Text(
-            'Credible v0.1',
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .overline!
-                .apply(color: UiKit.text.colorTextOverline.withOpacity(0.4)),
-          )),
+          AppVersion(),
           const SizedBox(height: 8.0),
           Expanded(
             child: Scrollbar(
@@ -77,7 +71,7 @@ class OnBoardingTosPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'By tapping accept  “I  agree to the terms and condition as well as the disclosure of this information',
+                      'By tapping accept "I  agree to the terms and condition as well as the disclosure of this information."',
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(height: 20.0),
