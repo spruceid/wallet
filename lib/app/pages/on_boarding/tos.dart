@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
-  static const _padding = EdgeInsets.symmetric(
-    horizontal: 16.0,
-  );
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
