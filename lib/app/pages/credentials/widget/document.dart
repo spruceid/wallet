@@ -30,20 +30,21 @@ class DocumentWidget extends StatelessWidget {
           // value: animation.value,
           borderRadius: BorderRadius.circular(20.0),
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            const SizedBox(height: 24.0),
-            DocumentHeader(item: item),
-            const SizedBox(height: 48.0),
-            // const DocumentTicketSeparator(),
-            DocumentBody(
-              item: item,
-              trailing: trailing,
-            ),
-            const SizedBox(height: 48.0),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 12.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              DocumentHeader(item: item),
+              const SizedBox(height: 48.0),
+              // const DocumentTicketSeparator(),
+              DocumentBody(
+                item: item,
+                trailing: trailing,
+              ),
+            ],
+          ),
         ),
       );
 }
