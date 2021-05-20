@@ -49,24 +49,27 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         vertical: 24.0,
         horizontal: 16.0,
       ),
-      navigation: Container(
-        padding: const EdgeInsets.all(16.0),
-        height: kBottomNavigationBarHeight * 1.75,
-        child: Tooltip(
-          message: 'Present',
-          child: BaseButton.primary(
-            onPressed: () {
-              if (selection.isEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text('Select at least one credential'),
-                ));
-              } else {
-                widget.onSubmit(selection.map((i) => widget.items[i]).toList());
-                Modular.to.pushReplacementNamed('/credentials/list');
-              }
-            },
-            child: Text('Present'),
+      navigation: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          height: kBottomNavigationBarHeight * 1.75,
+          child: Tooltip(
+            message: 'Present',
+            child: BaseButton.primary(
+              onPressed: () {
+                if (selection.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    backgroundColor: Colors.red,
+                    content: Text('Select at least one credential'),
+                  ));
+                } else {
+                  widget
+                      .onSubmit(selection.map((i) => widget.items[i]).toList());
+                  Modular.to.pushReplacementNamed('/credentials/list');
+                }
+              },
+              child: Text('Present'),
+            ),
           ),
         ),
       ),
