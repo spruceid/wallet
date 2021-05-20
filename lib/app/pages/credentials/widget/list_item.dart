@@ -112,22 +112,13 @@ class _LabeledItem extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Opacity(
-            opacity: 0.6,
-            child: SvgPicture.asset(
-              icon,
-              width: 18.0,
-              height: 18.0,
-            ),
+          SvgPicture.asset(
+            icon,
+            width: 16.0,
+            height: 16.0,
+            color: UiKit.text.colorTextBody1,
           ),
-          // Text(
-          //   label,
-          //   style: TextStyle(
-          //     color: Colors.black38,
-          //     fontSize: 10.0,
-          //   ),
-          // ),
-          const SizedBox(width: 4.0),
+          const SizedBox(width: 8.0),
           Expanded(
             child: TooltipText(
               tag: hero,
