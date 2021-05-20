@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:bip39/bip39.dart' as bip39;
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/spinner.dart';
 import 'package:credible/localizations.dart';
 import 'package:ed25519_hd_key/ed25519_hd_key.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       body: Container(
         alignment: Alignment.center,
         padding: const EdgeInsets.all(16.0),
-        child: CircularProgressIndicator(),
+        child: Spinner(),
       ),
     );
   }
