@@ -5,8 +5,10 @@ import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/spinner.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:credible/localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -63,66 +65,71 @@ class _CredentialsPresentPageState
         },
         builder: (context, state) {
           if (state is ScanStateWorking) {
-            return LinearProgressIndicator();
+            return Spinner();
           }
 
           if (state is ScanStatePreview) {
-            final preview = state.preview;
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Row(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.175,
-                      height: MediaQuery.of(context).size.width * 0.175,
-                      decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
-                    Expanded(
-                      child: TooltipText(
-                        text: 'Someone is asking for your ${widget.resource}.',
-                        maxLines: 3,
-                        style: Theme.of(context).textTheme.bodyText1,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 16.0),
-                DocumentWidget(
-                  item: CredentialModel(
-                    id: '',
-                    issuer: '',
-                    status: CredentialStatus.active,
-                    image: '',
-                    data: {},
-                  ),
-                ),
-                const SizedBox(height: 24.0),
-                BaseButton.transparent(
-                  borderColor: UiKit.palette.primary,
-                  onPressed: () => widget.onSubmit(preview),
-                  child: Text(
-                    widget.yes ?? localizations.credentialPresentConfirm,
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                BaseButton.primary(
-                  onPressed: goBack,
-                  child: Text(
-                    widget.no ?? localizations.credentialPresentCancel,
-                  ),
-                ),
-              ],
-            );
+            return _credentialPreview(state, context, localizations);
           }
 
           return Container();
         },
       ),
+    );
+  }
+
+  Column _credentialPreview(ScanStatePreview state, BuildContext context,
+      AppLocalizations localizations) {
+    final preview = state.preview;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        Row(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width * 0.175,
+              height: MediaQuery.of(context).size.width * 0.175,
+              decoration: BoxDecoration(
+                color: Colors.black45,
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+            ),
+            const SizedBox(width: 16.0),
+            Expanded(
+              child: TooltipText(
+                text: 'Someone is asking for your ${widget.resource}.',
+                maxLines: 3,
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16.0),
+        DocumentWidget(
+          item: CredentialModel(
+            id: '',
+            issuer: '',
+            status: CredentialStatus.active,
+            image: '',
+            data: {},
+          ),
+        ),
+        const SizedBox(height: 24.0),
+        BaseButton.transparent(
+          borderColor: UiKit.palette.primary,
+          onPressed: () => widget.onSubmit(preview),
+          child: Text(
+            widget.yes ?? localizations.credentialPresentConfirm,
+          ),
+        ),
+        const SizedBox(height: 8.0),
+        BaseButton.primary(
+          onPressed: goBack,
+          child: Text(
+            widget.no ?? localizations.credentialPresentCancel,
+          ),
+        ),
+      ],
     );
   }
 }
