@@ -47,7 +47,7 @@ class DocumentBody extends StatelessWidget {
               label: 'Issued at:',
               value: 'San Francisco, CA',
             ),
-            const SizedBox(height: 20.0),
+            if (trailing != null) const SizedBox(height: 20.0),
             if (trailing != null) trailing!,
           ],
         ),
