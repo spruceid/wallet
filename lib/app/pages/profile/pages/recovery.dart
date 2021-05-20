@@ -11,19 +11,18 @@ class RecoveryPage extends StatefulWidget {
 }
 
 class _RecoveryPageState extends State<RecoveryPage> {
-  late List<String> mnemonic;
+  List<String>? _mnemonic;
 
   @override
   void initState() {
     super.initState();
-    mnemonic = [];
     loadMnemonic();
   }
 
   Future<void> loadMnemonic() async {
     final phrase = (await SecureStorageProvider.instance.get('mnemonic'))!;
     setState(() {
-      mnemonic = phrase.split(' ');
+      _mnemonic = phrase.split(' ');
     });
   }
 
@@ -48,7 +47,8 @@ class _RecoveryPageState extends State<RecoveryPage> {
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 48.0),
-          MnemonicDisplay(mnemonic: mnemonic),
+          if (_mnemonic != null && _mnemonic!.isNotEmpty)
+            MnemonicDisplay(mnemonic: _mnemonic!),
         ],
       ),
     );
