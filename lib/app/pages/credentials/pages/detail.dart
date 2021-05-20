@@ -86,99 +86,98 @@ class _CredentialsDetailState
       title: widget.item.issuer,
       titleTag: 'credential/${widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
-      navigation: Container(
-        padding: const EdgeInsets.all(16.0),
-        height: kBottomNavigationBarHeight * 1.75,
-        child: Tooltip(
-          message: localizations.credentialDetailShare,
-          child: BaseButton.primary(
-            onPressed: () {
-              Modular.to.pushNamed(
-                '/qr-code/display',
-                arguments: [
-                  widget.item.id,
-                  widget.item.id,
+      navigation: SafeArea(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24.0,
+            vertical: 16.0,
+          ),
+          height: kBottomNavigationBarHeight * 1.75,
+          child: Tooltip(
+            message: localizations.credentialDetailShare,
+            child: BaseButton.primary(
+              onPressed: () {
+                Modular.to.pushNamed(
+                  '/qr-code/display',
+                  arguments: [
+                    widget.item.id,
+                    widget.item.id,
+                  ],
+                );
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  SvgPicture.asset(
+                    'assets/icon/qr-code.svg',
+                    width: 24.0,
+                    height: 24.0,
+                    color: UiKit.palette.icon,
+                  ),
+                  const SizedBox(width: 16.0),
+                  Text(localizations.credentialDetailShare),
                 ],
-              );
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                SvgPicture.asset(
-                  'assets/icon/qr-code.svg',
-                  width: 24.0,
-                  height: 24.0,
-                  color: UiKit.palette.icon,
-                ),
-                const SizedBox(width: 16.0),
-                Text(localizations.credentialDetailShare),
-              ],
+              ),
             ),
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.zero,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: DocumentWidget(
-                item: widget.item,
-              ),
-            ),
-            const SizedBox(height: 64.0),
-            if (verification == VerificationState.Unverified)
-              Center(child: CircularProgressIndicator())
-            else ...<Widget>[
-              Center(
-                child: Text(
-                  'Verification Status',
-                  style: Theme.of(context).textTheme.overline!,
-                ),
-              ),
-              const SizedBox(height: 8.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    verification.icon,
-                    color: verification.color,
-                  ),
-                  const SizedBox(width: 8.0),
-                  Text(
-                    verification.message,
-                    style: Theme.of(context)
-                        .textTheme
-                        .caption!
-                        .apply(color: verification.color),
-                  ),
-                ],
-              ),
-            ],
-            const SizedBox(height: 64.0),
-            TextButton(
-              style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 32.0,
-                  vertical: 16.0,
-                ),
-              ),
-              onPressed: delete,
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          DocumentWidget(
+            item: widget.item,
+          ),
+          const SizedBox(height: 64.0),
+          if (verification == VerificationState.Unverified)
+            Center(child: CircularProgressIndicator())
+          else ...<Widget>[
+            Center(
               child: Text(
-                localizations.credentialDetailDelete,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .apply(color: Colors.redAccent),
+                'Verification Status',
+                style: Theme.of(context).textTheme.overline!,
               ),
             ),
-            const SizedBox(height: 16.0),
+            const SizedBox(height: 8.0),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  verification.icon,
+                  color: verification.color,
+                ),
+                const SizedBox(width: 8.0),
+                Text(
+                  verification.message,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption!
+                      .apply(color: verification.color),
+                ),
+              ],
+            ),
           ],
-        ),
+          const SizedBox(height: 64.0),
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+                vertical: 16.0,
+              ),
+            ),
+            onPressed: delete,
+            child: Text(
+              localizations.credentialDetailDelete,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyText1!
+                  .apply(color: Colors.redAccent),
+            ),
+          ),
+          const SizedBox(height: 16.0),
+        ],
       ),
     );
   }
