@@ -28,14 +28,13 @@ class PhraseWord extends StatelessWidget {
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
               '$order',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.caption,
             ),
-            const SizedBox(width: 8.0),
             Text(
               '$word',
               textAlign: TextAlign.center,
