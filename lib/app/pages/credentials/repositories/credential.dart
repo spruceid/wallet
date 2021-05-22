@@ -57,10 +57,10 @@ class CredentialsRepository extends Disposable {
     return data > 0;
   }
 
-  Future<int> insert(Map<String, dynamic> data) async {
+  Future<int> insert(CredentialModel credential) async {
     final db = await WalletDatabase.db;
     final store = intMapStoreFactory.store('credentials');
-    return await store.add(db, data);
+    return await store.add(db, credential.toMap());
   }
 
   @override
