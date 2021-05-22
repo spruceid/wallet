@@ -86,13 +86,8 @@ class _CredentialsReceivePageState
                 ),
                 const SizedBox(height: 16.0),
                 DocumentWidget(
-                  item: CredentialModel(
-                    id: preview['credentialPreview']['id'] ?? '',
-                    issuer: preview['credentialPreview']['issuer'] ?? '',
-                    status: CredentialStatus.active,
-                    image: '',
-                    data: {},
-                  ),
+                  item: CredentialModel.fromMap(
+                      {'data': preview['credentialPreview']}),
                   // item: widget.item,
                 ),
                 const SizedBox(height: 24.0),

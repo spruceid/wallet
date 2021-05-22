@@ -1,44 +1,42 @@
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
+import 'package:uuid/uuid.dart';
 
 class CredentialModel {
   final String id;
-  final String issuer;
-  final String image;
-  final CredentialStatus status;
-
+  final String? image;
   final Map<String, dynamic> data;
+
+  String get issuer => data['issuer']!;
+
+  CredentialStatus get status {
+    if (data.containsKey('expirationDate')) {
+      final exp = DateTime.parse(data['expirationDate']);
+      return exp.isAfter(DateTime.now())
+          ? CredentialStatus.active
+          : CredentialStatus.expired;
+    } else {
+      return CredentialStatus.active;
+    }
+  }
 
   const CredentialModel({
     required this.id,
-    required this.issuer,
     required this.image,
-    required this.status,
     required this.data,
   });
 
   factory CredentialModel.fromMap(Map<String, dynamic> m) {
-    assert(m.containsKey('id'));
-    assert(m.containsKey('issuer'));
+    assert(m.containsKey('data'));
 
-    late final status;
-
-    if (m.containsKey('expirationDate')) {
-      final exp = DateTime.parse(m['expirationDate']);
-      status = exp.isAfter(DateTime.now())
-          ? CredentialStatus.active
-          : CredentialStatus.expired;
-    } else {
-      status = CredentialStatus.active;
-    }
+    final data = m['data'] as Map<String, dynamic>;
+    assert(data.containsKey('issuer'));
 
     return CredentialModel(
-      id: m['id'],
-      issuer: m['issuer'],
-      image: '',
-      status: status,
-      data: m,
+      id: m['id'] ?? Uuid().v4(),
+      image: m['image'],
+      data: data,
     );
   }
 
-  Map<String, dynamic> toJson() => data;
+  Map<String, dynamic> toMap() => {'id': id, 'image': image, 'data': data};
 }

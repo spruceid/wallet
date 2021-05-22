@@ -1,6 +1,5 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -106,14 +105,8 @@ class _CredentialsPresentPageState
         ),
         const SizedBox(height: 16.0),
         DocumentWidget(
-          item: CredentialModel(
-            id: '',
-            issuer: '',
-            status: CredentialStatus.active,
-            image: '',
-            data: {},
-          ),
-        ),
+            item: CredentialModel.fromMap(
+                {'data': state.preview['credentialPreview']})),
         const SizedBox(height: 24.0),
         BaseButton.transparent(
           borderColor: UiKit.palette.primary,
