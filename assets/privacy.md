@@ -38,7 +38,8 @@ We get information about you in a range of ways.
   to surveys, when you participate in market research activities, report a
   problem with Services, receive customer support or otherwise correspond with
   us;
-- Anonymized usage information, such as information about how you use the Services and interact with us; and
+- Anonymized usage information, such as information about how you use the
+  Services and interact with us; and
 - Marketing information, such as your preferences for receiving marketing
   communications and details about how you engage with them.
 
@@ -64,7 +65,8 @@ information about our user base as a whole. Users can control the use of cookies
 at the individual browser level. For more information, please see the section
 entitled “Cookies Policy” below.
 
-We may also use data analytics sites to help us offer you an optimized user experience. 
+We may also use data analytics sites to help us offer you an optimized user
+experience. 
 
 ## Use of Personal Information
 
@@ -135,7 +137,8 @@ may be transferred to or from the United States or other locations outside of
 your state, province, country or other governmental jurisdiction where privacy
 laws may not be as protective as those in your jurisdiction.
 
-EU users should read the important information provided below about transfer of personal information outside of the European Economic Area (EEA).
+EU users should read the important information provided below about transfer of
+personal information outside of the European Economic Area (EEA).
 
 ## How Information is Secured
 
@@ -150,7 +153,9 @@ unauthorized use or disclosure of your personal information, the purposes for
 which we process your personal information and whether we can achieve those
 purposes through other means, and the applicable legal requirements.
 
-In some circumstances we may anonymize your personal information (so that it can no longer be associated with you) in which case we may use this information indefinitely without further notice to you.
+In some circumstances we may anonymize your personal information (so that it can
+no longer be associated with you) in which case we may use this information
+indefinitely without further notice to you.
 
 We employ industry-standard security measures designed to protect the security
 of all information submitted through the Services. However, the security of
@@ -233,7 +238,8 @@ information for activities where our interests are overridden by any adverse
 impact on you (unless we have your consent or are otherwise required or
 permitted to by law).
 
-We use your personal information to comply with applicable laws and our legal obligations.
+We use your personal information to comply with applicable laws and our legal
+obligations.
 
 Where our use of your personal information is based upon your consent, you have
 the right to withdraw it at any time by contacting us at support@spruceid.com.
@@ -361,7 +367,8 @@ We may generally use Cookies for the following purposes:
 - To recognize new or past customers.
 - To improve our Services and to better understand your visits on our platforms.
 - To serve you with interest-based or targeted advertising.
-- To observe your behaviors and browsing activities over time across multiple websites or other platforms.
+- To observe your behaviors and browsing activities over time across multiple
+  websites or other platforms.
 - To better understand the interests of our customers and our website visitors.
 
 We may also use functional Cookies and Cookies from third parties for analysis
