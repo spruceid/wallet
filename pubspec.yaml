@@ -46,6 +46,8 @@ dependencies:
     path: ../didkit/lib/flutter
 
   package_info: ^2.0.0
+  flutter_markdown: ^0.6.2
+  url_launcher: ^6.0.4
 
 dev_dependencies:
   flutter_test:
@@ -82,3 +84,7 @@ flutter:
     - assets/icon/time-clock.svg
     - assets/image/gen.svg
     - assets/image/scan.svg
+    - assets/privacy.md
+    - assets/support.md
+    - assets/notices.md
+    - assets/terms_conditions.md
