@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
@@ -31,7 +33,9 @@ class MarkdownPage extends StatelessWidget {
             }
 
             if (snapshot.error != null) {
-              return Text('oops');
+              log('something went wrong when loading $file',
+                  name: 'credible/markdown_page', error: snapshot.error);
+              return Container();
             }
 
             return Spinner();
@@ -48,6 +52,8 @@ class MarkdownPage extends StatelessWidget {
 
     if (await canLaunch(href)) {
       await launch(href);
+    } else {
+      log('cannot launch url: $href', name: 'credible/markdown_page');
     }
   }
 }
