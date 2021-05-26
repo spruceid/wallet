@@ -243,8 +243,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           'id': presentationId,
           'holder': did,
           'verifiableCredential': credentials.length == 1
-              ? credentials.first.toMap()
-              : credentials.map((c) => c.toMap()).toList(),
+              ? credentials.first.data
+              : credentials.map((c) => c.data).toList(),
         }),
         jsonEncode({
           'verificationMethod': verificationMethod,
