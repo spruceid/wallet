@@ -1,6 +1,5 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
