@@ -28,6 +28,9 @@ class MarkdownPage extends StatelessWidget {
             if (snapshot.data != null) {
               return Markdown(
                 data: snapshot.data!,
+                styleSheet: MarkdownStyleSheet(
+                    h1: TextStyle(color: Colors.white),
+                    h2: TextStyle(color: Colors.white)),
                 onTapLink: (text, href, title) => _onTapLink(href),
               );
             }
