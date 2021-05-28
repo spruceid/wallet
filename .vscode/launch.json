@@ -8,9 +8,7 @@
             "name": "credible",
             "request": "launch",
             "type": "dart",
-            "args": [
-                "--no-sound-null-safety"
-            ]
+            "args": []
         }
     ]
 }
