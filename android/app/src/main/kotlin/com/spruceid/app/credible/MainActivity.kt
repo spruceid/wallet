@@ -1,4 +1,4 @@
-package com.spruceid.credible
+package com.spruceid.app.credible
 
 import io.flutter.embedding.android.FlutterActivity
 
