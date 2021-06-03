@@ -36,11 +36,12 @@ class DocumentWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              DocumentHeader(item: item),
+              DocumentHeader(
+                  model: DocumentHeaderWidgetModel.fromCredentialModel(item)),
               const SizedBox(height: 48.0),
               // const DocumentTicketSeparator(),
               DocumentBody(
-                item: item,
+                model: DocumentBodyWidgetModel.fromCredentialModel(item),
                 trailing: trailing,
               ),
             ],

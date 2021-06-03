@@ -1,16 +1,43 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+class DocumentHeaderWidgetModel {
+  final String title;
+  final String subtitle;
+  final String status;
+
+  const DocumentHeaderWidgetModel(this.title, this.subtitle, this.status);
+
+  factory DocumentHeaderWidgetModel.fromCredentialModel(CredentialModel model) {
+    late String status;
+
+    switch (model.status) {
+      case CredentialStatus.active:
+        status = 'Active';
+        break;
+      case CredentialStatus.expired:
+        status = 'Expired';
+        break;
+      case CredentialStatus.revoked:
+        status = 'Revoked';
+        break;
+    }
+
+    return DocumentHeaderWidgetModel('title', 'subtitle', status);
+  }
+}
+
 class DocumentHeader extends StatelessWidget {
-  final CredentialModel item;
+  final DocumentHeaderWidgetModel model;
 
   const DocumentHeader({
     Key? key,
-    required this.item,
+    required this.model,
   }) : super(key: key);
 
   @override
@@ -27,7 +54,7 @@ class DocumentHeader extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   TooltipText(
-                    text: 'John Doe',
+                    text: model.title,
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1!
@@ -35,17 +62,14 @@ class DocumentHeader extends StatelessWidget {
                   ),
                   const SizedBox(height: 4.0),
                   TooltipText(
-                    text: 'Crypto Trader',
+                    text: model.subtitle,
                     style: Theme.of(context).textTheme.bodyText1!.apply(
                         color: UiKit.palette.credentialText.withOpacity(0.6)),
                   ),
                 ],
               ),
             ),
-            DocumentItemWidget(
-              label: 'Status:',
-              value: 'Valid',
-            ),
+            DocumentItemWidget(label: 'Status:', value: model.status),
           ],
         ),
       );
