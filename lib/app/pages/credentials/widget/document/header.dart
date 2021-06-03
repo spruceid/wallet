@@ -7,8 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DocumentHeaderWidgetModel {
-  final String title;
-  final String subtitle;
+  final String? title;
+  final String? subtitle;
   final String status;
 
   const DocumentHeaderWidgetModel(this.title, this.subtitle, this.status);
@@ -28,7 +28,7 @@ class DocumentHeaderWidgetModel {
         break;
     }
 
-    return DocumentHeaderWidgetModel('title', 'subtitle', status);
+    return DocumentHeaderWidgetModel(null, null, status);
   }
 }
 
@@ -53,19 +53,21 @@ class DocumentHeader extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  TooltipText(
-                    text: model.title,
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1!
-                        .apply(color: UiKit.palette.credentialText),
-                  ),
+                  if (model.title != null)
+                    TooltipText(
+                      text: model.title!,
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .apply(color: UiKit.palette.credentialText),
+                    ),
                   const SizedBox(height: 4.0),
-                  TooltipText(
-                    text: model.subtitle,
-                    style: Theme.of(context).textTheme.bodyText1!.apply(
-                        color: UiKit.palette.credentialText.withOpacity(0.6)),
-                  ),
+                  if (model.subtitle != null)
+                    TooltipText(
+                      text: model.subtitle!,
+                      style: Theme.of(context).textTheme.bodyText1!.apply(
+                          color: UiKit.palette.credentialText.withOpacity(0.6)),
+                    ),
                 ],
               ),
             ),
