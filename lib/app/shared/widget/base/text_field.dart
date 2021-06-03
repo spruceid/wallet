@@ -6,6 +6,7 @@ class BaseTextField extends StatelessWidget {
   final TextEditingController controller;
   final IconData icon;
   final TextInputType type;
+  final TextCapitalization textCapitalization;
   final String? error;
 
   const BaseTextField({
@@ -14,6 +15,7 @@ class BaseTextField extends StatelessWidget {
     required this.controller,
     this.icon = Icons.edit,
     this.type = TextInputType.text,
+    this.textCapitalization = TextCapitalization.none,
     this.error,
   }) : super(key: key);
 
@@ -34,6 +36,7 @@ class BaseTextField extends StatelessWidget {
         cursorColor: UiKit.text.colorTextBody1,
         keyboardType: type,
         maxLines: 1,
+        textCapitalization: textCapitalization,
         decoration: InputDecoration(
           border: InputBorder.none,
           enabledBorder: InputBorder.none,

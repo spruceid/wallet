@@ -78,7 +78,7 @@ class _PersonalPageState extends State<PersonalPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
-              'Your profile data can be used to fill credentials when applicable',
+              'Your profile data can be used to fill credentials when applicable.',
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle2,
             ),
@@ -98,12 +98,14 @@ class _PersonalPageState extends State<PersonalPage> {
             label: 'First Name',
             controller: firstNameController,
             icon: Icons.person,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
             label: 'Last Name',
             controller: lastNameController,
             icon: Icons.person,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
@@ -117,6 +119,7 @@ class _PersonalPageState extends State<PersonalPage> {
             label: 'Location',
             controller: locationController,
             icon: Icons.location_pin,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
