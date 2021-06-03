@@ -58,7 +58,8 @@ class _CredentialsReceivePageState
           }
 
           if (state is ScanStatePreview) {
-            final preview = state.preview;
+            final credential = CredentialModel.fromMap(
+                {'data': state.preview['credentialPreview']});
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -89,10 +90,7 @@ class _CredentialsReceivePageState
                 ),
                 const SizedBox(height: 16.0),
                 DocumentWidget(
-                  item: CredentialModel.fromMap(
-                      {'data': preview['credentialPreview']}),
-                  // item: widget.item,
-                ),
+                    model: DocumentWidgetModel.fromCredentialModel(credential)),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
                   onPressed: widget.onSubmit,
