@@ -7,7 +7,7 @@ class TooltipText extends StatelessWidget {
   final String text;
   final String? tooltip;
 
-  final int maxLines;
+  final int? maxLines;
   final TextStyle? style;
   final TextAlign textAlign;
 
