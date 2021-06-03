@@ -103,9 +103,10 @@ class _CredentialsPresentPageState
             ),
           ],
         ),
-        const SizedBox(height: 16.0),
-        DocumentWidget(
-            item: CredentialModel(id: '', image: '', data: {'issuer': ''})),
+        // const SizedBox(height: 16.0),
+        // DocumentWidget(
+        //     model: DocumentWidgetModel.fromCredentialModel(
+        //         CredentialModel(id: '', image: '', data: {'issuer': ''}))),
         const SizedBox(height: 24.0),
         BaseButton.transparent(
           borderColor: UiKit.palette.primary,
