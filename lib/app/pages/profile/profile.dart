@@ -55,17 +55,17 @@ class _ProfilePageState extends State<ProfilePage> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                  height: MediaQuery.of(context).size.width * 0.2,
-                  decoration: BoxDecoration(
-                    color: Colors.pink,
-                    borderRadius: BorderRadius.circular(16.0),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
+              // Center(
+              //   child: Container(
+              //     width: MediaQuery.of(context).size.width * 0.2,
+              //     height: MediaQuery.of(context).size.width * 0.2,
+              //     decoration: BoxDecoration(
+              //       color: Colors.pink,
+              //       borderRadius: BorderRadius.circular(16.0),
+              //     ),
+              //   ),
+              // ),
+              // const SizedBox(height: 16.0),
               if (firstName.isNotEmpty || lastName.isNotEmpty)
                 Center(
                   child: Text(
