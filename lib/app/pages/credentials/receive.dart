@@ -36,7 +36,7 @@ class _CredentialsReceivePageState
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(24.0),
       title: 'Credential Offer',
       titleTrailing: IconButton(
         onPressed: goBack,
@@ -64,21 +64,25 @@ class _CredentialsReceivePageState
               children: <Widget>[
                 Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.175,
-                      height: MediaQuery.of(context).size.width * 0.175,
-                      decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width * 0.175,
+                    //   height: MediaQuery.of(context).size.width * 0.175,
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.black45,
+                    //     borderRadius: BorderRadius.circular(16.0),
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 16.0),
                     Expanded(
-                      child: TooltipText(
-                        text:
-                            '${widget.url.host} wants to send you a credential',
-                        maxLines: 3,
-                        style: Theme.of(context).textTheme.bodyText1,
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: TooltipText(
+                          text:
+                              '${widget.url.host} wants to send you a credential',
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ),
                     ),
                   ],
