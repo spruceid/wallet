@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class _BaseItem extends StatefulWidget {
   final Widget child;
@@ -211,15 +212,18 @@ class CredentialsListItem extends StatelessWidget {
                             value: item.issuer,
                           ),
                         ),
-                        const SizedBox(width: 16.0),
-                        Expanded(
-                          child: _LabeledItem(
-                            icon: 'assets/icon/time-clock.svg',
-                            label: 'Valid thru:',
-                            hero: 'credential/${item.id}/valid',
-                            value: '01/22',
+                        if (item.expirationDate != null)
+                          const SizedBox(width: 16.0),
+                        if (item.expirationDate != null)
+                          Expanded(
+                            child: _LabeledItem(
+                              icon: 'assets/icon/time-clock.svg',
+                              label: 'Valid thru:',
+                              hero: 'credential/${item.id}/valid',
+                              value: DateFormat(DateFormat.YEAR_NUM_MONTH_DAY)
+                                  .format(item.expirationDate!),
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
