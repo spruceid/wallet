@@ -8,15 +8,18 @@ class CredentialModel {
 
   String get issuer => data['issuer']!;
 
+  DateTime? get expirationDate => (data['expirationDate'] != null)
+      ? DateTime.parse(data['expirationDate'])
+      : null;
+
   CredentialStatus get status {
-    if (data.containsKey('expirationDate')) {
-      final exp = DateTime.parse(data['expirationDate']);
-      return exp.isAfter(DateTime.now())
-          ? CredentialStatus.active
-          : CredentialStatus.expired;
-    } else {
+    if (expirationDate == null) {
       return CredentialStatus.active;
     }
+
+    return expirationDate!.isAfter(DateTime.now())
+          ? CredentialStatus.active
+          : CredentialStatus.expired;
   }
 
   const CredentialModel({
