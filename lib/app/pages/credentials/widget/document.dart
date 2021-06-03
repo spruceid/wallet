@@ -1,7 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/pages/credentials/widget/document/body.dart';
-import 'package:credible/app/pages/credentials/widget/document/header.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
