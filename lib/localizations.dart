@@ -226,7 +226,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
   List<Locale> get supportedLocales => const <Locale>[
         Locale('en', ''),
-        Locale('pt', 'BR'),
+        // Locale('pt', 'BR'),
       ];
 
   @override
