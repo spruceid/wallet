@@ -18,8 +18,8 @@ class CredentialModel {
     }
 
     return expirationDate!.isAfter(DateTime.now())
-          ? CredentialStatus.active
-          : CredentialStatus.expired;
+        ? CredentialStatus.active
+        : CredentialStatus.expired;
   }
 
   const CredentialModel({
