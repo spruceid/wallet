@@ -1,18 +1,19 @@
-import 'dart:developer';
-
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MarkdownPage extends StatelessWidget {
   final String title;
   final String file;
 
-  const MarkdownPage({Key? key, required this.title, required this.file})
+  final _log = Logger('credible/markdown_page');
+
+  MarkdownPage({Key? key, required this.title, required this.file})
       : super(key: key);
 
   @override
@@ -36,8 +37,8 @@ class MarkdownPage extends StatelessWidget {
             }
 
             if (snapshot.error != null) {
-              log('something went wrong when loading $file',
-                  name: 'credible/markdown_page', error: snapshot.error);
+              _log.severe(
+                  'something went wrong when loading $file', snapshot.error);
               return Container();
             }
 
@@ -56,7 +57,7 @@ class MarkdownPage extends StatelessWidget {
     if (await canLaunch(href)) {
       await launch(href);
     } else {
-      log('cannot launch url: $href', name: 'credible/markdown_page');
+      _log.severe('cannot launch url: $href');
     }
   }
 }
