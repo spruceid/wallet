@@ -48,6 +48,7 @@ dependencies:
   package_info: ^2.0.0
   flutter_markdown: ^0.6.2
   url_launcher: ^6.0.4
+  logging: ^1.0.1
 
 dev_dependencies:
   flutter_test:
