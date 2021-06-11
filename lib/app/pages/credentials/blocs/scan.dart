@@ -11,6 +11,7 @@ import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 
 abstract class ScanEvent {}
@@ -134,6 +135,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> _credentialOffer(
     ScanEventCredentialOffer event,
   ) async* {
+    final log = Logger('credible/scan/credential-offer');
+
     yield ScanStateWorking();
 
     final url = event.url;
@@ -167,11 +170,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final jsonVerification = jsonDecode(verification);
 
       if (jsonVerification['warnings'].isNotEmpty) {
-        log(
-          'credential verification return warnings',
-          name: 'credible/scan/credential-offer',
-          error: jsonVerification['warnings'],
-        );
+        log.warning('credential verification return warnings',
+            jsonVerification['warnings']);
 
         yield ScanStateMessage(StateMessage.warning(
             'Credential verification returned some warnings. '
@@ -179,11 +179,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
-        log(
-          'failed to verify credential',
-          name: 'credible/scan/credential-offer',
-          error: jsonVerification['errors'],
-        );
+        log.severe('failed to verify credential', jsonVerification['errors']);
 
         yield ScanStateMessage(
             StateMessage.error('Failed to verify credential. '
@@ -197,11 +193,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/scan/credential-offer',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
@@ -220,6 +212,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> _verifiablePresentationRequest(
     ScanEventVerifiablePresentationRequest event,
   ) async* {
+    final log = Logger('credible/scan/verifiable-presentation-request');
     yield ScanStateWorking();
 
     final url = event.url;
@@ -265,11 +258,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/scan/verifiable-presentation-request',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
@@ -286,6 +275,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> _CHAPIStore(
     ScanEventCHAPIStore event,
   ) async* {
+    final log = Logger('credible/scan/chapi-store');
+
     yield ScanStateWorking();
 
     final data = event.data;
@@ -329,11 +320,8 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final jsonVerification = jsonDecode(verification);
 
       if (jsonVerification['warnings'].isNotEmpty) {
-        log(
-          'credential verification return warnings',
-          name: 'credible/scan/chapi-store',
-          error: jsonVerification['warnings'],
-        );
+        log.warning('credential verification return warnings',
+            jsonVerification['warnings']);
 
         yield ScanStateMessage(StateMessage.warning(
             'Credential verification returned some warnings. '
@@ -341,11 +329,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }
 
       if (jsonVerification['errors'].isNotEmpty) {
-        log(
-          'failed to verify credential',
-          name: 'credible/scan/chapi-store',
-          error: jsonVerification['errors'],
-        );
+        log.severe('failed to verify credential', jsonVerification['errors']);
 
         // done(jsonEncode(jsonVerification['errors']));
 
@@ -362,11 +346,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/scan/chapi-store',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
@@ -385,6 +365,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> _CHAPIGetDIDAuth(
     ScanEventCHAPIGetDIDAuth event,
   ) async* {
+    final log = Logger('credible/scan/chapi-get-didauth');
     yield ScanStateWorking();
 
     final keyId = event.keyId;
@@ -415,11 +396,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your DID!'));
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/scan/chapi-get-didauth',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
@@ -436,6 +413,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
   Stream<ScanState> _CHAPIGetQueryByExample(
     ScanEventCHAPIGetQueryByExample event,
   ) async* {
+    final log = Logger('credible/scan/chapi-get-querybyexample');
     yield ScanStateWorking();
 
     final keyId = event.keyId;
@@ -476,11 +454,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential(s)!'));
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/scan/chapi-get-querybyexample',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ScanStateMessage(
           StateMessage.error('Something went wrong, please try again later. '
