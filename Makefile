@@ -10,6 +10,7 @@ setup-didkit-ios:
 
 .PHONY: deploy-ios
 deploy-ios: check-fastlane-user setup-didkit-ios
+	@flutter build ios --release --no-codesign
 	@cd ios && bundle exec fastlane beta
 
 .PHONY: setup-didkit-android
