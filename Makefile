@@ -17,9 +17,13 @@ deploy-ios: check-fastlane-user setup-didkit-ios
 setup-didkit-android:
 	@./didkit_setup.sh -android
 
-.PHONY: deploy-android
-deploy-android: setup-didkit-android
+
+.PHONY: build-android
+build-android: setup-didkit-android
 	@flutter build appbundle
+
+.PHONY: deploy-android
+deploy-android: build-android
 	@cd android && bundle exec fastlane beta
 
 .PHONY: deploy-all
