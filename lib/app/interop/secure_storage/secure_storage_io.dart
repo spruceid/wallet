@@ -9,7 +9,6 @@ class SecureStorageIO extends SecureStorageProvider {
   FlutterSecureStorage get _storage => FlutterSecureStorage();
 
   IOSOptions get _defaultIOSOptions => IOSOptions(
-        groupId: 'com.spruceid.app.credible',
         accessibility: IOSAccessibility.unlocked_this_device,
       );
 
