@@ -3,7 +3,7 @@ description: Credible Wallet
 
 publish_to: 'none'
 
-version: 0.1.0+7
+version: 0.1.0+10
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
