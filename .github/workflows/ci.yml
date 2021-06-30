@@ -66,6 +66,7 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: '12.x'
+    
     # Setup the flutter environment.
     - name: SETUP | Flutter
       uses: subosito/flutter-action@v1
@@ -75,40 +76,28 @@ jobs:
     - name: SETUP | Rust
       uses: ATiltedTree/setup-rust@v1
       with:
-        rust-version: stable
+        rust-version: nightly
   
     - name: DIDKIT | rustup android
       working-directory: ./didkit
       run: make -C lib install-rustup-android
 
-    - name: DIDKIT | java.stamp
-      working-directory: ./didkit
-      run: make -C lib ../target/test/java.stamp
-
     - name: DIDKIT | aar.stamp
       working-directory: ./didkit
       run: make -C lib ../target/test/aar.stamp
-
-    - name: DIDKIT | flutter.stamp
-      working-directory: ./didkit
-      run: make -C lib ../target/test/flutter.stamp
-
-    - name: DIDKIT | cargo build
-      working-directory: ./didkit
-      run: cargo build
 
     - name: FLUTTER | pub get
       working-directory: ./main
       run: flutter pub get
 
-    - name: FLUTTER | build apk
-      working-directory: ./main
-      run: flutter build apk --release
+    # - name: FLUTTER | build apk
+    #   working-directory: ./main
+    #   run: flutter build apk --release
 
-    - uses: actions/upload-artifact@v2
-      with:
-        name: app-release.apk
-        path: ./main/build/app/outputs/apk/release/app-release.apk
+    # - uses: actions/upload-artifact@v2
+    #   with:
+    #     name: app-release.apk
+    #     path: ./main/build/app/outputs/apk/release/app-release.apk
 
     # Check for any formatting issues in the code.
     - name: FLUTTER | format
@@ -189,11 +178,7 @@ jobs:
     - name: DIDKIT | ios.stamp
       working-directory: ./didkit
       run: make -C lib ../target/test/ios.stamp
-
-    - name: DIDKIT | cargo build
-      working-directory: ./didkit
-      run: cargo build
-
+      
     - name: FLUTTER | pub get
       working-directory: ./main
       run: flutter pub get
