@@ -1,5 +1,4 @@
 {
-  "@@last_modified": "2020-09-30T14:46:12.082443",
   "genericError": "An error has occurred!",
   "@genericError": {
     "description": "Generic error message",
@@ -49,5 +48,31 @@
     "description": "List action button to open sort options",
     "type": "text",
     "placeholders": {}
-  }
+  },
+  "onBoardingStartSubtitle": "Lorem ipsum dolor sit ame",
+    "onBoardingStartButton": "Start",
+    "onBoardingTosTitle": "Terms & Conditions",
+    "onBoardingTosButton": "Accept",
+    "onBoardingRecoveryTitle": "Key Recovery",
+    "onBoardingRecoveryButton": "Recover",
+    "onBoardingKeyTitle": "Get Started",
+    "onBoardingKeyRecover": "Recover",
+    "onBoardingKeyGenerate": "Generate",
+    "onBoardingGenPhraseTitle": "Recovery Phrase",
+    "onBoardingGenPhraseButton": "Continue",
+    "onBoardingGenTitle": "Private Key Generation",
+    "onBoardingGenButton": "Generate",
+    "onBoardingSuccessTitle": "Identifier Created",
+    "onBoardingSuccessButton": "Continue",
+    "credentialDetailShare": "Share by QR code",
+    "credentialDetailDelete": "Delete credential",
+    "credentialDetailCopyFieldValue": "Copied field value to clipboard!",
+    "credentialPresentConfirm": "Select credential(s)",
+    "credentialPresentCancel": "Reject",
+    "credentialReceiveConfirm": "Add to wallet",
+    "credentialReceiveCancel": "Not for now",
+    "credentialDetailListTitle": "My wallet",
+  "communicationHostAllow": "Allow",
+  "communicationHostDeny": "Deny"
+
 }

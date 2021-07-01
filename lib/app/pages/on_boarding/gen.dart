@@ -2,9 +2,9 @@ import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/key_generation.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
