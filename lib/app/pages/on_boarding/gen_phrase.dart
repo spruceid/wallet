@@ -8,6 +8,7 @@ import 'package:credible/app/shared/widget/mnemonic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
