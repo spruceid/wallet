@@ -67,8 +67,9 @@ class CustomNavBar extends StatelessWidget {
         showUnselectedLabels: false,
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        onTap: (index) {
-          switch (index) {
+        onTap: (newIndex) {
+          if (newIndex == index) return;
+          switch (newIndex) {
             case 0:
               Modular.to.pushReplacementNamed('/credentials');
               break;
