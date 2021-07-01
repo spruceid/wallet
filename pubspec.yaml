@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  intl: ^0.17.0
 
   flutter_modular: ^3.2.0
   flutter_bloc: ^7.0.0
@@ -61,10 +62,8 @@ flutter_icons:
   ios: false
   image_path: "assets/launcher_icon.png"
 
-flutter_intl:
-  enabled: true
-
 flutter:
+  generate: true
   uses-material-design: true
   assets:
     - assets/brand/logo-full.svg

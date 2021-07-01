@@ -3,10 +3,10 @@ import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/grid_item.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsGrid extends StatelessWidget {
   final List<CredentialModel> items;

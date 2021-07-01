@@ -1,0 +1,53 @@
+{
+  "genericError": "Une erreur est survenue !",
+  "@genericError": {
+    "description": "Message d’erreur générique",
+    "type": "text",
+    "placeholders": {}
+  },
+  "credentialListTitle": "Liste des certificats",
+  "@credentialListTitle": {
+    "description": "Titre de la page d’administration des certificats",
+    "type": "text",
+    "placeholders": {}
+  },
+  "credentialDetailIssuedBy": "Émit par {issuer}",
+  "@credentialDetailIssuedBy": {
+    "description": "Émetteur du certificat sur la page de détail",
+    "type": "text",
+    "placeholders": {
+      "issuer": {}
+    }
+  },
+  "listActionRefresh": "Rafraîchir",
+  "@listActionRefresh": {
+    "description": "Bouton pour rafraîchir la liste",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listActionViewList": "Visualiser en liste",
+  "@listActionViewList": {
+    "description": "Bouton pour visionner les données en liste",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listActionViewGrid": "Visualiser en grille",
+  "@listActionViewGrid": {
+    "description": "Bouton pour visionner les données en tableau",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listActionFilter": "Filtrer",
+  "@listActionFilter": {
+    "description": "Bouton pour ouvrir les options de filtrage",
+    "type": "text",
+    "placeholders": {}
+  },
+  "listActionSort": "Trier",
+  "@listActionSort": {
+    "description": "Bouton pour ouvrir les options de tri",
+    "type": "text",
+    "placeholders": {}
+  }
+}
+
