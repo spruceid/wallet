@@ -1,3 +1,4 @@
+import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
@@ -30,8 +31,8 @@ class MarkdownPage extends StatelessWidget {
               return Markdown(
                 data: snapshot.data!,
                 styleSheet: MarkdownStyleSheet(
-                    h1: TextStyle(color: Colors.white),
-                    h2: TextStyle(color: Colors.white)),
+                    h1: TextStyle(color: UiKit.text.colorTextSubtitle1),
+                    h2: TextStyle(color: UiKit.text.colorTextSubtitle2)),
                 onTapLink: (text, href, title) => _onTapLink(href),
               );
             }

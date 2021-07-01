@@ -8,7 +8,7 @@ import 'degen/constraints.dart';
 import 'degen/palette.dart';
 import 'degen/text.dart';
 
-const UiKit = Ui._degen();
+const UiKit = Ui._credible();
 
 class Ui {
   final UiPalette palette;
