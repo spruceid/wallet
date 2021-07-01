@@ -6,10 +6,10 @@ import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
