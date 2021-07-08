@@ -14,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -30,6 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BlocConsumer(
       bloc: Modular.get<ProfileBloc>(),
       listener: (context, state) {
@@ -47,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
         final lastName = model.lastName;
 
         return BasePage(
-          title: 'Profile',
+          title: localizations.profileTitle,
           padding: const EdgeInsets.symmetric(
             vertical: 24.0,
           ),
@@ -76,35 +78,31 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(height: 32.0),
               MenuItem(
                 icon: Icons.person,
-                title: 'Personal',
+                title: localizations.personalTitle,
                 onTap: () =>
                     Modular.to.pushNamed('/profile/personal', arguments: model),
               ),
               MenuItem(
                 icon: Icons.shield,
-                title: 'Privacy & Security',
+                title: localizations.privacyTitle,
                 onTap: () => Modular.to.pushNamed('/profile/privacy'),
               ),
               MenuItem(
                 icon: Icons.article,
-                title: 'Terms & Conditions',
+                title: localizations.onBoardingTosTitle,
                 onTap: () => Modular.to.pushNamed('/profile/terms'),
               ),
               MenuItem(
                 icon: Icons.vpn_key,
-                title: 'Recovery',
+                title: localizations.recoveryTitle,
                 onTap: () async {
                   final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => ConfirmDialog(
-                          title: 'Be careful',
-                          subtitle:
-                              'The recovery page contains sensitive information '
-                              'that will compromise your identifier in the wrong '
-                              'hands. You should not open this page in public '
-                              'or share it with anyone.',
-                          yes: 'Continue',
-                          no: 'Cancel',
+                          title: localizations.recoveryWarningDialogTitle,
+                          subtitle: localizations.recoveryWarningDialogSubtitle,
+                          yes: localizations.showDialogYes,
+                          no: localizations.showDialogNo,
                         ),
                       ) ??
                       false;
@@ -116,12 +114,12 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               MenuItem(
                 icon: Icons.support,
-                title: 'Support',
+                title: localizations.supportTitle,
                 onTap: () => Modular.to.pushNamed('/profile/support'),
               ),
               MenuItem(
                 icon: Icons.assignment_sharp,
-                title: 'Notices',
+                title: localizations.noticesTitle,
                 onTap: () => Modular.to.pushNamed('/profile/notices'),
               ),
               const SizedBox(height: 48.0),
@@ -138,9 +136,8 @@ class _ProfilePageState extends State<ProfilePage> {
                   final confirm = await showDialog<bool>(
                         context: context,
                         builder: (context) => ConfirmDialog(
-                          title: 'Reset Wallet',
-                          subtitle:
-                              'Are you sure you want to reset your wallet?',
+                          title: localizations.resetWalletButton,
+                          subtitle: localizations.resetWalletConfirmationText,
                         ),
                       ) ??
                       false;
@@ -169,7 +166,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                 },
                 child: Text(
-                  'Reset wallet',
+                  localizations.resetWalletButton,
                   style: Theme.of(context)
                       .textTheme
                       .bodyText1!

@@ -7,6 +7,7 @@ import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalPage extends StatefulWidget {
   final ProfileModel profile;
@@ -40,8 +41,9 @@ class _PersonalPageState extends State<PersonalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BasePage(
-      title: 'Personal',
+      title: localizations.personalTitle,
       titleLeading: BackLeadingButton(),
       titleTrailing: InkWell(
         borderRadius: BorderRadius.circular(8.0),
@@ -61,7 +63,7 @@ class _PersonalPageState extends State<PersonalPage> {
             vertical: 8.0,
           ),
           child: Text(
-            'Save',
+            localizations.personalSave,
             style: Theme.of(context)
                 .textTheme
                 .bodyText1!
@@ -78,7 +80,7 @@ class _PersonalPageState extends State<PersonalPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
-              'Your profile data can be used to fill credentials when applicable',
+              localizations.personalSubtitle,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle2,
             ),
@@ -95,32 +97,32 @@ class _PersonalPageState extends State<PersonalPage> {
           // ),
           const SizedBox(height: 32.0),
           BaseTextField(
-            label: 'First Name',
+            label: localizations.personalFirstName,
             controller: firstNameController,
             icon: Icons.person,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: 'Last Name',
+            label: localizations.personalLastName,
             controller: lastNameController,
             icon: Icons.person,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: 'Phone',
+            label: localizations.personalPhone,
             controller: phoneController,
             icon: Icons.phone,
             type: TextInputType.phone,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: 'Location',
+            label: localizations.personalLocation,
             controller: locationController,
             icon: Icons.location_pin,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
-            label: 'E-mail',
+            label: localizations.personalMail,
             controller: emailController,
             icon: Icons.email,
             type: TextInputType.emailAddress,

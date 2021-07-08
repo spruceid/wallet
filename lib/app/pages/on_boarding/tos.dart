@@ -62,7 +62,7 @@ class OnBoardingTosPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'By tapping accept "I  agree to the terms and condition as well as the disclosure of this information."',
+                      localizations.onBoardingTosText,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(height: 20.0),

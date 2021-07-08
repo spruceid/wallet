@@ -40,13 +40,13 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           Column(
             children: [
               Text(
-                'Write down these words in the right order and save them somewhere safe',
+                localizations.genPhraseInstruction,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
               const SizedBox(height: 8.0),
               Text(
-                'It is the only way to recover your key later if you lose access to this wallet',
+                localizations.genPhraseExplanation,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
@@ -68,7 +68,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
-                    'You can view your recovery phrase again later in the settings menu',
+                    localizations.genPhraseViewLatterText,
                     style: Theme.of(context).textTheme.caption!.apply(
                         color: UiKit.text.colorTextCaption.withOpacity(0.6)),
                   ),

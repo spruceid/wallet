@@ -25,6 +25,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey() async {
+    final localizations = AppLocalizations.of(context)!;
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
       final seed = bip39.mnemonicToSeed(mnemonic);
@@ -53,7 +54,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red,
-        content: Text('Failed to generate key, please try again'),
+        content: Text(localizations.errorGeneratingKey),
       ));
 
       await Modular.to.pushReplacementNamed('/on-boarding/key');

@@ -57,16 +57,16 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           OnBoardingRecoveryPage._padHorizontal(Text(
-            'Please enter your recovery phrase',
+            localizations.recoveryText,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle1,
           )),
           const SizedBox(height: 24.0),
           BaseTextField(
-            label: 'Mnemonic Phrase',
+            label: localizations.recoveryMnemonicHintText,
             controller: mnemonicController,
             error: edited && !buttonEnabled
-                ? 'Please enter a valid mnemonic phrase'
+                ? localizations.recoveryMnemonicError
                 : null,
           ),
           const SizedBox(height: 24.0),

@@ -22,13 +22,13 @@ class OnBoardingKeyPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  'Recover my identity wallet',
+                  localizations.keyRecoveryTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
                 Text(
-                  'If you have previously used a wallet and have a recovery phrase',
+                  localizations.keyRecoveryText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
@@ -48,13 +48,13 @@ class OnBoardingKeyPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  'Generate a new wallet',
+                  localizations.keyGenerateTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
                 Text(
-                  'Generate a new identifier and get a new recovery phrase',
+                  localizations.keyGenerateText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),

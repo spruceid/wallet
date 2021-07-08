@@ -5,20 +5,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class BrandMinimal extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          HeroFix(
-            tag: 'splash/icon-minimal',
-            child: Container(
-              width: MediaQuery.of(context).size.width * 0.2,
-              height: MediaQuery.of(context).size.width * 0.2,
-              child: SvgPicture.asset('assets/brand/logo-splash.svg'),
-            ),
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: <Widget>[
+        HeroFix(
+          tag: 'splash/icon-minimal',
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.2,
+            height: MediaQuery.of(context).size.width * 0.2,
+            child: SvgPicture.asset('assets/brand/logo-splash.svg'),
           ),
-        ],
-      );
+        ),
+      ],
+    );
+  }
 }
 
 class Brand extends StatelessWidget {

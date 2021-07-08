@@ -37,7 +37,7 @@ class _CredentialsReceivePageState
 
     return BasePage(
       padding: const EdgeInsets.all(16.0),
-      title: 'Credential Offer',
+      title: localizations.credentialReceiveTitle,
       titleTrailing: IconButton(
         onPressed: goBack,
         icon: Icon(
@@ -76,7 +76,7 @@ class _CredentialsReceivePageState
                     Expanded(
                       child: TooltipText(
                         text:
-                            '${widget.url.host} wants to send you a credential',
+                            '${widget.url.host} ${localizations.credentialReceiveHost}',
                         maxLines: 3,
                         style: Theme.of(context).textTheme.bodyText1,
                       ),

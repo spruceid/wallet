@@ -96,7 +96,8 @@ class _CredentialsPresentPageState
             const SizedBox(width: 16.0),
             Expanded(
               child: TooltipText(
-                text: 'Someone is asking for your ${widget.resource}.',
+                text:
+                    '${localizations.credentialPresentRequiredCredential} ${widget.resource}.',
                 maxLines: 3,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
