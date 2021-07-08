@@ -60,13 +60,12 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         promptActive = true;
       });
 
+      final localizations = AppLocalizations.of(context)!;
       final acceptHost = await showDialog<bool>(
             context: context,
             builder: (BuildContext context) {
-              final localizations = AppLocalizations.of(context)!;
-
               return ConfirmDialog(
-                title: 'Do you trust this host?',
+                title: localizations.scanPromptHost,
                 subtitle: uri.host,
                 yes: localizations.communicationHostAllow,
                 no: localizations.communicationHostDeny,
@@ -79,7 +78,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         store.add(QRCodeEventAccept(uri));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('The communication request was denied.'),
+          content: Text(localizations.scanRefuseHost),
         ));
       }
 
@@ -91,6 +90,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BlocListener(
       bloc: store,
       listener: (context, state) {
@@ -109,7 +109,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           qrController.resumeCamera();
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Unsupported message received.'),
+            content: Text(localizations.scanUnsupportedMessage),
           ));
         }
         if (state is QRCodeStateSuccess) {
@@ -123,7 +123,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       },
       child: BasePage(
         padding: EdgeInsets.zero,
-        title: 'Scan',
+        title: localizations.scanTitle,
         scrollView: false,
         navigation: CustomNavBar(index: 1),
         extendBelow: true,
