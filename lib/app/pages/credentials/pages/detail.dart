@@ -67,11 +67,14 @@ class _CredentialsDetailState
   void delete() async {
     final confirm = await showDialog<bool>(
           context: context,
-          builder: (BuildContext context) => ConfirmDialog(
-            title: 'Do you really want to delete this credential?',
-            yes: 'Yes',
-            no: 'No',
-          ),
+          builder: (BuildContext context) {
+            final localizations = AppLocalizations.of(context)!;
+            return ConfirmDialog(
+              title: localizations.credentialDetailDeleteConfirmationDialog,
+              yes: localizations.credentialDetailDeleteConfirmationDialogYes,
+              no: localizations.credentialDetailDeleteConfirmationDialogNo,
+            );
+          },
         ) ??
         false;
 
@@ -174,7 +177,7 @@ class _CredentialsDetailState
           else ...<Widget>[
             Center(
               child: Text(
-                'Verification Status',
+                localizations.credentialDetailStatus,
                 style: Theme.of(context).textTheme.overline!,
               ),
             ),

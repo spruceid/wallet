@@ -5,6 +5,7 @@ import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsPickPage extends StatefulWidget {
   final List<CredentialModel> items;
@@ -34,6 +35,8 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BasePage(
       title: 'Present credentials',
       titleTrailing: IconButton(
@@ -54,13 +57,13 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
           padding: const EdgeInsets.all(16.0),
           height: kBottomNavigationBarHeight * 1.75,
           child: Tooltip(
-            message: 'Present',
+            message: localizations.credentialPickPresent,
             child: BaseButton.primary(
               onPressed: () {
                 if (selection.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     backgroundColor: Colors.red,
-                    content: Text('Select at least one credential'),
+                    content: Text('localizations.credentialPickSelect'),
                   ));
                 } else {
                   widget
@@ -68,7 +71,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
                   Modular.to.pushReplacementNamed('/credentials/list');
                 }
               },
-              child: Text('Present'),
+              child: Text(localizations.credentialPickPresent),
             ),
           ),
         ),
@@ -76,7 +79,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
       body: Column(
         children: <Widget>[
           Text(
-            'Choose one or more credentials from your wallet to present',
+            localizations.credentialPickSelect,
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const SizedBox(height: 32.0),
