@@ -5,7 +5,7 @@ void main() {
   group('CredentialModel', () {
     test('.toMap() encodes to map', () {
       final credential = CredentialModel(
-          id: 'uuid', image: 'image', data: {'issuer': 'did:...'});
+          id: 'uuid', alias: null, image: 'image', data: {'issuer': 'did:...'});
       final m = credential.toMap();
 
       expect(

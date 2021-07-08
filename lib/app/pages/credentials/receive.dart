@@ -4,6 +4,8 @@ import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:credible/app/shared/widget/base/text_field.dart';
+import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
-  final VoidCallback onSubmit;
+  final void Function(String?) onSubmit;
 
   const CredentialsReceivePage({
     Key? key,
@@ -93,7 +95,17 @@ class _CredentialsReceivePageState
                     model: DocumentWidgetModel.fromCredentialModel(credential)),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
-                  onPressed: widget.onSubmit,
+                  onPressed: () async {
+                    final alias = await showDialog<String>(
+                      context: context,
+                      builder: (context) => TextFieldDialog(
+                        title:
+                            'Do you want to give an alias to this credential?',
+                      ),
+                    );
+
+                    widget.onSubmit(alias);
+                  },
                   child: Text(localizations.credentialReceiveConfirm),
                 ),
                 const SizedBox(height: 8.0),

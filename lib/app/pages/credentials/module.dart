@@ -37,9 +37,10 @@ class CredentialsModule extends Module {
           '/receive',
           child: (context, args) => CredentialsReceivePage(
             url: args.data,
-            onSubmit: () {
+            onSubmit: (alias) {
               Modular.get<ScanBloc>().add(ScanEventCredentialOffer(
                 args.data.toString(),
+                alias,
                 'key',
               ));
             },
@@ -50,7 +51,7 @@ class CredentialsModule extends Module {
           '/chapi-receive',
           child: (context, args) => CredentialsReceivePage(
             url: args.data['url'],
-            onSubmit: () {
+            onSubmit: (alias) {
               Modular.get<ScanBloc>().add(ScanEventCHAPIStore(
                 args.data['data'],
                 args.data['done'],
