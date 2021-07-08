@@ -10,6 +10,7 @@ import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
+import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -77,15 +78,41 @@ class _CredentialsDetailState
     }
   }
 
+  void _edit() async {
+    final newAlias = await showDialog<String>(
+      context: context,
+      builder: (context) => TextFieldDialog(
+        title: 'Do you want to give an alias to this credential?',
+        initialValue: widget.item.alias,
+      ),
+    );
+
+    if (newAlias != widget.item.alias) {
+      final newCredential = CredentialModel(
+          id: widget.item.id,
+          alias: newAlias,
+          image: widget.item.image,
+          data: widget.item.data);
+      await store.updateCredential(newCredential);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      title: widget.item.issuer,
-      titleTag: 'credential/${widget.item.id}/issuer',
+      title: widget.item.alias ?? widget.item.id,
+      titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
+      titleTrailing: IconButton(
+        onPressed: _edit,
+        icon: Icon(
+          Icons.edit,
+          color: UiKit.palette.icon,
+        ),
+      ),
       navigation: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(

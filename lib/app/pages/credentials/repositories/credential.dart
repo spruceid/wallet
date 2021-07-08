@@ -63,6 +63,19 @@ class CredentialsRepository extends Disposable {
     return await store.add(db, credential.toMap());
   }
 
+  Future<int> update(CredentialModel credential) async {
+    final db = await WalletDatabase.db;
+    final store = intMapStoreFactory.store('credentials');
+    return await store.update(
+      db,
+      credential.toMap(),
+      finder: Finder(
+        filter: Filter.equals('id', credential.id),
+        limit: 1,
+      ),
+    );
+  }
+
   @override
   void dispose() {}
 }
