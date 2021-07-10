@@ -4,7 +4,6 @@ import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:credible/app/shared/widget/tooltip_text.dart';
 import 'package:credible/localizations.dart';
