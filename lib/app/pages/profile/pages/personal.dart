@@ -100,12 +100,14 @@ class _PersonalPageState extends State<PersonalPage> {
             label: localizations.personalFirstName,
             controller: firstNameController,
             icon: Icons.person,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
             label: localizations.personalLastName,
             controller: lastNameController,
             icon: Icons.person,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(
@@ -119,6 +121,7 @@ class _PersonalPageState extends State<PersonalPage> {
             label: localizations.personalLocation,
             controller: locationController,
             icon: Icons.location_pin,
+            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(

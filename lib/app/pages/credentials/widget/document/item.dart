@@ -30,6 +30,8 @@ class DocumentItemWidget extends StatelessWidget {
                 .textTheme
                 .caption!
                 .apply(color: UiKit.palette.credentialText),
+            maxLines: null,
+            softWrap: true,
           ),
         ],
       );

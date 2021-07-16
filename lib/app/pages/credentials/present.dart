@@ -1,6 +1,4 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/pages/credentials/models/credential.dart';
-import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -104,9 +102,10 @@ class _CredentialsPresentPageState
             ),
           ],
         ),
-        const SizedBox(height: 16.0),
-        DocumentWidget(
-            item: CredentialModel(id: '', image: '', data: {'issuer': ''})),
+        // const SizedBox(height: 16.0),
+        // DocumentWidget(
+        //     model: DocumentWidgetModel.fromCredentialModel(
+        //         CredentialModel(id: '', image: '', data: {'issuer': ''}))),
         const SizedBox(height: 24.0),
         BaseButton.transparent(
           borderColor: UiKit.palette.primary,

@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/shared/model/message.dart';
+import 'package:logging/logging.dart';
 
 abstract class ProfileEvent {}
 
@@ -46,6 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _load(
     ProfileEventLoad event,
   ) async* {
+    final log = Logger('credible/profile/load');
     try {
       yield ProfileStateWorking();
 
@@ -73,11 +73,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       yield ProfileStateDefault(model);
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/profile/load',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ProfileStateMessage(StateMessage.error('Failed to load profile. '
           'Check the logs for more information.'));
@@ -87,6 +83,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Stream<ProfileState> _update(
     ProfileEventUpdate event,
   ) async* {
+    final log = Logger('credible/profile/update');
+
     try {
       yield ProfileStateWorking();
 
@@ -113,11 +111,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
       yield ProfileStateDefault(event.model);
     } catch (e) {
-      log(
-        'something went wrong',
-        name: 'credible/profile/update',
-        error: e,
-      );
+      log.severe('something went wrong', e);
 
       yield ProfileStateMessage(StateMessage.error('Failed to save profile. '
           'Check the logs for more information.'));

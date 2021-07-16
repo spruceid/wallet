@@ -78,10 +78,7 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
                       mnemonicController.text,
                     );
 
-                    await Modular.to.pushNamedAndRemoveUntil(
-                      '/on-boarding/gen',
-                      ModalRoute.withName('/on-boarding/key'),
-                    );
+                    await Modular.to.pushReplacementNamed('/on-boarding/gen');
                   }
                 : null,
             child: Text(localizations.onBoardingRecoveryButton),

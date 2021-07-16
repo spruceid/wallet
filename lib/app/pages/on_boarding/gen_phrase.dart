@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:logging/logging.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final log = Logger('credible/on-boarding/gen-phrase');
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
@@ -78,15 +80,24 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           ),
           BaseButton.primary(
             onPressed: () async {
-              await SecureStorageProvider.instance.set(
-                'mnemonic',
-                mnemonic.join(' '),
-              );
+              try {
+                log.info('will save mnemonic to secure storage');
+                await SecureStorageProvider.instance.set(
+                  'mnemonic',
+                  mnemonic.join(' '),
+                );
+                log.info('mnemonic saved');
 
-              await Modular.to.pushNamedAndRemoveUntil(
-                '/on-boarding/gen',
-                ModalRoute.withName('/on-boarding/key'),
-              );
+                await Modular.to.pushReplacementNamed('/on-boarding/gen');
+              } catch (error) {
+                log.severe(
+                    'error ocurred setting mnemonic to secure storate', error);
+
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text('Failed to save mnemonic, please try again'),
+                ));
+              }
             },
             child: Text(localizations.onBoardingGenPhraseButton),
           ),

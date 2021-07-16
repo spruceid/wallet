@@ -36,7 +36,7 @@ class _CredentialsReceivePageState
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(24.0),
       title: localizations.credentialReceiveTitle,
       titleTrailing: IconButton(
         onPressed: goBack,
@@ -58,37 +58,39 @@ class _CredentialsReceivePageState
           }
 
           if (state is ScanStatePreview) {
-            final preview = state.preview;
+            final credential = CredentialModel.fromMap(
+                {'data': state.preview['credentialPreview']});
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Row(
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.175,
-                      height: MediaQuery.of(context).size.width * 0.175,
-                      decoration: BoxDecoration(
-                        color: Colors.black45,
-                        borderRadius: BorderRadius.circular(16.0),
-                      ),
-                    ),
-                    const SizedBox(width: 16.0),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width * 0.175,
+                    //   height: MediaQuery.of(context).size.width * 0.175,
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.black45,
+                    //     borderRadius: BorderRadius.circular(16.0),
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 16.0),
                     Expanded(
-                      child: TooltipText(
-                        text:
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: TooltipText(
+                          text:
                             '${widget.url.host} ${localizations.credentialReceiveHost}',
-                        maxLines: 3,
-                        style: Theme.of(context).textTheme.bodyText1,
+                          maxLines: 3,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyText1,
+                        ),
                       ),
                     ),
                   ],
                 ),
                 const SizedBox(height: 16.0),
                 DocumentWidget(
-                  item: CredentialModel.fromMap(
-                      {'data': preview['credentialPreview']}),
-                  // item: widget.item,
-                ),
+                    model: DocumentWidgetModel.fromCredentialModel(credential)),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
                   onPressed: widget.onSubmit,

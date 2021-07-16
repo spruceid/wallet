@@ -3,7 +3,7 @@ description: Credible Wallet
 
 publish_to: 'none'
 
-version: 1.0.0+1
+version: 0.1.0+14
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -49,6 +49,8 @@ dependencies:
   package_info: ^2.0.0
   flutter_markdown: ^0.6.2
   url_launcher: ^6.0.4
+  logging: ^1.0.1
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:
