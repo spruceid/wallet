@@ -16,11 +16,12 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   @override
   void initState() {
     super.initState();
-
-    generateKey();
+    Future.delayed(Duration.zero, () {
+      generateKey(context);
+    });
   }
 
-  Future<void> generateKey() async {
+  Future<void> generateKey(BuildContext context) async {
     final log = Logger('credible/on-boarding/key-generation');
     final localizations = AppLocalizations.of(context)!;
     try {
