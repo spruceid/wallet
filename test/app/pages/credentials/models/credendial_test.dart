@@ -12,6 +12,7 @@ void main() {
           m,
           equals({
             'id': 'uuid',
+            'alias': null,
             'image': 'image',
             'data': {'issuer': 'did:...'}
           }));
