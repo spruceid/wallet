@@ -194,6 +194,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
+
+      await Modular.get<WalletBloc>().findAll();
+
+      await Future.delayed(Duration(milliseconds: 100));
+      yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
 
@@ -201,11 +206,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           StateMessage.error('Something went wrong, please try again later. '
               'Check the logs for more information.'));
     }
-
-    await Modular.get<WalletBloc>().findAll();
-
-    await Future.delayed(Duration(milliseconds: 100));
-    yield ScanStateSuccess();
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
@@ -259,6 +259,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
+
+      await Future.delayed(Duration(milliseconds: 100));
+      yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
 
@@ -266,9 +269,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           StateMessage.error('Something went wrong, please try again later. '
               'Check the logs for more information.'));
     }
-
-    await Future.delayed(Duration(milliseconds: 100));
-    yield ScanStateSuccess();
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
