@@ -191,7 +191,7 @@ class CredentialsListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
                   TooltipText(
-                    tag: 'credential/${item.alias ?? item.id}/id',
+                    tag: 'credential/${item.id}/id',
                     text: item.alias ?? item.id,
                     style: GoogleFonts.poppins(
                       color: UiKit.text.colorTextBody1,
