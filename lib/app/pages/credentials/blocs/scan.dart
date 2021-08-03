@@ -23,10 +23,12 @@ class ScanEventShowPreview extends ScanEvent {
 
 class ScanEventCredentialOffer extends ScanEvent {
   final String url;
+  final String? alias;
   final String key;
 
   ScanEventCredentialOffer(
     this.url,
+    this.alias,
     this.key,
   );
 }
@@ -139,6 +141,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
     yield ScanStateWorking();
 
     final url = event.url;
+    final alias = event.alias;
     final keyId = event.key;
 
     try {
@@ -186,11 +189,16 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       }
 
       final repository = Modular.get<CredentialsRepository>();
-      await repository
-          .insert(CredentialModel.fromMap({'data': jsonCredential}));
+      await repository.insert(
+          CredentialModel.fromMap({'alias': alias, 'data': jsonCredential}));
 
       yield ScanStateMessage(StateMessage.success(
           'A new credential has been successfully added!'));
+
+      await Modular.get<WalletBloc>().findAll();
+
+      await Future.delayed(Duration(milliseconds: 100));
+      yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
 
@@ -198,11 +206,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           StateMessage.error('Something went wrong, please try again later. '
               'Check the logs for more information.'));
     }
-
-    await Modular.get<WalletBloc>().findAll();
-
-    await Future.delayed(Duration(milliseconds: 100));
-    yield ScanStateSuccess();
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();
@@ -256,6 +259,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
+
+      await Future.delayed(Duration(milliseconds: 100));
+      yield ScanStateSuccess();
     } catch (e) {
       log.severe('something went wrong', e);
 
@@ -263,9 +269,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           StateMessage.error('Something went wrong, please try again later. '
               'Check the logs for more information.'));
     }
-
-    await Future.delayed(Duration(milliseconds: 100));
-    yield ScanStateSuccess();
 
     await Future.delayed(Duration(milliseconds: 100));
     yield ScanStateIdle();

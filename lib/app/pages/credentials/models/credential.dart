@@ -3,6 +3,7 @@ import 'package:uuid/uuid.dart';
 
 class CredentialModel {
   final String id;
+  final String? alias;
   final String? image;
   final Map<String, dynamic> data;
 
@@ -24,6 +25,7 @@ class CredentialModel {
 
   const CredentialModel({
     required this.id,
+    required this.alias,
     required this.image,
     required this.data,
   });
@@ -36,10 +38,12 @@ class CredentialModel {
 
     return CredentialModel(
       id: m['id'] ?? Uuid().v4(),
+      alias: m['alias'],
       image: m['image'],
       data: data,
     );
   }
 
-  Map<String, dynamic> toMap() => {'id': id, 'image': image, 'data': data};
+  Map<String, dynamic> toMap() =>
+      {'id': id, 'alias': alias, 'image': image, 'data': data};
 }

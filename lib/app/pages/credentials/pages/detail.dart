@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:credible/app/shared/widget/text_field_dialog.dart';
+import 'package:logging/logging.dart';
 
 class CredentialsDetail extends StatefulWidget {
   final CredentialModel item;
@@ -31,6 +33,8 @@ class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
+
+  final logger = Logger('credible/credentials/detail');
 
   @override
   void initState() {
@@ -80,15 +84,49 @@ class _CredentialsDetailState
     }
   }
 
+  void _edit() async {
+    logger.info('Start edit flow');
+
+    final newAlias = await showDialog<String>(
+      context: context,
+      builder: (context) => TextFieldDialog(
+        title: 'Do you want to edit this credential alias?',
+        initialValue: widget.item.alias,
+        yes: 'Save',
+        no: 'Cancel',
+      ),
+    );
+
+    logger.info('Edit flow answered with: $newAlias');
+
+    if (newAlias != null && newAlias != widget.item.alias) {
+      logger.info('New alias is different, going to update credential');
+
+      final newCredential = CredentialModel(
+          id: widget.item.id,
+          alias: newAlias.isEmpty ? null : newAlias,
+          image: widget.item.image,
+          data: widget.item.data);
+      await store.updateCredential(newCredential);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
     final localizations = AppLocalizations.of(context)!;
 
     return BasePage(
-      title: widget.item.issuer,
-      titleTag: 'credential/${widget.item.id}/issuer',
+      title: widget.item.alias ?? widget.item.id,
+      titleTag: 'credential/${widget.item.alias ?? widget.item.id}/issuer',
       titleLeading: BackLeadingButton(),
+      titleTrailing: IconButton(
+        onPressed: _edit,
+        icon: Icon(
+          Icons.edit,
+          color: UiKit.palette.icon,
+        ),
+      ),
       navigation: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(

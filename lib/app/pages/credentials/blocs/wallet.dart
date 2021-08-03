@@ -22,6 +22,10 @@ class WalletBloc extends Disposable {
     await findAll();
   }
 
+  Future updateCredential(CredentialModel credential) async {
+    await repository.update(credential);
+  }
+
   @override
   void dispose() {
     credentials$.close();

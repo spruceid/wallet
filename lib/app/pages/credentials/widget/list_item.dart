@@ -192,7 +192,7 @@ class CredentialsListItem extends StatelessWidget {
                 children: <Widget>[
                   TooltipText(
                     tag: 'credential/${item.id}/id',
-                    text: item.id,
+                    text: item.alias ?? item.id,
                     style: GoogleFonts.poppins(
                       color: UiKit.text.colorTextBody1,
                       fontSize: 16.0,
