@@ -60,7 +60,7 @@ if ! command -v flutter &>/dev/null; then
   exit
 fi
 
-flutter channel dev
+flutter channel stable
 flutter upgrade
 
 if [[ "$*" == *-android* ]]; then
