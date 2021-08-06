@@ -56,25 +56,29 @@ class DocumentHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                  if (model.title != null)
-                    TooltipText(
-                      text: model.title!,
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle1!
-                          .apply(color: UiKit.palette.credentialText),
-                    ),
-                  const SizedBox(height: 4.0),
-                  if (model.subtitle != null)
-                    TooltipText(
-                      text: model.subtitle!,
-                      style: Theme.of(context).textTheme.bodyText1!.apply(
-                          color: UiKit.palette.credentialText.withOpacity(0.6)),
-                    ),
+                if (model.title != null)
+                  TooltipText(
+                    text: model.title!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1!
+                        .apply(color: UiKit.palette.credentialText),
+                  ),
+                const SizedBox(height: 4.0),
+                if (model.subtitle != null)
+                  TooltipText(
+                    text: model.subtitle!,
+                    style: Theme.of(context).textTheme.bodyText1!.apply(
+                        color: UiKit.palette.credentialText.withOpacity(0.6)),
+                  ),
               ],
             ),
-            DocumentItemWidget(label: localizations.documentHeaderTooltipLabel, value: model.status),
-          ],
-        ),
-      );
+          ),
+          DocumentItemWidget(
+              label: localizations.documentHeaderTooltipLabel,
+              value: model.status),
+        ],
+      ),
+    );
+  }
 }
