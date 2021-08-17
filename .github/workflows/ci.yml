@@ -150,6 +150,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: spruceid/didkit
+        ref: fix/swift-tests
         path: didkit
 
     # Clones ssi
