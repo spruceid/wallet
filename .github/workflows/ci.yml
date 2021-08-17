@@ -82,9 +82,9 @@ jobs:
       working-directory: ./didkit
       run: make -C lib install-rustup-android
 
-    - name: DIDKIT | aar.stamp
+    - name: DIDKIT | android.stamp
       working-directory: ./didkit
-      run: make -C lib ../target/test/aar.stamp
+      run: make -C lib ../target/test/android.stamp
 
     - name: FLUTTER | pub get
       working-directory: ./main
