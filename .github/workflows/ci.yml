@@ -124,26 +124,26 @@ jobs:
       with:
         path: main
 
-    - name: Cache didkit
-      uses: actions/cache@v2
-      id: cache-didkit
-      with:
-        path: didkit
-        key: ${{ runner.os }}-${{ env.didkit_version }}
+    # - name: Cache didkit
+    #   uses: actions/cache@v2
+    #   id: cache-didkit
+    #   with:
+    #     path: didkit
+    #     key: ${{ runner.os }}-${{ env.didkit_version }}
 
-    - name: Cache ssi
-      uses: actions/cache@v2
-      id: cache-ssi
-      with:
-        path: ssi
-        key: ${{ runner.os }}-${{ env.ssi_version }}
+    # - name: Cache ssi
+    #   uses: actions/cache@v2
+    #   id: cache-ssi
+    #   with:
+    #     path: ssi
+    #     key: ${{ runner.os }}-${{ env.ssi_version }}
 
-    - name: Cache Flutter dependencies
-      uses: actions/cache@v1
-      id: cache-flutter
-      with:
-        path: /opt/hostedtoolcache/flutter
-        key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
+    # - name: Cache Flutter dependencies
+    #   uses: actions/cache@v1
+    #   id: cache-flutter
+    #   with:
+    #     path: /opt/hostedtoolcache/flutter
+    #     key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
 
     # Clones didkit
     - name: Clone didkit
