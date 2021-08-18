@@ -10,7 +10,6 @@ on:
   pull_request:
 
 env:
-  flutter_version: "1.27.0-1.0.pre"
   didkit_version: "0.1.0"
   ssi_version: "0.1.0"
 
@@ -39,13 +38,6 @@ jobs:
         path: ssi
         key: ${{ runner.os }}-${{ env.ssi_version }}
 
-    - name: Cache Flutter dependencies
-      uses: actions/cache@v1
-      id: cache-flutter
-      with:
-        path: /opt/hostedtoolcache/flutter
-        key: ${{ runner.OS }}-flutter-install-cache-${{ env.flutter_version }}
-
     # Clones didkit
     - name: Clone didkit
       uses: actions/checkout@v2
@@ -71,7 +63,7 @@ jobs:
     - name: SETUP | Flutter
       uses: subosito/flutter-action@v1
       with:
-        channel: 'dev'
+        channel: 'stable'
 
     - name: SETUP | Rust
       uses: ATiltedTree/setup-rust@v1
@@ -143,7 +135,7 @@ jobs:
     - name: SETUP | Flutter
       uses: subosito/flutter-action@v1
       with:
-        channel: 'dev'
+        channel: 'stable'
 
     - name: SETUP | Rust
       uses: ATiltedTree/setup-rust@v1
@@ -176,23 +168,3 @@ jobs:
     - name: FLUTTER | test
       working-directory: ./main
       run: flutter test test/
-
-    # # Build apk.
-    # - run: flutter build apk --release
-    
-    # # Upload generated apk to the artifacts.
-    # - name: Upload apk
-    # - uses: actions/upload-artifact@v1
-    #   with:
-    #     name: release-apk
-    #     path: build/app/outputs/apk/release/app-release.apk
-    
-    # # Build ipa.
-    # - run: flutter build ios --release --no-codesign
-        
-    # # Upload generated apk to the artifacts.
-    # - name: Upload IPA
-    #   uses: actions/upload-artifact@v1
-    #   with:
-    #     name: ios-build
-    #     path: build/ios/iphoneos
