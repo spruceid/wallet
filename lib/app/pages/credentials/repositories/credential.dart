@@ -22,6 +22,16 @@ class CredentialsRepository extends Disposable {
     return data.map((m) => CredentialModel.fromMap(m.value)).toList();
   }
 
+  Stream<List<CredentialModel>> observeAll() {
+    final store = intMapStoreFactory.store('credentials');
+
+    return WalletDatabase.db
+        .asStream()
+        .asyncExpand((db) => store.query().onSnapshots(db))
+        .map((snapshot) =>
+            snapshot.map((m) => CredentialModel.fromMap(m.value)).toList());
+  }
+
   Future<CredentialModel?> findById(String id) async {
     final db = await WalletDatabase.db;
     final store = intMapStoreFactory.store('credentials');
