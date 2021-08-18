@@ -12,7 +12,6 @@ MaterialApp _appWithHomeScreen(final WidgetTester tester) {
     ],
     supportedLocales: const <Locale>[
       Locale('en', ''),
-      Locale('pt', 'BR'),
       Locale('fr', ''),
     ],
     home: Material(
