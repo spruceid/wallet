@@ -60,7 +60,7 @@ jobs:
           path: ssi
           submodules: "recursive"
 
-      - name: Cache ssi
+      - name: Cache cargo
         uses: actions/cache@v2
         with:
           path: |
@@ -69,18 +69,8 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             ssi/target/
-          key: ${{ runner.os }}-cargo-ssi-${{ hashFiles('ssi/**/Cargo.lock') }}
-
-      - name: Cache didkit
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
             didkit/target/
-          key: ${{ runner.os }}-cargo-didkit-${{ hashFiles('didkit/**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       # Setup Java environment in order to build the Android app.
       - name: SETUP | Java
@@ -159,7 +149,7 @@ jobs:
           path: ssi
           submodules: "recursive"
 
-      - name: Cache ssi
+      - name: Cache cargo
         uses: actions/cache@v2
         with:
           path: |
@@ -168,18 +158,8 @@ jobs:
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
             ssi/target/
-          key: ${{ runner.os }}-cargo-ssi-${{ hashFiles('ssi/**/Cargo.lock') }}
-
-      - name: Cache didkit
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
             didkit/target/
-          key: ${{ runner.os }}-cargo-didkit-${{ hashFiles('didkit/**/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       # Setup the flutter environment.
       - name: SETUP | Flutter
