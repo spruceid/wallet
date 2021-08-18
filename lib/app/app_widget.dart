@@ -31,7 +31,6 @@ class AppWidget extends StatelessWidget {
         ],
         supportedLocales: const <Locale>[
           Locale('en', ''),
-          Locale('pt', 'BR'),
           Locale('fr', ''),
         ],
       ).modular();
