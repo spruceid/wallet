@@ -80,7 +80,11 @@ class _PersonalPageState extends State<PersonalPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Text(
+<<<<<<< HEAD
+              'Your profile data can be used to fill credentials when applicable.',
+=======
               localizations.personalSubtitle,
+>>>>>>> bc98a0d... localization of all texts using app context
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.subtitle2,
             ),

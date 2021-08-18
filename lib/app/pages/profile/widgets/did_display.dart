@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DIDDisplay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
+
     return BlocConsumer(
       bloc: Modular.get<DIDBloc>(),
       listener: (context, state) {
@@ -26,7 +29,7 @@ class DIDDisplay extends StatelessWidget {
           children: <Widget>[
             Center(
               child: Text(
-                'Your DID is',
+                localizations.didDisplayId,
                 style: Theme.of(context).textTheme.bodyText2!,
               ),
             ),
@@ -60,7 +63,7 @@ class DIDDisplay extends StatelessWidget {
                 Clipboard.setData(ClipboardData(text: did));
               },
               child: Text(
-                'Copy DID to clipboard',
+                localizations.didDisplayCopy,
                 style: Theme.of(context).textTheme.bodyText1!,
               ),
             ),

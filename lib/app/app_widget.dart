@@ -1,8 +1,8 @@
 import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AppWidget extends StatelessWidget {
   ThemeData get _themeData {
@@ -27,7 +27,11 @@ class AppWidget extends StatelessWidget {
           AppLocalizations.delegate,
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
         ],
-        supportedLocales: AppLocalizations.delegate.supportedLocales,
+        supportedLocales: const <Locale>[
+          Locale('en', ''),
+          Locale('fr', ''),
+        ],
       ).modular();
 }

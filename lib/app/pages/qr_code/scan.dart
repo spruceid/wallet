@@ -4,11 +4,11 @@ import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   @override
@@ -60,13 +60,12 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         promptActive = true;
       });
 
+      final localizations = AppLocalizations.of(context)!;
       final acceptHost = await showDialog<bool>(
             context: context,
             builder: (BuildContext context) {
-              final localizations = AppLocalizations.of(context)!;
-
               return ConfirmDialog(
-                title: 'Do you trust this host?',
+                title: localizations.scanPromptHost,
                 subtitle: uri.host,
                 yes: localizations.communicationHostAllow,
                 no: localizations.communicationHostDeny,
@@ -79,7 +78,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
         store.add(QRCodeEventAccept(uri));
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('The communication request was denied.'),
+          content: Text(localizations.scanRefuseHost),
         ));
       }
 
@@ -91,6 +90,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BlocListener(
       bloc: store,
       listener: (context, state) {
@@ -109,7 +109,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           qrController.resumeCamera();
 
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Unsupported message received.'),
+            content: Text(localizations.scanUnsupportedMessage),
           ));
         }
         if (state is QRCodeStateSuccess) {
@@ -123,7 +123,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
       },
       child: BasePage(
         padding: EdgeInsets.zero,
-        title: 'Scan',
+        title: localizations.scanTitle,
         scrollView: false,
         navigation: CustomNavBar(index: 1),
         extendBelow: true,

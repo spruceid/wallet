@@ -16,15 +16,17 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
-      generateKey(context);
-    });
+
+    generateKey();
   }
 
-  Future<void> generateKey(BuildContext context) async {
+  Future<void> generateKey() async {
+<<<<<<< HEAD
     final log = Logger('credible/on-boarding/key-generation');
 
+=======
     final localizations = AppLocalizations.of(context)!;
+>>>>>>> bc98a0d... localization of all texts using app context
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
       final key = await KeyGeneration.privateKey(mnemonic);

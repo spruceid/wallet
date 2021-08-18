@@ -11,11 +11,11 @@ import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logging/logging.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsDetail extends StatefulWidget {
   final CredentialModel item;
@@ -67,11 +67,14 @@ class _CredentialsDetailState
   void delete() async {
     final confirm = await showDialog<bool>(
           context: context,
-          builder: (BuildContext context) => ConfirmDialog(
-            title: 'Do you really want to delete this credential?',
-            yes: 'Yes',
-            no: 'No',
-          ),
+          builder: (BuildContext context) {
+            final localizations = AppLocalizations.of(context)!;
+            return ConfirmDialog(
+              title: localizations.credentialDetailDeleteConfirmationDialog,
+              yes: localizations.credentialDetailDeleteConfirmationDialogYes,
+              no: localizations.credentialDetailDeleteConfirmationDialogNo,
+            );
+          },
         ) ??
         false;
 
@@ -174,7 +177,7 @@ class _CredentialsDetailState
           else ...<Widget>[
             Center(
               child: Text(
-                'Verification Status',
+                localizations.credentialDetailStatus,
                 style: Theme.of(context).textTheme.overline!,
               ),
             ),

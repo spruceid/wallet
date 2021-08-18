@@ -5,10 +5,10 @@ import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/mnemonic.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:logging/logging.dart';
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
@@ -42,13 +42,13 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           Column(
             children: [
               Text(
-                'Write down these words in the right order and save them somewhere safe',
+                localizations.genPhraseInstruction,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.subtitle2,
               ),
               const SizedBox(height: 8.0),
               Text(
-                'It is the only way to recover your key later if you lose access to this wallet',
+                localizations.genPhraseExplanation,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyText1,
               ),
@@ -70,7 +70,7 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                 const SizedBox(width: 16.0),
                 Expanded(
                   child: Text(
-                    'You can view your recovery phrase again later in the settings menu',
+                    localizations.genPhraseViewLatterText,
                     style: Theme.of(context).textTheme.caption!.apply(
                         color: UiKit.text.colorTextCaption.withOpacity(0.6)),
                   ),

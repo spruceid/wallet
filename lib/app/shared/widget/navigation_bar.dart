@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class _CustomNavIcon extends StatelessWidget {
   final String asset;
@@ -55,6 +56,7 @@ class CustomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return Container(
       padding: UiKit.constraints.navBarPadding,
       decoration: BoxDecoration(
@@ -94,7 +96,7 @@ class CustomNavBar extends StatelessWidget {
         },
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            label: 'Wallet',
+            label: localizations.credentialDetailListTitle,
             icon: _CustomNavIcon(asset: assetWallet),
             activeIcon: _CustomActiveNavIcon(asset: assetWalletFilled),
           ),
@@ -104,7 +106,7 @@ class CustomNavBar extends StatelessWidget {
             activeIcon: _CustomActiveNavIcon(asset: assetQrCode),
           ),
           BottomNavigationBarItem(
-            label: 'Profile',
+            label: localizations.profileTitle,
             icon: _CustomNavIcon(asset: assetProfile),
             activeIcon: _CustomActiveNavIcon(asset: assetProfileFilled),
           ),

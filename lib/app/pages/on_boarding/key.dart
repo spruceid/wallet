@@ -1,9 +1,9 @@
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingKeyPage extends StatelessWidget {
   @override
@@ -22,13 +22,13 @@ class OnBoardingKeyPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  'Recover my identity wallet',
+                  localizations.keyRecoveryTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
                 Text(
-                  'If you have previously used a wallet and have a recovery phrase',
+                  localizations.keyRecoveryText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
@@ -48,13 +48,13 @@ class OnBoardingKeyPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Text(
-                  'Generate a new wallet',
+                  localizations.keyGenerateTitle,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
                 const SizedBox(height: 32.0),
                 Text(
-                  'Generate a new identifier and get a new recovery phrase',
+                  localizations.keyGenerateText,
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1,
                 ),

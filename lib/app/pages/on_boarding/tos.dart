@@ -2,9 +2,9 @@ import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/app_version.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
-import 'package:credible/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnBoardingTosPage extends StatelessWidget {
   @override
@@ -62,7 +62,7 @@ class OnBoardingTosPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      'By tapping accept "I  agree to the terms and condition as well as the disclosure of this information."',
+                      localizations.onBoardingTosText,
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     const SizedBox(height: 20.0),

@@ -4,6 +4,7 @@ import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/mnemonic.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecoveryPage extends StatefulWidget {
   @override
@@ -28,21 +29,22 @@ class _RecoveryPageState extends State<RecoveryPage> {
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context)!;
     return BasePage(
-      title: 'Recovery Phrase',
+      title: localizations.onBoardingGenPhraseTitle,
       titleLeading: BackLeadingButton(),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           const SizedBox(height: 16.0),
           Text(
-            'Write down these words in the right order and save them somewhere safe',
+            localizations.genPhraseInstruction,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.subtitle2,
           ),
           const SizedBox(height: 8.0),
           Text(
-            'It is the only way to recover your key later if you lose access to this wallet',
+            localizations.genPhraseExplanation,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyText1,
           ),

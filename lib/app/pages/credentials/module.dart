@@ -7,6 +7,7 @@ import 'package:credible/app/pages/credentials/present.dart';
 import 'package:credible/app/pages/credentials/receive.dart';
 import 'package:credible/app/pages/credentials/stream.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsModule extends Module {
   @override
@@ -62,32 +63,37 @@ class CredentialsModule extends Module {
         ),
         ChildRoute(
           '/present',
-          child: (context, args) => CredentialsPresentPage(
-            title: 'Presentation Request',
-            resource: 'credential',
-            url: args.data,
-            onSubmit: (preview) {
-              Modular.to.pushReplacementNamed(
-                '/credentials/pick',
-                arguments: (selection) {
-                  Modular.get<ScanBloc>().add(
-                    ScanEventVerifiablePresentationRequest(
-                      url: args.data.toString(),
-                      key: 'key',
-                      credentials: selection,
-                      challenge: preview['challenge'],
-                      domain: preview['domain'],
-                    ),
-                  );
-                },
-              );
-            },
-          ),
+          child: (context, args) {
+            final localizations = AppLocalizations.of(context)!;
+
+            return CredentialsPresentPage(
+              title: localizations.credentialPresentTitle,
+              resource: 'credential',
+              url: args.data,
+              onSubmit: (preview) {
+                Modular.to.pushReplacementNamed(
+                  '/credentials/pick',
+                  arguments: (selection) {
+                    Modular.get<ScanBloc>().add(
+                      ScanEventVerifiablePresentationRequest(
+                        url: args.data.toString(),
+                        key: 'key',
+                        credentials: selection,
+                        challenge: preview['challenge'],
+                        domain: preview['domain'],
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(
           '/chapi-present',
           child: (context, args) {
+            final localizations = AppLocalizations.of(context)!;
             final data = args.data;
             // TODO: when CHAPI comes back so does this
             // final root = data['data']['web']['VerifiablePresentation'];
@@ -96,7 +102,7 @@ class CredentialsModule extends Module {
 
             if (queries.first['type'] == 'DIDAuth') {
               return CredentialsPresentPage(
-                title: 'DIDAuth Request',
+                title: localizations.credentialPresentTitleDIDAuth,
                 resource: 'DID',
                 yes: 'Accept',
                 url: data['url'],
@@ -113,7 +119,7 @@ class CredentialsModule extends Module {
               );
             } else if (queries.first['type'] == 'QueryByExample') {
               return CredentialsPresentPage(
-                title: 'Presentation Request',
+                title: localizations.credentialPresentTitle,
                 resource: 'credential(s)',
                 url: data['url'],
                 onSubmit: (preview) async {
