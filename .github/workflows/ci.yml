@@ -71,6 +71,8 @@ jobs:
             ssi/target/
             didkit/target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       # Setup Java environment in order to build the Android app.
       - name: SETUP | Java
@@ -160,6 +162,8 @@ jobs:
             ssi/target/
             didkit/target/
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
 
       # Setup the flutter environment.
       - name: SETUP | Flutter
