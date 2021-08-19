@@ -70,7 +70,7 @@ jobs:
             ~/.cargo/git/db/
             ssi/target/
             didkit/target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/*/Cargo.lock') }}
+          key: ${{ runner.os }}-cargo-${{ hashFiles('ssi/Cargo.lock') }}-${{ hashFiles('didkit/Cargo.lock') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
 
