@@ -72,7 +72,7 @@ cd ../didkit
 if [[ "$*" == *-android* ]]; then
   echo "Build didkit for Android"
   make -C lib install-rustup-android
-  make -C lib ../target/test/aar.stamp
+  make -C lib ../target/test/android.stamp
 fi
 
 if [[ "$*" == *-ios* ]]; then

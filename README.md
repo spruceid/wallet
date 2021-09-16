@@ -178,7 +178,7 @@ and run:
 ```bash
 $ make -C lib install-rustup-android
 $ make -C lib ../target/test/java.stamp
-$ make -C lib ../target/test/aar.stamp
+$ make -C lib ../target/test/android.stamp
 $ make -C lib ../target/test/flutter.stamp
 $ cargo build
 ```
