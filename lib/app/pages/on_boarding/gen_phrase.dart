@@ -88,7 +88,8 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
                 );
                 log.info('mnemonic saved');
 
-                await Modular.to.pushReplacementNamed('/on-boarding/gen');
+                await Modular.to
+                    .pushReplacementNamed('/on-boarding/gen-verify');
               } catch (error) {
                 log.severe(
                     'error ocurred setting mnemonic to secure storate', error);

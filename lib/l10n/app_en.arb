@@ -61,6 +61,35 @@
   "onBoardingKeyGenerate": "Generate",
   "onBoardingGenPhraseTitle": "Recovery Phrase",
   "onBoardingGenPhraseButton": "Continue",
+  "onBoardingGenVerifyTitle": "Recovery Phrase",
+  "onBoardingGenVerifyInstruction": "Please enter the first, {nth} and last word of your mnemonic phrase",
+  "@onBoardingGenVerifyInstruction": {
+    "placeholders": {
+      "nth": {
+        "type": "String",
+        "example": "2nd"
+      }
+    }
+  },
+  "onBoardingGenVerifyMnemonicLabel": "{nth} word",
+  "@onBoardingGenVerifyMnemonicLabel": {
+    "placeholders": {
+      "nth": {
+        "type": "String",
+        "example": "First"
+      }
+    }
+  },
+  "onBoardingGenVerifyMnemonicError": "Please enter the {nth} word",
+  "@onBoardingGenVerifyMnemonicError": {
+    "placeholders": {
+      "nth": {
+        "type": "String",
+        "example": "first"
+      }
+    }
+  },
+  "onBoardingGenVerifyButton": "Continue",
   "onBoardingGenTitle": "Private Key Generation",
   "onBoardingGenButton": "Generate",
   "onBoardingSuccessTitle": "Identifier Created",
