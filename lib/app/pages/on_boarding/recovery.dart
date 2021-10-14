@@ -35,7 +35,8 @@ class _OnBoardingRecoveryPageState extends State<OnBoardingRecoveryPage> {
     mnemonicController.addListener(() {
       setState(() {
         edited = mnemonicController.text.isNotEmpty;
-        buttonEnabled = bip39.validateMnemonic(mnemonicController.text);
+        buttonEnabled = mnemonicController.text.split(' ').length == 12 &&
+            bip39.validateMnemonic(mnemonicController.text);
       });
     });
 
