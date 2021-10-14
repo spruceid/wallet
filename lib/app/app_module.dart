@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/module.dart';
@@ -10,7 +8,6 @@ import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:credible/app/pages/qr_code/display.dart';
 import 'package:credible/app/pages/qr_code/scan.dart';
 import 'package:credible/app/pages/splash.dart';
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -22,17 +19,29 @@ class AppModule extends Module {
         Bind((i) => QRCodeBloc(i.get(), i.get())),
         Bind((i) => CredentialsRepository()),
         Bind((i) {
-          // TODO: Remove this after testing is done
-          // This allows self-signed certificates on the servers.
-          final dio = Dio();
-          if (dio.httpClientAdapter is DefaultHttpClientAdapter) {
-            (dio.httpClientAdapter as DefaultHttpClientAdapter)
-                .onHttpClientCreate = (HttpClient client) {
-              client.badCertificateCallback =
-                  (X509Certificate cert, String host, int port) => true;
-              return client;
+          final dio = Dio(
+            BaseOptions(
+              receiveDataWhenStatusError: true,
+              connectTimeout: 30 * 1000,
+              sendTimeout: 30 * 1000,
+              receiveTimeout: 30 * 1000,
+            ),
+          );
+
+          dio.interceptors
+              .add(InterceptorsWrapper(onRequest: (options, handler) {
+            final cancel = options.cancelToken ?? CancelToken();
+            options.cancelToken = cancel;
+
+            options.onReceiveProgress = (received, total) {
+              if (!cancel.isCancelled && total > (4 * 1024 * 1024)) {
+                cancel.cancel('Maximum response length: 4MB');
+              }
             };
-          }
+
+            return handler.next(options);
+          }));
+
           return dio;
         }),
       ];
