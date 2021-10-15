@@ -61,5 +61,7 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSFaceIDUsageDescription</key>
+    <string>This app needs to secure access to your data</string>
 </dict>
 </plist>

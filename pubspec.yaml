@@ -54,6 +54,9 @@ dependencies:
   url_launcher: ^6.0.4
   logging: ^1.0.1
   shared_preferences: ^2.0.6
+  local_auth: ^1.1.8
+  secure_application: ^3.7.3
+  provider: ^6.0.1
 
 dev_dependencies:
   flutter_test:

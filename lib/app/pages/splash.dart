@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:credible/app/app_widget.dart';
 import 'package:credible/app/interop/chapi/chapi.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
@@ -9,6 +10,7 @@ import 'package:credible/app/shared/widget/brand.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:provider/provider.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -25,6 +27,9 @@ class _SplashPageState extends State<SplashPage> {
         milliseconds: kIsWeb ? 25 : 1000,
       ),
       () async {
+        // ignore: unawaited_futures
+        Provider.of<AppLockProvider>(context, listen: false).fn();
+
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
