@@ -55,24 +55,38 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
       navigation: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(16.0),
-          height: kBottomNavigationBarHeight * 1.75,
-          child: Tooltip(
-            message: localizations.credentialPickPresent,
-            child: BaseButton.primary(
-              onPressed: () {
-                if (selection.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    backgroundColor: Colors.red,
-                    content: Text('localizations.credentialPickSelect'),
-                  ));
-                } else {
-                  widget
-                      .onSubmit(selection.map((i) => widget.items[i]).toList());
-                  Modular.to.pushReplacementNamed('/credentials/list');
-                }
-              },
-              child: Text(localizations.credentialPickPresent),
-            ),
+          height: kBottomNavigationBarHeight * 1.75 * 2.0,
+          child: Column(
+            children: [
+              Tooltip(
+                message: 'Send empty presentation',
+                child: BaseButton.transparent(
+                  onPressed: () {
+                      widget.onSubmit([]);
+                      Modular.to.pushReplacementNamed('/credentials/list');
+                  },
+                  child: Text('Send empty presentation'),
+                ),
+              ),
+              Tooltip(
+                message: localizations.credentialPickPresent,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    if (selection.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(localizations.credentialPickSelect),
+                      ));
+                    } else {
+                      widget
+                          .onSubmit(selection.map((i) => widget.items[i]).toList());
+                      Modular.to.pushReplacementNamed('/credentials/list');
+                    }
+                  },
+                  child: Text(localizations.credentialPickPresent),
+                ),
+              ),
+            ],
           ),
         ),
       ),

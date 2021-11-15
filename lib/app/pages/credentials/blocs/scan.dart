@@ -231,30 +231,51 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
-      final presentation = await DIDKitProvider.instance.issuePresentation(
-        jsonEncode({
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          'type': ['VerifiablePresentation'],
-          'id': presentationId,
-          'holder': did,
-          'verifiableCredential': credentials.length == 1
-              ? credentials.first.data
-              : credentials.map((c) => c.data).toList(),
-        }),
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'authentication',
-          'challenge': challenge,
-          'domain': domain,
-        }),
-        key,
-      );
+
+      var presentation;
+
+      if (credentials.isEmpty) {
+        presentation = await DIDKitProvider.instance.DIDAuth(
+          did,
+          jsonEncode({
+            'verificationMethod': verificationMethod,
+            'proofPurpose': 'authentication',
+            if (challenge != null) 'challenge': challenge,
+            if (domain != null) 'domain': domain,
+          }),
+          key,
+        );
+      } else {
+        presentation = await DIDKitProvider.instance.issuePresentation(
+          jsonEncode({
+            '@context': ['https://www.w3.org/2018/credentials/v1'],
+            'type': ['VerifiablePresentation'],
+            'id': presentationId,
+            'holder': did,
+            'verifiableCredential': credentials.isEmpty
+                ? []
+                : credentials.length == 1
+                    ? credentials.first.data
+                    : credentials.map((c) => c.data).toList(),
+          }),
+          jsonEncode({
+            'verificationMethod': verificationMethod,
+            'proofPurpose': 'authentication',
+            'challenge': challenge,
+            'domain': domain,
+          }),
+          key,
+        );
+      }
+
+      final body = <String, dynamic>{
+        'presentation': presentation,
+      };
 
       await client.post(
         url.toString(),
-        data: FormData.fromMap(<String, dynamic>{
-          'presentation': presentation,
-        }),
+        data: body,
+        // data: FormData.fromMap(body),
       );
 
       yield ScanStateMessage(
