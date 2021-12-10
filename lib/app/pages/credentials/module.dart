@@ -37,10 +37,10 @@ class CredentialsModule extends Module {
         ChildRoute(
           '/receive',
           child: (context, args) => CredentialsReceivePage(
-            url: args.data,
+            url: args.data['uri'],
             onSubmit: (alias) {
               Modular.get<ScanBloc>().add(ScanEventCredentialOffer(
-                args.data.toString(),
+                args.data['uri'].toString(),
                 alias,
                 'key',
               ));
@@ -66,17 +66,41 @@ class CredentialsModule extends Module {
           child: (context, args) {
             final localizations = AppLocalizations.of(context)!;
 
+            final List<dynamic> query = args.data['data']['query'];
+            final Map<String, dynamic> first = query.first;
+            final String type = first['type'];
+
+            if (type == 'DIDAuth') {
+              return CredentialsPresentPage(
+                title: localizations.credentialPresentTitleDIDAuth,
+                resource: 'DID',
+                yes: 'Accept',
+                url: args.data['uri'],
+                onSubmit: (preview) {
+                  Modular.get<ScanBloc>().add(
+                    ScanEventVerifiablePresentationRequest(
+                      url: args.data['uri'].toString(),
+                      key: 'key',
+                      credentials: [],
+                      challenge: preview['challenge'],
+                      domain: preview['domain'],
+                    ),
+                  );
+                },
+              );
+            }
+
             return CredentialsPresentPage(
               title: localizations.credentialPresentTitle,
               resource: 'credential',
-              url: args.data,
+              url: args.data['uri'],
               onSubmit: (preview) {
                 Modular.to.pushReplacementNamed(
                   '/credentials/pick',
                   arguments: (selection) {
                     Modular.get<ScanBloc>().add(
                       ScanEventVerifiablePresentationRequest(
-                        url: args.data.toString(),
+                        url: args.data['uri'].toString(),
                         key: 'key',
                         credentials: selection,
                         challenge: preview['challenge'],

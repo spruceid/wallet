@@ -43,7 +43,7 @@ class ConfirmDialog extends StatelessWidget {
           Row(
             children: <Widget>[
               Expanded(
-                child: BaseButton.transparent(
+                child: BaseButton.primary(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop(true);
@@ -53,7 +53,7 @@ class ConfirmDialog extends StatelessWidget {
               ),
               const SizedBox(width: 16.0),
               Expanded(
-                child: BaseButton.primary(
+                child: BaseButton.transparent(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop(false);

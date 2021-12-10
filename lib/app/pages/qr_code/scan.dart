@@ -118,7 +118,10 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
           Modular.to.pushReplacementNamed(
             state.route,
-            arguments: state.uri,
+            arguments: <String, dynamic>{
+              'data': state.data,
+              'uri': state.uri,
+            },
           );
         }
       },

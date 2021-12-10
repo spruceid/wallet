@@ -66,7 +66,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
           Row(
             children: <Widget>[
               Expanded(
-                child: BaseButton.transparent(
+                child: BaseButton.primary(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop(controller.text);
@@ -76,7 +76,7 @@ class _TextFieldDialogState extends State<TextFieldDialog> {
               ),
               const SizedBox(width: 16.0),
               Expanded(
-                child: BaseButton.primary(
+                child: BaseButton.transparent(
                   borderColor: UiKit.palette.primary,
                   onPressed: () {
                     Modular.to.pop();

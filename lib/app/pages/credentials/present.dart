@@ -107,7 +107,7 @@ class _CredentialsPresentPageState
         //     model: DocumentWidgetModel.fromCredentialModel(
         //         CredentialModel(id: '', image: '', data: {'issuer': ''}))),
         const SizedBox(height: 24.0),
-        BaseButton.transparent(
+        BaseButton.primary(
           borderColor: UiKit.palette.primary,
           onPressed: () => widget.onSubmit(preview),
           child: Text(
@@ -115,7 +115,7 @@ class _CredentialsPresentPageState
           ),
         ),
         const SizedBox(height: 8.0),
-        BaseButton.primary(
+        BaseButton.transparent(
           onPressed: goBack,
           child: Text(
             widget.no ?? localizations.credentialPresentCancel,

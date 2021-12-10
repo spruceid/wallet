@@ -32,9 +32,10 @@ class QRCodeStateHost extends QRCodeState {
 
 class QRCodeStateSuccess extends QRCodeState {
   final String route;
+  final Map<String, dynamic> data;
   final Uri uri;
 
-  QRCodeStateSuccess(this.route, this.uri);
+  QRCodeStateSuccess(this.route, this.data, this.uri);
 }
 
 class QRCodeStateUnknown extends QRCodeState {}
@@ -104,11 +105,11 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
     switch (data['type']) {
       case 'CredentialOffer':
-        yield QRCodeStateSuccess('/credentials/receive', event.uri);
+        yield QRCodeStateSuccess('/credentials/receive', data, event.uri);
         break;
 
       case 'VerifiablePresentationRequest':
-        yield QRCodeStateSuccess('/credentials/present', event.uri);
+        yield QRCodeStateSuccess('/credentials/present', data, event.uri);
         break;
 
       default:
