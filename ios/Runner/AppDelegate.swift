@@ -13,7 +13,7 @@ import Flutter
 
   override func application(
     _ application: UIApplication,
-    shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplicationExtensionPointIdentifier
+    shouldAllowExtensionPointIdentifier extensionPointIdentifier: UIApplication.ExtensionPointIdentifier
   ) -> Bool {
     return extensionPointIdentifier != .keyboard
   }
