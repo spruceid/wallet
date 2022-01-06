@@ -61,5 +61,7 @@
 	<false/>
 	<key>UIUserInterfaceStyle</key>
 	<string>Light</string>
+	<key>NSFaceIDUsageDescription</key>
+    <string>This app needs to secure access to your data</string>
 </dict>
 </plist>

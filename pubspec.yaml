@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 0.1.0+15
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.14.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -41,7 +41,10 @@ dependencies:
   js: ^0.6.3
 
   ed25519_hd_key: ^2.0.0
-  bip39: ^1.0.6
+  bip39:
+    git:
+      url: https://github.com/spruceid/dart-bip39
+      ref: fix/23/uniform-random
 
   didkit:
     path: ../didkit/lib/flutter
@@ -51,6 +54,9 @@ dependencies:
   url_launcher: ^6.0.4
   logging: ^1.0.1
   shared_preferences: ^2.0.6
+  local_auth: ^1.1.8
+  secure_application: ^3.7.3
+  provider: ^6.0.1
 
 dev_dependencies:
   flutter_test:
