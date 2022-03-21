@@ -14,23 +14,13 @@ bindings and Dart’s FFI capabilities. This is the wallet counterpart to the
 rich, growing toolkit supplied by DIDKit, the two pillars of a reference
 architecture for creating trusted interactions at scale.
 
-## Maturity disclaimer
-In the v0.1 release on February 10, 2021, Credible has not yet undergone a
-formal security audit and to desired levels of confidence for suitable use in
-production systems. This implementation is currently suitable for exploratory
-work and experimentation only. We welcome feedback on the usability,
-architecture, and security of this implementation and are committed to a
-conducting a formal audit with a reputable security firm before the v1.0
-release. We are also working on large stability improvements through a
-continuous integration testing process across Android and iOS.
+## Security Audits
+Credible has undergone the following security reviews:
+- [March 14th, 2022 - Trail of Bits](https://github.com/trailofbits/publications/blob/master/reviews/SpruceID.pdf) | [Summary of Findings](https://blog.spruceid.com/spruce-completes-first-security-audit-from-trail-of-bits/)
 
 We are setting up a process to accept contributions. Please feel free to open
 issues or PRs in the interim, but we cannot merge external changes until this
 process is in place.
-
-We are also in the process of listing Credible on the iOS TestFlight and
-Android Play Beta programs, and eventually their respective app marketplaces
-plus F-Droid.
 
 ## Common Dependencies
 
