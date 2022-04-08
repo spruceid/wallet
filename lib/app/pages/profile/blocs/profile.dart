@@ -31,15 +31,9 @@ class ProfileStateDefault extends ProfileState {
 }
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(ProfileStateDefault(ProfileModel()));
-
-  @override
-  Stream<ProfileState> mapEventToState(ProfileEvent event) async* {
-    if (event is ProfileEventLoad) {
-      yield* _load(event);
-    } else if (event is ProfileEventUpdate) {
-      yield* _update(event);
-    }
+  ProfileBloc() : super(ProfileStateDefault(ProfileModel())) {
+    on<ProfileEventLoad>((event, emit) => _load(event).forEach(emit));
+    on<ProfileEventUpdate>((event, emit) => _update(event).forEach(emit));
   }
 
   Stream<ProfileState> _load(
