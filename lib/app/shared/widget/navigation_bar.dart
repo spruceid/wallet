@@ -73,7 +73,7 @@ class CustomNavBar extends StatelessWidget {
           if (newIndex == index) return;
           switch (newIndex) {
             case 0:
-              Modular.to.pushReplacementNamed('/credentials');
+              Modular.to.pushReplacementNamed('/credentials/list');
               break;
             case 1:
               if (kIsWeb) {
@@ -90,7 +90,7 @@ class CustomNavBar extends StatelessWidget {
               }
               break;
             case 2:
-              Modular.to.pushReplacementNamed('/profile');
+              Modular.to.pushReplacementNamed('/profile/');
               break;
           }
         },

@@ -33,7 +33,7 @@ class _SplashPageState extends State<SplashPage> {
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
-          await Modular.to.pushReplacementNamed('/on-boarding');
+          await Modular.to.pushReplacementNamed('/on-boarding/start');
           return;
         }
 
@@ -74,7 +74,7 @@ class _SplashPageState extends State<SplashPage> {
 
         CHAPIProvider.instance.emitReady();
 
-        await Modular.to.pushReplacementNamed('/credentials');
+        await Modular.to.pushReplacementNamed('/credentials/list');
       },
     );
   }

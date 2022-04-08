@@ -114,7 +114,7 @@ class CredentialsModule extends Module {
                     domain: root['domain'],
                   ));
 
-                  await Modular.to.pushReplacementNamed('/credentials');
+                  await Modular.to.pushReplacementNamed('/credentials/list');
                 },
               );
             } else if (queries.first['type'] == 'QueryByExample') {
