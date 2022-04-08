@@ -49,7 +49,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
-      store.add(QRCodeEventHost(scanData.code));
+      store.add(QRCodeEventHost(scanData.code ?? ''));
     });
   }
 

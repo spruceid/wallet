@@ -9,7 +9,7 @@ class KeyGeneration {
 
     final child = await ED25519_HD_KEY.derivePath("m/0'/0'", seed);
     final bytes = Uint8List.fromList(child.key);
-    final public = await ED25519_HD_KEY.getPublicKey(bytes);
+    final public = await ED25519_HD_KEY.getPublicKey(bytes, false);
 
     final sk = base64Url.encode(bytes);
     final pk = base64Url.encode(public);
