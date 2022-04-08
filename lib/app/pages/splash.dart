@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:credible/app/app_widget.dart';
 import 'package:credible/app/interop/chapi/chapi.dart';
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/shared/ui/ui.dart';
@@ -21,7 +22,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-
+    print(DIDKitProvider.instance.getVersion());
     Future.delayed(
       const Duration(
         milliseconds: kIsWeb ? 25 : 1000,
