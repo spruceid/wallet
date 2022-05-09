@@ -73,32 +73,37 @@ class _AppWidgetState extends State<AppWidget> {
   }
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: 'Credible',
-        initialRoute: '/splash',
-        theme: _themeData,
-        builder: (BuildContext context, Widget? child) => Provider(
-          create: (_) => AppLockProvider(_unlockOnLoad),
-          child: SecureApplication(
-            secureApplicationController: _controller,
-            nativeRemoveDelay: 250,
-            onNeedUnlock: _unlock,
-            child: SecureGate(
-              blurr: 5,
-              opacity: 0.75,
-              child: child ?? Container(),
-            ),
+  Widget build(BuildContext context) {
+    Modular.setInitialRoute('/splash');
+
+    return MaterialApp.router(
+      title: 'Credible',
+      theme: _themeData,
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
+      builder: (BuildContext context, Widget? child) => Provider(
+        create: (_) => AppLockProvider(_unlockOnLoad),
+        child: SecureApplication(
+          secureApplicationController: _controller,
+          nativeRemoveDelay: 250,
+          onNeedUnlock: _unlock,
+          child: SecureGate(
+            blurr: 5,
+            opacity: 0.75,
+            child: child ?? Container(),
           ),
         ),
-        localizationsDelegates: [
-          AppLocalizations.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const <Locale>[
-          Locale('en', ''),
-          Locale('fr', ''),
-        ],
-      ).modular();
+      ),
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const <Locale>[
+        Locale('en', ''),
+        Locale('fr', ''),
+      ],
+    );
+  }
 }

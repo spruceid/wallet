@@ -114,23 +114,25 @@ class ScanStateSuccess extends ScanState {}
 class ScanBloc extends Bloc<ScanEvent, ScanState> {
   final Dio client;
 
-  ScanBloc(this.client) : super(ScanStateIdle());
-
-  @override
-  Stream<ScanState> mapEventToState(ScanEvent event) async* {
-    if (event is ScanEventShowPreview) {
-      yield ScanStatePreview(preview: event.preview);
-    } else if (event is ScanEventCredentialOffer) {
-      yield* _credentialOffer(event);
-    } else if (event is ScanEventVerifiablePresentationRequest) {
-      yield* _verifiablePresentationRequest(event);
-    } else if (event is ScanEventCHAPIStore) {
-      yield* _CHAPIStore(event);
-    } else if (event is ScanEventCHAPIGetDIDAuth) {
-      yield* _CHAPIGetDIDAuth(event);
-    } else if (event is ScanEventCHAPIGetQueryByExample) {
-      yield* _CHAPIGetQueryByExample(event);
-    }
+  ScanBloc(this.client) : super(ScanStateIdle()) {
+    on<ScanEventShowPreview>(
+      (event, emit) => emit(ScanStatePreview(preview: event.preview)),
+    );
+    on<ScanEventCredentialOffer>(
+      (event, emit) => _credentialOffer(event).forEach(emit),
+    );
+    on<ScanEventVerifiablePresentationRequest>(
+      (event, emit) => _verifiablePresentationRequest(event).forEach(emit),
+    );
+    on<ScanEventCHAPIStore>(
+      (event, emit) => _CHAPIStore(event).forEach(emit),
+    );
+    on<ScanEventCHAPIGetDIDAuth>(
+      (event, emit) => _CHAPIGetDIDAuth(event).forEach(emit),
+    );
+    on<ScanEventCHAPIGetQueryByExample>(
+      (event, emit) => _CHAPIGetQueryByExample(event).forEach(emit),
+    );
   }
 
   Stream<ScanState> _credentialOffer(

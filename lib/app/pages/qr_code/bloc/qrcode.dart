@@ -52,15 +52,9 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   QRCodeBloc(
     this.client,
     this.scanBloc,
-  ) : super(QRCodeStateWorking());
-
-  @override
-  Stream<QRCodeState> mapEventToState(QRCodeEvent event) async* {
-    if (event is QRCodeEventHost) {
-      yield* _host(event);
-    } else if (event is QRCodeEventAccept) {
-      yield* _accept(event);
-    }
+  ) : super(QRCodeStateWorking()) {
+    on<QRCodeEventHost>((event, emit) => _host(event).forEach(emit));
+    on<QRCodeEventAccept>((event, emit) => _accept(event).forEach(emit));
   }
 
   Stream<QRCodeState> _host(

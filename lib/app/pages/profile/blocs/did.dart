@@ -26,13 +26,8 @@ class DIDStateDefault extends DIDState {
 }
 
 class DIDBloc extends Bloc<DIDEvent, DIDState> {
-  DIDBloc() : super(DIDStateDefault(''));
-
-  @override
-  Stream<DIDState> mapEventToState(DIDEvent event) async* {
-    if (event is DIDEventLoad) {
-      yield* _load(event);
-    }
+  DIDBloc() : super(DIDStateDefault('')) {
+    on<DIDEventLoad>((event, emit) => _load(event).forEach(emit));
   }
 
   Stream<DIDState> _load(
