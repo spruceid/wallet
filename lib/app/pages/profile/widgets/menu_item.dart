@@ -1,12 +1,12 @@
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:flutter/material.dart';
 
-class MenuItem extends StatelessWidget {
+class MyMenuItem extends StatelessWidget {
   final IconData icon;
   final String title;
   final VoidCallback onTap;
 
-  const MenuItem({
+  const MyMenuItem({
     Key? key,
     required this.icon,
     required this.title,

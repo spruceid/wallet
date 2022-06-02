@@ -76,23 +76,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               const SizedBox(height: 32.0),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.person,
                 title: localizations.personalTitle,
                 onTap: () =>
                     Modular.to.pushNamed('/profile/personal', arguments: model),
               ),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.shield,
                 title: localizations.privacyTitle,
                 onTap: () => Modular.to.pushNamed('/profile/privacy'),
               ),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.article,
                 title: localizations.onBoardingTosTitle,
                 onTap: () => Modular.to.pushNamed('/profile/terms'),
               ),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.vpn_key,
                 title: localizations.recoveryTitle,
                 onTap: () async {
@@ -112,12 +112,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                 },
               ),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.support,
                 title: localizations.supportTitle,
                 onTap: () => Modular.to.pushNamed('/profile/support'),
               ),
-              MenuItem(
+              MyMenuItem(
                 icon: Icons.assignment_sharp,
                 title: localizations.noticesTitle,
                 onTap: () => Modular.to.pushNamed('/profile/notices'),
