@@ -7,7 +7,27 @@ class CredentialModel {
   final String? image;
   final Map<String, dynamic> data;
 
-  String get issuer => data['issuer']!;
+  String get title {
+    if (alias != null && alias!.isNotEmpty) return alias!;
+    return id;
+  }
+
+  List<String> get types {
+    if (data['type'] is Iterable) {
+      return (data['type'] as List).map((e) => e as String).toList();
+    } else {
+      print(data['type'].runtimeType);
+      return <String>[data['type']];
+    }
+  }
+
+  String get issuer {
+    if (data['issuer'] is String) {
+      return data['issuer'];
+    } else {
+      return data['issuer']!['id'];
+    }
+  }
 
   DateTime? get expirationDate => (data['expirationDate'] != null)
       ? DateTime.parse(data['expirationDate'])

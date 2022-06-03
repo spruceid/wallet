@@ -2,12 +2,13 @@ import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/pages/grid.dart';
 import 'package:credible/app/pages/credentials/pages/list.dart';
+import 'package:credible/app/pages/credentials/pages/vcedu_detail.dart';
 import 'package:credible/app/pages/credentials/pick.dart';
 import 'package:credible/app/pages/credentials/present.dart';
 import 'package:credible/app/pages/credentials/receive.dart';
 import 'package:credible/app/pages/credentials/stream.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 class CredentialsModule extends Module {
   @override
@@ -32,6 +33,11 @@ class CredentialsModule extends Module {
         ChildRoute(
           '/detail',
           child: (context, args) => CredentialsDetail(item: args.data),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ChildRoute(
+          '/vc-edu/detail',
+          child: (context, args) => CredentialsVCEDUDetail(item: args.data),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(

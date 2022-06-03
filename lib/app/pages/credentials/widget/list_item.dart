@@ -148,14 +148,24 @@ class CredentialsListItem extends StatelessWidget {
     this.selected,
   }) : super(key: key);
 
+  void _defaultOnTap() {
+    if (item.types.contains('OpenBadgeCredential')) {
+      Modular.to.pushNamed(
+        '/credentials/vc-edu/detail',
+        arguments: item,
+      );
+    } else {
+      Modular.to.pushNamed(
+        '/credentials/detail',
+        arguments: item,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) => _BaseItem(
         enabled: !(item.status != CredentialStatus.active),
-        onTap: onTap ??
-            () => Modular.to.pushNamed(
-                  '/credentials/detail',
-                  arguments: item,
-                ),
+        onTap: onTap ?? _defaultOnTap,
         child: Row(
           children: <Widget>[
             Container(
@@ -192,7 +202,7 @@ class CredentialsListItem extends StatelessWidget {
                 children: <Widget>[
                   TooltipText(
                     tag: 'credential/${item.id}/id',
-                    text: item.alias ?? item.id,
+                    text: item.title,
                     style: GoogleFonts.poppins(
                       color: UiKit.text.colorTextBody1,
                       fontSize: 16.0,
