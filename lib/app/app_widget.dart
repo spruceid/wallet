@@ -39,17 +39,11 @@ class _AppWidgetState extends State<AppWidget> {
   void initState() {
     super.initState();
     _controller = SecureApplicationController(SecureApplicationState());
-    _controller.secure();
+    // _controller.secure();
   }
 
   Future<bool> _authenticate() async {
-    final auth = LocalAuthentication();
-
-    return await auth.authenticate(
-      localizedReason: 'Please authenticate to use Credible',
-      useErrorDialogs: true,
-      stickyAuth: true,
-    );
+    return true;
   }
 
   Future<void> _unlockOnLoad() async {
