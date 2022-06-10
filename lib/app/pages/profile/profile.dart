@@ -5,7 +5,7 @@ import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/widgets/did_display.dart';
-import 'package:credible/app/pages/profile/widgets/menu_item.dart';
+import 'package:credible/app/pages/profile/widgets/menu_item.dart' as menu;
 import 'package:credible/app/shared/widget/app_version.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
@@ -76,23 +76,23 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               const SizedBox(height: 32.0),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.person,
                 title: localizations.personalTitle,
                 onTap: () =>
                     Modular.to.pushNamed('/profile/personal', arguments: model),
               ),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.shield,
                 title: localizations.privacyTitle,
                 onTap: () => Modular.to.pushNamed('/profile/privacy'),
               ),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.article,
                 title: localizations.onBoardingTosTitle,
                 onTap: () => Modular.to.pushNamed('/profile/terms'),
               ),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.vpn_key,
                 title: localizations.recoveryTitle,
                 onTap: () async {
@@ -112,12 +112,12 @@ class _ProfilePageState extends State<ProfilePage> {
                   }
                 },
               ),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.support,
                 title: localizations.supportTitle,
                 onTap: () => Modular.to.pushNamed('/profile/support'),
               ),
-              MenuItem(
+              menu.MenuItem(
                 icon: Icons.assignment_sharp,
                 title: localizations.noticesTitle,
                 onTap: () => Modular.to.pushNamed('/profile/notices'),
