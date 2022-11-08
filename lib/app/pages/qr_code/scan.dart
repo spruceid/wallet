@@ -1,21 +1,25 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
+import 'package:credible/app/shared/credible_protocol.dart';
+import 'package:credible/app/shared/issuance_request_protocol.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/navigation_bar.dart';
+import 'package:credible/app/shared/widget/pin_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QrCodeScanPage extends StatefulWidget {
   @override
   _QrCodeScanPageState createState() => _QrCodeScanPageState();
 }
 
-class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
+class _QrCodeScanPageState extends State<QrCodeScanPage> {
   final qrKey = GlobalKey(debugLabel: 'QR');
   late QRViewController qrController;
 
@@ -49,11 +53,12 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
     controller.scannedDataStream.listen((scanData) {
       controller.pauseCamera();
-      store.add(QRCodeEventHost(scanData.code ?? ''));
+
+      Modular.get<QRCodeBloc>().add(QRCodeEventHost(scanData.code ?? ''));
     });
   }
 
-  void promptHost(Uri uri) async {
+  void promptHost(String title, VoidCallback onAccept) async {
     // TODO [bug] find out why the camera sometimes sends a code twice
     if (!promptActive) {
       setState(() {
@@ -66,7 +71,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
             builder: (BuildContext context) {
               return ConfirmDialog(
                 title: localizations.scanPromptHost,
-                subtitle: uri.host,
+                subtitle: title,
                 yes: localizations.communicationHostAllow,
                 no: localizations.communicationHostDeny,
               );
@@ -75,7 +80,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           false;
 
       if (acceptHost) {
-        store.add(QRCodeEventAccept(uri));
+        onAccept.call();
       } else {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(localizations.scanRefuseHost),
@@ -88,11 +93,38 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
     }
   }
 
+  void promptInput(String title, Completer<String> onConfirm) async {
+    if (!promptActive) {
+      setState(() {
+        promptActive = true;
+      });
+
+      final pin = await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return PinDialog(
+            title: title,
+          );
+        },
+      );
+
+      if (pin != null) {
+        onConfirm.complete(pin);
+      } else {
+        onConfirm.completeError(Exception("PIN wasn't provided."));
+      }
+
+      setState(() {
+        promptActive = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    return BlocListener(
-      bloc: store,
+    return BlocConsumer(
+      bloc: Modular.get<QRCodeBloc>(),
       listener: (context, state) {
         if (state is QRCodeStateMessage) {
           qrController.resumeCamera();
@@ -103,7 +135,28 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           ));
         }
         if (state is QRCodeStateHost) {
-          promptHost(state.uri);
+          final protocol = state.protocol;
+          switch (protocol.runtimeType) {
+            case CredibleProtocol:
+              final uri = (protocol as CredibleProtocol).uri;
+              promptHost(uri.host, () {
+                Modular.get<QRCodeBloc>().add(QRCodeEventAccept(protocol));
+              });
+              break;
+
+            case IssuanceRequest:
+              final request = protocol as IssuanceRequest;
+              promptHost(request.issuer, () {
+                Modular.get<QRCodeBloc>().add(QRCodeEventAccept(protocol));
+              });
+              break;
+
+            default:
+              break;
+          }
+        }
+        if (state is QRCodeStateInput) {
+          promptInput(state.prompt, state.value);
         }
         if (state is QRCodeStateUnknown) {
           qrController.resumeCamera();
@@ -117,31 +170,50 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
 
           Modular.to.pushReplacementNamed(
             state.route,
-            arguments: state.uri,
+            arguments: state.args,
           );
         }
       },
-      child: BasePage(
-        padding: EdgeInsets.zero,
-        title: localizations.scanTitle,
-        scrollView: false,
-        navigation: CustomNavBar(index: 1),
-        extendBelow: true,
-        body: SafeArea(
-          child: Container(
-            padding: const EdgeInsets.all(8.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16.0),
-              child: QRView(
-                key: qrKey,
-                overlay: QrScannerOverlayShape(
-                  borderColor: Colors.white70,
+      builder: (context, state) => Stack(
+        children: [
+          BasePage(
+            padding: EdgeInsets.zero,
+            title: localizations.scanTitle,
+            scrollView: false,
+            navigation: CustomNavBar(index: 1),
+            extendBelow: true,
+            body: SafeArea(
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16.0),
+                  child: QRView(
+                    key: qrKey,
+                    overlay: QrScannerOverlayShape(
+                      borderColor: Colors.white70,
+                    ),
+                    onQRViewCreated: onQRViewCreated,
+                  ),
                 ),
-                onQRViewCreated: onQRViewCreated,
               ),
             ),
           ),
-        ),
+          if (state is QRCodeStateWorking)
+            SafeArea(
+              child: Container(
+                color: Colors.black54,
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.44,
+                  height: MediaQuery.of(context).size.width * 0.44,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 8.0,
+                  ),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

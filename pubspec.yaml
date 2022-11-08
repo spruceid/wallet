@@ -49,6 +49,9 @@ dependencies:
   didkit:
     path: ../didkit/lib/flutter
 
+  oidc4ci:
+    path: ../oidc4ci-dart/flutter/
+
   package_info_plus: ^1.4.2
   flutter_markdown: ^0.6.9+1
   url_launcher: ^6.0.20

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
@@ -9,6 +11,7 @@ import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';
@@ -120,7 +123,9 @@ class _CredentialsVCEDUDetailState
                 children: [
                   if (widget.item.data['issuer'].containsKey('image')) ...[
                     Image.network(
-                      widget.item.data['issuer']['image'],
+                      widget.item.data['issuer']['image'] is String
+                          ? widget.item.data['issuer']['image']
+                          : widget.item.data['issuer']['image']['id'],
                       height: MediaQuery.of(context).size.width * 0.25,
                     ),
                     const SizedBox(height: 16.0),
@@ -141,81 +146,78 @@ class _CredentialsVCEDUDetailState
             ),
           ),
           const SizedBox(height: 16.0),
-          Container(
-            decoration: BaseBoxDecoration(
-              color: UiKit.palette.credentialBackground,
-              shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
-              value: 0.0,
-              shapeSize: 256.0,
-              anchors: <Alignment>[
-                Alignment.topRight,
-                Alignment.bottomCenter,
-              ],
-              // value: animation.value,
-              borderRadius: BorderRadius.circular(20.0),
-            ),
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Image.network(
-                    widget.item.data['credentialSubject']['achievement']
-                        ['image'],
-                  ),
-                  const SizedBox(height: 24.0),
-                  DocumentItemWidget(
-                    label: 'Achievement Name:',
-                    value: widget.item.data['credentialSubject']['achievement']
-                        ['name'],
-                  ),
-                  const SizedBox(height: 24.0),
-                  DocumentItemWidget(
-                    label: 'Achievement Description:',
-                    value: widget.item.data['credentialSubject']['achievement']
-                        ['description'],
-                  ),
-                  const SizedBox(height: 24.0),
-                  DocumentItemWidget(
-                    label: 'Achievement Criteria:',
-                    value: widget.item.data['credentialSubject']['achievement']
-                        ['criteria']['narrative'],
-                  ),
+          if (widget.item.data['credentialSubject'].containsKey('achievement'))
+            Container(
+              decoration: BaseBoxDecoration(
+                color: UiKit.palette.credentialBackground,
+                shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
+                value: 0.0,
+                shapeSize: 256.0,
+                anchors: <Alignment>[
+                  Alignment.topRight,
+                  Alignment.bottomCenter,
                 ],
+                // value: animation.value,
+                borderRadius: BorderRadius.circular(20.0),
               ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    vertical: 20.0, horizontal: 20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    if (widget.item.data['credentialSubject']['achievement']
+                        .containsKey('image')) ...[
+                      Image.network(
+                        widget.item.data['credentialSubject']['achievement']
+                                ['image'] is String
+                            ? widget.item.data['credentialSubject']
+                                ['achievement']['image']
+                            : widget.item.data['credentialSubject']
+                                ['achievement']['image']['id'],
+                      ),
+                      const SizedBox(height: 24.0),
+                    ],
+                    DocumentItemWidget(
+                      label: 'Achievement Name:',
+                      value: widget.item.data['credentialSubject']
+                          ['achievement']['name'],
+                    ),
+                    const SizedBox(height: 24.0),
+                    DocumentItemWidget(
+                      label: 'Achievement Description:',
+                      value: widget.item.data['credentialSubject']
+                          ['achievement']['description'],
+                    ),
+                    const SizedBox(height: 24.0),
+                    DocumentItemWidget(
+                      label: 'Achievement Criteria:',
+                      value: widget.item.data['credentialSubject']
+                          ['achievement']['criteria']['narrative'],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          const SizedBox(height: 32.0),
+          TextButton(
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 32.0,
+                vertical: 16.0,
+              ),
+            ),
+            onPressed: () {
+              final encoder = JsonEncoder.withIndent('  ');
+              final data = encoder.convert(widget.item.data);
+              Clipboard.setData(ClipboardData(text: data));
+            },
+            child: Text(
+              'Copy Raw Credential',
+              style: Theme.of(context).textTheme.bodyText1!,
             ),
           ),
-          const SizedBox(height: 32.0),
-          if (verification == VerificationState.Unverified)
-            Center(child: CircularProgressIndicator())
-          else ...<Widget>[
-            Center(
-              child: Text(
-                localizations.credentialDetailStatus,
-                style: Theme.of(context).textTheme.overline!,
-              ),
-            ),
-            const SizedBox(height: 8.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  verification.icon,
-                  color: verification.color,
-                ),
-                const SizedBox(width: 8.0),
-                Text(
-                  verification.message,
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .apply(color: verification.color),
-                ),
-              ],
-            ),
-          ],
           const SizedBox(height: 32.0),
           TextButton(
             style: TextButton.styleFrom(

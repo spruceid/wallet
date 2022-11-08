@@ -1,15 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:credible/app/app_widget.dart';
 import 'package:credible/app/interop/chapi/chapi.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/shared/handlers/general.dart';
 import 'package:credible/app/shared/ui/ui.dart';
+import 'package:credible/app/shared/web_share.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/brand.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/provider.dart';
 
@@ -22,7 +26,19 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
+
+    WebShare.instance.handlers.add(GeneralHandler());
+
+    if (Platform.isIOS) {
+      WebShare.setupWebShare();
+    }
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     print(DIDKitProvider.instance.getVersion());
+
     Future.delayed(
       const Duration(
         milliseconds: kIsWeb ? 25 : 1000,
@@ -74,6 +90,10 @@ class _SplashPageState extends State<SplashPage> {
         );
 
         CHAPIProvider.instance.emitReady();
+
+        if (Platform.isAndroid) {
+          await WebShare.registerWebShare();
+        }
 
         await Modular.to.pushReplacementNamed('/credentials/list');
       },
