@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:credible/app/interop/didkit/didkit.dart';
-import 'package:credible/app/shared/constants.dart';
+import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/issuance_request_protocol.dart';
 import 'package:oidc4ci/oidc4ci.dart';
 
@@ -18,14 +18,15 @@ class NGIOIDC4VCI {
   }
 
   static Future<Map<String, dynamic>> getCredentialRequestBody(
-    IssuanceRequest issuanceRequest,
-    String key, [
+    IssuanceRequest issuanceRequest, [
     String preferredFormat = 'jwt_vc',
   ]) async {
-    final did =
-        DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-    final vm = await DIDKitProvider.instance
-        .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+    final keyType = (await SecureStorageProvider.instance.get('key'))!;
+    final key = (await SecureStorageProvider.instance.get('key/$keyType/0'))!;
+    final didMethod = (await SecureStorageProvider.instance.get('did_method'))!;
+    final did = DIDKitProvider.instance.keyToDID(didMethod, key);
+    final vm =
+        await DIDKitProvider.instance.keyToVerificationMethod(didMethod, key);
 
     final keyJson = jsonDecode(key);
     keyJson['kid'] = vm;
@@ -38,6 +39,12 @@ class NGIOIDC4VCI {
         break;
       case 'P-256':
         alg = 'ES256';
+        break;
+      case 'secp256k1':
+        alg = 'ES256K';
+        break;
+      case 'P-384':
+        alg = 'ES384';
         break;
       default:
         alg = 'None';

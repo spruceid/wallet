@@ -60,6 +60,7 @@ dependencies:
   local_auth: ^1.1.11
   secure_application: ^3.8.0
   provider: ^6.0.2
+  curl_logger_dio_interceptor: ^0.0.3
 
 dev_dependencies:
   flutter_test:

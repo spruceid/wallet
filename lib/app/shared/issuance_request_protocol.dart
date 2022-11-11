@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
@@ -62,14 +61,14 @@ class IssuanceRequest implements QRCodeProtocol {
 
     final log = Logger('credible/qrcode/accept#IssuanceRequest');
 
-    final key = (await SecureStorageProvider.instance.get('key'))!;
-
     final oidcConfig;
     try {
       final url = '$issuerWithoutSlash/.well-known/openid-credential-issuer';
       final response = await client.get(url);
       oidcConfig = response.data;
     } catch (e) {
+      print(e);
+      print((e as DioError).response);
       log.severe('An error occurred while obtaining OIDC configuration.', e);
       yield QRCodeStateMessage(StateMessage.error(
         'An error occurred while obtaining OIDC configuration. '
@@ -100,6 +99,8 @@ class IssuanceRequest implements QRCodeProtocol {
         final response = await client.get(url);
         authorizationServerConfig = response.data;
       } catch (e) {
+        print(e);
+        print((e as DioError).response);
         log.severe(
             'An error occurred while obtaining OIDC authorization configuration.',
             e);
@@ -149,6 +150,8 @@ class IssuanceRequest implements QRCodeProtocol {
       );
       authorization = response.data;
     } catch (e) {
+      print(e);
+      print((e as DioError).response);
       log.severe('An error occurred while obtaining the access token.', e);
       yield QRCodeStateMessage(StateMessage.error(
         'An error occurred while obtaining the access token. '
@@ -157,12 +160,40 @@ class IssuanceRequest implements QRCodeProtocol {
       return;
     }
 
+    log.info('Trying to obtain credential type $credentialType');
+
+    String? alternativeName;
+    try {
+      final parse = Uri.parse(credentialType);
+      if (parse.hasFragment) {
+        alternativeName = parse.fragment;
+      }
+    } catch (e) {
+      log.info('No alternative name was obtained.', e);
+    }
+    if (alternativeName != null) {
+      log.info('Possible alternative name parsed $alternativeName');
+    }
+
     final preferredFormat;
     try {
-      final formats = (oidcConfig['credentials_supported'][credentialType]
-          ['formats'] as Map<String, dynamic>);
-      final formatKeys = formats.keys;
+      final formats;
 
+      final credentialsSupported =
+          oidcConfig['credentials_supported'] as Map<String, dynamic>;
+
+      if (credentialsSupported.containsKey(credentialType)) {
+        formats = credentialsSupported[credentialType]['formats']
+            as Map<String, dynamic>;
+      } else if (alternativeName != null &&
+          credentialsSupported.containsKey(alternativeName)) {
+        formats = credentialsSupported[alternativeName]['formats']
+            as Map<String, dynamic>;
+      } else {
+        throw Exception('Failed to find formats for credential type');
+      }
+
+      final formatKeys = formats.keys;
       if (formatKeys.contains('jwt_vc')) {
         preferredFormat = 'jwt_vc';
       } else if (formatKeys.contains('ldp_vc')) {
@@ -171,6 +202,8 @@ class IssuanceRequest implements QRCodeProtocol {
         throw Exception('No supported formats were found in configuration.');
       }
     } catch (e) {
+      print(e);
+      print((e as DioError).response);
       log.severe('Failed to select a supported credential format.', e);
       yield QRCodeStateMessage(StateMessage.error(
         'Failed to select a supported credential format. '
@@ -187,7 +220,6 @@ class IssuanceRequest implements QRCodeProtocol {
       final token = authorization['access_token'];
       final data = await NGIOIDC4VCI.getCredentialRequestBody(
         this,
-        key,
         preferredFormat,
       );
       final response = await client.postUri(
@@ -205,6 +237,8 @@ class IssuanceRequest implements QRCodeProtocol {
       format = response.data['format'];
       credential = response.data['credential'];
     } catch (e) {
+      print(e);
+      print((e as DioError).response);
       log.severe('An error occurred while obtaining the credential.', e);
       yield QRCodeStateMessage(StateMessage.error(
         'An error occurred while obtaining the credential. '

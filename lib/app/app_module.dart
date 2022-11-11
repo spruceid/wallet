@@ -8,6 +8,7 @@ import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
 import 'package:credible/app/pages/qr_code/display.dart';
 import 'package:credible/app/pages/qr_code/scan.dart';
 import 'package:credible/app/pages/splash.dart';
+import 'package:curl_logger_dio_interceptor/curl_logger_dio_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -22,12 +23,13 @@ class AppModule extends Module {
           final dio = Dio(
             BaseOptions(
               receiveDataWhenStatusError: true,
-              connectTimeout: 30 * 1000,
-              sendTimeout: 30 * 1000,
-              receiveTimeout: 30 * 1000,
+              connectTimeout: 120 * 1000,
+              sendTimeout: 120 * 1000,
+              receiveTimeout: 120 * 1000,
             ),
           );
 
+          dio.interceptors.add(CurlLoggerDioInterceptor(printOnSuccess: true));
           dio.interceptors
               .add(InterceptorsWrapper(onRequest: (options, handler) {
             final cancel = options.cancelToken ?? CancelToken();

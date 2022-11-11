@@ -18,6 +18,21 @@ class DIDKitIO extends DIDKitProvider {
   }
 
   @override
+  String generateSecp256r1Key() {
+    return DIDKit.generateSecp256r1Key();
+  }
+
+  @override
+  String generateSecp256k1Key() {
+    return DIDKit.generateSecp256k1Key();
+  }
+
+  @override
+  String generateSecp384r1Key() {
+    return DIDKit.generateSecp384r1Key();
+  }
+
+  @override
   String keyToDID(String methodName, String key) {
     return DIDKit.keyToDID(methodName, key);
   }

@@ -1,5 +1,6 @@
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
+import 'package:credible/app/pages/profile/pages/method_and_key_type.dart';
 import 'package:credible/app/pages/profile/pages/notices.dart';
 import 'package:credible/app/pages/profile/pages/personal.dart';
 import 'package:credible/app/pages/profile/pages/privacy.dart';
@@ -51,6 +52,11 @@ class ProfileModule extends Module {
         ChildRoute(
           '/notices',
           child: (context, args) => NoticesPage(),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ChildRoute(
+          '/did-method-and-key-type',
+          child: (context, args) => MethodAndKeyTypePage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
       ];

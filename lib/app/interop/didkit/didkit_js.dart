@@ -14,6 +14,15 @@ external String _getVersion();
 @JS('window.DIDKit.generateEd25519Key')
 external String _generateEd25519Key();
 
+@JS('window.DIDKit.generateSecp256r1Key')
+external String _generateSecp256r1Key();
+
+@JS('window.DIDKit.generateSecp256k1Key')
+external String _generateSecp256k1Key();
+
+@JS('window.DIDKit.generateSecp384r1Key')
+external String _generateSecp384r1Key();
+
 @JS('window.DIDKit.keyToDID')
 external String _keyToDID(String methodName, String key);
 
@@ -74,6 +83,21 @@ class DIDKitWeb extends DIDKitProvider {
   @override
   String generateEd25519Key() {
     return _generateEd25519Key();
+  }
+
+  @override
+  String generateSecp256r1Key() {
+    return _generateSecp256r1Key();
+  }
+
+  @override
+  String generateSecp256k1Key() {
+    return _generateSecp256k1Key();
+  }
+
+  @override
+  String generateSecp384r1Key() {
+    return _generateSecp384r1Key();
   }
 
   @override

@@ -14,6 +14,12 @@ abstract class DIDKitProvider {
 
   String generateEd25519Key();
 
+  String generateSecp256r1Key();
+
+  String generateSecp256k1Key();
+
+  String generateSecp384r1Key();
+
   String keyToDID(String methodName, String key);
 
   Future<String> keyToVerificationMethod(String methodName, String key);

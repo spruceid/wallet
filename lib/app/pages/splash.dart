@@ -6,6 +6,7 @@ import 'package:credible/app/interop/chapi/chapi.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/handlers/general.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/web_share.dart';
@@ -47,11 +48,55 @@ class _SplashPageState extends State<SplashPage> {
         // ignore: unawaited_futures
         Provider.of<AppLockProvider>(context, listen: false).fn();
 
+        final didMethod =
+            await SecureStorageProvider.instance.get('did_method') ?? '';
+
+        if (didMethod.isEmpty) {
+          await SecureStorageProvider.instance
+              .set('did_method', Constants.defaultDIDMethod);
+        }
+
+        final keyType =
+            await SecureStorageProvider.instance.get('key_type') ?? '';
+
+        if (keyType.isEmpty) {
+          await SecureStorageProvider.instance
+              .set('key_type', Constants.defaultKeyType);
+        }
+
         final key = await SecureStorageProvider.instance.get('key') ?? '';
 
         if (key.isEmpty) {
           await Modular.to.pushReplacementNamed('/on-boarding/start');
           return;
+        }
+
+        final ed25519Key =
+            await SecureStorageProvider.instance.get('key/ed25519/0') ?? '';
+        if (ed25519Key.isEmpty) {
+          final key = DIDKitProvider.instance.generateEd25519Key();
+          await SecureStorageProvider.instance.set('key/ed25519/0', key);
+        }
+
+        final secp256r1Key =
+            await SecureStorageProvider.instance.get('key/secp256r1/0') ?? '';
+        if (secp256r1Key.isEmpty) {
+          final key = DIDKitProvider.instance.generateSecp256r1Key();
+          await SecureStorageProvider.instance.set('key/secp256r1/0', key);
+        }
+
+        final secp256k1Key =
+            await SecureStorageProvider.instance.get('key/secp256k1/0') ?? '';
+        if (secp256k1Key.isEmpty) {
+          final key = DIDKitProvider.instance.generateSecp256k1Key();
+          await SecureStorageProvider.instance.set('key/secp256k1/0', key);
+        }
+
+        final secp384r1Key =
+            await SecureStorageProvider.instance.get('key/secp384r1/0') ?? '';
+        if (secp384r1Key.isEmpty) {
+          final key = DIDKitProvider.instance.generateSecp384r1Key();
+          await SecureStorageProvider.instance.set('key/secp384r1/0', key);
         }
 
         CHAPIProvider.instance.init(
