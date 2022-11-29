@@ -9,7 +9,7 @@ class SecureStorageIO extends SecureStorageProvider {
   FlutterSecureStorage get _storage => FlutterSecureStorage();
 
   IOSOptions get _defaultIOSOptions => IOSOptions(
-        accessibility: IOSAccessibility.passcode,
+        accessibility: KeychainAccessibility.passcode,
       );
 
   @override
