@@ -17,7 +17,7 @@ external void _emit(Event e);
 @JS()
 @staticInterop
 class Event {
-  external Event(String name);
+  external factory Event(String name);
 }
 
 CHAPIProvider getProvider() => CHAPIWeb();
