@@ -15,6 +15,7 @@ external set _store(StoreFn fn);
 external void _emit(Event e);
 
 @JS()
+@staticInterop
 class Event {
   external Event(String name);
 }
