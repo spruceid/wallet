@@ -21,7 +21,7 @@ class NGIOIDC4VCI {
     IssuanceRequest issuanceRequest, [
     String preferredFormat = 'jwt_vc',
   ]) async {
-    final keyType = (await SecureStorageProvider.instance.get('key'))!;
+    final keyType = (await SecureStorageProvider.instance.get('key_type'))!;
     final key = (await SecureStorageProvider.instance.get('key/$keyType/0'))!;
     final didMethod = (await SecureStorageProvider.instance.get('did_method'))!;
     final did = DIDKitProvider.instance.keyToDID(didMethod, key);

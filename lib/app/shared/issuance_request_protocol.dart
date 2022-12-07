@@ -298,6 +298,7 @@ class IssuanceRequest implements QRCodeProtocol {
 
     final vc;
     switch (format) {
+      case null:
       case 'w3cvc-jsonld':
       case 'ldp_vc':
         vc = credential;

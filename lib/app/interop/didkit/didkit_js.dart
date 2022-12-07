@@ -74,6 +74,34 @@ external String _DIDAuth(
   String key,
 );
 
+@JS('window.DIDKit.prepareIssueCredential')
+external String _prepareIssueCredential(
+  String credential,
+  String options,
+  String key,
+);
+
+@JS('window.DIDKit.completeIssueCredential')
+external String _completeIssueCredential(
+  String credential,
+  String preparation,
+  String signature,
+);
+
+@JS('window.DIDKit.prepareIssuePresentation')
+external String _prepareIssuePresentation(
+  String presentation,
+  String options,
+  String key,
+);
+
+@JS('window.DIDKit.completeIssuePresentation')
+external String _completeIssuePresentation(
+  String presentation,
+  String preparation,
+  String signature,
+);
+
 class DIDKitWeb extends DIDKitProvider {
   @override
   String getVersion() {
@@ -190,6 +218,58 @@ class DIDKitWeb extends DIDKitProvider {
       did,
       options,
       key,
+    ));
+  }
+
+  @override
+  Future<String> prepareIssueCredential(
+    String credential,
+    String options,
+    String key,
+  ) async {
+    return await promiseToFuture(_prepareIssueCredential(
+      credential,
+      options,
+      key,
+    ));
+  }
+
+  @override
+  Future<String> completeIssueCredential(
+    String credential,
+    String preparation,
+    String signature,
+  ) async {
+    return await promiseToFuture(_completeIssueCredential(
+      credential,
+      preparation,
+      signature,
+    ));
+  }
+
+  @override
+  Future<String> prepareIssuePresentation(
+    String presentation,
+    String options,
+    String key,
+  ) async {
+    return await promiseToFuture(_prepareIssuePresentation(
+      presentation,
+      options,
+      key,
+    ));
+  }
+
+  @override
+  Future<String> completeIssuePresentation(
+    String presentation,
+    String preparation,
+    String signature,
+  ) async {
+    return await promiseToFuture(_completeIssuePresentation(
+      presentation,
+      preparation,
+      signature,
     ));
   }
 }

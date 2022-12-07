@@ -61,4 +61,28 @@ abstract class DIDKitProvider {
     String options,
     String key,
   );
+
+  Future<String> prepareIssueCredential(
+    String credential,
+    String options,
+    String key,
+  );
+
+  Future<String> completeIssueCredential(
+    String credential,
+    String preparation,
+    String signature,
+  );
+
+  Future<String> prepareIssuePresentation(
+    String presentation,
+    String options,
+    String key,
+  );
+
+  Future<String> completeIssuePresentation(
+    String presentation,
+    String preparation,
+    String signature,
+  );
 }

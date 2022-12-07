@@ -8,6 +8,7 @@ import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/handlers/general.dart';
+import 'package:credible/app/shared/key_manager_test.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/web_share.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -39,6 +40,8 @@ class _SplashPageState extends State<SplashPage> {
     ]);
 
     print(DIDKitProvider.instance.getVersion());
+
+    KeyManagerTest.test();
 
     Future.delayed(
       const Duration(

@@ -100,4 +100,56 @@ class DIDKitIO extends DIDKitProvider {
   ) async {
     return DIDKit.DIDAuth(did, options, key);
   }
+
+  @override
+  Future<String> prepareIssueCredential(
+    String credential,
+    String options,
+    String key,
+  ) async {
+    return DIDKit.prepareIssueCredential(
+      credential,
+      options,
+      key,
+    );
+  }
+
+  @override
+  Future<String> completeIssueCredential(
+    String credential,
+    String preparation,
+    String signature,
+  ) async {
+    return DIDKit.completeIssueCredential(
+      credential,
+      preparation,
+      signature,
+    );
+  }
+
+  @override
+  Future<String> prepareIssuePresentation(
+    String presentation,
+    String options,
+    String key,
+  ) async {
+    return DIDKit.prepareIssuePresentation(
+      presentation,
+      options,
+      key,
+    );
+  }
+
+  @override
+  Future<String> completeIssuePresentation(
+    String presentation,
+    String preparation,
+    String signature,
+  ) async {
+    return DIDKit.completeIssuePresentation(
+      presentation,
+      preparation,
+      signature,
+    );
+  }
 }

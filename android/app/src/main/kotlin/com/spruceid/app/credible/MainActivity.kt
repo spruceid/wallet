@@ -22,6 +22,9 @@ class MainActivity : FlutterFragmentActivity() {
     private lateinit var webShareContent: String
     private lateinit var channel: MethodChannel
 
+    private val keymanChannelId = "com.security.keyman"
+    private lateinit var keymanChannel: MethodChannel
+
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
 
@@ -35,6 +38,90 @@ class MainActivity : FlutterFragmentActivity() {
                 result.success("Web Share string not initialized")
             }
         }
+
+        keymanChannel = MethodChannel(flutterEngine.dartExecutor, keymanChannelId)
+
+        keymanChannel.setMethodCallHandler { call, result ->
+            when (call.method) {
+                "keyExists" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        val exists = keyExists(alias)
+                        result.success(exists)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_KEY-EXISTS", "", null)
+                    }
+                }
+                "getJwk" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        val jwk = getJwk(alias)
+                        result.success(jwk)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_GET-JWK", "", null)
+                    }
+
+                }
+                "generateSigningKey" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        generateSigningKey(alias)
+                        result.success(null)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_GEN-SIG-KEY", "", null)
+                    }
+                }
+                "signPayload" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        val payload = call.argument<ByteArray>("payload")!!
+                        val signed = signPayload(alias, payload)
+                        result.success(signed)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_SIGN", "", null)
+                    }
+                }
+                "generateEncryptionKey" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        generateEncryptionKey(alias)
+                        result.success(null)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_GEN-ENC-KEY", "", null)
+                    }
+                }
+                "encryptPayload" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        val payload = call.argument<ByteArray>("payload")!!
+                        val (iv, encrypted) = encryptPayload(alias, payload)!!
+                        result.success(listOf(iv, encrypted))
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_ENC", "", null)
+                    }
+                }
+                "decryptPayload" -> {
+                    try {
+                        val alias = call.argument<String>("alias")!!
+                        val iv = call.argument<ByteArray>("iv")!!
+                        val payload = call.argument<ByteArray>("payload")!!
+                        val decrypted = decryptPayload(alias, iv, payload)!!
+                        result.success(decrypted)
+                    } catch (e: Exception) {
+                        Log.d("KEYMAN", "$e")
+                        result.error("KEYMAN_ENC", "", null)
+                    }
+                }
+            }
+        }
+
+        Log.d("KEYMAN", "$intent")
 
         when {
             intent?.action == Intent.ACTION_SEND -> {
