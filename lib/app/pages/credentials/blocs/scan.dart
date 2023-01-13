@@ -9,9 +9,11 @@ import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_logging_interceptor/dio_logging_interceptor.dart' as diolog;
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 abstract class ScanEvent {}
 
@@ -148,47 +150,100 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
+      log.severe('1');
       final did =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      log.severe('2');
+      log.severe(url);
+      log.severe(did);
+      // ignore: todo
+      // TODO [TC]: Implement a response from backend server
+      // Log the form data to be sent with post
+      log.severe(FormData.fromMap(<String, dynamic>{'subject_id': did}).fields);
 
-      final credential = await client.post(
-        url,
-        data: FormData.fromMap(<String, dynamic>{'subject_id': did}),
+      // ignore: todo
+      // TODO [TC]: this client.post request fails despite curl functioning.
+      //
+      // final try_a_get = await client.get(url);
+      // log.severe(try_a_get);
+
+      client.interceptors.add(
+        diolog.DioLoggingInterceptor(
+          level: diolog.Level.body,
+          compact: false,
+        ),
       );
+      log.severe('Added interceptor');
+      // ignore: todo
+      // TODO [TC]: Debugging
+      final credential = await client.post(url,
+          // Send POST as "form data", currently fails with our backend
+          // data: FormData.fromMap(<String, dynamic>{'subject_id': did}));
 
+          // Send POST as "JSON data", currently works but stops at step 5
+          data: {'subject_id': did});
+
+      log.severe('Data');
+      log.severe(credential.data);
+      log.severe('Extra');
+      log.severe(credential.extra);
+      log.severe('Headers');
+      log.severe(credential.headers);
+
+      log.severe('3');
       final jsonCredential = credential.data is String
           ? jsonDecode(credential.data)
           : credential.data;
 
+      // --------------------------------------------------------------
+      // Try a post request with a different package
+      // final credential =
+      //     await http.post(Uri.http(url), body: {'subject_id': did});
+      // // data: FormData.fromMap(<String, dynamic>{'subject_id': did}));
+      // log.severe(credential);
+
+      // // ignore: unnecessary_type_check
+      // final jsonCredential = credential.body is String
+      //     ? jsonDecode(credential.body)
+      //     : credential.body;
+      // --------------------------------------------------------------
+
+      log.severe('4');
       final vcStr = jsonEncode(jsonCredential);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+      log.severe('5');
       await Future.delayed(Duration(seconds: 1));
+      // ignore: todo
       // TODO [bug] verification fails here for unknown reason
-      final verification =
-          await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+      // ignore: todo
+      // TODO [TC]: This is where `trustchain-cli vc verify` could be called
+      // once FFI is implemented
 
+      // final verification =
+      //     await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+      log.severe('6');
       print('[credible/credential-offer/verify/vc] $vcStr');
       print('[credible/credential-offer/verify/options] $optStr');
-      print('[credible/credential-offer/verify/result] $verification');
+      // print('[credible/credential-offer/verify/result] $verification');
+      log.severe('7');
+      // final jsonVerification = jsonDecode(verification);
 
-      final jsonVerification = jsonDecode(verification);
+      // if (jsonVerification['warnings'].isNotEmpty) {
+      //   log.warning('credential verification return warnings',
+      //       jsonVerification['warnings']);
 
-      if (jsonVerification['warnings'].isNotEmpty) {
-        log.warning('credential verification return warnings',
-            jsonVerification['warnings']);
+      //   yield ScanStateMessage(StateMessage.warning(
+      //       'Credential verification returned some warnings. '
+      //       'Check the logs for more information.'));
+      // }
 
-        yield ScanStateMessage(StateMessage.warning(
-            'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
-      }
+      // if (jsonVerification['errors'].isNotEmpty) {
+      //   log.severe('failed to verify credential', jsonVerification['errors']);
 
-      if (jsonVerification['errors'].isNotEmpty) {
-        log.severe('failed to verify credential', jsonVerification['errors']);
-
-        yield ScanStateMessage(
-            StateMessage.error('Failed to verify credential. '
-                'Check the logs for more information.'));
-      }
+      //   yield ScanStateMessage(
+      //       StateMessage.error('Failed to verify credential. '
+      //           'Check the logs for more information.'));
+      // }
 
       final repository = Modular.get<CredentialsRepository>();
       await repository.insert(
