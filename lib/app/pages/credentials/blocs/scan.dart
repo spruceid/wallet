@@ -288,31 +288,46 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
-      final presentation = await DIDKitProvider.instance.issuePresentation(
-        jsonEncode({
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          'type': ['VerifiablePresentation'],
-          'id': presentationId,
-          'holder': did,
-          'verifiableCredential': credentials.length == 1
-              ? credentials.first.data
-              : credentials.map((c) => c.data).toList(),
-        }),
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'authentication',
-          'challenge': challenge,
-          'domain': domain,
-        }),
-        key,
-      );
 
-      await client.post(
-        url.toString(),
-        data: FormData.fromMap(<String, dynamic>{
-          'presentation': presentation,
-        }),
-      );
+      log.severe('Debugging presentation process.');
+      log.severe(key);
+      log.severe(verificationMethod);
+      final pres = jsonEncode({
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        'type': ['VerifiablePresentation'],
+        'id': presentationId,
+        'holder': did,
+        'verifiableCredential': credentials.length == 1
+            ? credentials.first.data
+            : credentials.map((c) => c.data).toList(),
+      });
+      log.severe(pres);
+      final opts = jsonEncode({
+        'verificationMethod': verificationMethod,
+        'proofPurpose': 'authentication',
+        'challenge': challenge,
+        'domain': domain,
+      });
+      log.severe(opts);
+
+      // ignore: todo
+      // TODO: currently failing, replace with only credential for now
+      // final presentation = await DIDKitProvider.instance.issuePresentation(
+      //   cred,
+      //   opts,
+      //   key,
+      // );
+      final credential = jsonEncode(credentials.first.data);
+
+      // ignore: todo
+      // TODO: currently failing with form data as for issuer, use JSON instead
+      // await client.post(
+      //   url.toString(),
+      //   data: FormData.fromMap(<String, dynamic>{
+      //     'presentation': presentation,
+      //   }),
+      // );
+      await client.post(url.toString(), data: credential);
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
