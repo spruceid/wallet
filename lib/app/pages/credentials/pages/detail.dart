@@ -127,43 +127,83 @@ class _CredentialsDetailState
           color: UiKit.palette.icon,
         ),
       ),
-      navigation: SafeArea(
-        child: Container(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 24.0,
-            vertical: 16.0,
-          ),
-          height: kBottomNavigationBarHeight * 1.75,
-          child: Tooltip(
-            message: localizations.credentialDetailShare,
-            child: BaseButton.primary(
-              onPressed: () {
-                Modular.to.pushNamed(
-                  '/qr-code/display',
-                  arguments: [
-                    widget.item.id,
-                    widget.item.id,
-                  ],
-                );
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SvgPicture.asset(
-                    'assets/icon/qr-code.svg',
-                    width: 24.0,
-                    height: 24.0,
-                    color: UiKit.palette.icon,
+      // TODO: Add in a chain transition here to reach a new page called
+      // /did/chain
+      navigation: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SafeArea(
+            child: Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(),
+                height: kBottomNavigationBarHeight * 1.75,
+                width: 140,
+                child: Tooltip(
+                  message: localizations.credentialDetailShare,
+                  child: BaseButton.primary(
+                    onPressed: () {
+                      Modular.to.pushNamed(
+                        '/did/chain',
+                        arguments: [
+                          widget.item.id,
+                          widget.item.id,
+                        ],
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text('DID chain'),
+                      ],
+                    ),
                   ),
-                  const SizedBox(width: 16.0),
-                  Text(localizations.credentialDetailShare),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+          Padding(padding: const EdgeInsets.all(8.0)),
+          SafeArea(
+            child: Container(
+              // padding: const EdgeInsets.symmetric(
+              //   horizontal: 24.0,
+              //   vertical: 16.0,
+              // ),
+              height: kBottomNavigationBarHeight * 1.75,
+              width: 250,
+              child: Tooltip(
+                message: localizations.credentialDetailShare,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushNamed(
+                      '/qr-code/display',
+                      arguments: [
+                        widget.item.id,
+                        widget.item.id,
+                      ],
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/icon/qr-code.svg',
+                        width: 24.0,
+                        height: 24.0,
+                        color: UiKit.palette.icon,
+                      ),
+                      const SizedBox(width: 16.0),
+                      Text(localizations.credentialDetailShare),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

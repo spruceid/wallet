@@ -81,5 +81,14 @@ class AppModule extends Module {
           ),
           transition: TransitionType.fadeIn,
         ),
+        ChildRoute(
+          '/did/chain',
+          // TODO: Update with new DID chain page, placeholder as QR code display
+          child: (context, args) => QrCodeDisplayPage(
+            name: args.data[0],
+            data: args.data[1],
+          ),
+          transition: TransitionType.fadeIn,
+        ),
       ];
 }
