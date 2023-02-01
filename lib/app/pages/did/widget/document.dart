@@ -6,12 +6,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DIDDocumentWidgetModel {
+  // TODO: initial version (also to be used in the chain). Can be refined into
+  // more complex widget type later (e.g. with controller, level, alias)
   final String did;
   final String endpoint;
-  final int? level;
-  final String? alias;
 
-  const DIDDocumentWidgetModel(this.did, this.endpoint, this.level, this.alias);
+  const DIDDocumentWidgetModel(this.did, this.endpoint);
 
   factory DIDDocumentWidgetModel.fromDIDModel(DIDModel model) {
     // late String status;
@@ -27,8 +27,7 @@ class DIDDocumentWidgetModel {
     //     break;
     // }
 
-    return DIDDocumentWidgetModel(
-        model.did, model.endpoint, model.level, model.alias);
+    return DIDDocumentWidgetModel(model.did, model.endpoint);
   }
 }
 
@@ -47,7 +46,8 @@ class DIDDocumentWidget extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         decoration: BaseBoxDecoration(
           // TODO: update with different palette for DIDs
-          color: UiKit.palette.credentialBackground,
+          // color: UiKit.palette.credentialBackground,
+          color: Color.fromRGBO(255, 0, 0, 0.2),
           shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
           value: 0.0,
           shapeSize: 256.0,
@@ -69,19 +69,8 @@ class DIDDocumentWidget extends StatelessWidget {
                 value: model.did,
               ),
               const SizedBox(height: 12.0),
-              if (model.level != null)
-                DocumentItemWidget(
-                    label: 'Alias:', value: model.alias.toString())
-              else
-                DocumentItemWidget(label: 'Level:', value: 'No alias present'),
-              const SizedBox(height: 12.0),
               DocumentItemWidget(label: 'Endpoint:', value: model.endpoint),
               const SizedBox(height: 12.0),
-              if (model.level != null)
-                DocumentItemWidget(
-                    label: 'Level:', value: model.level.toString())
-              else
-                DocumentItemWidget(label: 'Level:', value: 'No level present'),
             ],
           ),
         ),
