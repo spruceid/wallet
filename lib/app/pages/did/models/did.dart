@@ -9,6 +9,7 @@ class DIDModel {
     required this.endpoint,
     required this.data,
   });
+  // Assumed map is an HTTP API resolved DID: https://w3c-ccg.github.io/did-resolution/
   factory DIDModel.fromMap(Map<String, dynamic> m) {
     assert(m.containsKey('data'));
 
@@ -19,7 +20,12 @@ class DIDModel {
     final did = didDocument['id'];
     // TODO: add robust checks for converting HTTP API DID result into DIDModel
     // E.g. multiple services, field existence, etc
-    final endpoint = didDocument['service']['serviceEnpoint'];
+    //
+    // Loop over services (must be more than 0) and extract service endpoint for
+    // service with service["id"] == "TrustchainID".
+    //
+    // Must have both DID and service endpoint
+    final endpoint = didDocument['service'][0]['serviceEndpoint'];
 
     return DIDModel(
       did: did,
