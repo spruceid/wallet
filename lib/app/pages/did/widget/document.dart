@@ -47,8 +47,8 @@ class DIDDocumentWidget extends StatelessWidget {
         decoration: BaseBoxDecoration(
           // TODO: update with different palette for DIDs
           // color: UiKit.palette.credentialBackground,
-          color: Color.fromRGBO(255, 0, 0, 0.2),
-          shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
+          color: Color.fromARGB(255, 17, 0, 255),
+          // shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[

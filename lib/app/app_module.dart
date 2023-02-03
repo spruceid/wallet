@@ -2,6 +2,7 @@ import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/module.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/pages/did/display.dart';
 import 'package:credible/app/pages/on_boarding/module.dart';
 import 'package:credible/app/pages/profile/module.dart';
 import 'package:credible/app/pages/qr_code/bloc/qrcode.dart';
@@ -84,7 +85,7 @@ class AppModule extends Module {
         ChildRoute(
           '/did/chain',
           // TODO: Update with new DID chain page, placeholder as QR code display
-          child: (context, args) => QrCodeDisplayPage(
+          child: (context, args) => DIDDisplayPage(
             name: args.data[0],
             data: args.data[1],
           ),

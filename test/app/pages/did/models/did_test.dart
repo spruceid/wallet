@@ -2,7 +2,7 @@ import 'package:credible/app/pages/did/models/did.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const DID_EXAMPLE = {
-  'data': {
+  // 'data': {
     'didDocument': {
       '@context': [
         'https://www.w3.org/ns/did/v1',
@@ -34,7 +34,7 @@ const DID_EXAMPLE = {
         }
       ]
     }
-  }
+  // }
 };
 
 void main() {
@@ -58,7 +58,7 @@ void main() {
     test('.fromMap() should convert a DID with an ID present', () {
       final did = DIDModel.fromMap(DID_EXAMPLE);
       expect(did.did, isNotEmpty);
-      expect(did.data, equals(DID_EXAMPLE['data']));
+      expect(did.data, equals(DID_EXAMPLE));
     });
 
     //   test('.fromMap() with id should not generate a new id', () {

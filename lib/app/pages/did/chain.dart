@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class QrCodeDisplayPage extends StatelessWidget {
+// TODO: implement the page for displaying a chain
+class ChainDisplayPage extends StatelessWidget {
   final String name;
   final String data;
 
-  const QrCodeDisplayPage({
+  const ChainDisplayPage({
     Key? key,
     required this.name,
     required this.data,
