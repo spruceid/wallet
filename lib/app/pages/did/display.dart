@@ -8,6 +8,9 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+// Trustchain FFI
+import 'package:credible/ffi.dart';
+
 // TODO: implement the page for displaying a DID
 class DIDDisplayPage extends StatefulWidget {
   final String name;
@@ -68,16 +71,23 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                     padding: const EdgeInsets.all(8.0),
                     // See here for FutureBuilder:
                     // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
-                    child: FutureBuilder<DIDModel>(
-                        future: get_did(url),
+                    // child: FutureBuilder<DIDModel>(
+                    child: FutureBuilder<String>(
+                        // future: get_did(url),
+                        // future: api.greet(),
+                        future: api.resolve(
+                            did:
+                                'did:ion:test:EiBYdto2LQd_uAj_EXEoxP_KbLmZzwe1E-vXp8ZsMv1Gpg'),
                         builder: (BuildContext context,
-                            AsyncSnapshot<DIDModel> snapshot) {
+                            // AsyncSnapshot<DIDModel> snapshot) {
+                            AsyncSnapshot<String> snapshot) {
                           // Uncomment for waiting part.
                           // if (false) {
                           if (snapshot.hasData) {
-                            return DIDDocumentWidget(
-                                model: DIDDocumentWidgetModel.fromDIDModel(
-                                    snapshot.data!));
+                            // return DIDDocumentWidget(
+                            // model: DIDDocumentWidgetModel.fromDIDModel(
+                            // snapshot.data!));
+                            return Text(snapshot.data!);
                           } else {
                             return Center(
                                 child: Column(

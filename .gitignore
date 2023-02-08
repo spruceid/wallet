@@ -97,3 +97,6 @@ app.*.map.json
 **/fastlane/Preview.html
 **/fastlane/screenshots/**/*.png
 **/fastlane/test_output
+
+# flutter rust bridge ffi
+android/app/src/main/jniLibs
