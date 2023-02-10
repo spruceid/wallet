@@ -8,20 +8,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DIDChainWidgetModel {
-  // TODO: initial version (also to be used in the chain). Can be refined into
-  // more complex widget type later (e.g. with controller, level, alias)
-  // final String did;
-  // final String endpoint;
-  // final List<DIDDocumentWidgetModel>;
-  // final String did;
   final List<DIDDocumentWidgetModel> data;
 
   const DIDChainWidgetModel(this.data);
 
   factory DIDChainWidgetModel.fromDIDChainModel(DIDChainModel model) {
-    return DIDChainWidgetModel(
-      model.data.map(m => DIDDocumentWidgetModel.fromDIDModel(m)).toList()
-    ));
+    return DIDChainWidgetModel(model.didChain
+        .map((m) => DIDDocumentWidgetModel.fromDIDModel(m))
+        .toList());
   }
 }
 
