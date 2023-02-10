@@ -143,7 +143,7 @@ class _CredentialsDetailState
                   child: BaseButton.primary(
                     onPressed: () {
                       Modular.to.pushNamed(
-                        '/did/chain',
+                        '/did/display',
                         arguments: [
                           widget.item.id,
                           widget.item.id,
