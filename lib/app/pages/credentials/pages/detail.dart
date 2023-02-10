@@ -137,7 +137,7 @@ class _CredentialsDetailState
               child: Container(
                 padding: const EdgeInsets.symmetric(),
                 height: kBottomNavigationBarHeight * 1.75,
-                width: 140,
+                width: 120,
                 child: Tooltip(
                   message: localizations.credentialDetailShare,
                   child: BaseButton.primary(
@@ -155,7 +155,45 @@ class _CredentialsDetailState
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Text('DID chain'),
+                        Text(
+                          'Show\nDID',
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(padding: const EdgeInsets.all(8.0)),
+          SafeArea(
+            child: Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(),
+                height: kBottomNavigationBarHeight * 1.75,
+                width: 120,
+                child: Tooltip(
+                  message: localizations.credentialDetailShare,
+                  child: BaseButton.primary(
+                    onPressed: () {
+                      Modular.to.pushNamed(
+                        '/did/chain',
+                        arguments: [
+                          widget.item.id,
+                          widget.item.id,
+                        ],
+                      );
+                    },
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Text(
+                          'Show\nChain',
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   ),
@@ -171,9 +209,10 @@ class _CredentialsDetailState
               //   vertical: 16.0,
               // ),
               height: kBottomNavigationBarHeight * 1.75,
-              width: 250,
+              width: 130,
               child: Tooltip(
                 message: localizations.credentialDetailShare,
+                // message: 'Share\nQR code',
                 child: BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed(
@@ -188,15 +227,20 @@ class _CredentialsDetailState
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    // TODO: try expanding icon into text when enough space available
+                    // e.g. moving into landscape, or a wide screen
                     children: <Widget>[
-                      SvgPicture.asset(
-                        'assets/icon/qr-code.svg',
-                        width: 24.0,
-                        height: 24.0,
-                        color: UiKit.palette.icon,
-                      ),
-                      const SizedBox(width: 16.0),
-                      Text(localizations.credentialDetailShare),
+                      // TODO: for testing just have text
+                      // SvgPicture.asset(
+                      //   'assets/icon/qr-code.svg',
+                      //   width: 24.0,
+                      //   height: 24.0,
+                      //   color: UiKit.palette.icon,
+                      // ),
+                      // const SizedBox(width: 16.0),
+                      // Text(localizations.credentialDetailShare),
+                      Text('Share\nQR code',
+                          softWrap: true, textAlign: TextAlign.center),
                     ],
                   ),
                 ),
