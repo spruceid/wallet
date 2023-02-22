@@ -23,6 +23,26 @@ class CredentialModel {
         : CredentialStatus.expired;
   }
 
+  Map<String, dynamic> _stripContext(Map<String, dynamic> map) {
+    // Remove any jsonld context entries in the hierarchy
+    var result = Map<String, dynamic>();
+    map.forEach((key, value) {
+      if (key != '@context') {
+        if (value is Map<String, dynamic>) {
+          result[key] = _stripContext(value);
+        } else {
+          result[key] = value;
+        }
+      };
+    });
+    return result;
+  }
+
+  Map<String, dynamic> get details {
+    // Remove the jsonld context to avoid overcomplicating things for human viewers
+    return _stripContext(data);
+  }
+
   const CredentialModel({
     required this.id,
     required this.alias,
