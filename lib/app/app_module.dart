@@ -95,7 +95,7 @@ class AppModule extends Module {
         ChildRoute(
           '/did/chain',
           // TODO: Update with new DID chain page, placeholder as QR code display
-          child: (context, args) => ChainDisplayPage(
+          child: (context, args) => DIDChainDisplayPage(
             name: args.data[0],
             data: args.data[1],
           ),

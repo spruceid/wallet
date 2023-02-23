@@ -7,6 +7,9 @@ import 'package:credible/app/pages/did/widget/document.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:logging/logging.dart';
+
+final log = Logger('MyClassName');
 
 // TODO: implement the page for displaying a DID
 class DIDDisplayPage extends StatefulWidget {
@@ -28,6 +31,8 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
   final base_endpoint = 'http://10.0.2.2:8081/did/';
 
   Future<DIDModel> get_did(String url) async {
+    log.severe('\n\n\n\n\n\n********************\n\n\n\n\n\n');
+    log.severe(url);
     return DIDModel.fromMap(jsonDecode((await http.get(Uri.parse(url))).body));
   }
 

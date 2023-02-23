@@ -20,11 +20,11 @@ class DIDChainWidgetModel {
 }
 
 // // TODO: design distinct presentation of a DID relative to credential
-// class DIDDocumentWidget extends StatelessWidget {
+// class DIDChainWidget extends StatelessWidget {
 //   final DIDChainWidgetModel model;
 //   final Widget? trailing;
 
-//   const DIDDocumentWidget({
+//   const DIDChainWidget({
 //     Key? key,
 //     required this.model,
 //     this.trailing,
