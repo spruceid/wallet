@@ -75,7 +75,10 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
                       DIDChainWidgetModel.fromDIDChainModel(snapshot.data!);
                   return ListView(children: [
                     for (var widg in didChain.data)
-                      DIDDocumentWidget(model: widg)
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DIDDocumentWidget(model: widg),
+                      )
                     // ListTile(title: Text('Thing 1')),
                     // ListTile(title: Text('Thing 2'))
                   ]
