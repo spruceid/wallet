@@ -73,18 +73,31 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
                   log.severe(snapshot);
                   final didChain =
                       DIDChainWidgetModel.fromDIDChainModel(snapshot.data!);
-                  return ListView(children: [
-                    for (var widg in didChain.data)
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DIDDocumentWidget(model: widg),
-                      )
+                  return ListView(
+                    children: didChain.data
+                        .map((w) => Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              // child: DIDDocumentWidget(model: w),
+                              child: Column(
+                                children: [
+                                  DIDDocumentWidget(model: w),
+                                  Icon(Icons.check)
+                                ],
+                              ),
+                            ))
+                        .toList(),
+                    // [
+                    // for (var widg in didChain.data)
+                    //   Padding(
+                    //     padding: const EdgeInsets.all(8.0),
+                    //     child: DIDDocumentWidget(model: widg),
+                    //   )
                     // ListTile(title: Text('Thing 1')),
                     // ListTile(title: Text('Thing 2'))
-                  ]
-                      // children: DIDChainWidgetModel.fromDIDChainModel(
-                      //     model: DIDChainModel.fromMap(snapshot.didChain!))
-                      );
+                    // ]
+                    // children: DIDChainWidgetModel.fromDIDChainModel(
+                    //     model: DIDChainModel.fromMap(snapshot.didChain!))
+                  );
                 } else {
                   return Center(
                       child: Column(
