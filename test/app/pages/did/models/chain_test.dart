@@ -215,16 +215,8 @@ void main() {
   test('test that did chain from endpoint is valid map', () async {
     var url = "http://127.0.0.1:8081/did/chain/1234";
     var val = jsonDecode((await http.get(Uri.parse(url))).body);
-    print(val.runtimeType);
     final didChainUrl = DIDChainModel.fromMap(val);
     final didChain = DIDChainModel.fromMap(DID_CHAIN_EXAMPLE);
-    print("It worked!");
-    // try {
-    //   expect(didChainUrl, didChain);
-    //   print('It worked!');
-    // } catch (e) {
-    //   print(didChainUrl);
-    //   print(didChain);
-    // }
+    identical(didChainUrl, didChain);
   });
 }

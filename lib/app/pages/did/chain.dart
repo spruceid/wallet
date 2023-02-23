@@ -1,3 +1,4 @@
+import 'package:credible/app/pages/did/widget/document.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -33,14 +34,14 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
   final base_endpoint = 'http://10.0.2.2:8081/did/chain/';
 
   Future<DIDChainModel> get_did_chain(String url) async {
-    log.severe('\n\n\n\n*********\n\n\n\n');
+    print('\n\n\n\n*********\n\n\n\n');
     // log.severe(url);
     // log.severe((await http.get(Uri.parse(url))).body);
 
-    log.severe(jsonDecode((await http.get(Uri.parse(url))).body));
-    log.severe(
-        (jsonDecode((await http.get(Uri.parse(url))).body) as Type).toString());
-    log.severe('\n============\n');
+    print(jsonDecode((await http.get(Uri.parse(url))).body));
+    // print(
+    //     (jsonDecode((await http.get(Uri.parse(url))).body) as Type).toString());
+    print('\n============\n');
     return DIDChainModel.fromMap(
         jsonDecode((await http.get(Uri.parse(url))).body));
   }
@@ -65,11 +66,18 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
                   AsyncSnapshot<DIDChainModel> snapshot) {
                 // Uncomment for waiting part.
                 // if (false) {
+                print('-------------------');
+                print(snapshot.error);
+                print('*******************');
                 if (snapshot.hasData) {
                   log.severe(snapshot);
+                  final didChain =
+                      DIDChainWidgetModel.fromDIDChainModel(snapshot.data!);
                   return ListView(children: [
-                    ListTile(title: Text('Thing 1')),
-                    ListTile(title: Text('Thing 2'))
+                    for (var widg in didChain.data)
+                      DIDDocumentWidget(model: widg)
+                    // ListTile(title: Text('Thing 1')),
+                    // ListTile(title: Text('Thing 2'))
                   ]
                       // children: DIDChainWidgetModel.fromDIDChainModel(
                       //     model: DIDChainModel.fromMap(snapshot.didChain!))
