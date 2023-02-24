@@ -35,7 +35,7 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
     final localizations = AppLocalizations.of(context)!;
     final url = '$base_endpoint${widget.name}';
     return BasePage(
-        title: "Luke's first App",
+        title: 'DID Trustchain',
         titleLeading: BackLeadingButton(),
         scrollView: false,
         body: Container(

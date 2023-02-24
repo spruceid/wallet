@@ -9,12 +9,8 @@ class DIDChainModel {
   // factory DIDChainModel.fromMap(Map<String, List<Map<String, dynamic>>> data) {
   factory DIDChainModel.fromMap(Map<String, dynamic> data) {
     assert(data.containsKey('didChain'));
-    print('type is ${data['didChain'].runtimeType}');
-    // assert(data['didChain'] is List<Map<String, dynamic>>);
-    // assert(data['didChain'] is Map<String, dynamic>);
     var mapped =
         data['didChain']!.map<DIDModel>((m) => DIDModel.fromMap(m)).toList();
-    print('mapped type: ${mapped.runtimeType}');
 
     return DIDChainModel(
       didChain: mapped,
