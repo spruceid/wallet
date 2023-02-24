@@ -7,9 +7,7 @@ import 'package:credible/app/pages/did/widget/document.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:logging/logging.dart';
-
-final log = Logger('MyClassName');
+import 'package:flutter_modular/flutter_modular.dart';
 
 // TODO: implement the page for displaying a DID
 class DIDDisplayPage extends StatefulWidget {
@@ -31,8 +29,6 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
   final base_endpoint = 'http://10.0.2.2:8081/did/';
 
   Future<DIDModel> get_did(String url) async {
-    log.severe('\n\n\n\n\n\n********************\n\n\n\n\n\n');
-    log.severe(url);
     return DIDModel.fromMap(jsonDecode((await http.get(Uri.parse(url))).body));
   }
 
@@ -57,17 +53,17 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    localizations.didDisplay,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 4.0),
-                  Text(
-                    widget.name,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.caption,
-                  ),
+                  // Text(
+                  //   localizations.didDisplay,
+                  //   textAlign: TextAlign.center,
+                  //   style: Theme.of(context).textTheme.bodyText1,
+                  // ),
+                  // const SizedBox(height: 4.0),
+                  // Text(
+                  //   widget.name,
+                  //   textAlign: TextAlign.center,
+                  //   style: Theme.of(context).textTheme.caption,
+                  // ),
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(8.0),
@@ -80,9 +76,16 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                           // Uncomment for waiting part.
                           // if (false) {
                           if (snapshot.hasData) {
-                            return DIDDocumentWidget(
-                                model: DIDDocumentWidgetModel.fromDIDModel(
-                                    snapshot.data!));
+                            return GestureDetector(
+                              onPanUpdate: (details) {
+                                if (details.delta.dx < 0) {
+                                  Modular.to.pushNamed('/did/chain', arguments: [widget.name, widget.data],);
+                                }
+                              },
+                              child: DIDDocumentWidget(
+                                  model: DIDDocumentWidgetModel.fromDIDModel(
+                                      snapshot.data!)),
+                            );
                           } else {
                             return Center(
                                 child: Column(

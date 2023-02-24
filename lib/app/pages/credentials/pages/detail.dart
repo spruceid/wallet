@@ -252,8 +252,11 @@ class _CredentialsDetailState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          DocumentWidget(
-            model: DocumentWidgetModel.fromCredentialModel(widget.item),
+          GestureDetector(
+            onTap: () {Modular.to.pushNamed('/did/display', arguments: [widget.item.id, widget.item.id],);},
+            child: DocumentWidget(
+              model: DocumentWidgetModel.fromCredentialModel(widget.item),
+            ),
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
