@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -56,6 +58,26 @@ void main() {
       final did = DIDModel.fromMap(DID_EXAMPLE);
       expect(did.did, isNotEmpty);
       expect(did.data, equals(DID_EXAMPLE));
+    });
+
+    test('.fromMap() should convert a DID (read as a String) with an ID present', () {
+      final did_ex = File('test/test_data/did_example.json').readAsStringSync();
+      final did_json = jsonDecode(did_ex);
+      final did = DIDModel.fromMap(did_json);
+      expect(did.did, isNotEmpty);
+      expect(did.data, equals(DID_EXAMPLE));
+    });
+
+    test('.fromMap() should extract correct (trustchain) service endpoint from DID Document', () {
+      final did_ex = File('test/test_data/did_example.json').readAsStringSync();
+      final did_multi_service_ex = File('test/test_data/did_example_multiple_services.json').readAsStringSync();
+      final did_json = jsonDecode(did_ex);
+      final did_multi_service_json = jsonDecode(did_multi_service_ex);
+      final did = DIDModel.fromMap(did_json);
+      final did_multi_service = DIDModel.fromMap(did_multi_service_json);
+      identical(did, equals(did_multi_service));
+      expect(did.data['service'], did_multi_service.data['service']);
+      // expect(did.data, equals(DID_EXAMPLE));
     });
 
     //   test('.fromMap() with id should not generate a new id', () {

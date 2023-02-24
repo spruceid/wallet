@@ -23,10 +23,20 @@ class DIDModel {
     //
     // Loop over services (must be more than 0) and extract service endpoint for
     // service with service["id"] == "TrustchainID".
-    //
-    // Must have both DID and service endpoint
-    final endpoint = didDocument['service'][0]['serviceEndpoint'];
+    
+    var ep;
+    for (var s in didDocument['service']){
+      if (s['id'] == '#TrustchainID'){
+        ep = s['serviceEndpoint'];
+        break;
+      } else {
+        ep = 'Trustchain ID endpoint not found';
+      }
+    }
+    final endpoint = ep;
 
+    // Must have both DID and service endpoint
+    assert(endpoint != 'Trustchain ID endpoint not found');
     return DIDModel(
       did: did,
       endpoint: endpoint,
