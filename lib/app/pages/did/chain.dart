@@ -44,28 +44,9 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
               builder: (BuildContext context,
                   AsyncSnapshot<DIDChainModel> snapshot) {
                 if (snapshot.hasData) {
-                  final didChain =
-                      DIDChainWidgetModel.fromDIDChainModel(snapshot.data!);
-                  return ListView(
-                    children: didChain.data
-                        .map((w) => Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      flex: 20,
-                                      child: DIDDocumentWidget(model: w)),
-                                  Expanded(
-                                      flex: 2,
-                                      child: Icon(Icons.check_circle_rounded,
-                                          size: 40,
-                                          color:
-                                              Color.fromARGB(255, 7, 111, 10)))
-                                ],
-                              ),
-                            ))
-                        .toList(),
-                  );
+                  return DIDChainWidget(
+                      model: DIDChainWidgetModel.fromDIDChainModel(
+                          snapshot.data!));
                 } else {
                   return Center(
                       child: Column(
