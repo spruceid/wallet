@@ -145,8 +145,7 @@ class _CredentialsDetailState
                       Modular.to.pushNamed(
                         '/did/display',
                         arguments: [
-                          widget.item.id,
-                          widget.item.id,
+                          widget.item.data['issuer'],
                         ],
                       );
                     },
@@ -180,8 +179,7 @@ class _CredentialsDetailState
                       Modular.to.pushNamed(
                         '/did/chain',
                         arguments: [
-                          widget.item.id,
-                          widget.item.id,
+                          widget.item.data['issuer'],
                         ],
                       );
                     },
@@ -253,7 +251,12 @@ class _CredentialsDetailState
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           GestureDetector(
-            onTap: () {Modular.to.pushNamed('/did/display', arguments: [widget.item.id, widget.item.id],);},
+            onTap: () {
+              Modular.to.pushNamed(
+                '/did/display',
+                arguments: [widget.item.id, widget.item.id],
+              );
+            },
             child: DocumentWidget(
               model: DocumentWidgetModel.fromCredentialModel(widget.item),
             ),

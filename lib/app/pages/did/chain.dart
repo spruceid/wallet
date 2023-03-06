@@ -9,13 +9,11 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class DIDChainDisplayPage extends StatefulWidget {
-  final String name;
-  final String data;
+  final String did;
 
   const DIDChainDisplayPage({
     Key? key,
-    required this.name,
-    required this.data,
+    required this.did,
   }) : super(key: key);
 
   @override
@@ -33,7 +31,7 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final url = '$base_endpoint${widget.name}';
+    final url = '$base_endpoint${widget.did}';
     return BasePage(
         title: 'DID Trustchain',
         titleLeading: BackLeadingButton(),

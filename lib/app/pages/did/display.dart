@@ -9,15 +9,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
 
-// TODO: implement the page for displaying a DID
 class DIDDisplayPage extends StatefulWidget {
-  final String name;
-  final String data;
+  final String did;
 
   const DIDDisplayPage({
     Key? key,
-    required this.name,
-    required this.data,
+    required this.did,
   }) : super(key: key);
 
   @override
@@ -40,7 +37,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final url = '$base_endpoint${widget.name}';
+    final url = '$base_endpoint${widget.did}';
     return BasePage(
       title: 'DID Resolution',
       titleLeading: BackLeadingButton(),
@@ -79,7 +76,10 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                             return GestureDetector(
                               onPanUpdate: (details) {
                                 if (details.delta.dx < 0) {
-                                  Modular.to.pushNamed('/did/chain', arguments: [widget.name, widget.data],);
+                                  Modular.to.pushNamed(
+                                    '/did/chain',
+                                    arguments: [widget.did],
+                                  );
                                 }
                               },
                               child: DIDDocumentWidget(
