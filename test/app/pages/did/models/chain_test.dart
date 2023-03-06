@@ -1,8 +1,8 @@
 import 'package:credible/app/pages/did/models/chain.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+// import 'package:http/http.dart' as http;
+// import 'dart:convert';
 
 const DID_CHAIN_EXAMPLE = {
   'didChain': [
