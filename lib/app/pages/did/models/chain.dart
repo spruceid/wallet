@@ -6,7 +6,6 @@ class DIDChainModel {
     required this.didChain,
   });
   // Assumed map is an HTTP API resolved DIDChain
-  // factory DIDChainModel.fromMap(Map<String, List<Map<String, dynamic>>> data) {
   factory DIDChainModel.fromMap(Map<String, dynamic> data) {
     assert(data.containsKey('didChain'));
     var mapped =
