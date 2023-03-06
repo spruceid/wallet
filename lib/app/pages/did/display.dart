@@ -1,10 +1,11 @@
-import 'package:credible/app/shared/ui/ui.dart';
+// import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/pages/did/widget/document.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+// No localizations currently on this page
+// import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -36,7 +37,8 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
 
   @override
   Widget build(BuildContext context) {
-    final localizations = AppLocalizations.of(context)!;
+    // No localizations currently on this page
+    // final localizations = AppLocalizations.of(context)!;
     final url = '$base_endpoint${widget.did}';
     return BasePage(
       title: 'DID Resolution',
@@ -50,17 +52,6 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Text(
-                  //   localizations.didDisplay,
-                  //   textAlign: TextAlign.center,
-                  //   style: Theme.of(context).textTheme.bodyText1,
-                  // ),
-                  // const SizedBox(height: 4.0),
-                  // Text(
-                  //   widget.name,
-                  //   textAlign: TextAlign.center,
-                  //   style: Theme.of(context).textTheme.caption,
-                  // ),
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(8.0),
@@ -70,8 +61,6 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                         future: get_did(url),
                         builder: (BuildContext context,
                             AsyncSnapshot<DIDModel> snapshot) {
-                          // Uncomment for waiting part.
-                          // if (false) {
                           if (snapshot.hasData) {
                             return GestureDetector(
                               onPanUpdate: (details) {

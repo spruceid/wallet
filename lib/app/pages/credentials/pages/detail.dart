@@ -254,7 +254,7 @@ class _CredentialsDetailState
             onTap: () {
               Modular.to.pushNamed(
                 '/did/display',
-                arguments: [widget.item.id, widget.item.id],
+                arguments: [widget.item.data['issuer']],
               );
             },
             child: DocumentWidget(
