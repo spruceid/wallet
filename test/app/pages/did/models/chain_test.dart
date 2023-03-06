@@ -212,11 +212,13 @@ void main() {
     });
   });
 
-  test('test that did chain from endpoint is valid map', () async {
-    var url = "http://127.0.0.1:8081/did/chain/1234";
-    var val = jsonDecode((await http.get(Uri.parse(url))).body);
-    final didChainUrl = DIDChainModel.fromMap(val);
-    final didChain = DIDChainModel.fromMap(DID_CHAIN_EXAMPLE);
-    identical(didChainUrl, didChain);
-  });
+  // Uncomment to test querying a local didChain endpoint:
+  // test('test that did chain from endpoint is valid map', () async {
+  //   var url =
+  //       'http://127.0.0.1:8081/did/chain/did:ion:test:EiAtHHKFJWAk5AsM3tgCut3OiBY4ekHTf66AAjoysXL65Q';
+  //   var val = jsonDecode((await http.get(Uri.parse(url))).body);
+  //   final didChainUrl = DIDChainModel.fromMap(val);
+  //   final didChain = DIDChainModel.fromMap(DID_CHAIN_EXAMPLE);
+  //   identical(didChainUrl, didChain);
+  // });
 }
