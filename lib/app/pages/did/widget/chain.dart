@@ -29,22 +29,36 @@ class DIDChainWidget extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
+  Widget customChain(DIDDocumentWidgetModel documentWidget, [Color? color]) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+              flex: 20,
+              child: (color == null)
+                  ? DIDDocumentWidget(
+                      model: documentWidget,
+                    )
+                  : DIDDocumentWidget(
+                      model: documentWidget,
+                      color: color,
+                    )),
+          Expanded(
+              flex: 2,
+              child: Icon(Icons.check_circle_rounded,
+                  size: 40, color: Color.fromARGB(255, 7, 111, 10)))
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => ListView(
-        // This is a DID chain widget model?
-        children: model.data
-            .map((w) => Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(flex: 20, child: DIDDocumentWidget(model: w)),
-                      Expanded(
-                          flex: 2,
-                          child: Icon(Icons.check_circle_rounded,
-                              size: 40, color: Color.fromARGB(255, 7, 111, 10)))
-                    ],
-                  ),
-                ))
-            .toList(),
-      );
+      // This is a DID chain widget model?
+      children: model.data
+              .take(1)
+              .map((w) => customChain(w, Color.fromARGB(255, 208, 182, 66)))
+              .toList() +
+          model.data.skip(1).map((w) => customChain(w)).toList());
 }
