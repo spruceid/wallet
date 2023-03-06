@@ -14,11 +14,7 @@ class DocumentWidgetModel {
   final String status;
   final dynamic details;
 
-  const DocumentWidgetModel(
-    this.issuedBy,
-    this.status,
-    this.details
-  );
+  const DocumentWidgetModel(this.issuedBy, this.status, this.details);
 
   factory DocumentWidgetModel.fromCredentialModel(CredentialModel model) {
     late String status;
@@ -86,7 +82,8 @@ class DocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 24.0),
-              DocumentItemWidget(label: localizations.credentialFullDetails, value: ''),
+              DocumentItemWidget(
+                  label: localizations.credentialFullDetails, value: ''),
               Container(
                 decoration: BaseBoxDecoration(
                   color: Colors.white.withOpacity(0.5),
