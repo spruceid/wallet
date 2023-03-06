@@ -14,19 +14,6 @@ class DIDDocumentWidgetModel {
   const DIDDocumentWidgetModel(this.did, this.endpoint);
 
   factory DIDDocumentWidgetModel.fromDIDModel(DIDModel model) {
-    // late String status;
-    // switch (model.status) {
-    //   case CredentialStatus.active:
-    //     status = 'Active';
-    //     break;
-    //   case CredentialStatus.expired:
-    //     status = 'Expired';
-    //     break;
-    //   case CredentialStatus.revoked:
-    //     status = 'Revoked';
-    //     break;
-    // }
-
     return DIDDocumentWidgetModel(model.did, model.endpoint);
   }
 }
@@ -34,10 +21,12 @@ class DIDDocumentWidgetModel {
 // TODO: design distinct presentation of a DID relative to credential
 class DIDDocumentWidget extends StatelessWidget {
   final DIDDocumentWidgetModel model;
+  final Color? color;
   final Widget? trailing;
 
   const DIDDocumentWidget({
     Key? key,
+    this.color = const Color.fromARGB(255, 17, 0, 255),
     required this.model,
     this.trailing,
   }) : super(key: key);
@@ -47,8 +36,8 @@ class DIDDocumentWidget extends StatelessWidget {
         decoration: BaseBoxDecoration(
           // TODO: update with different palette for DIDs
           // color: UiKit.palette.credentialBackground,
-          color: Color.fromARGB(255, 17, 0, 255),
           // shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
+          color: color,
           value: 0.0,
           shapeSize: 256.0,
           anchors: <Alignment>[
