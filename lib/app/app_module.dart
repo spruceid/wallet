@@ -85,19 +85,15 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/did/display',
-          // TODO: fix the name and data args passed to page
           child: (context, args) => DIDDisplayPage(
-            name: args.data[0],
-            data: args.data[1],
+            did: args.data[0],
           ),
           transition: TransitionType.fadeIn,
         ),
         ChildRoute(
           '/did/chain',
-          // TODO: Update with new DID chain page, placeholder as QR code display
-          child: (context, args) => ChainDisplayPage(
-            name: args.data[0],
-            data: args.data[1],
+          child: (context, args) => DIDChainDisplayPage(
+            did: args.data[0],
           ),
           transition: TransitionType.fadeIn,
         ),

@@ -145,8 +145,7 @@ class _CredentialsDetailState
                       Modular.to.pushNamed(
                         '/did/display',
                         arguments: [
-                          widget.item.id,
-                          widget.item.id,
+                          widget.item.data['issuer'],
                         ],
                       );
                     },
@@ -180,8 +179,7 @@ class _CredentialsDetailState
                       Modular.to.pushNamed(
                         '/did/chain',
                         arguments: [
-                          widget.item.id,
-                          widget.item.id,
+                          widget.item.data['issuer'],
                         ],
                       );
                     },
@@ -252,8 +250,16 @@ class _CredentialsDetailState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          DocumentWidget(
-            model: DocumentWidgetModel.fromCredentialModel(widget.item),
+          GestureDetector(
+            onTap: () {
+              Modular.to.pushNamed(
+                '/did/display',
+                arguments: [widget.item.data['issuer']],
+              );
+            },
+            child: DocumentWidget(
+              model: DocumentWidgetModel.fromCredentialModel(widget.item),
+            ),
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
