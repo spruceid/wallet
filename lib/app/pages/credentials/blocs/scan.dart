@@ -150,47 +150,21 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      log.severe('1');
       final did =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      log.severe('2');
-      log.severe(url);
-      log.severe(did);
-      // ignore: todo
-      // TODO [TC]: Implement a response from backend server
-      // Log the form data to be sent with post
-      log.severe(FormData.fromMap(<String, dynamic>{'subject_id': did}).fields);
-
-      // ignore: todo
-      // TODO [TC]: this client.post request fails despite curl functioning.
-      //
-      // final try_a_get = await client.get(url);
-      // log.severe(try_a_get);
-
+      // Add logging for http request
       client.interceptors.add(
         diolog.DioLoggingInterceptor(
           level: diolog.Level.body,
           compact: false,
         ),
       );
-      log.severe('Added interceptor');
-      // ignore: todo
-      // TODO [TC]: Debugging
       final credential = await client.post(url,
           // Send POST as "form data", currently fails with our backend
           // data: FormData.fromMap(<String, dynamic>{'subject_id': did}));
 
           // Send POST as "JSON data", currently works but stops at step 5
           data: {'subject_id': did});
-
-      log.severe('Data');
-      log.severe(credential.data);
-      log.severe('Extra');
-      log.severe(credential.extra);
-      log.severe('Headers');
-      log.severe(credential.headers);
-
-      log.severe('3');
       final jsonCredential = credential.data is String
           ? jsonDecode(credential.data)
           : credential.data;
