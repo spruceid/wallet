@@ -249,9 +249,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
 
-      log.severe('Debugging presentation process.');
-      log.severe(key);
-      log.severe(verificationMethod);
       final pres = jsonEncode({
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         'type': ['VerifiablePresentation'],
@@ -261,17 +258,18 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             ? credentials.first.data
             : credentials.map((c) => c.data).toList(),
       });
-      log.severe(pres);
+
       final opts = jsonEncode({
         'verificationMethod': verificationMethod,
         'proofPurpose': 'authentication',
         'challenge': challenge,
         'domain': domain,
       });
-      log.severe(opts);
 
-      // ignore: todo
-      // TODO: currently failing, replace with only credential for now
+      // TODO: currently failing to issue presentation, currently just uses
+      // credential instead. This will be updated to use:
+      //   `trustchain vc issue-presentation`
+      // with FFI.
       // final presentation = await DIDKitProvider.instance.issuePresentation(
       //   cred,
       //   opts,
@@ -279,7 +277,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       // );
       final credential = jsonEncode(credentials.first.data);
 
-      // ignore: todo
       // TODO: currently failing with form data as for issuer, use JSON instead
       // await client.post(
       //   url.toString(),
