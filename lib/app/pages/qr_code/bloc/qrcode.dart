@@ -83,12 +83,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
 
     try {
       final url = event.uri.toString();
-      // [TC]: testing URI and response process (see pages/credentials/blocs/scan.dart)
-      // log.fine(url);
       final response = await client.get(url);
-      // [TC]: testing response process
-      log.fine('Response:');
-      log.fine(response);
       data =
           response.data is String ? jsonDecode(response.data) : response.data;
     } on DioError catch (e) {
