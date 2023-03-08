@@ -9,9 +9,11 @@ import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
+import 'package:dio_logging_interceptor/dio_logging_interceptor.dart' as diolog;
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
+import 'package:http/http.dart' as http;
 
 abstract class ScanEvent {}
 
@@ -150,45 +152,58 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
       final did =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-
-      final credential = await client.post(
-        url,
-        data: FormData.fromMap(<String, dynamic>{'subject_id': did}),
+      // Add logging for http request
+      client.interceptors.add(
+        diolog.DioLoggingInterceptor(
+          level: diolog.Level.body,
+          compact: false,
+        ),
       );
+      final credential = await client.post(url,
+          // Send POST as "form data", currently fails with our backend
+          // data: FormData.fromMap(<String, dynamic>{'subject_id': did}));
 
+          // Send POST as "JSON data", currently works but stops at step 5
+          data: {'subject_id': did});
       final jsonCredential = credential.data is String
           ? jsonDecode(credential.data)
           : credential.data;
 
+      // TODO [TC]: This is where `trustchain-cli vc verify` could be called
+      // once FFI is implemented
       final vcStr = jsonEncode(jsonCredential);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
       await Future.delayed(Duration(seconds: 1));
-      // TODO [bug] verification fails here for unknown reason
-      final verification =
-          await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
 
-      print('[credible/credential-offer/verify/vc] $vcStr');
-      print('[credible/credential-offer/verify/options] $optStr');
-      print('[credible/credential-offer/verify/result] $verification');
-
-      final jsonVerification = jsonDecode(verification);
-
-      if (jsonVerification['warnings'].isNotEmpty) {
-        log.warning('credential verification return warnings',
-            jsonVerification['warnings']);
-
-        yield ScanStateMessage(StateMessage.warning(
-            'Credential verification returned some warnings. '
-            'Check the logs for more information.'));
-      }
-
-      if (jsonVerification['errors'].isNotEmpty) {
-        log.severe('failed to verify credential', jsonVerification['errors']);
-
-        yield ScanStateMessage(
-            StateMessage.error('Failed to verify credential. '
-                'Check the logs for more information.'));
-      }
+      // // Commented out spruceid / DIDKit verification block
+      //
+      // // TODO [bug] verification fails here for unknown reason
+      // final verification =
+      //     await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
+      //
+      // print('[credible/credential-offer/verify/vc] $vcStr');
+      // print('[credible/credential-offer/verify/options] $optStr');
+      // print('[credible/credential-offer/verify/result] $verification');
+      //
+      // final jsonVerification = jsonDecode(verification);
+      //
+      // if (jsonVerification['warnings'].isNotEmpty) {
+      //   log.warning('credential verification return warnings',
+      //       jsonVerification['warnings']);
+      //
+      //   yield ScanStateMessage(StateMessage.warning(
+      //       'Credential verification returned some warnings. '
+      //       'Check the logs for more information.'));
+      // }
+      //
+      // if (jsonVerification['errors'].isNotEmpty) {
+      //   log.severe('failed to verify credential', jsonVerification['errors']);
+      //
+      //   yield ScanStateMessage(
+      //       StateMessage.error('Failed to verify credential. '
+      //           'Check the logs for more information.'));
+      // }
+      // // EOF commented out block
 
       final repository = Modular.get<CredentialsRepository>();
       await repository.insert(
@@ -233,31 +248,43 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
       final presentationId = 'urn:uuid:' + Uuid().v4();
-      final presentation = await DIDKitProvider.instance.issuePresentation(
-        jsonEncode({
-          '@context': ['https://www.w3.org/2018/credentials/v1'],
-          'type': ['VerifiablePresentation'],
-          'id': presentationId,
-          'holder': did,
-          'verifiableCredential': credentials.length == 1
-              ? credentials.first.data
-              : credentials.map((c) => c.data).toList(),
-        }),
-        jsonEncode({
-          'verificationMethod': verificationMethod,
-          'proofPurpose': 'authentication',
-          'challenge': challenge,
-          'domain': domain,
-        }),
-        key,
-      );
 
-      await client.post(
-        url.toString(),
-        data: FormData.fromMap(<String, dynamic>{
-          'presentation': presentation,
-        }),
-      );
+      final pres = jsonEncode({
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        'type': ['VerifiablePresentation'],
+        'id': presentationId,
+        'holder': did,
+        'verifiableCredential': credentials.length == 1
+            ? credentials.first.data
+            : credentials.map((c) => c.data).toList(),
+      });
+
+      final opts = jsonEncode({
+        'verificationMethod': verificationMethod,
+        'proofPurpose': 'authentication',
+        'challenge': challenge,
+        'domain': domain,
+      });
+
+      // TODO: currently failing to issue presentation, currently just uses
+      // credential instead. This will be updated to use:
+      //   `trustchain vc issue-presentation`
+      // with FFI.
+      // final presentation = await DIDKitProvider.instance.issuePresentation(
+      //   cred,
+      //   opts,
+      //   key,
+      // );
+      final credential = jsonEncode(credentials.first.data);
+
+      // TODO: currently failing with form data as for issuer, use JSON instead
+      // await client.post(
+      //   url.toString(),
+      //   data: FormData.fromMap(<String, dynamic>{
+      //     'presentation': presentation,
+      //   }),
+      // );
+      await client.post(url.toString(), data: credential);
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
