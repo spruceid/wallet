@@ -157,5 +157,7 @@
   "personalLastName": "Last Name",
   "personalPhone": "Phone",
   "personalLocation": "Location",
-  "personalMail": "E-mail"
+  "personalMail": "E-mail",
+  "didDisplay": "Issuer DID:",
+  "credentialFullDetails": "Full details:"
 }

@@ -58,6 +58,8 @@ dependencies:
   secure_application: ^3.8.0
   provider: ^6.0.2
   dio_logging_interceptor: ^1.0.1
+  expandable: ^5.0.1
+  flutter_json_viewer: ^1.0.1
 
 dev_dependencies:
   flutter_test:

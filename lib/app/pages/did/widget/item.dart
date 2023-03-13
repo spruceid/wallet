@@ -24,7 +24,7 @@ class DocumentItemWidget extends StatelessWidget {
                 .apply(color: UiKit.palette.credentialText.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
-          if (!value.isEmpty) TooltipText(
+          TooltipText(
             text: value,
             style: Theme.of(context)
                 .textTheme
