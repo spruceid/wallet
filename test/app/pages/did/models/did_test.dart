@@ -63,7 +63,7 @@ void main() {
     test(
         '.fromMap() should convert a DID (read as a String) with an ID present',
         () {
-      final did_ex = File('test/test_data/did_example.json').readAsStringSync();
+      final did_ex = File('test/data/did_example.json').readAsStringSync();
       final did_json = jsonDecode(did_ex);
       final did = DIDModel.fromMap(did_json);
       expect(did.did, isNotEmpty);
@@ -73,9 +73,9 @@ void main() {
     test(
         '.fromMap() should extract correct (trustchain) service endpoint from DID Document',
         () {
-      final did_ex = File('test/test_data/did_example.json').readAsStringSync();
+      final did_ex = File('test/data/did_example.json').readAsStringSync();
       final did_multi_service_ex =
-          File('test/test_data/did_example_multiple_services.json')
+          File('test/data/did_example_multiple_services.json')
               .readAsStringSync();
       final did_json = jsonDecode(did_ex);
       final did_multi_service_json = jsonDecode(did_multi_service_ex);
@@ -84,6 +84,5 @@ void main() {
       identical(did, equals(did_multi_service));
       expect(did.data['service'], did_multi_service.data['service']);
     });
-
   });
 }
