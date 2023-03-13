@@ -1,4 +1,4 @@
-import 'package:credible/app/pages/did/models/chain.dart';
+import 'package:credible/app/pages/chain/models/chain.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:flutter_test/flutter_test.dart';
 // import 'package:http/http.dart' as http;

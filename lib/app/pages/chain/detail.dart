@@ -3,8 +3,8 @@ import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:credible/app/pages/did/models/chain.dart';
-import 'package:credible/app/pages/did/widget/chain.dart';
+import 'package:credible/app/pages/chain/models/chain.dart';
+import 'package:credible/app/pages/chain/widget/chain.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 

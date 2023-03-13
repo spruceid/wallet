@@ -1,4 +1,4 @@
-import 'did.dart';
+import 'package:credible/app/pages/did/models/did.dart';
 
 class DIDChainModel {
   final List<DIDModel> didChain;

@@ -1,10 +1,10 @@
-import 'package:credible/app/pages/did/models/chain.dart';
-import 'package:credible/app/pages/did/models/did.dart';
-import 'package:credible/app/pages/did/widget/item.dart';
+import 'package:credible/app/pages/chain/models/chain.dart';
+// import 'package:credible/app/pages/did/models/did.dart';
+// import 'package:credible/app/pages/did/widget/item.dart';
 import 'package:credible/app/pages/did/widget/document.dart';
-import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/base/box_decoration.dart';
-import 'package:flutter/cupertino.dart';
+// import 'package:credible/app/shared/ui/ui.dart';
+// import 'package:credible/app/shared/widget/base/box_decoration.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DIDChainWidgetModel {
