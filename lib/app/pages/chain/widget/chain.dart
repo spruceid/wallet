@@ -1,10 +1,5 @@
 import 'package:credible/app/pages/chain/models/chain.dart';
-// import 'package:credible/app/pages/did/models/did.dart';
-// import 'package:credible/app/pages/did/widget/item.dart';
 import 'package:credible/app/pages/did/widget/document.dart';
-// import 'package:credible/app/shared/ui/ui.dart';
-// import 'package:credible/app/shared/widget/base/box_decoration.dart';
-// import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DIDChainWidgetModel {
@@ -55,7 +50,6 @@ class DIDChainWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ListView(
-      // This is a DID chain widget model?
       children: model.data
               .take(1)
               .map((w) => customChain(w, Color.fromARGB(255, 208, 182, 66)))

@@ -32,7 +32,7 @@
             "serviceEndpoint": "https://identity.foundation/ion/trustchain-root-plus-2"
         },
          {
-            "id": "a-different-thing",
+            "id": "another-service",
             "type": "Identity",
             "serviceEndpoint": "https://the.wrong.endpoint/xyz"
         }

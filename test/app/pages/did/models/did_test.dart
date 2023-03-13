@@ -85,13 +85,5 @@ void main() {
       expect(did.data['service'], did_multi_service.data['service']);
     });
 
-    //   test('.fromMap() with id should not generate a new id', () {
-    //     final m = {
-    //       'id': 'uuid',
-    //       'data': {'issuer': 'did:...'}
-    //     };
-    //     final credential = CredentialModel.fromMap(m);
-    //     expect(credential.id, equals('uuid'));
-    //   });
   });
 }

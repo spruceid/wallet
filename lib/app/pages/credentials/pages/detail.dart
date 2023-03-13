@@ -127,8 +127,6 @@ class _CredentialsDetailState
           color: UiKit.palette.icon,
         ),
       ),
-      // TODO: Add in a chain transition here to reach a new page called
-      // /did/chain
       navigation: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -196,15 +194,10 @@ class _CredentialsDetailState
           ),
           SafeArea(
             child: Container(
-              // padding: const EdgeInsets.symmetric(
-              //   horizontal: 24.0,
-              //   vertical: 16.0,
-              // ),
               height: kBottomNavigationBarHeight * 1.75,
               width: 130,
               child: Tooltip(
                 message: localizations.credentialDetailShare,
-                // message: 'Share\nQR code',
                 child: BaseButton.primary(
                   onPressed: () {
                     Modular.to.pushNamed(
