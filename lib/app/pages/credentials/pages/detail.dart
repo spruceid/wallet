@@ -130,7 +130,7 @@ class _CredentialsDetailState
       // TODO: Add in a chain transition here to reach a new page called
       // /did/chain
       navigation: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SafeArea(
             child: Container(
@@ -163,7 +163,6 @@ class _CredentialsDetailState
               ),
             ),
           ),
-          Padding(padding: const EdgeInsets.all(8.0)),
           SafeArea(
             child: Container(
               padding: const EdgeInsets.symmetric(),
@@ -195,7 +194,6 @@ class _CredentialsDetailState
               ),
             ),
           ),
-          Padding(padding: const EdgeInsets.all(8.0)),
           SafeArea(
             child: Container(
               // padding: const EdgeInsets.symmetric(
