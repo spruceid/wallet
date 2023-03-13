@@ -133,33 +133,31 @@ class _CredentialsDetailState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SafeArea(
-            child: Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(),
-                height: kBottomNavigationBarHeight * 1.75,
-                width: 120,
-                child: Tooltip(
-                  message: localizations.credentialDetailShare,
-                  child: BaseButton.primary(
-                    onPressed: () {
-                      Modular.to.pushNamed(
-                        '/did/display',
-                        arguments: [
-                          widget.item.data['issuer'],
-                        ],
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Show\nDID',
-                          textAlign: TextAlign.center,
-                        ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(),
+              height: kBottomNavigationBarHeight * 1.75,
+              width: 120,
+              child: Tooltip(
+                message: localizations.credentialDetailShare,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushNamed(
+                      '/did/display',
+                      arguments: [
+                        widget.item.data['issuer'],
                       ],
-                    ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Show\nDID',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -167,33 +165,31 @@ class _CredentialsDetailState
           ),
           Padding(padding: const EdgeInsets.all(8.0)),
           SafeArea(
-            child: Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(),
-                height: kBottomNavigationBarHeight * 1.75,
-                width: 120,
-                child: Tooltip(
-                  message: localizations.credentialDetailShare,
-                  child: BaseButton.primary(
-                    onPressed: () {
-                      Modular.to.pushNamed(
-                        '/did/chain',
-                        arguments: [
-                          widget.item.data['issuer'],
-                        ],
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text(
-                          'Show\nChain',
-                          textAlign: TextAlign.center,
-                        ),
+            child: Container(
+              padding: const EdgeInsets.symmetric(),
+              height: kBottomNavigationBarHeight * 1.75,
+              width: 120,
+              child: Tooltip(
+                message: localizations.credentialDetailShare,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushNamed(
+                      '/did/chain',
+                      arguments: [
+                        widget.item.data['issuer'],
                       ],
-                    ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Show\nChain',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               ),
