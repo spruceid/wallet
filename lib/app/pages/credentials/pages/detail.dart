@@ -127,51 +127,75 @@ class _CredentialsDetailState
           color: UiKit.palette.icon,
         ),
       ),
-      // TODO: Add in a chain transition here to reach a new page called
-      // /did/chain
       navigation: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           SafeArea(
-            child: Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(),
-                height: kBottomNavigationBarHeight * 1.75,
-                width: 140,
-                child: Tooltip(
-                  message: localizations.credentialDetailShare,
-                  child: BaseButton.primary(
-                    onPressed: () {
-                      Modular.to.pushNamed(
-                        '/did/chain',
-                        arguments: [
-                          widget.item.id,
-                          widget.item.id,
-                        ],
-                      );
-                    },
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text('DID chain'),
+            child: Container(
+              padding: const EdgeInsets.symmetric(),
+              height: kBottomNavigationBarHeight * 1.75,
+              width: 120,
+              child: Tooltip(
+                message: localizations.credentialDetailShare,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushNamed(
+                      '/did/display',
+                      arguments: [
+                        widget.item.data['issuer'],
                       ],
-                    ),
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Show\nDID',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
           ),
-          Padding(padding: const EdgeInsets.all(8.0)),
           SafeArea(
             child: Container(
-              // padding: const EdgeInsets.symmetric(
-              //   horizontal: 24.0,
-              //   vertical: 16.0,
-              // ),
+              padding: const EdgeInsets.symmetric(),
               height: kBottomNavigationBarHeight * 1.75,
-              width: 250,
+              width: 120,
+              child: Tooltip(
+                message: localizations.credentialDetailShare,
+                child: BaseButton.primary(
+                  onPressed: () {
+                    Modular.to.pushNamed(
+                      '/did/chain',
+                      arguments: [
+                        widget.item.data['issuer'],
+                      ],
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'Show\nChain',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            child: Container(
+              height: kBottomNavigationBarHeight * 1.75,
+              width: 130,
               child: Tooltip(
                 message: localizations.credentialDetailShare,
                 child: BaseButton.primary(
@@ -188,15 +212,20 @@ class _CredentialsDetailState
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
+                    // TODO: try expanding icon into text when enough space available
+                    // e.g. moving into landscape, or a wide screen
                     children: <Widget>[
-                      SvgPicture.asset(
-                        'assets/icon/qr-code.svg',
-                        width: 24.0,
-                        height: 24.0,
-                        color: UiKit.palette.icon,
-                      ),
-                      const SizedBox(width: 16.0),
-                      Text(localizations.credentialDetailShare),
+                      // TODO: for testing just have text
+                      // SvgPicture.asset(
+                      //   'assets/icon/qr-code.svg',
+                      //   width: 24.0,
+                      //   height: 24.0,
+                      //   color: UiKit.palette.icon,
+                      // ),
+                      // const SizedBox(width: 16.0),
+                      // Text(localizations.credentialDetailShare),
+                      Text('Share\nQR code',
+                          softWrap: true, textAlign: TextAlign.center),
                     ],
                   ),
                 ),
@@ -208,8 +237,16 @@ class _CredentialsDetailState
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          DocumentWidget(
-            model: DocumentWidgetModel.fromCredentialModel(widget.item),
+          GestureDetector(
+            onTap: () {
+              Modular.to.pushNamed(
+                '/did/display',
+                arguments: [widget.item.data['issuer']],
+              );
+            },
+            child: DocumentWidget(
+              model: DocumentWidgetModel.fromCredentialModel(widget.item),
+            ),
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
