@@ -26,7 +26,8 @@ abstract class TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kDidResolveConstMeta;
 
   /// Verifies a given DID assuming trust in endpoint.
-  Future<String> didVerify({required String did, dynamic hint});
+  Future<void> didVerify(
+      {required String did, required String endpoint, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDidVerifyConstMeta;
 
@@ -120,13 +121,15 @@ class TrustchainFfiImpl implements TrustchainFfi {
         argNames: ["did"],
       );
 
-  Future<String> didVerify({required String did, dynamic hint}) {
+  Future<void> didVerify(
+      {required String did, required String endpoint, dynamic hint}) {
     var arg0 = _platform.api2wire_String(did);
+    var arg1 = _platform.api2wire_String(endpoint);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) => _platform.inner.wire_did_verify(port_, arg0),
-      parseSuccessData: _wire2api_String,
+      callFfi: (port_) => _platform.inner.wire_did_verify(port_, arg0, arg1),
+      parseSuccessData: _wire2api_unit,
       constMeta: kDidVerifyConstMeta,
-      argValues: [did],
+      argValues: [did, endpoint],
       hint: hint,
     ));
   }
@@ -134,7 +137,7 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kDidVerifyConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "did_verify",
-        argNames: ["did"],
+        argNames: ["did", "endpoint"],
       );
 
   Future<String> didVerifyBundle({required String bundleJson, dynamic hint}) {
@@ -419,19 +422,22 @@ class TrustchainFfiWire implements FlutterRustBridgeWireBase {
   void wire_did_verify(
     int port_,
     ffi.Pointer<wire_uint_8_list> did,
+    ffi.Pointer<wire_uint_8_list> endpoint,
   ) {
     return _wire_did_verify(
       port_,
       did,
+      endpoint,
     );
   }
 
   late final _wire_did_verifyPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64, ffi.Pointer<wire_uint_8_list>)>>('wire_did_verify');
-  late final _wire_did_verify = _wire_did_verifyPtr
-      .asFunction<void Function(int, ffi.Pointer<wire_uint_8_list>)>();
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
+              ffi.Pointer<wire_uint_8_list>)>>('wire_did_verify');
+  late final _wire_did_verify = _wire_did_verifyPtr.asFunction<
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_did_verify_bundle(
     int port_,

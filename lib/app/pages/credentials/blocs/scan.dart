@@ -8,9 +8,11 @@ import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
+import 'package:credible/ffi.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart' as diolog;
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -174,6 +176,14 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final vcStr = jsonEncode(jsonCredential);
       final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
       await Future.delayed(Duration(seconds: 1));
+
+      try {
+        final verification = await api.vcVerifyCredential(
+            credentialJson: vcStr, proofOptionsJson: optStr);
+        log.warning("VERIFIED!!");
+      } on FfiException catch (err) {
+        log.warning(err);
+      }
 
       // // Commented out spruceid / DIDKit verification block
       //
