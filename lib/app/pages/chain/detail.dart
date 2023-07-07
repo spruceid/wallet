@@ -7,6 +7,7 @@ import 'package:credible/app/pages/chain/models/chain.dart';
 import 'package:credible/app/pages/chain/widget/chain.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:credible/app/shared/constants.dart';
 
 class DIDChainDisplayPage extends StatefulWidget {
   final String did;
@@ -21,11 +22,16 @@ class DIDChainDisplayPage extends StatefulWidget {
 }
 
 class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
-  final base_endpoint = 'http://10.0.2.2:8081/did/chain/';
+  final base_endpoint = '10.0.2.2:8081/did/chain/';
 
   Future<DIDChainModel> get_did_chain(String url) async {
-    return DIDChainModel.fromMap(
-        jsonDecode((await http.get(Uri.parse(url))).body));
+    final queryParams = {
+      'root_event_time': Constants.rootEventTime.toString(),
+    };
+    final url_split = url.split('/');
+    final uri =
+        Uri.http(url_split[0], url_split.sublist(1).join('/'), queryParams);
+    return DIDChainModel.fromMap(jsonDecode((await http.get(uri)).body));
   }
 
   @override
