@@ -1,4 +1,5 @@
 // import 'package:credible/app/shared/ui/ui.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,8 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                         // future: api.greet(),
                         future: api.didResolve(
                             did:
-                                'did:ion:test:EiBYdto2LQd_uAj_EXEoxP_KbLmZzwe1E-vXp8ZsMv1Gpg'),
+                                'did:ion:test:EiBYdto2LQd_uAj_EXEoxP_KbLmZzwe1E-vXp8ZsMv1Gpg',
+                            endpointOpts: Constants.endpointStr),
                         builder: (BuildContext context,
                             // AsyncSnapshot<DIDModel> snapshot) {
                             AsyncSnapshot<String> snapshot) {

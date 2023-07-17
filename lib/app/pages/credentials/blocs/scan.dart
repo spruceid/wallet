@@ -174,13 +174,19 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       // TODO [TC]: This is where `trustchain-cli vc verify` could be called
       // once FFI is implemented
       final vcStr = jsonEncode(jsonCredential);
-      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+      final optStr = jsonEncode({
+        // 'proofPurpose': 'assertionMethod'
+        'rootEventTime': Constants.rootEventTime,
+        'signatureOnly': false
+      });
       await Future.delayed(Duration(seconds: 1));
 
       try {
         final verification = await api.vcVerifyCredential(
-            credentialJson: vcStr, proofOptionsJson: optStr);
-        log.warning("VERIFIED!!");
+            credential: vcStr,
+            endpointOpts: Constants.endpointStr,
+            proofOpts: optStr);
+        log.warning('VERIFIED: $verification');
       } on FfiException catch (err) {
         log.warning(err);
       }
