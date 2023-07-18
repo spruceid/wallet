@@ -184,8 +184,10 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       try {
         final verification = await api.vcVerifyCredential(
             credential: vcStr,
-            endpointOpts: Constants.endpointStr,
-            proofOpts: optStr);
+            opts: jsonEncode({
+              'endpointOptions': Constants.endpointStr,
+              'trustchainOpts': optStr
+            }));
         log.warning('VERIFIED: $verification');
       } on FfiException catch (err) {
         log.warning(err);

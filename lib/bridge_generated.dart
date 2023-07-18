@@ -17,32 +17,26 @@ abstract class TrustchainFfi {
 
   /// Resolves a given DID document assuming trust in endpoint.
   Future<String> didResolve(
-      {required String did, required String endpointOpts, dynamic hint});
+      {required String did, required String opts, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDidResolveConstMeta;
 
   /// Verifies a given DID assuming trust in endpoint.
   Future<void> didVerify(
-      {required String did,
-      required String endpointOpts,
-      required String proofOpts,
-      dynamic hint});
+      {required String did, required String opts, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kDidVerifyConstMeta;
 
   /// Verifies a verifiable credential. Analogous with [didkit](https://docs.rs/didkit/latest/didkit/c/fn.didkit_vc_verify_credential.html).
   Future<String> vcVerifyCredential(
-      {required String credential,
-      required String endpointOpts,
-      required String proofOpts,
-      dynamic hint});
+      {required String credential, required String opts, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kVcVerifyCredentialConstMeta;
 
   /// Issues a verifiable presentation. Analogous with [didkit](https://docs.rs/didkit/latest/didkit/c/fn.didkit_vc_issue_presentation.html).
   Future<void> vcIssuePresentation(
-      {required String presentationJson,
-      required String proofOptionsJson,
+      {required String presentation,
+      required String opts,
       required String keyJson,
       dynamic hint});
 
@@ -50,9 +44,7 @@ abstract class TrustchainFfi {
 
   /// Verifies a verifiable presentation. Analogous with [didkit](https://docs.rs/didkit/latest/didkit/c/fn.didkit_vc_verify_presentation.html).
   Future<String> vcVerifyPresentation(
-      {required String presentationJson,
-      required String proofOptionsJson,
-      dynamic hint});
+      {required String presentation, required String opts, dynamic hint});
 
   FlutterRustBridgeTaskConstMeta get kVcVerifyPresentationConstMeta;
 }
@@ -83,14 +75,14 @@ class TrustchainFfiImpl implements TrustchainFfi {
       );
 
   Future<String> didResolve(
-      {required String did, required String endpointOpts, dynamic hint}) {
+      {required String did, required String opts, dynamic hint}) {
     var arg0 = _platform.api2wire_String(did);
-    var arg1 = _platform.api2wire_String(endpointOpts);
+    var arg1 = _platform.api2wire_String(opts);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) => _platform.inner.wire_did_resolve(port_, arg0, arg1),
       parseSuccessData: _wire2api_String,
       constMeta: kDidResolveConstMeta,
-      argValues: [did, endpointOpts],
+      argValues: [did, opts],
       hint: hint,
     ));
   }
@@ -98,23 +90,18 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kDidResolveConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "did_resolve",
-        argNames: ["did", "endpointOpts"],
+        argNames: ["did", "opts"],
       );
 
   Future<void> didVerify(
-      {required String did,
-      required String endpointOpts,
-      required String proofOpts,
-      dynamic hint}) {
+      {required String did, required String opts, dynamic hint}) {
     var arg0 = _platform.api2wire_String(did);
-    var arg1 = _platform.api2wire_String(endpointOpts);
-    var arg2 = _platform.api2wire_String(proofOpts);
+    var arg1 = _platform.api2wire_String(opts);
     return _platform.executeNormal(FlutterRustBridgeTask(
-      callFfi: (port_) =>
-          _platform.inner.wire_did_verify(port_, arg0, arg1, arg2),
+      callFfi: (port_) => _platform.inner.wire_did_verify(port_, arg0, arg1),
       parseSuccessData: _wire2api_unit,
       constMeta: kDidVerifyConstMeta,
-      argValues: [did, endpointOpts, proofOpts],
+      argValues: [did, opts],
       hint: hint,
     ));
   }
@@ -122,23 +109,19 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kDidVerifyConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "did_verify",
-        argNames: ["did", "endpointOpts", "proofOpts"],
+        argNames: ["did", "opts"],
       );
 
   Future<String> vcVerifyCredential(
-      {required String credential,
-      required String endpointOpts,
-      required String proofOpts,
-      dynamic hint}) {
+      {required String credential, required String opts, dynamic hint}) {
     var arg0 = _platform.api2wire_String(credential);
-    var arg1 = _platform.api2wire_String(endpointOpts);
-    var arg2 = _platform.api2wire_String(proofOpts);
+    var arg1 = _platform.api2wire_String(opts);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
-          _platform.inner.wire_vc_verify_credential(port_, arg0, arg1, arg2),
+          _platform.inner.wire_vc_verify_credential(port_, arg0, arg1),
       parseSuccessData: _wire2api_String,
       constMeta: kVcVerifyCredentialConstMeta,
-      argValues: [credential, endpointOpts, proofOpts],
+      argValues: [credential, opts],
       hint: hint,
     ));
   }
@@ -146,23 +129,23 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kVcVerifyCredentialConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "vc_verify_credential",
-        argNames: ["credential", "endpointOpts", "proofOpts"],
+        argNames: ["credential", "opts"],
       );
 
   Future<void> vcIssuePresentation(
-      {required String presentationJson,
-      required String proofOptionsJson,
+      {required String presentation,
+      required String opts,
       required String keyJson,
       dynamic hint}) {
-    var arg0 = _platform.api2wire_String(presentationJson);
-    var arg1 = _platform.api2wire_String(proofOptionsJson);
+    var arg0 = _platform.api2wire_String(presentation);
+    var arg1 = _platform.api2wire_String(opts);
     var arg2 = _platform.api2wire_String(keyJson);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_vc_issue_presentation(port_, arg0, arg1, arg2),
       parseSuccessData: _wire2api_unit,
       constMeta: kVcIssuePresentationConstMeta,
-      argValues: [presentationJson, proofOptionsJson, keyJson],
+      argValues: [presentation, opts, keyJson],
       hint: hint,
     ));
   }
@@ -170,21 +153,19 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kVcIssuePresentationConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "vc_issue_presentation",
-        argNames: ["presentationJson", "proofOptionsJson", "keyJson"],
+        argNames: ["presentation", "opts", "keyJson"],
       );
 
   Future<String> vcVerifyPresentation(
-      {required String presentationJson,
-      required String proofOptionsJson,
-      dynamic hint}) {
-    var arg0 = _platform.api2wire_String(presentationJson);
-    var arg1 = _platform.api2wire_String(proofOptionsJson);
+      {required String presentation, required String opts, dynamic hint}) {
+    var arg0 = _platform.api2wire_String(presentation);
+    var arg1 = _platform.api2wire_String(opts);
     return _platform.executeNormal(FlutterRustBridgeTask(
       callFfi: (port_) =>
           _platform.inner.wire_vc_verify_presentation(port_, arg0, arg1),
       parseSuccessData: _wire2api_String,
       constMeta: kVcVerifyPresentationConstMeta,
-      argValues: [presentationJson, proofOptionsJson],
+      argValues: [presentation, opts],
       hint: hint,
     ));
   }
@@ -192,7 +173,7 @@ class TrustchainFfiImpl implements TrustchainFfi {
   FlutterRustBridgeTaskConstMeta get kVcVerifyPresentationConstMeta =>
       const FlutterRustBridgeTaskConstMeta(
         debugName: "vc_verify_presentation",
-        argNames: ["presentationJson", "proofOptionsJson"],
+        argNames: ["presentation", "opts"],
       );
 
   void dispose() {
@@ -358,12 +339,12 @@ class TrustchainFfiWire implements FlutterRustBridgeWireBase {
   void wire_did_resolve(
     int port_,
     ffi.Pointer<wire_uint_8_list> did,
-    ffi.Pointer<wire_uint_8_list> endpoint_opts,
+    ffi.Pointer<wire_uint_8_list> opts,
   ) {
     return _wire_did_resolve(
       port_,
       did,
-      endpoint_opts,
+      opts,
     );
   }
 
@@ -378,64 +359,54 @@ class TrustchainFfiWire implements FlutterRustBridgeWireBase {
   void wire_did_verify(
     int port_,
     ffi.Pointer<wire_uint_8_list> did,
-    ffi.Pointer<wire_uint_8_list> endpoint_opts,
-    ffi.Pointer<wire_uint_8_list> proof_opts,
+    ffi.Pointer<wire_uint_8_list> opts,
   ) {
     return _wire_did_verify(
       port_,
       did,
-      endpoint_opts,
-      proof_opts,
+      opts,
     );
   }
 
   late final _wire_did_verifyPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64,
-              ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_uint_8_list>,
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_uint_8_list>)>>('wire_did_verify');
   late final _wire_did_verify = _wire_did_verifyPtr.asFunction<
-      void Function(int, ffi.Pointer<wire_uint_8_list>,
-          ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+      void Function(
+          int, ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_vc_verify_credential(
     int port_,
     ffi.Pointer<wire_uint_8_list> credential,
-    ffi.Pointer<wire_uint_8_list> endpoint_opts,
-    ffi.Pointer<wire_uint_8_list> proof_opts,
+    ffi.Pointer<wire_uint_8_list> opts,
   ) {
     return _wire_vc_verify_credential(
       port_,
       credential,
-      endpoint_opts,
-      proof_opts,
+      opts,
     );
   }
 
   late final _wire_vc_verify_credentialPtr = _lookup<
       ffi.NativeFunction<
-          ffi.Void Function(
-              ffi.Int64,
-              ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_uint_8_list>,
+          ffi.Void Function(ffi.Int64, ffi.Pointer<wire_uint_8_list>,
               ffi.Pointer<wire_uint_8_list>)>>('wire_vc_verify_credential');
   late final _wire_vc_verify_credential =
       _wire_vc_verify_credentialPtr.asFunction<
           void Function(int, ffi.Pointer<wire_uint_8_list>,
-              ffi.Pointer<wire_uint_8_list>, ffi.Pointer<wire_uint_8_list>)>();
+              ffi.Pointer<wire_uint_8_list>)>();
 
   void wire_vc_issue_presentation(
     int port_,
-    ffi.Pointer<wire_uint_8_list> presentation_json,
-    ffi.Pointer<wire_uint_8_list> proof_options_json,
+    ffi.Pointer<wire_uint_8_list> presentation,
+    ffi.Pointer<wire_uint_8_list> opts,
     ffi.Pointer<wire_uint_8_list> key_json,
   ) {
     return _wire_vc_issue_presentation(
       port_,
-      presentation_json,
-      proof_options_json,
+      presentation,
+      opts,
       key_json,
     );
   }
@@ -454,13 +425,13 @@ class TrustchainFfiWire implements FlutterRustBridgeWireBase {
 
   void wire_vc_verify_presentation(
     int port_,
-    ffi.Pointer<wire_uint_8_list> presentation_json,
-    ffi.Pointer<wire_uint_8_list> proof_options_json,
+    ffi.Pointer<wire_uint_8_list> presentation,
+    ffi.Pointer<wire_uint_8_list> opts,
   ) {
     return _wire_vc_verify_presentation(
       port_,
-      presentation_json,
-      proof_options_json,
+      presentation,
+      opts,
     );
   }
 
