@@ -70,8 +70,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                         future: trustchain_ffi.didResolve(
                             did:
                                 'did:ion:test:EiBYdto2LQd_uAj_EXEoxP_KbLmZzwe1E-vXp8ZsMv1Gpg',
-                            opts: jsonEncode(
-                                {'endpointOptions': Constants.endpointStr})),
+                            opts: jsonEncode(Constants.ffiConfig)),
                         builder: (BuildContext context,
                             // AsyncSnapshot<DIDModel> snapshot) {
                             AsyncSnapshot<String> snapshot) {

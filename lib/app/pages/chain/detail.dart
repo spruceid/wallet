@@ -26,7 +26,8 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
 
   Future<DIDChainModel> get_did_chain(String url) async {
     final queryParams = {
-      'root_event_time': Constants.rootEventTime.toString(),
+      'root_event_time':
+          Constants.ffiConfig['trustchainOptions']?['rootEventTime'].toString(),
     };
     final url_split = url.split('/');
     final uri =
