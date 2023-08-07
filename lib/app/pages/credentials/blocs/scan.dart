@@ -8,7 +8,7 @@ import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
-import 'package:credible/ffi.dart';
+import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart' as diolog;
 import 'package:flutter_modular/flutter_modular.dart';

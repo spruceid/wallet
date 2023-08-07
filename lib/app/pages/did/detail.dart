@@ -13,7 +13,7 @@ import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
 
 // Trustchain FFI
-import 'package:credible/ffi.dart';
+import 'package:credible/app/interop/trustchain/trustchain.dart';
 
 // TODO: implement the page for displaying a DID
 class DIDDisplayPage extends StatefulWidget {
