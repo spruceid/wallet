@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 void main() {
   group('FFITests', () {
     test('Check time', () async {
-      final nowms = await api.greet();
+      final nowms = await trustchain_ffi.greet();
       print('TIME IS: $nowms');
     });
   });

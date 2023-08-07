@@ -17,7 +17,7 @@ const _base = 'trustchain_ffi';
 // but rather directly **linked** against the binary.
 final _dylib = io.Platform.isWindows ? '$_base.dll' : 'lib$_base.so';
 
-final TrustchainFfi api = TrustchainFfiImpl(
+final TrustchainFfi trustchain_ffi = TrustchainFfiImpl(
     io.Platform.isIOS || io.Platform.isMacOS
         ? DynamicLibrary.executable()
         : DynamicLibrary.open(_dylib));

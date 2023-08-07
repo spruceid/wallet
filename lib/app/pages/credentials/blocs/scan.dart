@@ -182,7 +182,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       await Future.delayed(Duration(seconds: 1));
 
       try {
-        final verification = await api.vcVerifyCredential(
+        final verification = await trustchain_ffi.vcVerifyCredential(
             credential: vcStr,
             opts: jsonEncode({
               'endpointOptions': Constants.endpointStr,

@@ -67,7 +67,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                     // future: get_did(url),
                     child: FutureBuilder<String>(
                         // future: api.greet(),
-                        future: api.didResolve(
+                        future: trustchain_ffi.didResolve(
                             did:
                                 'did:ion:test:EiBYdto2LQd_uAj_EXEoxP_KbLmZzwe1E-vXp8ZsMv1Gpg',
                             opts: jsonEncode(
