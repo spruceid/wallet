@@ -100,6 +100,8 @@ The add the NDK to your `.zshrc`:
 # compilers missing in the more recent NDK installed in Android studio
 # directly. This needs to be installed with sdkmanager in command line
 export ANDROID_NDK_HOME=$ANDROID_SDK_ROOT/ndk/22.0.7026061
+export PATH="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64/bin:$PATH"
+
 ```
 
 ### 6. Install LLVM
@@ -132,6 +134,11 @@ make -C lib ../target/test/android.stamp
 make -C lib ../target/test/flutter.stamp
 cargo build
 ```
+
+> **Note:** If you receive an error while running the `make -C lib ../target/test/android.stamp` step, try running the following command:
+>``` 
+> cargo ndk -t armeabi-v7a -t arm64-v8a -t x86_64 -t x86 -o target/ build --release
+>```
 
 ### 8. Make an emulator in Android studio
 - Open Android Studio
