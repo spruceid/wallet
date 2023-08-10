@@ -291,7 +291,11 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       //   opts,
       //   key,
       // );
-      final credential = jsonEncode(credentials.first.data);
+      final credential = jsonEncode({
+        'credential': credentials.first.data,
+        'rootEventTime':
+            Constants.ffiConfig['trustchainOptions']!['rootEventTime']!
+      });
 
       // TODO: currently failing with form data as for issuer, use JSON instead
       // await client.post(
