@@ -18,8 +18,8 @@ Create `~/spruceid` directory and clone `didkit`, `ssi` and `trustchain-mobile`:
 ```bash
 mkdir ~/spruceid && cd ~/spruceid
 
-git clone https://github.com/spruceid/didkit
-git clone --recursive https://github.com/spruceid/ssi
+git clone -b dev git@github.com:alan-turing-institute/didkit.git
+git clone -b dev --recursive git@github.com:alan-turing-institute/ssi.git
 git clone https://github.com/alan-turing-institute/trustchain-mobile.git
 ```
 
@@ -146,6 +146,8 @@ cargo build
 flutter run 
 ```
 This runs the code from the branch you have checked out. The mobile app should now start on the emulator.
+
+> **Note:** If you get errors during this step, try to build and run the project in VS Code via the instructions in the [next section](#developing).
 
 
 ## Developing
