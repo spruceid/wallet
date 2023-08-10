@@ -22,7 +22,13 @@ class DIDChainDisplayPage extends StatefulWidget {
 }
 
 class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
-  final base_endpoint = '10.0.2.2:8081/did/chain/';
+  final base_endpoint = Constants
+          .ffiConfig['endpointOptions']!['trustchainEndpoint']!['host']
+          .toString() +
+      ':' +
+      Constants.ffiConfig['endpointOptions']!['trustchainEndpoint']!['port']
+          .toString() +
+      '/did/chain/';
 
   Future<DIDChainModel> get_did_chain(String url) async {
     final queryParams = {
