@@ -173,3 +173,22 @@ This runs the code from the branch you have checked out. The mobile app should n
     etc
     ```
     with `$ flutter gen-l10n` called from the command line 
+
+## Building trustchain FFI libraries
+
+In order to build and run the Trustchain FFI libraries, you first need to clone the `trustchain` repository into the same directory as your `trustchain-mobile` repository:
+```
+cd ~/spruceid
+git clone git@github.com:alan-turing-institute/trustchain.git
+cd trustchain
+git checkout 62-ffi-v1
+git pull
+```
+
+Now you can build the FFI libraries using `cargo ndk`:
+```
+cargo ndk -t armeabi-v7a -t arm64-v8a -t x86_64 -t x86 \
+          -o ../trustchain-mobile/android/app/src/main/jniLibs build
+```
+
+You can now test the FFI libraries by starting a trustchain server () and running the tests in `test/app/trustchain_ffi_tests.dart`
