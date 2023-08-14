@@ -107,7 +107,7 @@ brew info llvm | grep "export PATH"
 ```
 
 ### 7. Install cargo ndk
-`cargo ndk` provides the simplest approach to build for Android targets. This is installed with:
+[`cargo ndk`](https://crates.io/crates/cargo-ndk/) provides the simplest method to build for Android targets. This is installed with:
 ```
 cargo install cargo-ndk
 ```
