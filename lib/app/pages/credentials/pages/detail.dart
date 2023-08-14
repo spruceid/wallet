@@ -6,6 +6,7 @@ import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
@@ -47,10 +48,11 @@ class _CredentialsDetailState
 
   void verify() async {
     final vcStr = jsonEncode(widget.item.data);
+    // Modify FFI config as required
+    final ffiConfig = await ffi_config_instance.get_ffi_config();
+    print(jsonEncode(ffiConfig));
     // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
     try {
-      final ffiConfig = Constants.ffiConfig;
-      // Modify FFI condif as required
       await trustchain_ffi.vcVerifyCredential(
           credential: vcStr, opts: jsonEncode(ffiConfig));
       setState(() {

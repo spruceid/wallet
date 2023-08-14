@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
+import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
@@ -39,9 +40,11 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
       yield DIDStateWorking();
 
       final key = (await SecureStorageProvider.instance.get('key'))!;
-      final did =
+      final did_key =
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-
+      final did_stored =
+          (await SecureStorageProvider.instance.get(ConfigModel.didKey))!;
+      final did = did_stored == '' ? did_key : did_stored;
       yield DIDStateDefault(did);
     } catch (e) {
       log.severe('something went wrong', e);

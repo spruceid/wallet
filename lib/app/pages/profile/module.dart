@@ -1,5 +1,7 @@
+import 'package:credible/app/pages/profile/blocs/config.dart';
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
+import 'package:credible/app/pages/profile/pages/config.dart';
 import 'package:credible/app/pages/profile/pages/notices.dart';
 import 'package:credible/app/pages/profile/pages/personal.dart';
 import 'package:credible/app/pages/profile/pages/privacy.dart';
@@ -13,6 +15,7 @@ class ProfileModule extends Module {
   @override
   List<Bind> get binds => [
         Bind((i) => ProfileBloc()),
+        Bind((i) => ConfigBloc()),
         Bind((i) => DIDBloc()),
       ];
 
@@ -26,6 +29,11 @@ class ProfileModule extends Module {
         ChildRoute(
           '/personal',
           child: (context, args) => PersonalPage(profile: args.data),
+          transition: TransitionType.rightToLeftWithFade,
+        ),
+        ChildRoute(
+          '/config',
+          child: (context, args) => ConfigPage(),
           transition: TransitionType.rightToLeftWithFade,
         ),
         ChildRoute(

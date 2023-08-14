@@ -6,6 +6,7 @@ import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:credible/app/interop/trustchain/trustchain.dart';
@@ -152,8 +153,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       // Add logging for http request
       client.interceptors.add(
         diolog.DioLoggingInterceptor(
@@ -179,11 +181,12 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       //   'rootEventTime': Constants.rootEventTime,
       //   'signatureOnly': false
       // });
-      await Future.delayed(Duration(seconds: 1));
 
       try {
-        final ffiConfig = Constants.ffiConfig;
         // Modify FFI condif as required
+        final ffiConfig = await ffi_config_instance.get_ffi_config();
+        // Add short delay for small time differences
+        await Future.delayed(Duration(seconds: 1));
         final verification = await trustchain_ffi.vcVerifyCredential(
             credential: vcStr, opts: jsonEncode(ffiConfig));
         log.warning('VERIFIED: $verification');
@@ -258,8 +261,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -293,8 +297,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       // );
       final credential = jsonEncode({
         'credential': credentials.first.data,
-        'rootEventTime':
-            Constants.ffiConfig['trustchainOptions']!['rootEventTime']!
+        'rootEventTime': await ffi_config_instance.get_root_event_time()
       });
 
       // TODO: currently failing with form data as for issuer, use JSON instead
@@ -426,8 +429,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -475,8 +479,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 

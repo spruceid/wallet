@@ -159,5 +159,11 @@
   "personalLocation": "Location",
   "personalMail": "E-mail",
   "didDisplay": "Issuer DID:",
-  "credentialFullDetails": "Full details:"
+  "credentialFullDetails": "Full details:",
+  "configTitle": "Settings",
+  "configSubtitle": "Settings",
+  "didLabel": "DID:",
+  "rootEventTime": "Root Event Time:",
+  "ionEndpoint": "ION endpoint:",
+  "trustchainEndpoint": "Trustchain endpoint:"
 }
