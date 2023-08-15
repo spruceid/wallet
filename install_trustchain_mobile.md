@@ -18,7 +18,7 @@ Create `~/spruceid` directory and clone `didkit`, `ssi`, `trustchain` and `trust
 ```bash
 mkdir ~/spruceid && cd ~/spruceid
 
-git clone -b dev https://github.com/alan-turing-institute/ssi.git
+git clone -b dev https://github.com/alan-turing-institute/didkit.git
 git clone -b dev --recursive https://github.com/alan-turing-institute/ssi.git
 git clone -b 62-ffi-v1 https://github.com/alan-turing-institute/trustchain.git
 git clone https://github.com/alan-turing-institute/trustchain-mobile.git
