@@ -36,7 +36,7 @@ source ~/.zshrc
 flutter doctor -v
 ```
 
-Note: There is currently a dependency issue for flutter version 3.8 (latest version) so a current workaround is to checkout an earlier release (`3.7.0-9.0.pre`).
+Note: There is currently a dependency issue for flutter version 3.8 (latest version) so a current workaround is to checkout an earlier release (`3.7.0-1.5.pre`). This earlier release also comes with an older version of Dart, namely 2.19.0, which (unlike versions >=3.0.0) is compatible with DIDKIT.
 
 #### Other potential issues
 - If flutter is not able to find java, you can [try](https://stackoverflow.com/a/75119315):
