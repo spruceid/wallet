@@ -28,7 +28,7 @@ git clone https://github.com/alan-turing-institute/trustchain-mobile.git
 The `beta` channel is essential for Mac ARM as the deprecated `dev` channel fails for targets:
 ```bash
 git clone https://github.com/flutter/flutter.git -b beta $HOME/flutter
-git checkout 3.7.0-9.0.pre
+git -C $HOME/flutter checkout 3.7.0-9.0.pre
 echo 'export PATH=$HOME/flutter/bin:"$PATH"' >> $HOME/.zshrc
 source ~/.zshrc
 
