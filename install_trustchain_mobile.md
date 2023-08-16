@@ -115,7 +115,7 @@ cargo install cargo-ndk
 ### 8. Build DIDKit targets
 This step provides the builds that provide the DIDKit FFI functionality.
 
-A Rust installation is needed for this step. If necessary, follow the [official instructions](https://www.rust-lang.org/tools/install) including adding `~/.cargo/bin` to your path. 
+A Rust installation (at least 1.68.0) is needed for this step. If necessary, follow the [official instructions](https://www.rust-lang.org/tools/install) including adding `~/.cargo/bin` to your path. 
 
 After installing rust you'll need to restart your shell, in which case you'll also need to re-export `TARGET_CC` from step 6.
 
