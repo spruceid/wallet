@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class Constants {
-  static final String defaultDIDMethod = 'tz';
+  static final String defaultDIDMethod = 'key';
   static final String databaseFilename = 'wallet.db';
   // TODO: convert to config adjustable from settings than can be retrieved from
   // SecureStorage
