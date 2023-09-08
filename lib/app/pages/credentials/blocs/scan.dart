@@ -295,18 +295,27 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       //   opts,
       //   key,
       // );
+      // Issue presentation
+      // final ffiConfig = await ffi_config_instance.get_ffi_config();
+      // try {
+      //   final presentation = await trustchain_ffi.vpIssuePresentation(
+      //       presentation: pres, opts: jsonEncode(ffiConfig), jwkJson: key);
+      //   print('Issued: $presentation');
+
+      //   final presentation_json = jsonEncode({
+      //     'presentationOrCredential': {'presentation': presentation},
+      //     'rootEventTime': await ffi_config_instance.get_root_event_time()
+      //   });
+      // } on Exception catch (err) {
+      //   print(err);
+      // }
       final credential = jsonEncode({
-        'credential': credentials.first.data,
+        'presentationOrCredential': {'credential': credentials.first.data},
         'rootEventTime': await ffi_config_instance.get_root_event_time()
       });
 
-      // TODO: currently failing with form data as for issuer, use JSON instead
-      // await client.post(
-      //   url.toString(),
-      //   data: FormData.fromMap(<String, dynamic>{
-      //     'presentation': presentation,
-      //   }),
-      // );
+      // TODO: use presentation instead once holder can be resolved
+      // await client.post(url.toString(), data: presentation_json);
       await client.post(url.toString(), data: credential);
 
       yield ScanStateMessage(
