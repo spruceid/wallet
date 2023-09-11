@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:developer' as developer;
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
@@ -264,27 +264,23 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       // final did =
       //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       final did = await ffi_config_instance.get_did();
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
-
-      final presentationId = 'urn:uuid:' + Uuid().v4();
-
+      // final verificationMethod = await DIDKitProvider.instance
+      //     .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      // final presentationId = 'urn:uuid:' + Uuid().v4();
       final pres = jsonEncode({
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         'type': ['VerifiablePresentation'],
-        'id': presentationId,
         'holder': did,
         'verifiableCredential': credentials.length == 1
             ? credentials.first.data
             : credentials.map((c) => c.data).toList(),
       });
-
-      final opts = jsonEncode({
-        'verificationMethod': verificationMethod,
-        'proofPurpose': 'authentication',
-        'challenge': challenge,
-        'domain': domain,
-      });
+      // final opts = jsonEncode({
+      //   'verificationMethod': verificationMethod,
+      //   'proofPurpose': 'authentication',
+      //   'challenge': challenge,
+      //   'domain': domain,
+      // });
 
       // TODO: currently failing to issue presentation, currently just uses
       // credential instead. This will be updated to use:
@@ -295,28 +291,32 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       //   opts,
       //   key,
       // );
-      // Issue presentation
-      // final ffiConfig = await ffi_config_instance.get_ffi_config();
-      // try {
-      //   final presentation = await trustchain_ffi.vpIssuePresentation(
-      //       presentation: pres, opts: jsonEncode(ffiConfig), jwkJson: key);
-      //   print('Issued: $presentation');
 
-      //   final presentation_json = jsonEncode({
-      //     'presentationOrCredential': {'presentation': presentation},
-      //     'rootEventTime': await ffi_config_instance.get_root_event_time()
-      //   });
-      // } on Exception catch (err) {
-      //   print(err);
-      // }
-      final credential = jsonEncode({
-        'presentationOrCredential': {'credential': credentials.first.data},
-        'rootEventTime': await ffi_config_instance.get_root_event_time()
-      });
+      // Issue presentation with Trustchain FFI
+      final ffiConfig = await ffi_config_instance.get_ffi_config();
+      try {
+        final presentation = await trustchain_ffi.vpIssuePresentation(
+            presentation: pres, opts: jsonEncode(ffiConfig), jwkJson: key);
+        final presentation_json = jsonEncode({
+          'presentationOrCredential': {
+            'presentation': jsonDecode(presentation)
+          },
+          'rootEventTime': await ffi_config_instance.get_root_event_time()
+        });
+        developer.log(presentation_json, name: 'LOG');
+        // Note: the time on mobile clock must be synchronized with http
+        // verifier, otherwise proofs will be filtered
+        await client.post(url.toString(), data: presentation_json);
+      } on FfiException catch (err) {
+        log.severe(err);
+      }
 
-      // TODO: use presentation instead once holder can be resolved
-      // await client.post(url.toString(), data: presentation_json);
-      await client.post(url.toString(), data: credential);
+      // TODO: remove once VP implementation complete
+      // final credential = jsonEncode({
+      //   'presentationOrCredential': {'credential': credentials.first.data},
+      //   'rootEventTime': await ffi_config_instance.get_root_event_time()
+      // });
+      // await client.post(url.toString(), data: credential);
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));

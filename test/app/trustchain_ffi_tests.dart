@@ -51,5 +51,29 @@ void main() {
       await trustchain_ffi.vcVerifyCredential(
           credential: vcStr, opts: jsonEncode(ffiConfig));
     });
+
+    // Requires ION and Trustchain endpoints
+    test('Issue presentation', () async {
+      final did = 'did:key:z6MkhG98a8j2d3jqia13vrWqzHwHAgKTv9NjYEgdV3ndbEdD';
+      final key =
+          '''{"kty":"OKP","crv":"Ed25519","x":"Kbnao1EkojaLeZ135PuIf28opnQybD0lB-_CQxuvSDg","d":"vwJwnuhHd4J0UUvjfYr8YxYwvNLU_GVkdqEbC3sUtAY"}''';
+      final url = Uri.http(
+          '10.0.2.2:8081', '/vc/issuer/481935de-f93d-11ed-a309-d7ec1d02e89c');
+      final credential = await http.post(url,
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({'subject_id': did}));
+      final vcStr = credential.body;
+      final pres = {
+        '@context': ['https://www.w3.org/2018/credentials/v1'],
+        'type': 'VerifiablePresentation',
+        'holder': did,
+        'verifiableCredential': jsonDecode(vcStr)
+      };
+      final ffiConfig = Constants.ffiConfig;
+      await trustchain_ffi.vpIssuePresentation(
+          presentation: jsonEncode(pres),
+          opts: jsonEncode(ffiConfig),
+          jwkJson: key);
+    });
   });
 }
