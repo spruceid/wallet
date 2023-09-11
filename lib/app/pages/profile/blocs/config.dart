@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/profile/models/config.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:logging/logging.dart';
 
@@ -78,9 +80,13 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
     try {
       yield ConfigStateWorking();
 
+      final key = await SecureStorageProvider.instance.get('key');
+      final did = event.model.did != ''
+          ? event.model.did
+          : DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key!);
       await SecureStorageProvider.instance.set(
         ConfigModel.didKey,
-        event.model.did,
+        did,
       );
       await SecureStorageProvider.instance.set(
         ConfigModel.rootEventTimeKey,
