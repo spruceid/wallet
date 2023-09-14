@@ -125,7 +125,7 @@ Then continue with the actual build from the current repo root location:
 cd ../didkit
 make -C lib install-rustup-android
 make -C lib ../target/test/java.stamp
-cargo ndk -t armeabi-v7a -t arm64-v8a -t x86_64 -t x86 -o target/ build --release
+cargo ndk -t armeabi-v7a -t arm64-v8a -t x86_64 -t x86 -o target/ build --lib --release
 make -C lib ../target/test/flutter.stamp
 cargo build
 ```
@@ -138,7 +138,7 @@ cargo ndk \
   -t arm64-v8a \
   -t x86_64 \
   -t x86 \
-  -o ../trustchain-mobile/android/app/src/main/jniLibs build
+  -o ../trustchain-mobile/android/app/src/main/jniLibs build --lib
 ```
 
 You can now test the FFI libraries by starting a [`trustchain-http`](https://github.com/alan-turing-institute/trustchain/tree/main/trustchain-http) server and running the tests in `test/app/trustchain_ffi_tests.dart`
