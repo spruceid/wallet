@@ -2,6 +2,7 @@ import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -42,12 +43,21 @@ class DIDDisplay extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
+                      child: BaseButton.primary(
+                    onPressed: () {
+                      Modular.to.pushNamed(
+                        '/did/display',
+                        arguments: [
+                          did,
+                        ],
+                      );
+                    },
                     child: Text(
                       did,
                       style: Theme.of(context).textTheme.overline!,
                       textAlign: TextAlign.center,
                     ),
-                  ),
+                  )),
                 ],
               ),
             ),
