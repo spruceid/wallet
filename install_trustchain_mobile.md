@@ -111,6 +111,10 @@ brew info llvm | grep "export PATH"
 ```
 cargo install cargo-ndk
 ```
+Check the version installed is at least `cargo-ndk 3.3.0` by running:
+```
+cargo ndk --version
+```
 
 ### 8. Build DIDKit targets
 This step provides the builds that provide the DIDKit FFI functionality.
@@ -131,7 +135,7 @@ cargo build
 ```
 
 ### 9. Build trustchain targets
-In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, from the `didkit` repository, run:
+In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, from the `trustchain` repository, run:
 ```
 cargo ndk \
   -t armeabi-v7a \
@@ -151,7 +155,11 @@ You can now test the FFI libraries by starting a [`trustchain-http`](https://git
 
 
 ### 11. Run flutter to start mobile app
-- With an android emulator running from the `trustchain-mobile` repo root:
+- Install package dependencies with:
+```bash
+flutter pub get
+```
+- And then with an android emulator running from the `trustchain-mobile` repo root:
 ```bash
 flutter run 
 ```
