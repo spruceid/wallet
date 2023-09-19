@@ -16,6 +16,10 @@ class DIDDocumentWidgetModel {
   factory DIDDocumentWidgetModel.fromDIDModel(DIDModel model) {
     return DIDDocumentWidgetModel(model.did, model.endpoint);
   }
+
+  String humanReadableEndpoint() {
+    return this.endpoint.split("www.").last;
+  }
 }
 
 // TODO: design distinct presentation of a DID relative to credential
@@ -59,6 +63,49 @@ class DIDDocumentWidget extends StatelessWidget {
               ),
               const SizedBox(height: 12.0),
               DocumentItemWidget(label: 'Endpoint:', value: model.endpoint),
+              const SizedBox(height: 12.0),
+            ],
+          ),
+        ),
+      );
+}
+
+class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
+  final DIDDocumentWidgetModel model;
+  final Color? color;
+  final Widget? trailing;
+
+  const HumanFriendlyDIDDocumentWidget({
+    Key? key,
+    this.color = const Color.fromARGB(255, 17, 0, 255),
+    required this.model,
+    this.trailing,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BaseBoxDecoration(
+          // TODO: update with different palette for DIDs
+          // color: UiKit.palette.credentialBackground,
+          // shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
+          color: color,
+          value: 0.0,
+          shapeSize: 256.0,
+          anchors: <Alignment>[
+            Alignment.topRight,
+            Alignment.bottomCenter,
+          ],
+          // value: animation.value,
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 12.0),
+              ChainItemWidget(value: model.humanReadableEndpoint()),
               const SizedBox(height: 12.0),
             ],
           ),
