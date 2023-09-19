@@ -86,7 +86,7 @@ class DocumentWidget extends StatelessWidget {
                   label: localizations.credentialFullDetails, value: ''),
               Container(
                 decoration: BaseBoxDecoration(
-                  color: Colors.white.withOpacity(0.5),
+                  color: Colors.white.withOpacity(0.8),
                   value: 0.0,
                   shapeSize: 256.0,
                   anchors: <Alignment>[

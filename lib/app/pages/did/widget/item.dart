@@ -1,6 +1,10 @@
 import 'package:credible/app/shared/ui/ui.dart';
-import 'package:credible/app/shared/widget/tooltip_text.dart';
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:credible/app/shared/widget/base/box_decoration.dart';
+import 'package:flutter_json_viewer/flutter_json_viewer.dart';
+
+import 'document.dart';
 
 class DocumentItemWidget extends StatelessWidget {
   final String label;
@@ -38,29 +42,65 @@ class DocumentItemWidget extends StatelessWidget {
 }
 
 class ChainItemWidget extends StatelessWidget {
-  final String value;
+  final String did;
+  final String endpoint;
+  final String humanReadableEndpoint;
 
   const ChainItemWidget({
     Key? key,
-    required this.value,
+    required this.did,
+    required this.endpoint,
+    required this.humanReadableEndpoint,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: 2.0),
-          Text(
-            value,
-            textAlign: TextAlign.center,
-            style: Theme.of(context)
-                .textTheme
-                .caption!
-                .apply(color: UiKit.palette.credentialText),
-            maxLines: null,
-            softWrap: true,
-            textScaleFactor: 1.7,
-          ),
+          ExpandablePanel(
+            header: Column(
+              children: [
+                Text(
+                  humanReadableEndpoint,
+                  // textAlign: TextAlign.center,
+                  style: Theme.of(context)
+                      .textTheme
+                      .caption!
+                      .apply(color: UiKit.palette.credentialText),
+                  maxLines: null,
+                  softWrap: true,
+                  textScaleFactor: 1.7,
+                )
+              ],
+            ),
+            collapsed: SizedBox(height: 0.0),
+            expanded: Column(
+              children: [
+                Container(
+                    decoration: BaseBoxDecoration(
+                      color: Colors.white.withOpacity(0.8),
+                      value: 0.0,
+                      shapeSize: 256.0,
+                      anchors: <Alignment>[
+                        Alignment.topRight,
+                        Alignment.bottomCenter,
+                      ],
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(0.0, 12.0, 8.0, 12.0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          JsonViewer({'DID': did, 'endpoint': endpoint})
+                        ],
+                      ), // Column
+                    ))
+              ],
+            ),
+          )
         ],
       );
 }

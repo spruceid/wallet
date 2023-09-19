@@ -105,7 +105,10 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12.0),
-              ChainItemWidget(value: model.humanReadableEndpoint()),
+              ChainItemWidget(
+                  did: model.did,
+                  humanReadableEndpoint: model.humanReadableEndpoint(),
+                  endpoint: model.endpoint),
               const SizedBox(height: 12.0),
             ],
           ),

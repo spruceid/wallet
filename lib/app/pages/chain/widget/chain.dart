@@ -31,14 +31,9 @@ class DIDChainWidget extends StatelessWidget {
         children: [
           Expanded(
               flex: 20,
-              child: (color == null)
-                  ? HumanFriendlyDIDDocumentWidget(
-                      model: documentWidget,
-                    )
-                  : HumanFriendlyDIDDocumentWidget(
-                      model: documentWidget,
-                      // color: color,
-                    )),
+              child: HumanFriendlyDIDDocumentWidget(
+                model: documentWidget,
+              )),
           Expanded(flex: 1, child: SizedBox(width: 0, height: 0)),
           Expanded(
               flex: 2,
