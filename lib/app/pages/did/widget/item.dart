@@ -59,11 +59,15 @@ class ChainItemWidget extends StatelessWidget {
         children: <Widget>[
           const SizedBox(height: 2.0),
           ExpandablePanel(
+            theme: const ExpandableThemeData(
+                hasIcon: false,
+                headerAlignment: ExpandablePanelHeaderAlignment.center),
             header: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   humanReadableEndpoint,
-                  // textAlign: TextAlign.center,
+                  // textAlign: TextAlign.left,
                   style: Theme.of(context)
                       .textTheme
                       .caption!
@@ -77,6 +81,7 @@ class ChainItemWidget extends StatelessWidget {
             collapsed: SizedBox(height: 0.0),
             expanded: Column(
               children: [
+                SizedBox(height: 12.0),
                 Container(
                     decoration: BaseBoxDecoration(
                       color: Colors.white.withOpacity(0.8),
