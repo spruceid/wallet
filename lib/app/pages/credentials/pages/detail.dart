@@ -36,6 +36,7 @@ class CredentialsDetail extends StatefulWidget {
 class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
+  dynamic issuerDidDocument;
   VerificationState verification = VerificationState.Unverified;
 
   final logger = Logger('credible/credentials/detail');
@@ -43,6 +44,7 @@ class _CredentialsDetailState
   @override
   void initState() {
     super.initState();
+    resolveIssuerDid();
     verify();
   }
 
@@ -63,6 +65,27 @@ class _CredentialsDetailState
       print(err);
       setState(() {
         verification = VerificationState.VerifiedWithError;
+      });
+    }
+  }
+
+  void resolveIssuerDid() async {
+    final did = jsonEncode(widget.item.issuer);
+    // Modify FFI config as required
+    final ffiConfig = await ffi_config_instance.get_ffi_config();
+    print(jsonEncode(ffiConfig));
+    // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+    try {
+      final didDoc = await trustchain_ffi.didResolve(
+          did: did, opts: jsonEncode(ffiConfig));
+      setState(() {
+        issuerDidDocument = didDoc;
+      });
+    } on FfiException catch (err) {
+      // TODO: Handle specific error cases
+      print(err);
+      setState(() {
+        issuerDidDocument = null;
       });
     }
   }
