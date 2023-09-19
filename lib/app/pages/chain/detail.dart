@@ -41,7 +41,7 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return BasePage(
-        title: 'DID Trustchain',
+        title: 'DID chain',
         titleLeading: BackLeadingButton(),
         scrollView: false,
         body: Container(
