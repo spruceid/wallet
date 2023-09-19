@@ -49,7 +49,7 @@ class DIDDocumentWidget extends StatelessWidget {
             Alignment.bottomCenter,
           ],
           // value: animation.value,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
@@ -96,10 +96,10 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
             Alignment.bottomCenter,
           ],
           // value: animation.value,
-          borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
