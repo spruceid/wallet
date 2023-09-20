@@ -8,7 +8,11 @@
             "name": "credible",
             "request": "launch",
             "type": "dart",
-            "args": []
+            "args": [],
+            "toolArgs": [
+                // "--dart-define=<VAR_KEY>=<VALUE>",
+                "--dart-define-from-file=${workspaceFolder}/flutter-config.json" // path to json file containing environment variables.
+            ]
         }
     ]
 }
