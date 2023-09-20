@@ -1,3 +1,15 @@
+String extractEndpoint(dynamic did_document, String service_id) {
+  // TODO: refine handling when sevice not found
+  var ep;
+  for (var service in did_document['service']) {
+    if (service['id'] == service) {
+      ep = service['serviceEndpoint'];
+      break;
+    }
+  }
+  return ep;
+}
+
 class DIDModel {
   final String did;
   // TODO: consider optionality to endpoint presence, currently asserting always present in the returned 'didDocument'
@@ -20,14 +32,14 @@ class DIDModel {
     // Loop over services (must be more than 0) and extract service endpoint for
     // service with service["id"] == "TrustchainID".
     assert(didDocument.containsKey('service'));
-    var ep;
-    for (var s in didDocument['service']) {
-      if (s['id'] == '#TrustchainID') {
-        ep = s['serviceEndpoint'];
-        break;
-      }
-    }
-    final endpoint = ep;
+    // var ep;
+    // for (var s in didDocument['service']) {
+    //   if (s['id'] == '#TrustchainID') {
+    //     ep = s['serviceEndpoint'];
+    //     break;
+    //   }
+    // }
+    final endpoint = extractEndpoint(didDocument, '#TrustchainID');
     assert(endpoint != null);
 
     return DIDModel(

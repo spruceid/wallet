@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
+import 'package:credible/app/pages/did/models/did.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:logging/logging.dart';
@@ -62,14 +64,47 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
   ) async* {
     late final uri;
 
+    // try {
+    // TODO: add inability to parse the encoding, then try block can be uncommented.
+    // uri = Uri.parse(event.data);
+    // print(uri);
+    // throw FormatException;
+    // } on FormatException catch (e) {
+    // print(e.message);
     try {
-      uri = Uri.parse(event.data);
+      // Decode possible base64url string
+      final did_offer_uuid =
+          jsonDecode(utf8.decode(base64Url.decode(event.data)));
+      final did = did_offer_uuid['did'];
+      final route = did_offer_uuid['route'];
+      final uuid = did_offer_uuid['uuid'];
+      print(did_offer_uuid);
+      // TODO: Verify DID
+
+      // Resolve DID
+      final resolver_uri = 'http://' +
+          (await ffi_config_instance.get_trustchain_endpoint()) +
+          '/did/' +
+          did;
+      print(resolver_uri);
+      final response = await client.get(resolver_uri);
+      print(response);
+      final data = response.data;
+      print(data);
+      // Extract endpoint
+      // final endpoint =
+      //     extractEndpoint(data['didDocument'], 'TrustchainIssuer');
+      final endpoint = did_offer_uuid['endpoint'];
+      print(endpoint);
+      // Make final URI
+      uri = Uri.parse(endpoint + route + uuid);
+      print(uri);
     } on FormatException catch (e) {
       print(e.message);
-
       yield QRCodeStateMessage(
           StateMessage.error('This QRCode does not contain a valid message.'));
     }
+    // }
 
     yield QRCodeStateHost(uri);
   }
