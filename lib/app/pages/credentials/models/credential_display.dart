@@ -4,6 +4,7 @@ import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/shared/globals.dart';
 import 'package:uuid/uuid.dart';
 
+// For displaying a credential with issuer endpoint (extracted from DID document)
 class CredentialDisplayModel {
   final CredentialModel model;
   final String displayedIssuer;
