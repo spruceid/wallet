@@ -34,7 +34,6 @@ class CredentialModel {
           result[key] = value;
         }
       }
-      ;
     });
     return result;
   }
