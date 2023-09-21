@@ -59,7 +59,7 @@ class _CredentialsDetailState
         verification = VerificationState.Verified;
       });
     } on FfiException catch (err) {
-      // TODO: Handle specific error cases
+      // TODO [#39]: Handle specific error cases
       print(err);
       setState(() {
         verification = VerificationState.VerifiedWithError;
