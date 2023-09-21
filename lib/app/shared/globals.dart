@@ -15,5 +15,5 @@ Future<DIDModel> resolve_did(String did) async {
 }
 
 String humanReadableEndpoint(String endpoint) {
-  return endpoint.split("www.").last;
+  return endpoint.split('www.').last;
 }
