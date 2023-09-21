@@ -135,8 +135,9 @@ cargo build
 ```
 
 ### 9. Build trustchain targets
-In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, from the `trustchain` repository, run:
+In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, __after moving to the `trustchain` repository__ , run:
 ```
+cd ../trustchain
 cargo ndk \
   -t armeabi-v7a \
   -t arm64-v8a \
