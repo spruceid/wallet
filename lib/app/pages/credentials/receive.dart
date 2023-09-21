@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/widget/credential.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -10,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
@@ -30,6 +36,34 @@ class _CredentialsReceivePageState
   final VoidCallback goBack = () {
     Modular.to.pushReplacementNamed('/credentials/list');
   };
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   resolveIssuerDid();
+  // }
+
+  // void resolveIssuerDid() async {
+  //   // final did = jsonEncode(widget.issuerDid);
+  //   final did = 'testdid:did:something';
+  //   // Modify FFI config as required
+  //   final ffiConfig = await ffi_config_instance.get_ffi_config();
+  //   print(jsonEncode(ffiConfig));
+  //   // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+  //   try {
+  //     final didDoc = await trustchain_ffi.didResolve(
+  //         did: did, opts: jsonEncode(ffiConfig));
+  //     setState(() {
+  //       issuerDidDocument = didDoc;
+  //     });
+  //   } on FfiException catch (err) {
+  //     // TODO: Handle specific error cases
+  //     print(err);
+  //     setState(() {
+  //       issuerDidDocument = 'FAILED RESOLUTION';
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +124,9 @@ class _CredentialsReceivePageState
                   ],
                 ),
                 const SizedBox(height: 16.0),
-                DocumentWidget(
-                    model: DocumentWidgetModel.fromCredentialModel(credential)),
+                CredentialWidget(
+                    model: CredentialWidgetModel.fromCredentialModel(
+                        credential, widget.url.host)),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
                   onPressed: () async {

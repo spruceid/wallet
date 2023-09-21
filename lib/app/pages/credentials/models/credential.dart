@@ -33,7 +33,8 @@ class CredentialModel {
         } else {
           result[key] = value;
         }
-      };
+      }
+      ;
     });
     return result;
   }

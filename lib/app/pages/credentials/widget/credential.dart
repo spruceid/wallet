@@ -1,4 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/credential_display.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
@@ -10,14 +11,15 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DocumentWidgetModel {
-  final String issuedBy;
+class CredentialWidgetModel {
+  final String displayedIssuer;
   final String status;
   final dynamic details;
 
-  const DocumentWidgetModel(this.issuedBy, this.status, this.details);
+  const CredentialWidgetModel(this.displayedIssuer, this.status, this.details);
 
-  factory DocumentWidgetModel.fromCredentialModel(CredentialModel model) {
+  factory CredentialWidgetModel.fromCredentialModel(
+      CredentialModel model, String displayedIssuer) {
     late String status;
 
     switch (model.status) {
@@ -32,15 +34,35 @@ class DocumentWidgetModel {
         break;
     }
 
-    return DocumentWidgetModel(model.issuer, status, model.details);
+    return CredentialWidgetModel(displayedIssuer, status, model.details);
+  }
+
+  factory CredentialWidgetModel.fromCredentialDisplayModel(
+      CredentialDisplayModel model) {
+    late String status;
+
+    switch (model.model.status) {
+      case CredentialStatus.active:
+        status = 'Active';
+        break;
+      case CredentialStatus.expired:
+        status = 'Expired';
+        break;
+      case CredentialStatus.revoked:
+        status = 'Revoked';
+        break;
+    }
+
+    return CredentialWidgetModel(
+        model.displayedIssuer, status, model.model.details);
   }
 }
 
-class DocumentWidget extends StatelessWidget {
-  final DocumentWidgetModel model;
+class CredentialWidget extends StatelessWidget {
+  final CredentialWidgetModel model;
   final Widget? trailing;
 
-  const DocumentWidget({
+  const CredentialWidget({
     Key? key,
     required this.model,
     this.trailing,
@@ -71,7 +93,8 @@ class DocumentWidget extends StatelessWidget {
             children: [
               DocumentItemWidget(
                   label: 'Issued by:',
-                  value: 'xyz' // model.details // model.issuedBy,
+                  value:
+                      model.displayedIssuer // model.details // model.issuedBy,
                   ),
               const SizedBox(height: 24.0),
               DocumentItemWidget(label: 'Status:', value: model.status),

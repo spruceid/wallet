@@ -1,6 +1,7 @@
 // import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -30,14 +31,15 @@ class DIDDisplayPage extends StatefulWidget {
 }
 
 class _DIDDisplayPageState extends State<DIDDisplayPage> {
-  Future<DIDModel> get_did(String did) async {
-    final url =
-        (await ffi_config_instance.get_trustchain_endpoint()) + '/did/' + did;
-    final url_split = url.split('/');
-    final route = '/' + url_split.sublist(1).join('/');
-    final uri = Uri.http(url_split[0], route);
-    return DIDModel.fromMap(jsonDecode((await http.get(uri)).body));
-  }
+  // MOVED TO shared/globals.dart:
+  // Future<DIDModel> get_did(String did) async {
+  //   final url =
+  //       (await ffi_config_instance.get_trustchain_endpoint()) + '/did/' + did;
+  //   final url_split = url.split('/');
+  //   final route = '/' + url_split.sublist(1).join('/');
+  //   final uri = Uri.http(url_split[0], route);
+  //   return DIDModel.fromMap(jsonDecode((await http.get(uri)).body));
+  // }
 
   @override
   void initState() {
@@ -69,7 +71,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                     // child: FutureBuilder<DIDModel>(
 
                     child: FutureBuilder<DIDModel>(
-                        future: get_did(widget.did),
+                        future: resolve_did(widget.did),
                         builder: (BuildContext context,
                             // AsyncSnapshot<DIDModel> snapshot) {
                             AsyncSnapshot<DIDModel> snapshot) {
