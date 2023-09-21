@@ -81,17 +81,15 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
             'This QRCode does not contain a valid message.'));
       }
       // Resolve DID
-      final resolverUri = 'http://' +
+      final resolverUri = Uri.parse(
           (await ffi_config_instance.get_trustchain_endpoint()) +
-          '/did/' +
-          did;
-      final response = await client.get(resolverUri);
-      // final data = response.data;
+              '/did/' +
+              did);
+      final response = await client.getUri(resolverUri);
       // TODO: extract endpoint when included in DID
       // final endpoint =
-      //     extractEndpoint(response.data['didDocument'], 'TrustchainIssuer');
+      //     extractEndpoint(response.data['didDocument'], '#TrustchainHTTP');
       final endpoint = didCode['endpoint'];
-      // Make final URI
       uri = Uri.parse(endpoint + route + uuid);
     } on FormatException catch (e) {
       try {
