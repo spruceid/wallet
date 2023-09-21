@@ -37,34 +37,6 @@ class _CredentialsReceivePageState
     Modular.to.pushReplacementNamed('/credentials/list');
   };
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   resolveIssuerDid();
-  // }
-
-  // void resolveIssuerDid() async {
-  //   // final did = jsonEncode(widget.issuerDid);
-  //   final did = 'testdid:did:something';
-  //   // Modify FFI config as required
-  //   final ffiConfig = await ffi_config_instance.get_ffi_config();
-  //   print(jsonEncode(ffiConfig));
-  //   // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-  //   try {
-  //     final didDoc = await trustchain_ffi.didResolve(
-  //         did: did, opts: jsonEncode(ffiConfig));
-  //     setState(() {
-  //       issuerDidDocument = didDoc;
-  //     });
-  //   } on FfiException catch (err) {
-  //     // TODO: Handle specific error cases
-  //     print(err);
-  //     setState(() {
-  //       issuerDidDocument = 'FAILED RESOLUTION';
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     // TODO: Add proper localization
