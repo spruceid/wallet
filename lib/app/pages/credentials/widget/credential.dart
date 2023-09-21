@@ -1,11 +1,8 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_display.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
@@ -17,25 +14,6 @@ class CredentialWidgetModel {
   final dynamic details;
 
   const CredentialWidgetModel(this.displayedIssuer, this.status, this.details);
-
-  factory CredentialWidgetModel.fromCredentialModel(
-      CredentialModel model, String displayedIssuer) {
-    late String status;
-
-    switch (model.status) {
-      case CredentialStatus.active:
-        status = 'Active';
-        break;
-      case CredentialStatus.expired:
-        status = 'Expired';
-        break;
-      case CredentialStatus.revoked:
-        status = 'Revoked';
-        break;
-    }
-
-    return CredentialWidgetModel(displayedIssuer, status, model.details);
-  }
 
   factory CredentialWidgetModel.fromCredentialDisplayModel(
       CredentialDisplayModel model) {

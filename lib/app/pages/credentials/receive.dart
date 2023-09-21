@@ -1,5 +1,6 @@
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/credential_display.dart';
 import 'package:credible/app/pages/credentials/widget/credential.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -91,8 +92,10 @@ class _CredentialsReceivePageState
                 ),
                 const SizedBox(height: 16.0),
                 CredentialWidget(
-                    model: CredentialWidgetModel.fromCredentialModel(
-                        credential, widget.url.host)),
+                    model: CredentialWidgetModel.fromCredentialDisplayModel(
+                        CredentialDisplayModel(
+                            model: credential,
+                            displayedIssuer: widget.url.host))),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(
                   onPressed: () async {
