@@ -3,13 +3,13 @@ import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/pages/did/widget/document.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 // No localizations currently on this page
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -31,12 +31,10 @@ class DIDDisplayPage extends StatefulWidget {
 
 class _DIDDisplayPageState extends State<DIDDisplayPage> {
   Future<DIDModel> get_did(String did) async {
-    final url =
-        (await ffi_config_instance.get_trustchain_endpoint()) + '/did/' + did;
-    final url_split = url.split('/');
-    final route = '/' + url_split.sublist(1).join('/');
-    final uri = Uri.http(url_split[0], route);
-    return DIDModel.fromMap(jsonDecode((await http.get(uri)).body));
+    final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
+    final route = '/did/' + did;
+    final uri = Uri.parse(endpoint + route);
+    return DIDModel.fromMap((await Dio().getUri(uri)).data);
   }
 
   @override
