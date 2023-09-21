@@ -72,7 +72,7 @@ dev_dependencies:
   #intl_translation: ^0.17.10
   freezed: ^2.3.2
   pedantic: ^1.11.1
-  #flutter_launcher_icons: ^0.8.1
+  flutter_launcher_icons: ^0.10.0
 
 flutter_icons:
   android: true

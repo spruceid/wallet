@@ -1,0 +1,5 @@
+{
+    "ionEndpoint": "<YOUR_ION_ENDPOINT>",
+    "trustchainEndpoint": "<YOUR_TRUSTCHAIN_ENDPOINT>",
+    "rootEventTime": "<YOUR_ROOT_EVENT_TIME>"
+}

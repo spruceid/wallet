@@ -135,8 +135,9 @@ cargo build
 ```
 
 ### 9. Build trustchain targets
-In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, from the `trustchain` repository, run:
+In order to build and run the Trustchain FFI libraries, make sure the `trustchain` repository is cloned alongside the `trustchain-mobile` and `didkit` repositories (as was done in Step 2). Then, __after moving to the `trustchain` repository__ , run:
 ```
+cd ../trustchain
 cargo ndk \
   -t armeabi-v7a \
   -t arm64-v8a \
@@ -155,11 +156,11 @@ You can now test the FFI libraries by starting a [`trustchain-http`](https://git
 
 
 ### 11. Run flutter to start mobile app
-- Install package dependencies with:
+- From the `trustchain-mobile` repository, install package dependencies with:
 ```bash
 flutter pub get
 ```
-- And then with an android emulator running from the `trustchain-mobile` repo root:
+- And then with an android emulator running from the `trustchain-mobile` repository:
 ```bash
 flutter run 
 ```
@@ -172,6 +173,14 @@ This runs the code from the branch you have checked out. The mobile app should n
 ### Debugging in VS code with hot reload
 
 - Open the repo in VS code
+- Update `flutter-config.json` with your default values, for example:
+  ```json
+  {
+    "ionEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:3000",
+    "trustchainEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:8081",
+    "rootEventTime": "1666971942"
+  }
+  ```
 - Install required dart and flutter extensions
 - Click on the bottom right to choose the the installed android emulator
 - Press `fn-F5` to run from inside VS code and have the app hot reload upon save

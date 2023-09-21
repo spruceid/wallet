@@ -35,6 +35,13 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
           DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       await SecureStorageProvider.instance.set('key', key);
       await SecureStorageProvider.instance.set(ConfigModel.didKey, did);
+      await SecureStorageProvider.instance.set(ConfigModel.rootEventTimeKey,
+          const String.fromEnvironment('rootEventTime', defaultValue: ''));
+      await SecureStorageProvider.instance.set(
+          ConfigModel.trustchainEndpointKey,
+          const String.fromEnvironment('trustchainEndpoint', defaultValue: ''));
+      await SecureStorageProvider.instance.set(ConfigModel.ionEndpointKey,
+          const String.fromEnvironment('ionEndpoint', defaultValue: ''));
       await Modular.to.pushReplacementNamed('/on-boarding/success');
     } catch (error) {
       log.severe('something went wrong when generating a key', error);

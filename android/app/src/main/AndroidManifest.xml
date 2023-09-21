@@ -7,7 +7,7 @@
     <application
             android:name="${applicationName}"
             android:icon="@mipmap/ic_launcher"
-            android:label="Credible"
+            android:label="Trustchain"
             android:allowBackup="false">
         <activity
                 android:name=".MainActivity"
