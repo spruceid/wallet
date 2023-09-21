@@ -1,4 +1,7 @@
+import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
+import 'package:credible/app/pages/profile/models/config.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/key_generation.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
@@ -28,8 +31,10 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
       final key = await KeyGeneration.privateKey(mnemonic);
-
+      final did =
+          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
       await SecureStorageProvider.instance.set('key', key);
+      await SecureStorageProvider.instance.set(ConfigModel.didKey, did);
       await Modular.to.pushReplacementNamed('/on-boarding/success');
     } catch (error) {
       log.severe('something went wrong when generating a key', error);

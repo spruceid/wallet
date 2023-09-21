@@ -1,16 +1,19 @@
 import 'dart:convert';
-
+import 'dart:developer' as developer;
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
+import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_logging_interceptor/dio_logging_interceptor.dart' as diolog;
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:logging/logging.dart';
 import 'package:uuid/uuid.dart';
 import 'package:http/http.dart' as http;
@@ -150,8 +153,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       // Add logging for http request
       client.interceptors.add(
         diolog.DioLoggingInterceptor(
@@ -169,41 +173,20 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           ? jsonDecode(credential.data)
           : credential.data;
 
-      // TODO [TC]: This is where `trustchain-cli vc verify` could be called
-      // once FFI is implemented
       final vcStr = jsonEncode(jsonCredential);
-      final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-      await Future.delayed(Duration(seconds: 1));
-
-      // // Commented out spruceid / DIDKit verification block
-      //
-      // // TODO [bug] verification fails here for unknown reason
-      // final verification =
-      //     await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
-      //
-      // print('[credible/credential-offer/verify/vc] $vcStr');
-      // print('[credible/credential-offer/verify/options] $optStr');
-      // print('[credible/credential-offer/verify/result] $verification');
-      //
-      // final jsonVerification = jsonDecode(verification);
-      //
-      // if (jsonVerification['warnings'].isNotEmpty) {
-      //   log.warning('credential verification return warnings',
-      //       jsonVerification['warnings']);
-      //
-      //   yield ScanStateMessage(StateMessage.warning(
-      //       'Credential verification returned some warnings. '
-      //       'Check the logs for more information.'));
-      // }
-      //
-      // if (jsonVerification['errors'].isNotEmpty) {
-      //   log.severe('failed to verify credential', jsonVerification['errors']);
-      //
-      //   yield ScanStateMessage(
-      //       StateMessage.error('Failed to verify credential. '
-      //           'Check the logs for more information.'));
-      // }
-      // // EOF commented out block
+      // Currently credentials that are not verified are still received but the
+      // verification status will show failed upon viewing.
+      // Previous DIDKit usage removed below try/catch block
+      try {
+        // Modify FFI config as required
+        final ffiConfig = await ffi_config_instance.get_ffi_config();
+        // Add short delay for small time differences between mobile and server
+        await Future.delayed(Duration(seconds: 1));
+        await trustchain_ffi.vcVerifyCredential(
+            credential: vcStr, opts: jsonEncode(ffiConfig));
+      } on FfiException catch (err) {
+        log.warning(err);
+      }
 
       final repository = Modular.get<CredentialsRepository>();
       await repository.insert(
@@ -242,49 +225,46 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
-      final verificationMethod = await DIDKitProvider.instance
-          .keyToVerificationMethod(Constants.defaultDIDMethod, key);
-
-      final presentationId = 'urn:uuid:' + Uuid().v4();
-
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
+      // final verificationMethod = await DIDKitProvider.instance
+      //     .keyToVerificationMethod(Constants.defaultDIDMethod, key);
+      // final presentationId = 'urn:uuid:' + Uuid().v4();
       final pres = jsonEncode({
         '@context': ['https://www.w3.org/2018/credentials/v1'],
         'type': ['VerifiablePresentation'],
-        'id': presentationId,
         'holder': did,
         'verifiableCredential': credentials.length == 1
             ? credentials.first.data
             : credentials.map((c) => c.data).toList(),
       });
 
-      final opts = jsonEncode({
-        'verificationMethod': verificationMethod,
-        'proofPurpose': 'authentication',
-        'challenge': challenge,
-        'domain': domain,
-      });
-
-      // TODO: currently failing to issue presentation, currently just uses
-      // credential instead. This will be updated to use:
-      //   `trustchain vc issue-presentation`
-      // with FFI.
-      // final presentation = await DIDKitProvider.instance.issuePresentation(
-      //   cred,
-      //   opts,
-      //   key,
-      // );
-      final credential = jsonEncode(credentials.first.data);
-
-      // TODO: currently failing with form data as for issuer, use JSON instead
-      // await client.post(
-      //   url.toString(),
-      //   data: FormData.fromMap(<String, dynamic>{
-      //     'presentation': presentation,
-      //   }),
-      // );
-      await client.post(url.toString(), data: credential);
+      // TODO [#33]: for reference in case incorporating challenge/domain
+      // final opts = jsonEncode({
+      //   'verificationMethod': verificationMethod,
+      //   'proofPurpose': 'authentication',
+      //   'challenge': challenge,
+      //   'domain': domain,
+      // });
+      // Issue presentation with Trustchain FFI
+      final ffiConfig = await ffi_config_instance.get_ffi_config();
+      try {
+        final presentation = await trustchain_ffi.vpIssuePresentation(
+            presentation: pres, opts: jsonEncode(ffiConfig), jwkJson: key);
+        final presentation_json = jsonEncode({
+          'presentationOrCredential': {
+            'presentation': jsonDecode(presentation)
+          },
+          'rootEventTime': await ffi_config_instance.get_root_event_time()
+        });
+        developer.log(presentation_json, name: 'LOG');
+        // Note: the time on mobile clock must be synchronized with http
+        // verifier, otherwise proofs will be filtered
+        await client.post(url.toString(), data: presentation_json);
+      } on FfiException catch (err) {
+        log.severe(err);
+      }
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
@@ -406,8 +386,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
@@ -455,8 +436,9 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
 
     try {
       final key = (await SecureStorageProvider.instance.get(keyId))!;
-      final did =
-          DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      // final did =
+      //     DIDKitProvider.instance.keyToDID(Constants.defaultDIDMethod, key);
+      final did = await ffi_config_instance.get_did();
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 

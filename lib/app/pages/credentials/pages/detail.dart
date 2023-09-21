@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:credible/app/interop/didkit/didkit.dart';
+import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
+import 'package:credible/app/shared/config.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -13,6 +16,7 @@ import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -44,22 +48,21 @@ class _CredentialsDetailState
 
   void verify() async {
     final vcStr = jsonEncode(widget.item.data);
-    final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-    final result =
-        await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
-    final jsonResult = jsonDecode(result);
-
-    if (jsonResult['warnings'].isNotEmpty) {
-      setState(() {
-        verification = VerificationState.VerifiedWithWarning;
-      });
-    } else if (jsonResult['errors'].isNotEmpty) {
-      setState(() {
-        verification = VerificationState.VerifiedWithError;
-      });
-    } else {
+    // Modify FFI config as required
+    final ffiConfig = await ffi_config_instance.get_ffi_config();
+    print(jsonEncode(ffiConfig));
+    // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
+    try {
+      await trustchain_ffi.vcVerifyCredential(
+          credential: vcStr, opts: jsonEncode(ffiConfig));
       setState(() {
         verification = VerificationState.Verified;
+      });
+    } on FfiException catch (err) {
+      // TODO [#39]: Handle specific error cases
+      print(err);
+      setState(() {
+        verification = VerificationState.VerifiedWithError;
       });
     }
   }

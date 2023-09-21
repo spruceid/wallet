@@ -1,4 +1,5 @@
 import 'package:credible/app/pages/did/widget/document.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'package:credible/app/pages/chain/models/chain.dart';
 import 'package:credible/app/pages/chain/widget/chain.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:credible/app/shared/constants.dart';
 
 class DIDChainDisplayPage extends StatefulWidget {
   final String did;
@@ -21,17 +23,23 @@ class DIDChainDisplayPage extends StatefulWidget {
 }
 
 class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
-  final base_endpoint = 'http://10.0.2.2:8081/did/chain/';
-
-  Future<DIDChainModel> get_did_chain(String url) async {
-    return DIDChainModel.fromMap(
-        jsonDecode((await http.get(Uri.parse(url))).body));
+  Future<DIDChainModel> get_did_chain(String did) async {
+    final url = (await ffi_config_instance.get_trustchain_endpoint()) +
+        '/did/chain/' +
+        did;
+    final queryParams = {
+      'root_event_time':
+          (await ffi_config_instance.get_root_event_time()).toString(),
+    };
+    final url_split = url.split('/');
+    final route = '/' + url_split.sublist(1).join('/');
+    final uri = Uri.http(url_split[0], route, queryParams);
+    return DIDChainModel.fromMap(jsonDecode((await http.get(uri)).body));
   }
 
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final url = '$base_endpoint${widget.did}';
     return BasePage(
         title: 'DID Trustchain',
         titleLeading: BackLeadingButton(),
@@ -40,7 +48,7 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: FutureBuilder<DIDChainModel>(
-              future: get_did_chain(url),
+              future: get_did_chain(widget.did),
               builder: (BuildContext context,
                   AsyncSnapshot<DIDChainModel> snapshot) {
                 if (snapshot.hasData) {

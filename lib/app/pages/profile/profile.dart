@@ -1,8 +1,10 @@
 import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/pages/credentials/repositories/credential.dart';
+import 'package:credible/app/pages/profile/blocs/config.dart';
 import 'package:credible/app/pages/profile/blocs/did.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
+import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/widgets/did_display.dart';
 import 'package:credible/app/pages/profile/widgets/menu_item.dart';
@@ -26,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     super.initState();
     Modular.get<ProfileBloc>().add(ProfileEventLoad());
+    Modular.get<ConfigBloc>().add(ConfigEventLoad());
     Modular.get<DIDBloc>().add(DIDEventLoad());
   }
 
@@ -81,6 +84,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: localizations.personalTitle,
                 onTap: () =>
                     Modular.to.pushNamed('/profile/personal', arguments: model),
+              ),
+              MenuItem(
+                icon: Icons.settings,
+                title: localizations.configTitle,
+                onTap: () => Modular.to.pushNamed('/profile/config'),
               ),
               MenuItem(
                 icon: Icons.shield,
