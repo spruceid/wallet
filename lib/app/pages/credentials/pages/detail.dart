@@ -46,7 +46,6 @@ class _CredentialsDetailState
   @override
   void initState() {
     super.initState();
-    resolveIssuerDid();
     verify();
   }
 
@@ -67,27 +66,6 @@ class _CredentialsDetailState
       print(err);
       setState(() {
         verification = VerificationState.VerifiedWithError;
-      });
-    }
-  }
-
-  void resolveIssuerDid() async {
-    final did = jsonEncode(widget.item.issuer);
-    // Modify FFI config as required
-    final ffiConfig = await ffi_config_instance.get_ffi_config();
-    print(jsonEncode(ffiConfig));
-    // final optStr = jsonEncode({'proofPurpose': 'assertionMethod'});
-    try {
-      final didDoc = await trustchain_ffi.didResolve(
-          did: did, opts: jsonEncode(ffiConfig));
-      setState(() {
-        issuerDidDocument = didDoc;
-      });
-    } on FfiException catch (err) {
-      // TODO: Handle specific error cases
-      print(err);
-      setState(() {
-        issuerDidDocument = null;
       });
     }
   }
@@ -272,19 +250,10 @@ class _CredentialsDetailState
                 arguments: [widget.item.data['issuer']],
               );
             },
-            // // // AIM:
-            // child: CredentialWidget(
-            //   model: CredentialWidgetModel.fromCredentialDisplayModel(
-            //       CredentialDisplayModel.constructCredentialDisplayModel(
-            //           widget.item)),
-            // ),
-            //
-            // ALT AIM:
             child: FutureBuilder<CredentialDisplayModel>(
                 future: CredentialDisplayModel.constructCredentialDisplayModel(
                     widget.item),
                 builder: (BuildContext context,
-                    // AsyncSnapshot<DIDModel> snapshot) {
                     AsyncSnapshot<CredentialDisplayModel> snapshot) {
                   if (snapshot.hasData) {
                     return CredentialWidget(
@@ -295,12 +264,7 @@ class _CredentialsDetailState
                         model: DocumentWidgetModel.fromCredentialModel(
                             widget.item));
                   }
-                }
-
-                // ORIG:
-                // child: DocumentWidget(
-                //   model: DocumentWidgetModel.fromCredentialModel(widget.item),
-                ),
+                }),
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
