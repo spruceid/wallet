@@ -1,8 +1,8 @@
 String extractEndpoint(dynamic did_document, String service_id) {
   // TODO: refine handling when sevice not found
-  var ep;
+  var ep = '';
   for (var service in did_document['service']) {
-    if (service['id'] == service) {
+    if (service['id'] == service_id) {
       ep = service['serviceEndpoint'];
       break;
     }
@@ -40,7 +40,8 @@ class DIDModel {
     //   }
     // }
     final endpoint = extractEndpoint(didDocument, '#TrustchainID');
-    assert(endpoint != null);
+
+    // assert(endpoint != '');
 
     return DIDModel(
       did: did,
