@@ -1,11 +1,6 @@
-import 'dart:convert';
-
-import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/widget/credential.dart';
-import 'package:credible/app/pages/credentials/widget/document.dart';
-import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
@@ -15,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
 
 class CredentialsReceivePage extends StatefulWidget {
   final Uri url;
