@@ -55,7 +55,7 @@ class CredentialDisplayModel {
     var displayedIssuer = model.issuer;
     try {
       var did_model = await resolve_did(model.issuer);
-      displayedIssuer = did_model.endpoint;
+      displayedIssuer = humanReadableEndpoint(did_model.endpoint);
     } catch (e) {
       // Do nothing: issuer DID is displayed by default.
     }

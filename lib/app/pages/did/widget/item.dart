@@ -1,3 +1,4 @@
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -44,13 +45,11 @@ class DocumentItemWidget extends StatelessWidget {
 class ChainItemWidget extends StatelessWidget {
   final String did;
   final String endpoint;
-  final String humanReadableEndpoint;
 
   const ChainItemWidget({
     Key? key,
     required this.did,
     required this.endpoint,
-    required this.humanReadableEndpoint,
   }) : super(key: key);
 
   @override
@@ -66,7 +65,7 @@ class ChainItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  humanReadableEndpoint,
+                  humanReadableEndpoint(endpoint),
                   // textAlign: TextAlign.left,
                   style: Theme.of(context)
                       .textTheme

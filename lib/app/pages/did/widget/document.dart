@@ -1,5 +1,6 @@
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/pages/did/widget/item.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,10 +16,6 @@ class DIDDocumentWidgetModel {
 
   factory DIDDocumentWidgetModel.fromDIDModel(DIDModel model) {
     return DIDDocumentWidgetModel(model.did, model.endpoint);
-  }
-
-  String humanReadableEndpoint() {
-    return this.endpoint.split("www.").last;
   }
 }
 
@@ -105,10 +102,7 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12.0),
-              ChainItemWidget(
-                  did: model.did,
-                  humanReadableEndpoint: model.humanReadableEndpoint(),
-                  endpoint: model.endpoint),
+              ChainItemWidget(did: model.did, endpoint: model.endpoint),
               const SizedBox(height: 12.0),
             ],
           ),

@@ -13,3 +13,7 @@ Future<DIDModel> resolve_did(String did) async {
   final uri = Uri.http(url_split[0], route);
   return DIDModel.fromMap(jsonDecode((await http.get(uri)).body));
 }
+
+String humanReadableEndpoint(String endpoint) {
+  return endpoint.split("www.").last;
+}
