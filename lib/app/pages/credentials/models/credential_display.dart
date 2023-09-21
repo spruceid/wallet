@@ -8,42 +8,13 @@ class CredentialDisplayModel {
   final CredentialModel model;
   final String displayedIssuer;
 
-  String get issuer => model.data['issuer']!;
+  String get issuer => model.issuer;
 
-  DateTime? get expirationDate => (model.data['expirationDate'] != null)
-      ? DateTime.parse(model.data['expirationDate'])
-      : null;
+  DateTime? get expirationDate => model.expirationDate;
 
-  CredentialStatus get status {
-    if (expirationDate == null) {
-      return CredentialStatus.active;
-    }
+  CredentialStatus get status => model.status;
 
-    return expirationDate!.isAfter(DateTime.now())
-        ? CredentialStatus.active
-        : CredentialStatus.expired;
-  }
-
-  Map<String, dynamic> _stripContext(Map<String, dynamic> map) {
-    // Remove any jsonld context entries in the hierarchy
-    var result = Map<String, dynamic>();
-    map.forEach((key, value) {
-      if (key != '@context') {
-        if (value is Map<String, dynamic>) {
-          result[key] = _stripContext(value);
-        } else {
-          result[key] = value;
-        }
-      }
-      ;
-    });
-    return result;
-  }
-
-  Map<String, dynamic> get details {
-    // Remove the jsonld context to avoid overcomplicating things for human viewers
-    return _stripContext(model.data);
-  }
+  Map<String, dynamic> get details => model.details;
 
   const CredentialDisplayModel({
     required this.model,
@@ -69,6 +40,6 @@ class CredentialDisplayModel {
         'alias': model.alias,
         'image': model.image,
         'data': model.data,
-        'issuerDid': displayedIssuer
+        'displayedIssuer': displayedIssuer
       };
 }

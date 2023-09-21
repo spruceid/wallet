@@ -1,4 +1,5 @@
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:uuid/uuid.dart';
 
 class CredentialModel {
@@ -23,24 +24,9 @@ class CredentialModel {
         : CredentialStatus.expired;
   }
 
-  Map<String, dynamic> _stripContext(Map<String, dynamic> map) {
-    // Remove any jsonld context entries in the hierarchy
-    var result = Map<String, dynamic>();
-    map.forEach((key, value) {
-      if (key != '@context') {
-        if (value is Map<String, dynamic>) {
-          result[key] = _stripContext(value);
-        } else {
-          result[key] = value;
-        }
-      }
-    });
-    return result;
-  }
-
   Map<String, dynamic> get details {
     // Remove the jsonld context to avoid overcomplicating things for human viewers
-    return _stripContext(data);
+    return stripContext(data);
   }
 
   const CredentialModel({

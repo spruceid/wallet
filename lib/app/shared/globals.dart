@@ -17,3 +17,19 @@ Future<DIDModel> resolve_did(String did) async {
 String humanReadableEndpoint(String endpoint) {
   return endpoint.split('www.').last;
 }
+
+Map<String, dynamic> stripContext(Map<String, dynamic> map) {
+  // Remove any jsonld context entries in the hierarchy
+  var result = Map<String, dynamic>();
+  map.forEach((key, value) {
+    if (key != '@context') {
+      if (value is Map<String, dynamic>) {
+        result[key] = stripContext(value);
+      } else {
+        result[key] = value;
+      }
+    }
+    ;
+  });
+  return result;
+}
