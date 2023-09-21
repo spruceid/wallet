@@ -156,11 +156,11 @@ You can now test the FFI libraries by starting a [`trustchain-http`](https://git
 
 
 ### 11. Run flutter to start mobile app
-- Install package dependencies with:
+- From the `trustchain-mobile` repository, install package dependencies with:
 ```bash
 flutter pub get
 ```
-- And then with an android emulator running from the `trustchain-mobile` repo root:
+- And then with an android emulator running from the `trustchain-mobile` repository:
 ```bash
 flutter run 
 ```
