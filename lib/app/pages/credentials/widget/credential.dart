@@ -70,10 +70,7 @@ class CredentialWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DocumentItemWidget(
-                  label: 'Issued by:',
-                  value:
-                      model.displayedIssuer // model.details // model.issuedBy,
-                  ),
+                  label: 'Issued by:', value: model.displayedIssuer),
               const SizedBox(height: 24.0),
               DocumentItemWidget(label: 'Status:', value: model.status),
             ],
@@ -105,13 +102,13 @@ class CredentialWidget extends StatelessWidget {
                     children: [
                       JsonViewer(model.details),
                     ],
-                  ), // Column
-                ), // Padding
-              ), // Container
+                  ),
+                ),
+              ),
             ],
-          ), // Column
-        ), // ExpandablePanel
-      ), // Padding
-    ); // Container
+          ),
+        ),
+      ),
+    );
   }
 }
