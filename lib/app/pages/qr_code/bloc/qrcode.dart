@@ -86,10 +86,10 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
               '/did/' +
               did);
       final response = await client.getUri(resolverUri);
-      // TODO: extract endpoint when included in DID
-      // final endpoint =
-      //     extractEndpoint(response.data['didDocument'], '#TrustchainHTTP');
-      final endpoint = didCode['endpoint'];
+      final endpoint =
+          extractEndpoint(response.data['didDocument'], '#TrustchainHTTP');
+      // TODO: Uncomment to alternatively use config endpoint
+      // final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
       uri = Uri.parse(endpoint + route + uuid);
     } on FormatException catch (e) {
       try {
