@@ -29,7 +29,6 @@ Map<String, dynamic> stripContext(Map<String, dynamic> map) {
         result[key] = value;
       }
     }
-    ;
   });
   return result;
 }

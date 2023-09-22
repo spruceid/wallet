@@ -66,7 +66,6 @@ class ChainItemWidget extends StatelessWidget {
               children: [
                 Text(
                   humanReadableEndpoint(endpoint),
-                  // textAlign: TextAlign.left,
                   style: Theme.of(context)
                       .textTheme
                       .caption!
@@ -100,7 +99,7 @@ class ChainItemWidget extends StatelessWidget {
                         children: [
                           JsonViewer({'DID': did, 'endpoint': endpoint})
                         ],
-                      ), // Column
+                      ),
                     ))
               ],
             ),

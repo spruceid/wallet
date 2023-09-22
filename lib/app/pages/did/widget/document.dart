@@ -82,7 +82,7 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         decoration: BaseBoxDecoration(
-          // TODO: update with different palette for DIDs
+          // TODO [#29]: update with different palette for DIDs
           // color: UiKit.palette.credentialBackground,
           // shapeColor: UiKit.palette.credentialDetail.withOpacity(0.2),
           color: color,
