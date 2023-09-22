@@ -4,7 +4,9 @@ import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:credible/app/pages/credentials/blocs/wallet.dart';
 import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/credential_display.dart';
 import 'package:credible/app/pages/credentials/models/verification_state.dart';
+import 'package:credible/app/pages/credentials/widget/credential.dart';
 import 'package:credible/app/pages/credentials/widget/document.dart';
 import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/constants.dart';
@@ -36,6 +38,7 @@ class CredentialsDetail extends StatefulWidget {
 class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
+  dynamic issuerDidDocument;
   VerificationState verification = VerificationState.Unverified;
 
   final logger = Logger('credible/credentials/detail');
@@ -247,9 +250,21 @@ class _CredentialsDetailState
                 arguments: [widget.item.data['issuer']],
               );
             },
-            child: DocumentWidget(
-              model: DocumentWidgetModel.fromCredentialModel(widget.item),
-            ),
+            child: FutureBuilder<CredentialDisplayModel>(
+                future: CredentialDisplayModel.constructCredentialDisplayModel(
+                    widget.item),
+                builder: (BuildContext context,
+                    AsyncSnapshot<CredentialDisplayModel> snapshot) {
+                  if (snapshot.hasData) {
+                    return CredentialWidget(
+                        model: CredentialWidgetModel.fromCredentialDisplayModel(
+                            snapshot.data!));
+                  } else {
+                    return DocumentWidget(
+                        model: DocumentWidgetModel.fromCredentialModel(
+                            widget.item));
+                  }
+                }),
           ),
           const SizedBox(height: 64.0),
           if (verification == VerificationState.Unverified)
