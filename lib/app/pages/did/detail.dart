@@ -1,7 +1,9 @@
 // import 'package:credible/app/shared/ui/ui.dart';
+import 'package:credible/app/shared/config.dart';
 import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
@@ -48,7 +50,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(8.0),
                     child: FutureBuilder<DIDModel>(
-                        future: resolve_did(widget.did),
+                        future: resolveDid(widget.did),
                         builder: (BuildContext context,
                             AsyncSnapshot<DIDModel> snapshot) {
                           if (snapshot.hasData) {
