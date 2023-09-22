@@ -24,13 +24,6 @@ class DIDDisplayPage extends StatefulWidget {
 }
 
 class _DIDDisplayPageState extends State<DIDDisplayPage> {
-  Future<DIDModel> get_did(String did) async {
-    final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
-    final route = '/did/' + did;
-    final uri = Uri.parse(endpoint + route);
-    return DIDModel.fromMap((await Dio().getUri(uri)).data);
-  }
-
   @override
   void initState() {
     super.initState();
@@ -57,7 +50,7 @@ class _DIDDisplayPageState extends State<DIDDisplayPage> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(8.0),
                     child: FutureBuilder<DIDModel>(
-                        future: resolve_did(widget.did),
+                        future: resolveDid(widget.did),
                         builder: (BuildContext context,
                             AsyncSnapshot<DIDModel> snapshot) {
                           if (snapshot.hasData) {
