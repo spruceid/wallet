@@ -1,10 +1,8 @@
 import 'package:credible/app/pages/credentials/models/credential.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
-import 'package:credible/app/pages/credentials/pages/detail.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
@@ -70,9 +68,9 @@ class DocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DocumentItemWidget(
-                  label: 'Issued by:',
-                  value: 'xyz' // model.details // model.issuedBy,
-                  ),
+                label: 'Issued by:',
+                value: model.issuedBy,
+              ),
               const SizedBox(height: 24.0),
               DocumentItemWidget(label: 'Status:', value: model.status),
             ],
