@@ -37,6 +37,20 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
                   return DIDChainWidget(
                       model: DIDChainWidgetModel.fromDIDChainModel(
                           snapshot.data!));
+                } else if (snapshot.hasError) {
+                  return Center(
+                      child: Column(
+                    children: [
+                      Text(
+                        'Failed to connect to server.',
+                        textScaleFactor: 2.0,
+                      ),
+                      Text(
+                        'Please try again later.',
+                        textScaleFactor: 2.0,
+                      )
+                    ],
+                  ));
                 } else {
                   return Center(
                       child: Column(
