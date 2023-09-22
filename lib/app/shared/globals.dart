@@ -11,7 +11,7 @@ Future<DIDModel> resolveDid(String did) async {
   return DIDModel.fromMap((await Dio().getUri(uri)).data);
 }
 
-// TODO: replace with FFI call
+// TODO [#43]: replace with FFI call
 Future<DIDChainModel> resolveDidChain(String did) async {
   final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
   final route = '/did/chain/' + did;
