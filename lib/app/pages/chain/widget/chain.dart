@@ -31,14 +31,10 @@ class DIDChainWidget extends StatelessWidget {
         children: [
           Expanded(
               flex: 20,
-              child: (color == null)
-                  ? DIDDocumentWidget(
-                      model: documentWidget,
-                    )
-                  : DIDDocumentWidget(
-                      model: documentWidget,
-                      color: color,
-                    )),
+              child: HumanFriendlyDIDDocumentWidget(
+                model: documentWidget,
+              )),
+          Expanded(flex: 1, child: SizedBox(width: 0, height: 0)),
           Expanded(
               flex: 2,
               child: Icon(Icons.check_circle_rounded,
@@ -52,7 +48,7 @@ class DIDChainWidget extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
       children: model.data
               .take(1)
-              .map((w) => customChain(w, Color.fromARGB(255, 208, 182, 66)))
+              .map((w) => customChain(w, Color.fromARGB(255, 175, 4, 242)))
               .toList() +
           model.data.skip(1).map((w) => customChain(w)).toList());
 }
