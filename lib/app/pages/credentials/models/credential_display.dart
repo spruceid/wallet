@@ -4,21 +4,21 @@ import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/shared/globals.dart';
 import 'package:uuid/uuid.dart';
 
-// For displaying a credential with issuer endpoint (extracted from DID document)
+// Wrapper for CredentialModel, with issuer endpoint (extracted from their DID document).
 class CredentialDisplayModel {
-  final CredentialModel model;
+  final CredentialModel wrappedModel;
   final String displayedIssuer;
 
-  String get issuer => model.issuer;
+  String get issuer => wrappedModel.issuer;
 
-  DateTime? get expirationDate => model.expirationDate;
+  DateTime? get expirationDate => wrappedModel.expirationDate;
 
-  CredentialStatus get status => model.status;
+  CredentialStatus get status => wrappedModel.status;
 
-  Map<String, dynamic> get details => model.details;
+  Map<String, dynamic> get details => wrappedModel.details;
 
   const CredentialDisplayModel({
-    required this.model,
+    required this.wrappedModel,
     required this.displayedIssuer,
   });
 
@@ -33,14 +33,14 @@ class CredentialDisplayModel {
     }
 
     return CredentialDisplayModel(
-        model: model, displayedIssuer: displayedIssuer);
+        wrappedModel: model, displayedIssuer: displayedIssuer);
   }
 
   Map<String, dynamic> toMap() => {
-        'id': model.id,
-        'alias': model.alias,
-        'image': model.image,
-        'data': model.data,
+        'id': wrappedModel.id,
+        'alias': wrappedModel.alias,
+        'image': wrappedModel.image,
+        'data': wrappedModel.data,
         'displayedIssuer': displayedIssuer
       };
 }

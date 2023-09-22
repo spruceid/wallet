@@ -94,7 +94,7 @@ class _CredentialsReceivePageState
                 CredentialWidget(
                     model: CredentialWidgetModel.fromCredentialDisplayModel(
                         CredentialDisplayModel(
-                            model: credential,
+                            wrappedModel: credential,
                             displayedIssuer: widget.url.host))),
                 const SizedBox(height: 24.0),
                 BaseButton.primary(

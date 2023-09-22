@@ -8,31 +8,20 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class CredentialWidgetModel {
-  final String displayedIssuer;
-  final String status;
-  final dynamic details;
+import 'document.dart';
 
-  const CredentialWidgetModel(this.displayedIssuer, this.status, this.details);
+// Wrapper for a DocumentWidgetModel with human-friendly displayed issuer.
+class CredentialWidgetModel {
+  final DocumentWidgetModel wrappedModel;
+  final String displayedIssuer;
+
+  const CredentialWidgetModel(this.wrappedModel, this.displayedIssuer);
 
   factory CredentialWidgetModel.fromCredentialDisplayModel(
       CredentialDisplayModel model) {
-    late String status;
-
-    switch (model.model.status) {
-      case CredentialStatus.active:
-        status = 'Active';
-        break;
-      case CredentialStatus.expired:
-        status = 'Expired';
-        break;
-      case CredentialStatus.revoked:
-        status = 'Revoked';
-        break;
-    }
-
     return CredentialWidgetModel(
-        model.displayedIssuer, status, model.model.details);
+        DocumentWidgetModel.fromCredentialModel(model.wrappedModel),
+        model.displayedIssuer);
   }
 }
 
@@ -72,7 +61,8 @@ class CredentialWidget extends StatelessWidget {
               DocumentItemWidget(
                   label: 'Issued by:', value: model.displayedIssuer),
               const SizedBox(height: 24.0),
-              DocumentItemWidget(label: 'Status:', value: model.status),
+              DocumentItemWidget(
+                  label: 'Status:', value: model.wrappedModel.status),
             ],
           ),
           collapsed: SizedBox(height: 8.0),
@@ -100,7 +90,7 @@ class CredentialWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      JsonViewer(model.details),
+                      JsonViewer(model.wrappedModel.details),
                     ],
                   ),
                 ),
