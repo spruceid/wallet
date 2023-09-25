@@ -1,4 +1,4 @@
-import 'package:credible/app/pages/credentials/models/credential.dart';
+import 'package:credible/app/pages/credentials/models/credential_display.dart';
 import 'package:credible/app/pages/credentials/models/credential_status.dart';
 import 'package:credible/app/pages/credentials/widget/document/item.dart';
 import 'package:credible/app/shared/ui/ui.dart';
@@ -8,37 +8,28 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DocumentWidgetModel {
-  final String issuedBy;
-  final String status;
-  final dynamic details;
+import 'document.dart';
 
-  const DocumentWidgetModel(this.issuedBy, this.status, this.details);
+// Wrapper for a DocumentWidgetModel with human-friendly displayed issuer.
+class CredentialWidgetModel {
+  final DocumentWidgetModel wrappedModel;
+  final String displayedIssuer;
 
-  factory DocumentWidgetModel.fromCredentialModel(CredentialModel model) {
-    late String status;
+  const CredentialWidgetModel(this.wrappedModel, this.displayedIssuer);
 
-    switch (model.status) {
-      case CredentialStatus.active:
-        status = 'Active';
-        break;
-      case CredentialStatus.expired:
-        status = 'Expired';
-        break;
-      case CredentialStatus.revoked:
-        status = 'Revoked';
-        break;
-    }
-
-    return DocumentWidgetModel(model.issuer, status, model.details);
+  factory CredentialWidgetModel.fromCredentialDisplayModel(
+      CredentialDisplayModel model) {
+    return CredentialWidgetModel(
+        DocumentWidgetModel.fromCredentialModel(model.wrappedModel),
+        model.displayedIssuer);
   }
 }
 
-class DocumentWidget extends StatelessWidget {
-  final DocumentWidgetModel model;
+class CredentialWidget extends StatelessWidget {
+  final CredentialWidgetModel model;
   final Widget? trailing;
 
-  const DocumentWidget({
+  const CredentialWidget({
     Key? key,
     required this.model,
     this.trailing,
@@ -68,11 +59,10 @@ class DocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DocumentItemWidget(
-                label: 'Issued by:',
-                value: model.issuedBy,
-              ),
+                  label: 'Issued by:', value: model.displayedIssuer),
               const SizedBox(height: 24.0),
-              DocumentItemWidget(label: 'Status:', value: model.status),
+              DocumentItemWidget(
+                  label: 'Status:', value: model.wrappedModel.status),
             ],
           ),
           collapsed: SizedBox(height: 8.0),
@@ -100,15 +90,15 @@ class DocumentWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.max,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      JsonViewer(model.details),
+                      JsonViewer(model.wrappedModel.details),
                     ],
-                  ), // Column
-                ), // Padding
-              ), // Container
+                  ),
+                ),
+              ),
             ],
-          ), // Column
-        ), // ExpandablePanel
-      ), // Padding
-    ); // Container
+          ),
+        ),
+      ),
+    );
   }
 }

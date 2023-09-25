@@ -31,14 +31,14 @@ class FFIConfig {
         await get_root_event_time();
     final ionEndpoint = await get_ion_endpoint();
     final trustchainEndpoint = await get_trustchain_endpoint();
-    ffiConfig['endpointOptions']!['ionEndpoint']!['host'] =
-        ionEndpoint.split(':')[0];
-    ffiConfig['endpointOptions']!['ionEndpoint']!['port'] =
-        int.parse(ionEndpoint.split(':')[1]);
+    final ionEndpointUri = Uri.parse(ionEndpoint);
+    ffiConfig['endpointOptions']!['ionEndpoint']!['host'] = ionEndpointUri.host;
+    ffiConfig['endpointOptions']!['ionEndpoint']!['port'] = ionEndpointUri.port;
+    final trustchainEndpointUri = Uri.parse(trustchainEndpoint);
     ffiConfig['endpointOptions']!['trustchainEndpoint']!['host'] =
-        trustchainEndpoint.split(':')[0];
+        trustchainEndpointUri.host;
     ffiConfig['endpointOptions']!['trustchainEndpoint']!['port'] =
-        int.parse(trustchainEndpoint.split(':')[1]);
+        trustchainEndpointUri.port;
     return ffiConfig;
   }
 }

@@ -173,6 +173,14 @@ This runs the code from the branch you have checked out. The mobile app should n
 ### Debugging in VS code with hot reload
 
 - Open the repo in VS code
+- Update `flutter-config.json` with your default values, for example:
+  ```json
+  {
+    "ionEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:3000",
+    "trustchainEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:8081",
+    "rootEventTime": "1666971942"
+  }
+  ```
 - Install required dart and flutter extensions
 - Click on the bottom right to choose the the installed android emulator
 - Press `fn-F5` to run from inside VS code and have the app hot reload upon save
