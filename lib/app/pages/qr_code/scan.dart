@@ -53,7 +53,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
     });
   }
 
-  void promptHost(Uri uri) async {
+  void promptHost(Uri uri, bool verified) async {
     // TODO [bug] find out why the camera sometimes sends a code twice
     if (!promptActive) {
       setState(() {
@@ -65,10 +65,16 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
             context: context,
             builder: (BuildContext context) {
               return ConfirmDialog(
-                title: localizations.scanPromptHost,
+                title: verified
+                    ? localizations.scanPromptVerifiedHost
+                    : localizations.scanPromptHost,
                 subtitle: uri.host,
-                yes: localizations.communicationHostAllow,
-                no: localizations.communicationHostDeny,
+                yes: verified
+                    ? localizations.communicationVerifiedHostAllow
+                    : localizations.communicationHostAllow,
+                no: verified
+                    ? localizations.communicationVerifiedHostDeny
+                    : localizations.communicationHostDeny,
               );
             },
           ) ??
@@ -103,7 +109,7 @@ class _QrCodeScanPageState extends ModularState<QrCodeScanPage, QRCodeBloc> {
           ));
         }
         if (state is QRCodeStateHost) {
-          promptHost(state.uri);
+          promptHost(state.uri, state.verified);
         }
         if (state is QRCodeStateUnknown) {
           qrController.resumeCamera();

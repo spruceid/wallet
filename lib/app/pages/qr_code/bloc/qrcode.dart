@@ -30,8 +30,9 @@ class QRCodeStateWorking extends QRCodeState {}
 
 class QRCodeStateHost extends QRCodeState {
   final Uri uri;
+  final bool verified;
 
-  QRCodeStateHost(this.uri);
+  QRCodeStateHost(this.uri, this.verified);
 }
 
 class QRCodeStateSuccess extends QRCodeState {
@@ -77,8 +78,8 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       try {
         await trustchain_ffi.didVerify(did: did, opts: jsonEncode(ffiConfig));
       } on FfiException {
-        yield QRCodeStateMessage(StateMessage.error(
-            'This QRCode does not contain a valid message.'));
+        yield QRCodeStateMessage(
+            StateMessage.error('Failed verification of $did'));
       }
       // Resolve DID
       final resolverUri = Uri.parse(
@@ -91,6 +92,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       // TODO: Uncomment to alternatively use config endpoint
       // final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
       uri = Uri.parse(endpoint + route + uuid);
+      yield QRCodeStateHost(uri, true);
     } on FormatException catch (e) {
       try {
         print(e.message);
@@ -102,7 +104,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       }
     }
 
-    yield QRCodeStateHost(uri);
+    yield QRCodeStateHost(uri, false);
   }
 
   Stream<QRCodeState> _accept(
