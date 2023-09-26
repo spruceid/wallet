@@ -1,156 +1,157 @@
 {
+    "date": "2022-10-20",
     "rootCandidates": [
         {
             "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
-            "txId": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8"
+            "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8"
         },
         {
             "did": "did:ion:test:EiCn2u6NEeycgEJtrjjBIPb8BFg6p5WrUmVhfbix0faPpA",
-            "txId": "96597612a5eb15996dc94d7898e51fa32837081ce81ab9127614c2a16e22f9b0"
+            "txid": "96597612a5eb15996dc94d7898e51fa32837081ce81ab9127614c2a16e22f9b0"
         },
         {
             "did": "did:ion:test:EiASiM5GYQIbgjxkV7EPxN4WXFxOQlUPrv5rzlpZcZXI2w",
-            "txId": "67731aeedc0fbc997545327c65501ee06b923a503d73e5b655bd0b8797fe3572"
+            "txid": "67731aeedc0fbc997545327c65501ee06b923a503d73e5b655bd0b8797fe3572"
         },
         {
             "did": "did:ion:test:EiDlOi-JyPvWRoYrKtQ_HaoiwHo1sl3F8MC7FA8csoj3Ag",
-            "txId": "253af4de20e84dccce0705d628b51f2b63c942bd65c2d58930e348b71da55710"
+            "txid": "253af4de20e84dccce0705d628b51f2b63c942bd65c2d58930e348b71da55710"
         },
         {
             "did": "did:ion:test:EiBVko9XZttlH10_E3OmhHNZoZdqsZHyRGvQKIkN36Jmww",
-            "txId": "ea6cf1d36a855dd55976ee00ae6e275e26111ed0153c3ca24d1e39b90191dc3c"
+            "txid": "ea6cf1d36a855dd55976ee00ae6e275e26111ed0153c3ca24d1e39b90191dc3c"
         },
         {
             "did": "did:ion:test:EiDAQdupXXEwqO6d5Oh9camtm8Sv-3-viA4luy0uClNmWA",
-            "txId": "51d8ee89e0d1728cf0ab4a0056de7acf1268f51c700348770bb54e130b47b4c6"
+            "txid": "51d8ee89e0d1728cf0ab4a0056de7acf1268f51c700348770bb54e130b47b4c6"
         },
         {
             "did": "did:ion:test:EiARqw6zQJo5LrQHKWZD13Ulp3FFhtHmrJGG4nzhcmfCwg",
-            "txId": "199f774e389b88b5ef8af5d3493a64d5498d8354e226eecb6fdc68ea67aea56c"
+            "txid": "199f774e389b88b5ef8af5d3493a64d5498d8354e226eecb6fdc68ea67aea56c"
         },
         {
             "did": "did:ion:test:EiDzJ4IYclHBb7UZPBPEAJF6N5X-_ujYxVLq2_mHDA4cQg",
-            "txId": "338a7a56aff5230d8ac8dbec005ad2823336eb50ee6815a42b4ae37d408d7b5c"
+            "txid": "338a7a56aff5230d8ac8dbec005ad2823336eb50ee6815a42b4ae37d408d7b5c"
         },
         {
             "did": "did:ion:test:EiAO7D5-xB8adGK_pH-42EYX3CZTyl-00u1U-8SpiraO7Q",
-            "txId": "2bd8772b58f967141206ab2f12ca0bd6cd2c75d38843deb3d1910a702199848f"
+            "txid": "2bd8772b58f967141206ab2f12ca0bd6cd2c75d38843deb3d1910a702199848f"
         },
         {
             "did": "did:ion:test:EiCJRUvV9oJTXWBerNK2nHyAExJWcuvSw6Em4PP60ha8mw",
-            "txId": "b2ba049cac0de5067f0f861f50996f4b8a1e2ee8ed50db439aa5455ef72e67d4"
+            "txid": "b2ba049cac0de5067f0f861f50996f4b8a1e2ee8ed50db439aa5455ef72e67d4"
         },
         {
             "did": "did:ion:test:EiB5BaSowRgWCymrOqdvfTIaY4x6_yYbSHs2eAmHvLv1Bw",
-            "txId": "8a737a7b2cbdb0ce7c54e66f1584218c9f67d12c09503feba694455219453d07"
+            "txid": "8a737a7b2cbdb0ce7c54e66f1584218c9f67d12c09503feba694455219453d07"
         },
         {
             "did": "did:ion:test:EiBTZ7ExU7Of6UCVkqctW5KGOKPP24jOCyJUSppe_ym3gQ",
-            "txId": "99f7253e91d28e6d64c308b65903781fe86f14ff3a46bcd5a22a3260e35a595c"
+            "txid": "99f7253e91d28e6d64c308b65903781fe86f14ff3a46bcd5a22a3260e35a595c"
         },
         {
             "did": "did:ion:test:EiB7ekKU2pUSWsTPVU8af_WEtIZDRy9baXswE_HZul5VnA",
-            "txId": "d6cb88ecfb753245c43bf4daee53c46d1a93e83e8a35542e8da6903f1371aa9b"
+            "txid": "d6cb88ecfb753245c43bf4daee53c46d1a93e83e8a35542e8da6903f1371aa9b"
         },
         {
             "did": "did:ion:test:EiDz_zvUa2FUIgLUvBia9wUJakhrrW889nDdGlr1-RTAWw",
-            "txId": "c369dd566a0dd5c2f381c1ab9c8e96b4f6b4fd323f5c1ed68dbb2a1bfb9cb48f"
+            "txid": "c369dd566a0dd5c2f381c1ab9c8e96b4f6b4fd323f5c1ed68dbb2a1bfb9cb48f"
         },
         {
             "did": "did:ion:test:EiBw6Agd4QgQm1_AGTToFJvP9MurOnk-p0X0ndQXVyEC4A",
-            "txId": "ed120c8cccf20ba47a00e4a2f0dcc751e33bb866302b561245bce225eb831f4d"
+            "txid": "ed120c8cccf20ba47a00e4a2f0dcc751e33bb866302b561245bce225eb831f4d"
         },
         {
             "did": "did:ion:test:EiBgT_NiS1XJVx0p2pIwcXW5QQzu6AoV4PQ-P8Fq_-3vfA",
-            "txId": "cccd52c65b43d4d955700a06cd4d1178d40632601fda7520a24704221eaa5283"
+            "txid": "cccd52c65b43d4d955700a06cd4d1178d40632601fda7520a24704221eaa5283"
         },
         {
             "did": "did:ion:test:EiCClfEdkTv_aM3UnBBhlOV89LlGhpQAbfeZLFdFxVFkEg",
-            "txId": "9dc43cca950d923442445340c2e30bc57761a62ef3eaf2417ec5c75784ea9c2c"
+            "txid": "9dc43cca950d923442445340c2e30bc57761a62ef3eaf2417ec5c75784ea9c2c"
         },
         {
             "did": "did:ion:test:EiA6m4-V4fW_l1xEu3jH9xvXt1JyynmO7I_rkBpFulEAuQ",
-            "txId": "b698c0919a91a161bc141cd395788296edb85d19415a6d29a13a220a8f2249e0"
+            "txid": "b698c0919a91a161bc141cd395788296edb85d19415a6d29a13a220a8f2249e0"
         },
         {
             "did": "did:ion:test:EiDSv-3Uc5gSKL3mEQLh2nCRwD6yBd4_FbtbE1aR3as7Rw",
-            "txId": "fabac7443aaf106177a7d48677faff8298c4300b91212913a9af29a4e79cf28b"
+            "txid": "fabac7443aaf106177a7d48677faff8298c4300b91212913a9af29a4e79cf28b"
         },
         {
             "did": "did:ion:test:EiAmT5AR4AI_Cnx5rRmnWhppIPKpZk8-mj_jlhDikZwPHw",
-            "txId": "b7c5b81ab9c81080539ba28f1e55bba21d864bf701d153aace97560e6b27d2bb"
+            "txid": "b7c5b81ab9c81080539ba28f1e55bba21d864bf701d153aace97560e6b27d2bb"
         },
         {
             "did": "did:ion:test:EiACv5nJj3U-a1cChPQxmOsZQlQBEIQIKRhQOtZXeBmeLQ",
-            "txId": "f5e0028531549e35d6a75b73580135d23efebee09f7389f28c7dcbf03e91e128"
+            "txid": "f5e0028531549e35d6a75b73580135d23efebee09f7389f28c7dcbf03e91e128"
         },
         {
             "did": "did:ion:test:EiBPnYAQ1DdZ0QUERZqF8a3SAjqF07jmYO_kjHsOUuCcPA",
-            "txId": "62fd300c38d1b808e4cfbe5a57d82f701088aa32979c981fd8be69af133e68ae"
+            "txid": "62fd300c38d1b808e4cfbe5a57d82f701088aa32979c981fd8be69af133e68ae"
         },
         {
             "did": "did:ion:test:EiBad8i2Kz2zQT8cyqRnxhNDkAF9g8g9SP9UIob0qFMX0Q",
-            "txId": "8fddebb09c03852af88a93cfee6143c087223884d763256f934c12a41deb84cc"
+            "txid": "8fddebb09c03852af88a93cfee6143c087223884d763256f934c12a41deb84cc"
         },
         {
             "did": "did:ion:test:EiADnBtjEp1f0cEVcghhT2G3F_ANc-ag4qtV6HbF2V4kxA",
-            "txId": "e257612d13028e88b73d3693c5be6782f215cf189b14c71ba87ca8902c53f6cb"
+            "txid": "e257612d13028e88b73d3693c5be6782f215cf189b14c71ba87ca8902c53f6cb"
         },
         {
             "did": "did:ion:test:EiBjoGRBeHNWroQ7aIZZN_258UN3R8LGAV-IP4DtERF--A",
-            "txId": "956e7eaf19b7c62af60db7b50011079fc5ea6d7eb083a5ee0f0a3ba464bd2f50"
+            "txid": "956e7eaf19b7c62af60db7b50011079fc5ea6d7eb083a5ee0f0a3ba464bd2f50"
         },
         {
             "did": "did:ion:test:EiCR7wSGfaJZqMHCYAf3wa1hA8VOw3p1gBAaCVnNdIN4jQ",
-            "txId": "e295352f9aef3c70bb609f160294b4674f91fdb7e4ab6f735d52dfdccf7ef1fc"
+            "txid": "e295352f9aef3c70bb609f160294b4674f91fdb7e4ab6f735d52dfdccf7ef1fc"
         },
         {
             "did": "did:ion:test:EiA9WZcbA_vjV2_VKmv08TvcIUpD2IPxr7IJlJqyJJ2c_Q",
-            "txId": "1344a65b5763f82487d0884c4e63f7b819edeaa2d81db0e0071275a745cdd1d2"
+            "txid": "1344a65b5763f82487d0884c4e63f7b819edeaa2d81db0e0071275a745cdd1d2"
         },
         {
             "did": "did:ion:test:EiBwGf6G3vFg6So_q1WEeJZ940JkE4Mqh8ARseN0AecfCA",
-            "txId": "aaa97d0591715e0b998c4b6c4f008031f54b136bcc0381a996c55f9a4952756b"
+            "txid": "aaa97d0591715e0b998c4b6c4f008031f54b136bcc0381a996c55f9a4952756b"
         },
         {
             "did": "did:ion:test:EiAKVbeQCoww1uEYdvntqgmS5XzV5p23ZBCACKL2w5ZEXw",
-            "txId": "9399e7e368fdbd608ae764e47c813cd585a329666b29006b6d2bdd5e08f9591f"
+            "txid": "9399e7e368fdbd608ae764e47c813cd585a329666b29006b6d2bdd5e08f9591f"
         },
         {
             "did": "did:ion:test:EiAgyJb1svDJ7z4JRU837JpAEU6JMf_CDLjFya5ngJJ-gQ",
-            "txId": "f8fad65fafd5b0abe26c317fe79e3cab73df292c82aa9195232f5e4292dae906"
+            "txid": "f8fad65fafd5b0abe26c317fe79e3cab73df292c82aa9195232f5e4292dae906"
         },
         {
             "did": "did:ion:test:EiBP6vNJiaCIMn6aQqvkqawybfU0YYdMs027XLHmdtcfkg",
-            "txId": "02bbf63f8d4139f1a600fd04293faabede5d9aa9a25b007bf00431f582f0eb0d"
+            "txid": "02bbf63f8d4139f1a600fd04293faabede5d9aa9a25b007bf00431f582f0eb0d"
         },
         {
             "did": "did:ion:test:EiD6w6s7PbSfN8rexSe_CR8Obvdmbxga3EiG_Fb0lTwhpw",
-            "txId": "35b4ea3d9a6d6c8fc7582d7710a11505abc94edefab654389cf7aeaab29d8c08"
+            "txid": "35b4ea3d9a6d6c8fc7582d7710a11505abc94edefab654389cf7aeaab29d8c08"
         },
         {
             "did": "did:ion:test:EiD-F6fR3TIjzfZ5_K8OVLOxB0e-dVxdIdbPcdKtOY8rsQ",
-            "txId": "86938da3b1bafc676be7d56f507a7e11a9bf170eab0db551044f74d6a510afb0"
+            "txid": "86938da3b1bafc676be7d56f507a7e11a9bf170eab0db551044f74d6a510afb0"
         },
         {
             "did": "did:ion:test:EiB-eTNAJ4QHP-4fIrcSIEQCEOzlCVUww04ooAJcf1OwcA",
-            "txId": "444c63010644c78baad9e373f107eb2c945006f4fa553fce8e7783f8b1bf7127"
+            "txid": "444c63010644c78baad9e373f107eb2c945006f4fa553fce8e7783f8b1bf7127"
         },
         {
             "did": "did:ion:test:EiC-sxe6oMDy6d7n95KCcLD44ZT3mrXBLb_TbeX7tgzY_Q",
-            "txId": "d171640c7a589446c1956007224d5efb4276e2ba545105d8d9c0a4f87a4d49b8"
+            "txid": "d171640c7a589446c1956007224d5efb4276e2ba545105d8d9c0a4f87a4d49b8"
         },
         {
             "did": "did:ion:test:EiBIQF2prLNRMTQLDjtEO4ptXJyfeNYXvOq2mJevjrjTuw",
-            "txId": "f25530a661d3396b58e933a385a5f17ced588f67d7bb20a23118c8e02122481d"
+            "txid": "f25530a661d3396b58e933a385a5f17ced588f67d7bb20a23118c8e02122481d"
         },
         {
             "did": "did:ion:test:EiCcAoLyuOY8X4iXTdSvKlRvH09j0GWTLIrZ130mFGaqww",
-            "txId": "a70eddf0d22000a7297dafdb6ddc019e5245d0ef22002222525b8a601d085925"
+            "txid": "a70eddf0d22000a7297dafdb6ddc019e5245d0ef22002222525b8a601d085925"
         },
         {
             "did": "did:ion:test:EiBbes2IRKhGauhQc5r4T30i06S6dEWgzCKx-WCKT3x0Lw",
-            "txId": "502f1a418eff99e50b91aea33e43e4c270af05eb0381d57ca4f48f16d7efe9e1"
+            "txid": "502f1a418eff99e50b91aea33e43e4c270af05eb0381d57ca4f48f16d7efe9e1"
         }
     ]
 }
