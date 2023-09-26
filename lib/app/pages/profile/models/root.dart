@@ -1,14 +1,18 @@
-// TODO.
-// class RootModel {
-//   final DateTime date;
-//   String confimationCode;
+class RootConfigModel {
+  final DateTime date;
+  String? confimationCode;
 
-//   const RootModel({
-//     required this.date,
-//   })
+  RootConfigModel({
+    required this.date,
+    required this.confimationCode,
+  });
 
-// }
+  factory RootConfigModel.fromDate(DateTime date) {
+    return RootConfigModel(date: date, confimationCode: null);
+  }
+}
 
+// Represents a root DID candidate, with corresponding Bitcoin transaction ID.
 class RootCandidateModel {
   final String did;
   final String txid;
@@ -29,6 +33,7 @@ class RootCandidateModel {
   Map<String, String> toMap() => {'did': did, 'txid': txid};
 }
 
+// Represents a list of root DID candidates for a given calendar date.
 class RootCandidatesModel {
   final DateTime date;
   final List<RootCandidateModel> candidates;

@@ -8,6 +8,19 @@ final rootCandidatesExample = jsonDecode(
     File('test/data/root_candidates_example.json').readAsStringSync());
 
 void main() {
+  group('RootConfigModel', () {
+    test('confirmationCode should be settable', () {
+      var model = RootConfigModel.fromDate(DateTime.parse('2022-10-20'));
+
+      expect(model.date, equals(DateTime.parse('2022-10-20')));
+      expect(model.confimationCode, isNull);
+
+      model.confimationCode = 'abc';
+      expect(model.confimationCode, isNotNull);
+      expect(model.confimationCode, equals('abc'));
+    });
+  });
+
   group('RootCandidateModel', () {
     test('.fromMap() should convert a root candidate map', () {
       final rootCandidateExample = jsonDecode('''{
