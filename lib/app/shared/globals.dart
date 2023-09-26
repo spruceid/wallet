@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:credible/app/pages/chain/models/chain.dart';
 import 'package:credible/app/pages/did/models/did.dart';
 import 'package:dio/dio.dart';
