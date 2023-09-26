@@ -18,12 +18,11 @@ class RootCandidateModel {
     required this.txid,
   });
 
-  // TODO: find out why the ! is needed here, but isn't in DIDModel.fromMap().
   factory RootCandidateModel.fromMap(Map<String, dynamic> data) {
     assert(data.containsKey('did'));
-    final did = data['did']!;
+    final did = data['did'];
     assert(data.containsKey('txid'));
-    final txid = data['txid']!;
+    final txid = data['txid'];
     return RootCandidateModel(did: did, txid: txid);
   }
 
