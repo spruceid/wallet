@@ -4,6 +4,7 @@ import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
+import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/base/text_field.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,6 +26,8 @@ class _ConfigPageState extends State<ConfigPage> {
   late TextEditingController rootEventTime;
   late TextEditingController ionEndpoint;
   late TextEditingController trustchainEndpoint;
+  final ValueNotifier<bool> _rootEventDateIsSet = ValueNotifier<bool>(false);
+  // double _datePickerHeight = 200;
 
   @override
   void initState() {
@@ -98,6 +101,75 @@ class _ConfigPageState extends State<ConfigPage> {
             controller: rootEventTime,
             icon: Icons.lock_clock,
             type: TextInputType.phone,
+          ),
+          const SizedBox(height: 16.0),
+          Container(
+            color: Colors.white,
+            child: ValueListenableBuilder<bool>(
+              valueListenable: _rootEventDateIsSet,
+              builder: (BuildContext context, bool value, Widget? child) {
+                // This builder is called when _rootEventDateIsSet is updated.
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 24.0, vertical: 12.0),
+                      child: Text(
+                        localizations.rootEventDate,
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                    // SizedBox(
+                    AnimatedContainer(
+                        height: _rootEventDateIsSet.value ? 30 : 200,
+                        // height: _datePickerHeight,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        // Date picker animation duration:
+                        duration: const Duration(milliseconds: 700),
+                        child: AbsorbPointer(
+                          absorbing: value,
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.date,
+                            initialDateTime: DateTime.now(),
+                            minimumDate: DateTime(2021, 2, 1),
+                            maximumDate:
+                                DateTime.now().add(const Duration(days: 365)),
+                            dateOrder: DatePickerDateOrder.dmy,
+                            backgroundColor: Colors.white,
+                            onDateTimeChanged: (DateTime newDateTime) {
+                              // Do nothing till the setRootEventDate is pressed.
+                            },
+                          ),
+                        )),
+                    TextButton(
+                      child: Text(
+                        _rootEventDateIsSet.value
+                            ? localizations.changeRootEventDate
+                            : localizations.setRootEventDate,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: _rootEventDateIsSet.value
+                                ? Colors.grey
+                                : Colors.blue),
+                      ),
+                      onPressed: () {
+                        // TODO:
+                        // - add a warning above the Set & Change root event date buttons
+                        // - include a call to the server to retrieve root DID candidates for the given date, etc.
+                        setState(() {
+                          _rootEventDateIsSet.value =
+                              !_rootEventDateIsSet.value;
+                          // _datePickerHeight = 30;
+                        });
+                      },
+                    )
+                  ],
+                );
+              },
+            ),
           ),
           const SizedBox(height: 16.0),
           BaseTextField(

@@ -59,6 +59,7 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
       final model = ConfigModel(
         did: did,
         rootEventTime: rootEventTime,
+        rootConfig: null,
         ionEndpoint: ionEndpoint,
         trustchainEndpoint: trustchainEndpoint,
       );

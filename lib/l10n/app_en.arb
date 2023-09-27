@@ -162,8 +162,11 @@
   "credentialFullDetails": "Full details:",
   "configTitle": "Settings",
   "configSubtitle": "Settings",
-  "didLabel": "DID:",
+  "didLabel": "My DID:",
   "rootEventTime": "Root Event Time:",
   "ionEndpoint": "ION endpoint:",
-  "trustchainEndpoint": "Trustchain endpoint:"
+  "trustchainEndpoint": "Trustchain endpoint:",
+  "rootEventDate": "Root event date:",
+  "setRootEventDate": "Set root event date",
+  "changeRootEventDate": "Change root event date"
 }
