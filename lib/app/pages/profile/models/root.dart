@@ -1,33 +1,33 @@
 class RootConfigModel {
   final DateTime date;
   String? confimationCode;
+  RootIdentifierModel? root;
 
   RootConfigModel({
     required this.date,
-    required this.confimationCode,
   });
 
   factory RootConfigModel.fromDate(DateTime date) {
-    return RootConfigModel(date: date, confimationCode: null);
+    return RootConfigModel(date: date);
   }
 }
 
 // Represents a root DID candidate, with corresponding Bitcoin transaction ID.
-class RootCandidateModel {
+class RootIdentifierModel {
   final String did;
   final String txid;
 
-  const RootCandidateModel({
+  const RootIdentifierModel({
     required this.did,
     required this.txid,
   });
 
-  factory RootCandidateModel.fromMap(Map<String, dynamic> data) {
+  factory RootIdentifierModel.fromMap(Map<String, dynamic> data) {
     assert(data.containsKey('did'));
     final did = data['did'];
     assert(data.containsKey('txid'));
     final txid = data['txid'];
-    return RootCandidateModel(did: did, txid: txid);
+    return RootIdentifierModel(did: did, txid: txid);
   }
 
   Map<String, String> toMap() => {'did': did, 'txid': txid};
@@ -36,7 +36,7 @@ class RootCandidateModel {
 // Represents a list of root DID candidates for a given calendar date.
 class RootCandidatesModel {
   final DateTime date;
-  final List<RootCandidateModel> candidates;
+  final List<RootIdentifierModel> candidates;
 
   const RootCandidatesModel({
     required this.date,
@@ -49,7 +49,7 @@ class RootCandidatesModel {
     final date = DateTime.parse(data['date']);
     assert(data.containsKey('rootCandidates'));
     var candidates = data['rootCandidates']
-        .map<RootCandidateModel>((m) => RootCandidateModel.fromMap(m))
+        .map<RootIdentifierModel>((m) => RootIdentifierModel.fromMap(m))
         .toList();
 
     return RootCandidatesModel(date: date, candidates: candidates);
