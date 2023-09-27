@@ -9,61 +9,40 @@ class CustomErrorWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: ExpandablePanel(
-      header: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            color: Colors.red,
-            size: 50.0,
-          ),
-          Text(
-            'An error occurred!',
-            style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-      collapsed: SizedBox(),
-      expanded: Column(
-        children: [
-          Text(
-            errorMessage,
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16.0),
-          ),
-        ],
-      ),
-    ));
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 80.0),
+            child: ExpandablePanel(
+                theme: const ExpandableThemeData(
+                    hasIcon: false,
+                    headerAlignment: ExpandablePanelHeaderAlignment.center),
+                header: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 50.0,
+                    ),
+                    Text(
+                      'An error occurred!',
+                      style: TextStyle(
+                          fontSize: 18.0, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                collapsed: SizedBox(),
+                expanded: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        errorMessage.trim(),
+                        textScaleFactor: 1.5,
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }
-//   @override
-//   Widget build(BuildContext context) {
-//     return Center(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//           Icon(
-//             Icons.error_outline,
-//             color: Colors.red,
-//             size: 50.0,
-//           ),
-//           SizedBox(height: 10.0),
-//           Text(
-//             'Error Occurred!',
-//             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-//           ),
-//           SizedBox(height: 10.0),
-//           Text(
-//             errorMessage,
-//             textAlign: TextAlign.center,
-//             style: TextStyle(fontSize: 16.0),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-
