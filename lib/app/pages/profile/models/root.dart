@@ -6,9 +6,13 @@ class RootConfigModel {
   DateTime date;
   String? confimationCode;
   RootIdentifierModel? root;
+  int? timestamp;
 
   RootConfigModel({
     required this.date,
+    this.confimationCode,
+    this.root,
+    this.timestamp,
   });
 
   factory RootConfigModel.fromDate(DateTime date) {
@@ -16,8 +20,10 @@ class RootConfigModel {
   }
 
   void clear(DateTime newDate) {
+    date = newDate;
     confimationCode = null;
     root = null;
+    timestamp = null;
   }
 }
 
@@ -25,10 +31,12 @@ class RootConfigModel {
 class RootIdentifierModel {
   final String did;
   final String txid;
+  final int blockHeight;
 
   const RootIdentifierModel({
     required this.did,
     required this.txid,
+    required this.blockHeight,
   });
 
   factory RootIdentifierModel.fromMap(Map<String, dynamic> data) {
@@ -36,7 +44,9 @@ class RootIdentifierModel {
     final did = data['did'];
     assert(data.containsKey('txid'));
     final txid = data['txid'];
-    return RootIdentifierModel(did: did, txid: txid);
+    assert(data.containsKey('blockHeight'));
+    final blockHeight = data['blockHeight'];
+    return RootIdentifierModel(did: did, txid: txid, blockHeight: blockHeight);
   }
 
   Map<String, String> toMap() => {'did': did, 'txid': txid};
@@ -93,4 +103,26 @@ Future<RootCandidatesModel> getRootCandidates(DateTime date) async {
   };
   final uri = Uri.https(endpoint, route, queryParameters);
   return RootCandidatesModel.fromMap((await Dio().getUri(uri)).data);
+}
+
+// Represents a list of root DID candidates for a given calendar date.
+class TimestampModel {
+  final int timestamp;
+
+  const TimestampModel({required this.timestamp});
+
+  // Throws a FormatException if the 'timestamp' string cannot be parsed.
+  factory TimestampModel.fromMap(Map<String, dynamic> data) {
+    assert(data.containsKey('timestamp'));
+    final timestamp = int.parse(data['timestamp']);
+
+    return TimestampModel(timestamp: timestamp);
+  }
+}
+
+Future<TimestampModel> getBlockTimestamp(int blockHeight) async {
+  final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
+  final route = '/root/timestamp/' + blockHeight.toString();
+  final uri = Uri.https(endpoint, route);
+  return TimestampModel.fromMap((await Dio().getUri(uri)).data);
 }

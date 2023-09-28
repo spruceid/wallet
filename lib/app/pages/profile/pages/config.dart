@@ -41,11 +41,28 @@ class _ConfigPageState extends State<ConfigPage> {
     final config_model =
         config_state is ConfigStateDefault ? config_state.model : ConfigModel();
     did = TextEditingController(text: config_model.did);
+    // Deprecated (use rootConfigModel.timestamp instead):
     rootEventTime = TextEditingController(text: config_model.rootEventTime);
     ionEndpoint = TextEditingController(text: config_model.ionEndpoint);
     trustchainEndpoint =
         TextEditingController(text: config_model.trustchainEndpoint);
-    rootConfigModel = RootConfigModel(date: DateTime.now());
+    // Initialise the root config model:
+    _rootEventDateIsSet.value = config_model.rootEventDate.isNotEmpty;
+    var rootIdentifier = config_model.rootDid.isEmpty
+        ? null
+        : RootIdentifierModel(
+            did: config_model.rootDid,
+            txid: config_model.rootTxid,
+            blockHeight: int.parse(config_model.rootBlockHeight));
+    rootConfigModel = RootConfigModel(
+        date: config_model.rootEventDate.isEmpty
+            ? DateTime.now()
+            : DateTime.parse(config_model.rootEventDate),
+        confimationCode: config_model.confirmationCode,
+        root: rootIdentifier,
+        timestamp: config_model.rootEventTime.isEmpty
+            ? null
+            : int.parse(config_model.rootEventTime));
     confirmationCodeController = TextEditingController();
   }
 
@@ -61,9 +78,21 @@ class _ConfigPageState extends State<ConfigPage> {
           // TODO: save not working here
           Modular.get<ConfigBloc>().add(ConfigEventUpdate(ConfigModel(
             did: did.text,
-            rootEventTime: rootEventTime.text,
+            // OLD: rootEventTime: rootEventTime.text,
             ionEndpoint: ionEndpoint.text,
             trustchainEndpoint: trustchainEndpoint.text,
+            rootEventDate: rootConfigModel.date.toString(),
+            confirmationCode: rootConfigModel.confimationCode.toString(),
+            rootDid:
+                rootConfigModel.root == null ? '' : rootConfigModel.root!.did,
+            rootTxid:
+                rootConfigModel.root == null ? '' : rootConfigModel.root!.txid,
+            rootBlockHeight: rootConfigModel.root == null
+                ? ''
+                : rootConfigModel.root!.blockHeight.toString(),
+            rootEventTime: rootConfigModel.timestamp == null
+                ? ''
+                : rootConfigModel.timestamp.toString(),
           )));
           Modular.to.pop();
         },
@@ -110,8 +139,8 @@ class _ConfigPageState extends State<ConfigPage> {
             type: TextInputType.phone,
           ),
           const SizedBox(height: 16.0),
+          // TODO: move to a separate rootEventDate widget.
           Container(
-            // color: Colors.white,
             decoration: BoxDecoration(
               color: Colors.white,
               border: Border.all(color: UiKit.palette.textFieldBorder),
@@ -143,7 +172,7 @@ class _ConfigPageState extends State<ConfigPage> {
                           absorbing: value,
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
-                            initialDateTime: DateTime.now(),
+                            initialDateTime: rootConfigModel.date,
                             minimumDate: DateTime(2009, 1, 3),
                             maximumDate:
                                 DateTime.now().add(const Duration(days: 365)),
@@ -151,7 +180,7 @@ class _ConfigPageState extends State<ConfigPage> {
                             backgroundColor: Colors.white,
                             onDateTimeChanged: (DateTime newDateTime) {
                               setState(() {
-                                // Refresh the rootConfigModel.
+                                // Refresh the rootConfigModel & set the new date.
                                 rootConfigModel.clear(newDateTime);
                               });
                             },
@@ -170,15 +199,6 @@ class _ConfigPageState extends State<ConfigPage> {
                       ),
                       onPressed: () {
                         handleRootEventDateButton();
-                        // // If the date is not already set, handle setting a new root event time
-                        // if (!_rootEventDateIsSet.value) {
-                        //   handleSettingRootEventDate();
-                        // }
-                        // // Update the widget state.
-                        // setState(() {
-                        //   _rootEventDateIsSet.value =
-                        //       !_rootEventDateIsSet.value;
-                        // });
                       },
                     )
                   ],
@@ -213,12 +233,13 @@ class _ConfigPageState extends State<ConfigPage> {
       // - include a call to the server to retrieve root DID candidates for the given date, etc.
 
       // Use the HTTP get request in practice:
-      // var rootCandidates = getRootCandidates(rootConfigModel.date).await;
+      // var rootCandidates = await getRootCandidates(rootConfigModel.date);
 
       // Use a test fixture while developing:
       final rootCandidateExample = jsonDecode('''{
                           "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
-                          "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8"
+                          "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8",
+                          "blockHeight": 2377360
                         }''');
       final rootIdentifier = RootIdentifierModel.fromMap(rootCandidateExample);
       var rootCandidates = RootCandidatesModel(
@@ -252,11 +273,17 @@ class _ConfigPageState extends State<ConfigPage> {
                 ));
         return;
       }
+      var root = matchingCandidates.first;
+
+      // Now that we have the unique root, make an HTTP request to get the timestamp.
+      // var rootTimestamp = await getBlockTimestamp(root.blockHeight);
+      var rootTimestamp = TimestampModel(timestamp: 22);
 
       // If a unique root DID has been determined ... TODO.
       setState(() {
         rootConfigModel.confimationCode = confCode;
-        rootConfigModel.root = matchingCandidates.first;
+        rootConfigModel.root = root;
+        rootConfigModel.timestamp = rootTimestamp.timestamp;
         print('State updated!');
       });
     }

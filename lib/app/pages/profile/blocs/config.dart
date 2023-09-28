@@ -47,21 +47,37 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
 
       final did =
           await SecureStorageProvider.instance.get(ConfigModel.didKey) ?? '';
-      final rootEventTime = await SecureStorageProvider.instance
-              .get(ConfigModel.rootEventTimeKey) ??
-          '';
       final ionEndpoint = await SecureStorageProvider.instance
               .get(ConfigModel.ionEndpointKey) ??
           '';
       final trustchainEndpoint = await SecureStorageProvider.instance
               .get(ConfigModel.trustchainEndpointKey) ??
           '';
+      final rootEventDate = await SecureStorageProvider.instance
+              .get(ConfigModel.rootEventDateKey) ??
+          '';
+      final confirmationCode = await SecureStorageProvider.instance
+              .get(ConfigModel.confirmationCodeKey) ??
+          '';
+      final rootDid =
+          await SecureStorageProvider.instance.get(ConfigModel.rootDidKey) ??
+              '';
+      final rootTxid =
+          await SecureStorageProvider.instance.get(ConfigModel.rootTxidKey) ??
+              '';
+      final rootEventTime = await SecureStorageProvider.instance
+              .get(ConfigModel.rootEventTimeKey) ??
+          '';
+
       final model = ConfigModel(
         did: did,
-        rootEventTime: rootEventTime,
-        rootConfig: null,
         ionEndpoint: ionEndpoint,
         trustchainEndpoint: trustchainEndpoint,
+        rootEventDate: rootEventDate,
+        confirmationCode: confirmationCode,
+        rootDid: rootDid,
+        rootTxid: rootTxid,
+        rootEventTime: rootEventTime,
       );
 
       yield ConfigStateDefault(model);

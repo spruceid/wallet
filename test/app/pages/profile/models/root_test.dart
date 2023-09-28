@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'dart:math';
 import 'package:credible/app/pages/profile/models/root.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -28,7 +29,8 @@ void main() {
       model.root = RootIdentifierModel(
           did: 'did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw',
           txid:
-              '1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8');
+              '1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8',
+          blockHeight: 2377360);
       expect(model.root, isNotNull);
       expect(
           model.root!.did,
@@ -38,6 +40,7 @@ void main() {
           model.root!.txid,
           equals(
               '1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8'));
+      expect(model.root!.blockHeight, equals(2377360));
     });
   });
 
@@ -45,7 +48,8 @@ void main() {
     test('.fromMap() should convert a root candidate map', () {
       final rootCandidateExample = jsonDecode('''{
             "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
-            "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8"
+            "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8",
+            "blockHeight": 2377360
         }''');
 
       final model = RootIdentifierModel.fromMap(rootCandidateExample);
@@ -57,6 +61,7 @@ void main() {
           model.txid,
           equals(
               '1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8'));
+      expect(model.blockHeight, equals(2377360));
     });
   });
 
