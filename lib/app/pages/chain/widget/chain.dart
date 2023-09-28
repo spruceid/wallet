@@ -24,21 +24,38 @@ class DIDChainWidget extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
-  Widget customChain(DIDDocumentWidgetModel documentWidget, [Color? color]) {
+  Widget customChain(DIDDocumentWidgetModel currentDocumentWidget,
+      [String? rootDate]) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
           Expanded(
-              flex: 20,
-              child: HumanFriendlyDIDDocumentWidget(
-                model: documentWidget,
-              )),
+            flex: 20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // if (rootDate != null)
+                //   (Text(
+                //     'ROOT DATE: ' + rootDate,
+                //     style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                //   )),
+                HumanFriendlyDIDDocumentWidget(
+                  model: currentDocumentWidget,
+                  rootEventDate: rootDate,
+                ),
+              ],
+            ),
+          ),
           Expanded(flex: 1, child: SizedBox(width: 0, height: 0)),
           Expanded(
-              flex: 2,
-              child: Icon(Icons.check_circle_rounded,
-                  size: 40, color: Color.fromARGB(255, 7, 111, 10)))
+            flex: 2,
+            child: Icon(
+              Icons.check_circle_rounded,
+              size: 40,
+              color: Color.fromARGB(255, 7, 111, 10),
+            ),
+          ),
         ],
       ),
     );
@@ -48,7 +65,8 @@ class DIDChainWidget extends StatelessWidget {
   Widget build(BuildContext context) => ListView(
       children: model.data
               .take(1)
-              .map((w) => customChain(w, Color.fromARGB(255, 175, 4, 242)))
+              .map((w) =>
+                  customChain(w, DateTime.now().toString().substring(0, 10)))
               .toList() +
           model.data.skip(1).map((w) => customChain(w)).toList());
 }

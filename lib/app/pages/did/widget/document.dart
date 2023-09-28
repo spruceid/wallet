@@ -71,12 +71,14 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
   final DIDDocumentWidgetModel model;
   final Color? color;
   final Widget? trailing;
+  final String? rootEventDate;
 
   const HumanFriendlyDIDDocumentWidget({
     Key? key,
     this.color = const Color.fromARGB(255, 17, 0, 255),
     required this.model,
     this.trailing,
+    this.rootEventDate,
   }) : super(key: key);
 
   @override
@@ -102,7 +104,11 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(height: 12.0),
-              ChainItemWidget(did: model.did, endpoint: model.endpoint),
+              // TODO: make option for FirstChainItemWidget
+              ChainItemWidget(
+                  did: model.did,
+                  endpoint: model.endpoint,
+                  rootEventDate: rootEventDate),
               const SizedBox(height: 12.0),
             ],
           ),

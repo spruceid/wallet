@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 
-import 'document.dart';
-
 class DocumentItemWidget extends StatelessWidget {
   final String label;
   final String value;
+  final String rootEventDate;
 
   const DocumentItemWidget({
     Key? key,
     required this.label,
     required this.value,
+    this.rootEventDate = '',
   }) : super(key: key);
 
   @override
@@ -45,12 +45,11 @@ class DocumentItemWidget extends StatelessWidget {
 class ChainItemWidget extends StatelessWidget {
   final String did;
   final String endpoint;
+  final String? rootEventDate;
 
-  const ChainItemWidget({
-    Key? key,
-    required this.did,
-    required this.endpoint,
-  }) : super(key: key);
+  const ChainItemWidget(
+      {Key? key, required this.did, required this.endpoint, this.rootEventDate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -64,6 +63,23 @@ class ChainItemWidget extends StatelessWidget {
             header: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                if (rootEventDate != null)
+                  (Text(
+                    'ROOT DATE: ' + rootEventDate!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption!
+                        .apply(color: UiKit.palette.credentialText),
+                  )),
+                // Text(
+                //   DateFormat('dd MMM yyyy', 'en_US').format(DateTime.now()),
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .caption!
+                //       .apply(color: UiKit.palette.credentialText),
+                //   maxLines: null,
+                //   softWrap: true,
+                // ),
                 Text(
                   humanReadableEndpoint(endpoint),
                   style: Theme.of(context)
