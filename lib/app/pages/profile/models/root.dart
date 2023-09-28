@@ -1,5 +1,8 @@
+import 'package:credible/app/shared/config.dart';
+import 'package:dio/dio.dart';
+
 class RootConfigModel {
-  final DateTime date;
+  DateTime date;
   String? confimationCode;
   RootIdentifierModel? root;
 
@@ -9,6 +12,11 @@ class RootConfigModel {
 
   factory RootConfigModel.fromDate(DateTime date) {
     return RootConfigModel(date: date);
+  }
+
+  void clear(DateTime newDate) {
+    confimationCode = null;
+    root = null;
   }
 }
 
@@ -60,4 +68,25 @@ class RootCandidatesModel {
         'rootCandidates':
             candidates.map((m) => m.toMap()['candidates']).toList()
       };
+
+  // Returns the list of root DID candidates matching the given confirmation code.
+  List<RootIdentifierModel> matchingCandidates(String confirmationCode) {
+    return candidates
+        .where((rootIdentifier) =>
+            rootIdentifier.txid.substring(0, confirmationCode.length) ==
+            confirmationCode)
+        .toList();
+  }
+}
+
+Future<RootCandidatesModel> getRootCandidates(DateTime date) async {
+  final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
+  final route = '/root';
+  final queryParameters = {
+    'year': date.year.toString(),
+    'month': date.month.toString(),
+    'day': date.day.toString(),
+  };
+  final uri = Uri.https(endpoint, route, queryParameters);
+  return RootCandidatesModel.fromMap((await Dio().getUri(uri)).data);
 }

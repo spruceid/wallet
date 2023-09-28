@@ -1,7 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
 import 'package:credible/app/pages/profile/blocs/config.dart';
 import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
+import 'package:credible/app/pages/profile/models/root.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -26,8 +29,9 @@ class _ConfigPageState extends State<ConfigPage> {
   late TextEditingController rootEventTime;
   late TextEditingController ionEndpoint;
   late TextEditingController trustchainEndpoint;
+  late RootConfigModel rootConfigModel;
+  late TextEditingController confirmationCode;
   final ValueNotifier<bool> _rootEventDateIsSet = ValueNotifier<bool>(false);
-  // double _datePickerHeight = 200;
 
   @override
   void initState() {
@@ -40,6 +44,8 @@ class _ConfigPageState extends State<ConfigPage> {
     ionEndpoint = TextEditingController(text: config_model.ionEndpoint);
     trustchainEndpoint =
         TextEditingController(text: config_model.trustchainEndpoint);
+    rootConfigModel = RootConfigModel(date: DateTime.now());
+    confirmationCode = TextEditingController();
   }
 
   @override
@@ -123,7 +129,6 @@ class _ConfigPageState extends State<ConfigPage> {
                     // SizedBox(
                     AnimatedContainer(
                         height: _rootEventDateIsSet.value ? 30 : 200,
-                        // height: _datePickerHeight,
                         decoration: BoxDecoration(
                           color: Colors.white,
                         ),
@@ -134,13 +139,16 @@ class _ConfigPageState extends State<ConfigPage> {
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.date,
                             initialDateTime: DateTime.now(),
-                            minimumDate: DateTime(2021, 2, 1),
+                            minimumDate: DateTime(2009, 1, 3),
                             maximumDate:
                                 DateTime.now().add(const Duration(days: 365)),
                             dateOrder: DatePickerDateOrder.dmy,
                             backgroundColor: Colors.white,
                             onDateTimeChanged: (DateTime newDateTime) {
-                              // Do nothing till the setRootEventDate is pressed.
+                              setState(() {
+                                // Refresh the rootConfigModel.
+                                rootConfigModel.clear(newDateTime);
+                              });
                             },
                           ),
                         )),
@@ -156,14 +164,16 @@ class _ConfigPageState extends State<ConfigPage> {
                                 : Colors.blue),
                       ),
                       onPressed: () {
-                        // TODO:
-                        // - add a warning above the Set & Change root event date buttons
-                        // - include a call to the server to retrieve root DID candidates for the given date, etc.
-                        setState(() {
-                          _rootEventDateIsSet.value =
-                              !_rootEventDateIsSet.value;
-                          // _datePickerHeight = 30;
-                        });
+                        handleRootEventDateButton();
+                        // // If the date is not already set, handle setting a new root event time
+                        // if (!_rootEventDateIsSet.value) {
+                        //   handleSettingRootEventDate();
+                        // }
+                        // // Update the widget state.
+                        // setState(() {
+                        //   _rootEventDateIsSet.value =
+                        //       !_rootEventDateIsSet.value;
+                        // });
                       },
                     )
                   ],
@@ -188,5 +198,93 @@ class _ConfigPageState extends State<ConfigPage> {
         ],
       ),
     );
+  }
+
+  void handleRootEventDateButton() async {
+    // If it is not already set, handle setting a new root event date.
+    if (!_rootEventDateIsSet.value) {
+      // TODO:
+      // - add a warning above the Set & Change root event date buttons
+      // - include a call to the server to retrieve root DID candidates for the given date, etc.
+
+      // Use the HTTP get request in practice:
+      // var rootCandidates = getRootCandidates(rootConfigModel.date).await;
+
+      // Use a test fixture while developing:
+      final rootCandidateExample = jsonDecode('''{
+                          "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
+                          "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8"
+                        }''');
+      final rootIdentifier = RootIdentifierModel.fromMap(rootCandidateExample);
+      var rootCandidates = RootCandidatesModel(
+          date: rootConfigModel.date, candidates: [rootIdentifier]);
+      // end of temp dev code.
+
+      // Request the user to enter the confirmation code.
+      final confCode = await requestConfirmationCode();
+      if (confCode == null || confCode.isEmpty) return;
+
+      // Filter the root candidates w.r.t. the confirmation code.
+      final matchingCandidates = rootCandidates.matchingCandidates(confCode);
+
+      // If the confirmation code does not uniquely identify a root DID candidate, stop.
+      if (matchingCandidates.length != 1) {
+        await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(
+                    'Invalid date/confirmation code',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  content: Text(
+                      'The combination of root event date and confirmation code entered is not valid.\n\nPlease check and try again.'),
+                  actions: [
+                    TextButton(
+                        child: const Text('OK'),
+                        onPressed: () => Navigator.pop(context))
+                  ],
+                ));
+        return;
+      }
+
+      // If a unique root DID has been determined ... TODO.
+      setState(() {
+        rootConfigModel.confimationCode = confCode;
+        rootConfigModel.root = matchingCandidates.first;
+        print('State updated!');
+      });
+    }
+
+    // Update the widget state.
+    setState(() {
+      _rootEventDateIsSet.value = !_rootEventDateIsSet.value;
+    });
+  }
+
+  Future<String?> requestConfirmationCode() => showDialog<String>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Confirmation code'),
+          content: TextField(
+            autofocus: true,
+            decoration: InputDecoration(
+                hintText: 'Enter the confirmation code',
+                hintStyle: TextStyle(fontSize: 14)),
+            controller: confirmationCode,
+            onSubmitted: (_) => submitConfirmationCode(),
+          ),
+          actions: [
+            TextButton(
+                child: Text('SUBMIT'),
+                onPressed: () {
+                  submitConfirmationCode();
+                })
+          ],
+        ),
+      );
+
+  void submitConfirmationCode() {
+    Navigator.of(context).pop(confirmationCode.text);
+    confirmationCode.clear();
   }
 }
