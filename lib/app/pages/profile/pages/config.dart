@@ -5,6 +5,7 @@ import 'package:credible/app/pages/profile/blocs/profile.dart';
 import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/models/root.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -30,7 +31,7 @@ class _ConfigPageState extends State<ConfigPage> {
   late TextEditingController ionEndpoint;
   late TextEditingController trustchainEndpoint;
   late RootConfigModel rootConfigModel;
-  late TextEditingController confirmationCode;
+  late TextEditingController confirmationCodeController;
   final ValueNotifier<bool> _rootEventDateIsSet = ValueNotifier<bool>(false);
 
   @override
@@ -45,7 +46,7 @@ class _ConfigPageState extends State<ConfigPage> {
     trustchainEndpoint =
         TextEditingController(text: config_model.trustchainEndpoint);
     rootConfigModel = RootConfigModel(date: DateTime.now());
-    confirmationCode = TextEditingController();
+    confirmationCodeController = TextEditingController();
   }
 
   @override
@@ -222,7 +223,8 @@ class _ConfigPageState extends State<ConfigPage> {
 
       // Request the user to enter the confirmation code.
       final confCode = await requestConfirmationCode();
-      if (confCode == null || confCode.isEmpty) return;
+      if (confCode == null ||
+          confCode.length < Constants.confirmationCodeMinimumLength) return;
 
       // Filter the root candidates w.r.t. the confirmation code.
       final matchingCandidates = rootCandidates.matchingCandidates(confCode);
@@ -263,28 +265,36 @@ class _ConfigPageState extends State<ConfigPage> {
 
   Future<String?> requestConfirmationCode() => showDialog<String>(
         context: context,
-        builder: (context) => AlertDialog(
-          title: Text('Confirmation code'),
-          content: TextField(
-            autofocus: true,
-            decoration: InputDecoration(
-                hintText: 'Enter the confirmation code',
-                hintStyle: TextStyle(fontSize: 14)),
-            controller: confirmationCode,
-            onSubmitted: (_) => submitConfirmationCode(),
-          ),
-          actions: [
-            TextButton(
-                child: Text('SUBMIT'),
-                onPressed: () {
-                  submitConfirmationCode();
-                })
-          ],
+        builder: (context) => ValueListenableBuilder(
+          valueListenable: confirmationCodeController,
+          builder: (context, TextEditingValue value, __) {
+            return AlertDialog(
+              title: Text('Confirmation code'),
+              content: TextField(
+                autofocus: true,
+                decoration: InputDecoration(
+                    hintText: 'Enter the confirmation code',
+                    hintStyle: TextStyle(fontSize: 14)),
+                controller: confirmationCodeController,
+                onSubmitted: (_) => submitConfirmationCode(),
+              ),
+              actions: [
+                TextButton(
+                  // Disable the SUBMIT button until enough characters are entered.
+                  onPressed: confirmationCodeController.value.text.length <
+                          Constants.confirmationCodeMinimumLength
+                      ? null
+                      : submitConfirmationCode,
+                  child: Text('SUBMIT'),
+                )
+              ],
+            );
+          },
         ),
       );
 
   void submitConfirmationCode() {
-    Navigator.of(context).pop(confirmationCode.text);
-    confirmationCode.clear();
+    Navigator.of(context).pop(confirmationCodeController.text);
+    confirmationCodeController.clear();
   }
 }
