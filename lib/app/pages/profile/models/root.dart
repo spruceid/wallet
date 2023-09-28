@@ -1,4 +1,5 @@
 import 'package:credible/app/shared/config.dart';
+import 'package:credible/app/shared/constants.dart';
 import 'package:dio/dio.dart';
 
 class RootConfigModel {
@@ -71,6 +72,9 @@ class RootCandidatesModel {
 
   // Returns the list of root DID candidates matching the given confirmation code.
   List<RootIdentifierModel> matchingCandidates(String confirmationCode) {
+    if (confirmationCode.length < Constants.confirmationCodeMinimumLength) {
+      return List.empty();
+    }
     return candidates
         .where((rootIdentifier) =>
             rootIdentifier.txid.substring(0, confirmationCode.length) ==

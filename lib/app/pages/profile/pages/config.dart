@@ -111,7 +111,11 @@ class _ConfigPageState extends State<ConfigPage> {
           ),
           const SizedBox(height: 16.0),
           Container(
-            color: Colors.white,
+            // color: Colors.white,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: UiKit.palette.textFieldBorder),
+            ),
             child: ValueListenableBuilder<bool>(
               valueListenable: _rootEventDateIsSet,
               builder: (BuildContext context, bool value, Widget? child) {
