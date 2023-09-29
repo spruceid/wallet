@@ -152,7 +152,6 @@ class _ConfigPageState extends State<ConfigPage> {
                         textAlign: TextAlign.left,
                       ),
                     ),
-                    // SizedBox(
                     AnimatedContainer(
                         height: _rootEventDateIsSet.value ? 30 : 200,
                         decoration: BoxDecoration(
@@ -220,28 +219,15 @@ class _ConfigPageState extends State<ConfigPage> {
   void handleRootEventDateButton() async {
     // If it is not already set, handle setting a new root event date.
     if (!_rootEventDateIsSet.value) {
-      // - add a warning above the Set & Change root event date buttons
-
-      // // Get the root DID candidates via an HTTP request.
-      // var rootCandidates;
-      // try {
-      //   rootCandidates = await getRootCandidates(rootConfigModel.date);
-      // } catch (e) {
-      //   showErrorDialog('Server error',
-      //       'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
-      //   return;
-      // }
-
-      // Temp dev code:
-      final rootCandidateExample = jsonDecode('''{
-                          "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
-                          "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8",
-                          "blockHeight": 2377360
-                        }''');
-      final rootIdentifier = RootIdentifierModel.fromMap(rootCandidateExample);
-      var rootCandidates = RootCandidatesModel(
-          date: rootConfigModel.date, candidates: [rootIdentifier]);
-      // end of temp dev code.
+      // Get the root DID candidates via an HTTP request.
+      var rootCandidates;
+      try {
+        rootCandidates = await getRootCandidates(rootConfigModel.date);
+      } catch (e) {
+        showErrorDialog('Server error',
+            'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
+        return;
+      }
 
       // Request the user to enter the confirmation code.
       final confCode = await requestConfirmationCode();
@@ -259,18 +245,15 @@ class _ConfigPageState extends State<ConfigPage> {
       }
       var root = matchingCandidates.first;
 
-      // // Now that we have the unique root, get the timestamp via an HTTP request.
-      // var rootTimestamp;
-      // try {
-      //   rootTimestamp = await getBlockTimestamp(root.blockHeight);
-      // } catch (e) {
-      //   showErrorDialog('Server error',
-      //       'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
-      //   return;
-      // }
-
-      // Temp dev code:
-      var rootTimestamp = TimestampModel(timestamp: 1666265405);
+      // Now that we have the unique root, get the timestamp via an HTTP request.
+      var rootTimestamp;
+      try {
+        rootTimestamp = await getBlockTimestamp(root.blockHeight);
+      } catch (e) {
+        showErrorDialog('Server error',
+            'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
+        return;
+      }
 
       // Confirm that the timestamp returned by the server falls within the correct date.
       if (!validate_timestamp(rootTimestamp.timestamp, rootConfigModel.date)) {
