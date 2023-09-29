@@ -258,47 +258,32 @@ class _ConfigPageState extends State<ConfigPage> {
 
       // If the confirmation code does not uniquely identify a root DID candidate, stop.
       if (matchingCandidates.length != 1) {
-        await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text(
-                    'Invalid date/confirmation code',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  content: Text(
-                      'The combination of root event date and confirmation code entered is not valid.\n\nPlease check and try again.'),
-                  actions: [
-                    TextButton(
-                        child: const Text('OK'),
-                        onPressed: () => Navigator.pop(context))
-                  ],
-                ));
+        showErrorDialog('Invalid date/confirmation code',
+            'The combination of root event date and confirmation code entered is not valid.\n\nPlease check and try again.');
         return;
       }
       var root = matchingCandidates.first;
 
       // Now that we have the unique root, make an HTTP request to get the timestamp.
-      // TODO: add try-catch here.
-      // var rootTimestamp = await getBlockTimestamp(root.blockHeight);
-      var rootTimestamp = TimestampModel(timestamp: 22); // dev temp
+      var rootTimestamp;
+      // var rootTimestamp = TimestampModel(timestamp: 22); // dev temp
+      try {
+        rootTimestamp = await getBlockTimestamp(root.blockHeight);
+      } catch (e) {
+        print(e);
+        showErrorDialog('Server error',
+            'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
+        return;
+      }
 
       // Confirm that the timestamp returned by the server falls within the correct date.
       if (!validate_timestamp(rootTimestamp.timestamp, rootConfigModel.date)) {
-        await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-                  title: Text(
-                    'Invalid timestamp',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  content: Text(
-                      'The server returned an invalid timestamp.\n\nPlease check the Trustchain endpoint setting and try again.'),
-                  actions: [
-                    TextButton(
-                        child: const Text('OK'),
-                        onPressed: () => Navigator.pop(context))
-                  ],
-                ));
+        final localizations = AppLocalizations.of(context)!;
+        showErrorDialog(
+            'Invalid timestamp',
+            'The server returned an invalid timestamp.\n\nPlease check the "' +
+                localizations.trustchainEndpoint.replaceAll(':', '') +
+                '" setting and try again.');
         return;
       }
 
@@ -349,5 +334,22 @@ class _ConfigPageState extends State<ConfigPage> {
   void submitConfirmationCode() {
     Navigator.of(context).pop(confirmationCodeController.text);
     confirmationCodeController.clear();
+  }
+
+  void showErrorDialog(String title, String content) async {
+    await showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text(
+                title,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              content: Text(content),
+              actions: [
+                TextButton(
+                    child: const Text('OK'),
+                    onPressed: () => Navigator.pop(context))
+              ],
+            ));
   }
 }
