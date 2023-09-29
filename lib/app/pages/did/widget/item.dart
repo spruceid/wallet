@@ -25,7 +25,7 @@ class DocumentItemWidget extends StatelessWidget {
             label,
             style: Theme.of(context)
                 .textTheme
-                .overline!
+                .labelSmall!
                 .apply(color: UiKit.palette.credentialText.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
@@ -33,7 +33,7 @@ class DocumentItemWidget extends StatelessWidget {
             value,
             style: Theme.of(context)
                 .textTheme
-                .caption!
+                .bodySmall!
                 .apply(color: UiKit.palette.credentialText),
             maxLines: null,
             softWrap: true,
@@ -45,10 +45,15 @@ class DocumentItemWidget extends StatelessWidget {
 class ChainItemWidget extends StatelessWidget {
   final String did;
   final String endpoint;
-  final String? rootEventDate;
+  final bool isRoot;
+  final String rootEventDate;
 
   const ChainItemWidget(
-      {Key? key, required this.did, required this.endpoint, this.rootEventDate})
+      {Key? key,
+      required this.did,
+      required this.endpoint,
+      required this.rootEventDate,
+      required this.isRoot})
       : super(key: key);
 
   @override
@@ -63,23 +68,14 @@ class ChainItemWidget extends StatelessWidget {
             header: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                if (rootEventDate != null)
+                if (isRoot)
                   (Text(
-                    'ROOT DATE: ' + rootEventDate!,
+                    rootEventDate,
                     style: Theme.of(context)
                         .textTheme
                         .caption!
                         .apply(color: UiKit.palette.credentialText),
                   )),
-                // Text(
-                //   DateFormat('dd MMM yyyy', 'en_US').format(DateTime.now()),
-                //   style: Theme.of(context)
-                //       .textTheme
-                //       .caption!
-                //       .apply(color: UiKit.palette.credentialText),
-                //   maxLines: null,
-                //   softWrap: true,
-                // ),
                 Text(
                   humanReadableEndpoint(endpoint),
                   style: Theme.of(context)
