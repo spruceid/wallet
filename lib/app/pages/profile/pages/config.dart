@@ -235,11 +235,17 @@ class _ConfigPageState extends State<ConfigPage> {
       // - add a warning above the Set & Change root event date buttons
       // - include a call to the server to retrieve root DID candidates for the given date, etc.
 
-      // Use the HTTP get request in practice:
-      // TODO: add try-catch here.
-      // var rootCandidates = await getRootCandidates(rootConfigModel.date);
+      // // Get the root DID candidates via an HTTP request.
+      // var rootCandidates;
+      // try {
+      //   rootCandidates = await getRootCandidates(rootConfigModel.date);
+      // } catch (e) {
+      //   showErrorDialog('Server error',
+      //       'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
+      //   return;
+      // }
 
-      // Use a test fixture while developing:
+      // Temp dev code:
       final rootCandidateExample = jsonDecode('''{
                           "did": "did:ion:test:EiAcmytgsm-AUWtmJ9cioW-MWq-DnjIUfGYdIVUnrpg6kw",
                           "txid": "1fae017f2c9f14cec0487a04b3f1d1b7336bd38547f755748beb635296de3ee8",
@@ -266,17 +272,18 @@ class _ConfigPageState extends State<ConfigPage> {
       }
       var root = matchingCandidates.first;
 
-      // Now that we have the unique root, make an HTTP request to get the timestamp.
-      var rootTimestamp;
-      // var rootTimestamp = TimestampModel(timestamp: 22); // dev temp
-      try {
-        rootTimestamp = await getBlockTimestamp(root.blockHeight);
-      } catch (e) {
-        print(e);
-        showErrorDialog('Server error',
-            'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
-        return;
-      }
+      // // Now that we have the unique root, get the timestamp via an HTTP request.
+      // var rootTimestamp;
+      // try {
+      //   rootTimestamp = await getBlockTimestamp(root.blockHeight);
+      // } catch (e) {
+      //   showErrorDialog('Server error',
+      //       'There was an error connecting to the Trustchain server.\n\nPlease try again later.');
+      //   return;
+      // }
+
+      // Temp dev code:
+      var rootTimestamp = TimestampModel(timestamp: 1666265405);
 
       // Confirm that the timestamp returned by the server falls within the correct date.
       if (!validate_timestamp(rootTimestamp.timestamp, rootConfigModel.date)) {
