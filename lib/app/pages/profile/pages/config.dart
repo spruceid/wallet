@@ -6,6 +6,7 @@ import 'package:credible/app/pages/profile/models/config.dart';
 import 'package:credible/app/pages/profile/models/profile.dart';
 import 'package:credible/app/pages/profile/models/root.dart';
 import 'package:credible/app/shared/constants.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
@@ -233,6 +234,7 @@ class _ConfigPageState extends State<ConfigPage> {
       // - include a call to the server to retrieve root DID candidates for the given date, etc.
 
       // Use the HTTP get request in practice:
+      // TODO: add try-catch here.
       // var rootCandidates = await getRootCandidates(rootConfigModel.date);
 
       // Use a test fixture while developing:
@@ -276,10 +278,30 @@ class _ConfigPageState extends State<ConfigPage> {
       var root = matchingCandidates.first;
 
       // Now that we have the unique root, make an HTTP request to get the timestamp.
+      // TODO: add try-catch here.
       // var rootTimestamp = await getBlockTimestamp(root.blockHeight);
-      var rootTimestamp = TimestampModel(timestamp: 22);
+      var rootTimestamp = TimestampModel(timestamp: 22); // dev temp
 
-      // If a unique root DID has been determined ... TODO.
+      // Confirm that the timestamp returned by the server falls within the correct date.
+      if (!validate_timestamp(rootTimestamp.timestamp, rootConfigModel.date)) {
+        await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(
+                    'Invalid timestamp',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  content: Text(
+                      'The server returned an invalid timestamp.\n\nPlease check the Trustchain endpoint setting and try again.'),
+                  actions: [
+                    TextButton(
+                        child: const Text('OK'),
+                        onPressed: () => Navigator.pop(context))
+                  ],
+                ));
+        return;
+      }
+
       setState(() {
         rootConfigModel.confimationCode = confCode;
         rootConfigModel.root = root;
