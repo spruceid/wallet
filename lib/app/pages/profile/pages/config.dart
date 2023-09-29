@@ -28,7 +28,6 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   late TextEditingController did;
-  late TextEditingController rootEventTime;
   late TextEditingController ionEndpoint;
   late TextEditingController trustchainEndpoint;
   late RootConfigModel rootConfigModel;
@@ -42,8 +41,6 @@ class _ConfigPageState extends State<ConfigPage> {
     final config_model =
         config_state is ConfigStateDefault ? config_state.model : ConfigModel();
     did = TextEditingController(text: config_model.did);
-    // Deprecated (use rootConfigModel.timestamp instead):
-    rootEventTime = TextEditingController(text: config_model.rootEventTime);
     ionEndpoint = TextEditingController(text: config_model.ionEndpoint);
     trustchainEndpoint =
         TextEditingController(text: config_model.trustchainEndpoint);
@@ -79,7 +76,6 @@ class _ConfigPageState extends State<ConfigPage> {
           // TODO: save not working here
           Modular.get<ConfigBloc>().add(ConfigEventUpdate(ConfigModel(
             did: did.text,
-            // rootEventTime: rootEventTime.text, // TODO: remove as obsolete.
             ionEndpoint: ionEndpoint.text,
             trustchainEndpoint: trustchainEndpoint.text,
             rootEventDate: _rootEventDateIsSet.value
@@ -133,13 +129,6 @@ class _ConfigPageState extends State<ConfigPage> {
             controller: did,
             icon: Icons.person,
             textCapitalization: TextCapitalization.words,
-          ),
-          const SizedBox(height: 16.0),
-          BaseTextField(
-            label: localizations.rootEventTime,
-            controller: rootEventTime,
-            icon: Icons.lock_clock,
-            type: TextInputType.phone,
           ),
           const SizedBox(height: 16.0),
           // TODO: move to a separate rootEventDate widget.
@@ -231,9 +220,7 @@ class _ConfigPageState extends State<ConfigPage> {
   void handleRootEventDateButton() async {
     // If it is not already set, handle setting a new root event date.
     if (!_rootEventDateIsSet.value) {
-      // TODO:
       // - add a warning above the Set & Change root event date buttons
-      // - include a call to the server to retrieve root DID candidates for the given date, etc.
 
       // // Get the root DID candidates via an HTTP request.
       // var rootCandidates;
