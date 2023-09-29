@@ -79,10 +79,12 @@ class _ConfigPageState extends State<ConfigPage> {
           // TODO: save not working here
           Modular.get<ConfigBloc>().add(ConfigEventUpdate(ConfigModel(
             did: did.text,
-            // OLD: rootEventTime: rootEventTime.text,
+            // rootEventTime: rootEventTime.text, // TODO: remove as obsolete.
             ionEndpoint: ionEndpoint.text,
             trustchainEndpoint: trustchainEndpoint.text,
-            rootEventDate: rootConfigModel.date.toString(),
+            rootEventDate: _rootEventDateIsSet.value
+                ? rootConfigModel.date.toString()
+                : '',
             confirmationCode: rootConfigModel.confimationCode.toString(),
             rootDid:
                 rootConfigModel.root == null ? '' : rootConfigModel.root!.did,
