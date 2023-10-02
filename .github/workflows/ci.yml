@@ -32,7 +32,6 @@ jobs:
         cache: true
 
     - name: FLUTTER | pub get
-      working-directory: ./main
       run: flutter pub get
 
     # Check for any formatting issues in the code.
