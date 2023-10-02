@@ -1,1 +1,12 @@
 include: package:pedantic/analysis_options.yaml
+analyzer:
+  exclude:
+    - lib/test/**
+    - deps
+
+linter:
+  rules:
+    constant_identifier_names: false
+    avoid_init_to_null: false
+    non_constant_identifier_names: false
+    slash_for_doc_comments: false
