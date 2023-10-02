@@ -25,11 +25,12 @@ class _AppWidgetState extends State<AppWidget> {
   ThemeData get _themeData {
     final themeData = ThemeData(
       brightness: Brightness.light,
-      backgroundColor: UiKit.palette.background,
-      primaryColor: UiKit.palette.primary,
-      // ignore: deprecated_member_use
-      accentColor: UiKit.palette.accent,
       textTheme: UiKit.text.textTheme,
+      colorScheme: ColorScheme.light(
+        primary: UiKit.palette.primary,
+        secondary: UiKit.palette.accent,
+        background: UiKit.palette.background,
+      ),
     );
 
     return themeData;
@@ -47,8 +48,10 @@ class _AppWidgetState extends State<AppWidget> {
 
     return await auth.authenticate(
       localizedReason: 'Please authenticate to use Credible',
-      useErrorDialogs: true,
-      stickyAuth: true,
+      options: const AuthenticationOptions(
+        useErrorDialogs: true,
+        stickyAuth: true,
+      ),
     );
   }
 
