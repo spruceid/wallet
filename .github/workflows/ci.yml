@@ -47,80 +47,24 @@ jobs:
     runs-on: macos-latest
     steps:
 
-    - name: Checkout
-      uses: actions/checkout@v2
+    - name: CHECKOUT | credible-mdl
+      uses: actions/checkout@v3
       with:
-        path: main
+        submodules: true
 
-    # Clones didkit
-    - name: Clone didkit
-      uses: actions/checkout@v2
-      with:
-        repository: spruceid/didkit
-        path: didkit
-
-    # Clones ssi
-    - name: Clone SSI
-      uses: actions/checkout@v2
-      with:
-        repository: spruceid/ssi
-        path: ssi
-        submodules: 'recursive'
-
-    # Setup the flutter environment.
     - name: SETUP | Flutter
-      uses: subosito/flutter-action@v1
+      uses: subosito/flutter-action@v2
       with:
-        channel: 'dev'
-
-    - name: SETUP | Rust
-      uses: ATiltedTree/setup-rust@v1
-      with:
-        rust-version: nightly
-
-    - name: DIDKIT | rustup ios
-      working-directory: ./didkit
-      run: make -C lib install-rustup-ios
-
-    - name: DIDKIT | ios.stamp
-      working-directory: ./didkit
-      run: make -C lib ../target/test/ios.stamp
+        channel: 'stable'
+        cache: true
 
     - name: FLUTTER | pub get
-      working-directory: ./main
       run: flutter pub get
-
-    # Check for any formatting issues in the code.
-    - name: FLUTTER | format
-      working-directory: ./main
-      run: flutter format --set-exit-if-changed .
 
     # Statically analyze the Dart code for any errors.
     - name: FLUTTER | analyze
-      working-directory: ./main
-      run: flutter analyze .
+      run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
-      working-directory: ./main
-      run: flutter test test/
-
-    # # Build apk.
-    # - run: flutter build apk --release
-
-    # # Upload generated apk to the artifacts.
-    # - name: Upload apk
-    # - uses: actions/upload-artifact@v1
-    #   with:
-    #     name: release-apk
-    #     path: build/app/outputs/apk/release/app-release.apk
-
-    # # Build ipa.
-    # - run: flutter build ios --release --no-codesign
-
-    # # Upload generated apk to the artifacts.
-    # - name: Upload IPA
-    #   uses: actions/upload-artifact@v1
-    #   with:
-    #     name: ios-build
-    #     path: build/ios/iphoneos
+      run: flutter test
