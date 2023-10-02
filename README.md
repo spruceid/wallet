@@ -1,6 +1,6 @@
 ![Credible header](https://spruceid.dev/assets/images/crediblehead-9f539ffe32f0082fb362572e7d308c6e.png)
 
-[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.1-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.1-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/spruceid/credible/blob/main/LICENSE) [![](https://img.shields.io/twitter/follow/sprucesystems?label=Follow&style=social)](https://twitter.com/sprucesystems) 
+[![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.1-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.1-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/spruceid/credible/blob/main/LICENSE) [![](https://img.shields.io/twitter/follow/sprucesystems?label=Follow&style=social)](https://twitter.com/sprucesystems)
 
 Check out the Credible documentation [here](https://spruceid.dev/docs/credible/).
 
@@ -28,9 +28,8 @@ To manually build Credible for either Android or iOS, you will need to install
 the following dependencies:
 
 - Rust
-- Java 7 or higher
-- Flutter (`dev` channel)
-- [DIDKit](https://github.com/spruceid/didkit)/[SSI](https://github.com/spruceid/ssi)
+- Java 17 or higher
+- Flutter
 - `wasm-pack` (WEB)
 - `binaryen` (WEB and targeting ASM.js)
 
@@ -45,15 +44,17 @@ On Ubuntu you could run:
 
 ```bash
 # apt update
-# apt install openjdk-8-jdk
+# apt install openjdk-17-jdk
 ```
+Please ensure you have JAVA_HOME set to the java 17 install when building
+this project.
 
 For more information, please refer to the documentation of your favorite flavour
 of Java and your operating system/package manager.
 
 ### Flutter
 
-Please follow the official instalation instructions available 
+Please follow the official instalation instructions available
 [here](https://flutter.dev/docs/get-started/install) to install Flutter,
 don't forget to also install the build dependencies for the platform you
 will be building (Android SDK/NDK, Xcode, etc).
@@ -99,15 +100,7 @@ $ git clone https://github.com/WebAssembly/binaryen ~/binaryen
 $ cd ~/binaryen
 $ cmake . && make
 ```
-### DIDKit and SSI
 
-This project also depends on two other Spruce projects,
-[`DIDKit`](https://github.com/spruceid/didkit) and
-[`SSI`](https://github.com/spruceid/ssi). 
-
-These projects are all configured to work with relative paths by default,
-so it is recommended to clone them all under the same root directory, for 
-example `$HOME/spruceid/{didkit,ssi,credible}`.
 
 ## Target-Specific Dependencies
 
@@ -120,10 +113,7 @@ Studio](https://developer.android.com/studio/install), which install further
 dependencies upon first being opened after installation. Installing the
 appropriate Android NDK (often not the newest) in Android Studio can be
 accomplished by going to Settings > Appearance & Behavior > System Settings >
-Android SDK and selecting to install the "NDK (Side by Side)". An alternative
-method of installing SDK and NDK without Android Studio can be found in the
-optional [install_android_dependencies.sh](install_android_dependencies.sh)
-script included here.
+Android SDK and selecting to install the "NDK (Side by Side)".
 
 If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
 `ANDROID_SDK_ROOT` like so:
@@ -131,23 +121,26 @@ If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
 ```bash
 $ export ANDROID_SDK_ROOT=/path/to/Android/Sdk
 ```
+Make the above permanant by adding it to your shell initialization script,
+`~/.bashrc` for bash or `~.cshrc` for mac
+
 
 :::note Some users have experienced difficulties with cross-compilation
 artefacts missing from the newest NDK, which is downloaded by default in the
 installation process.  If you experience errors of this kind, you may have to
 manually downgrade or install multiple NDK versions as [shown
 here])(img/ndk_downgrade.png) in the Android Studio installer (screengrabbed
-from an Ubuntu installation). Alternately, running all or parts of the
-[install_android_dependencies.sh](install_android_dependencies.sh) script may be
-helpful.
+from an Ubuntu installation).
 
-If your `build-tools` and/or `NDK`  live in different locations than the default ones inside /SDK/, or if you want to specify a specific NDK or build-tools version, you can manually configure the following two environment variables:
+If your `build-tools` and/or `NDK` live in different locations than the default
+ones inside /SDK/, or if you want to specify a specific NDK or build-tools
+version, you can manually configure the following two environment variables:
 
 ```bash
 $ export ANDROID_TOOLS=/path/to/SDK/build-tools/XX.X.X/
 $ export ANDROID_NDK_HOME=/path/to/SDK/ndk/XX.X.XXXXX/
 ```
-::: 
+:::
 
 ### iOS Dependencies
 
@@ -157,6 +150,54 @@ with Homebrew on MacOS.
 ```bash
 $ brew install cocoapods
 ```
+
+### DIDKit and SSI
+
+This project also depends on two other Spruce projects,
+[`DIDKit`](https://github.com/spruceid/didkit) and
+[`SSI`](https://github.com/spruceid/ssi).
+
+
+The correct commits for these projects are submodules in the deps directory.
+Fetch them by issuing, in the project root directory:
+
+```
+git submodule update --init --recursive
+```
+
+SSI does not need to be explicitly built, it is required only to build didkit.
+
+Build didkit as:
+
+```
+cd deps/didkit
+cargo build   #Buld the normal rust library
+cd ../../
+```
+
+The above comand just builds didkit as a normal rust library for the hardware
+your currently running on.   Now we must build it for mobile hardware.
+
+```
+cd deps/didkit/lib
+
+# For android development, we must cross compile the rust library for
+# several android binary targets.  You will see simmilar messages appear
+# multiple times while this runs.
+#
+# You only need to do this when building for android.
+make ../target/test/android.stamp
+
+# For iOS development, we must cross compile the rust library for iOS
+# binary targets.
+#
+# You only need to do this when building for iOS.
+make ../target/test/ios.stamp
+
+cd ../../../
+```
+
+
 
 ## Building DIDKit for different targets
 
@@ -187,10 +228,10 @@ $ flutter build appbundle
 ### iOS
 
 To build DIDKit for the iOS targets, you will go to the root of `DIDKit` and run
-: 
+:
 
 ```bash
-$ make -C lib install-rustup-ios 
+$ make -C lib install-rustup-ios
 $ make -C lib ../target/test/ios.stamp
 $ cargo build
 ```
@@ -359,7 +400,7 @@ executed.
 
 After receiving a `CredentialOffer` from a trusted host, the app calls the API
 with `subject_id` in the form body, that value is the didKey obtained from the
-private key stored in the `FlutterSecureStorage`, which is backed by KeyStore 
+private key stored in the `FlutterSecureStorage`, which is backed by KeyStore
 on Android and Keychain on iOS.
 
 The flow of events and actions is listed below:
@@ -386,9 +427,9 @@ And below is another version of the step-by-step:
 | Store Credential         |              |       |                             |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
-early when the user denies.*  
+early when the user denies.*
 *<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
-will be made.*  
+will be made.*
 *<sup>3</sup> The body of the request contains a field `subject_id` set to the
 chosen DID.*
 
@@ -434,8 +475,8 @@ And below is another version of the step-by-step:
 |                              |              |   ←   |                        Result |
 
 *<sup>1</sup> Whether this action requires user confirmation, exiting the flow
-early when the user denies.*  
+early when the user denies.*
 *<sup>2</sup> The QRCode should contain the HTTP endpoint where the requests
-will be made.*  
+will be made.*
 *<sup>3</sup> The body of the request contains a field `presentation` set to the
 verifiable presentation.*

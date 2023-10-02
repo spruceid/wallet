@@ -44,10 +44,12 @@ class QrCodeDisplayPage extends StatelessWidget {
                   Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(32.0),
-                    child: QrImage(
+                    child: QrImageView(
                       data: data,
                       version: QrVersions.auto,
-                      foregroundColor: UiKit.palette.icon,
+                      dataModuleStyle: QrDataModuleStyle(
+                        color: UiKit.palette.icon,
+                      ),
                     ),
                   ),
                 ],

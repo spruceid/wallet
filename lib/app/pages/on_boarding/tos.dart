@@ -25,7 +25,7 @@ class OnBoardingTosPage extends StatelessWidget {
           const SizedBox(height: 8.0),
           Expanded(
             child: Scrollbar(
-              isAlwaysShown: true,
+              thumbVisibility: true,
               controller: scrollController,
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(
