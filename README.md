@@ -122,7 +122,7 @@ If your Android SDK doesn't live at `$HOME/Android/Sdk` you will need to set
 $ export ANDROID_SDK_ROOT=/path/to/Android/Sdk
 ```
 Make the above permanant by adding it to your shell initialization script,
-`~/.bashrc` for bash or `~.cshrc` for mac
+`~/.bashrc` for bash or `~/.cshrc` for mac
 
 
 :::note Some users have experienced difficulties with cross-compilation
@@ -165,30 +165,30 @@ Fetch them by issuing, in the project root directory:
 git submodule update --init --recursive
 ```
 
-SSI does not need to be explicitly built, it is required only to build didkit.
+SSI does not need to be explicitly built, it is required only to build DIDkit.
 
-Build didkit as:
+Build DIDkit as:
 
 ```
 cd deps/didkit
-cargo build   #Buld the normal rust library
+cargo build   # Build the normal rust library
 cd ../../
 ```
 
-The above comand just builds didkit as a normal rust library for the hardware
-your currently running on.   Now we must build it for mobile hardware.
+The above comand just builds DIDkit as a normal Rust library for the hardware
+you're currently running on.   Now we must build it for mobile hardware.
 
 ```
 cd deps/didkit/lib
 
-# For android development, we must cross compile the rust library for
-# several android binary targets.  You will see simmilar messages appear
+# For Android development, we must cross compile the Rust library for
+# several Android binary targets.  You will see simmilar messages appear
 # multiple times while this runs.
 #
-# You only need to do this when building for android.
+# You only need to do this when building for Android.
 make ../target/test/android.stamp
 
-# For iOS development, we must cross compile the rust library for iOS
+# For iOS development, we must cross compile the Rust library for iOS
 # binary targets.
 #
 # You only need to do this when building for iOS.

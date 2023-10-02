@@ -22,9 +22,9 @@ class AppModule extends Module {
           final dio = Dio(
             BaseOptions(
               receiveDataWhenStatusError: true,
-              connectTimeout: new Duration(seconds: 30),
-              sendTimeout: new Duration(seconds: 30),
-              receiveTimeout: new Duration(seconds: 30),
+              connectTimeout: Duration(seconds: 30),
+              sendTimeout: Duration(seconds: 30),
+              receiveTimeout: Duration(seconds: 30),
             ),
           );
 
