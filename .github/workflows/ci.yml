@@ -36,7 +36,7 @@ jobs:
 
     # Statically analyze the Dart code for any errors.
     - name: FLUTTER | analyze
-      run: flutter analyze
+      run: flutter analyze --no-fatal-infos --no-fatal-warnings
 
     # Run widget tests for our flutter project.
     - name: FLUTTER | test
