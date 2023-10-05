@@ -5,7 +5,7 @@ import 'package:credible/app/shared/widget/spinner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:logging/logging.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 
 class OnBoardingGenPage extends StatefulWidget {
   @override
@@ -22,8 +22,6 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
   }
 
   Future<void> generateKey(BuildContext context) async {
-    final log = Logger('credible/on-boarding/key-generation');
-
     final localizations = AppLocalizations.of(context)!;
     try {
       final mnemonic = (await SecureStorageProvider.instance.get('mnemonic'))!;
@@ -32,7 +30,7 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       await SecureStorageProvider.instance.set('key', key);
       await Modular.to.pushReplacementNamed('/on-boarding/success');
     } catch (error) {
-      log.severe('something went wrong when generating a key', error);
+      log.err(#keygen, 'something went wrong when generating a key: $error');
 
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         backgroundColor: Colors.red,

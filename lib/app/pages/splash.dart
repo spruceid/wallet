@@ -8,10 +8,12 @@ import 'package:credible/app/pages/credentials/blocs/scan.dart';
 import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/brand.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:provider/provider.dart';
+
 
 class SplashPage extends StatefulWidget {
   @override
@@ -22,7 +24,9 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    print(DIDKitProvider.instance.getVersion());
+    log.info(#splash, 'Didkit Version: ${DIDKitProvider.instance.getVersion()}');
+    log.warn(#splash, 'Didkit Version: ${DIDKitProvider.instance.getVersion()}');
+    log.err(#splash, 'Didkit Version: ${DIDKitProvider.instance.getVersion()}');
     Future.delayed(
       const Duration(
         milliseconds: kIsWeb ? 25 : 1000,
@@ -38,6 +42,7 @@ class _SplashPageState extends State<SplashPage> {
           return;
         }
 
+        log.info(#system, 'Initializing CHAPIPovider');
         CHAPIProvider.instance.init(
           get: (json, done) async {
             final data = jsonDecode(json);

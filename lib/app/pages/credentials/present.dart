@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 
 class CredentialsPresentPage extends StatefulWidget {
   final Uri url;
@@ -42,6 +43,7 @@ class _CredentialsPresentPageState
   Widget build(BuildContext context) {
     // TODO: Add proper localization
     final localizations = AppLocalizations.of(context)!;
+    log.info(#system, 'Building _CredentialsPresentPageState');
 
     return BasePage(
       padding: const EdgeInsets.all(16.0),

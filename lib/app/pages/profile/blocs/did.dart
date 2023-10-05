@@ -3,7 +3,7 @@ import 'package:credible/app/interop/didkit/didkit.dart';
 import 'package:credible/app/interop/secure_storage/secure_storage.dart';
 import 'package:credible/app/shared/constants.dart';
 import 'package:credible/app/shared/model/message.dart';
-import 'package:logging/logging.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 
 abstract class DIDEvent {}
 
@@ -33,8 +33,6 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
   Stream<DIDState> _load(
     DIDEventLoad event,
   ) async* {
-    final log = Logger('credible/did/load');
-
     try {
       yield DIDStateWorking();
 
@@ -44,7 +42,7 @@ class DIDBloc extends Bloc<DIDEvent, DIDState> {
 
       yield DIDStateDefault(did);
     } catch (e) {
-      log.severe('something went wrong', e);
+      log.err(#did, 'something went wrong $e');
 
       yield DIDStateMessage(StateMessage.error('Failed to load DID. '
           'Check the logs for more information.'));

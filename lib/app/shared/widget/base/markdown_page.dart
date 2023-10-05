@@ -2,17 +2,15 @@ import 'package:credible/app/shared/ui/ui.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/spinner.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:logging/logging.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MarkdownPage extends StatelessWidget {
   final String title;
   final String file;
-
-  final _log = Logger('credible/markdown_page');
 
   MarkdownPage({Key? key, required this.title, required this.file})
       : super(key: key);
@@ -38,8 +36,9 @@ class MarkdownPage extends StatelessWidget {
             }
 
             if (snapshot.error != null) {
-              _log.severe(
-                  'something went wrong when loading $file', snapshot.error);
+              log.err(
+                #system,
+                'something went wrong when loading $file: ${snapshot.error}');
               return Container();
             }
 
@@ -58,7 +57,7 @@ class MarkdownPage extends StatelessWidget {
     if (await canLaunch(href)) {
       await launch(href);
     } else {
-      _log.severe('cannot launch url: $href');
+      log.err(#system, 'cannot launch url: $href');
     }
   }
 }

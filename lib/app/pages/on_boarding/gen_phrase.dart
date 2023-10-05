@@ -5,11 +5,12 @@ import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/mnemonic.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:logging/logging.dart';
+
 
 class OnBoardingGenPhrasePage extends StatefulWidget {
   @override
@@ -30,7 +31,6 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final log = Logger('credible/on-boarding/gen-phrase');
 
     return BasePage(
       title: localizations.onBoardingGenPhraseTitle,
@@ -81,18 +81,19 @@ class _OnBoardingGenPhrasePageState extends State<OnBoardingGenPhrasePage> {
           BaseButton.primary(
             onPressed: () async {
               try {
-                log.info('will save mnemonic to secure storage');
+                log.info(#mnemonic, 'will save mnemonic to secure storage');
                 await SecureStorageProvider.instance.set(
                   'mnemonic',
                   mnemonic.join(' '),
                 );
-                log.info('mnemonic saved');
+                log.info(#mnemonic, 'mnemonic saved');
 
                 await Modular.to
                     .pushReplacementNamed('/on-boarding/gen-verify');
               } catch (error) {
-                log.severe(
-                    'error ocurred setting mnemonic to secure storate', error);
+                log.err(
+                  #mnemonic,
+                  'error ocurred setting mnemonic to secure storate: $error');
 
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                   backgroundColor: Colors.red,

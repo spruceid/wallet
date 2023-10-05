@@ -11,10 +11,10 @@ import 'package:credible/app/shared/widget/base/button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
 import 'package:credible/app/shared/widget/confirm_dialog.dart';
 import 'package:credible/app/shared/widget/text_field_dialog.dart';
+import 'package:credible/app/shared/logger/logger.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:logging/logging.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CredentialsDetail extends StatefulWidget {
@@ -33,8 +33,6 @@ class _CredentialsDetailState
     extends ModularState<CredentialsDetail, WalletBloc> {
   bool showShareMenu = false;
   VerificationState verification = VerificationState.Unverified;
-
-  final logger = Logger('credible/credentials/detail');
 
   @override
   void initState() {
@@ -85,7 +83,7 @@ class _CredentialsDetailState
   }
 
   void _edit() async {
-    logger.info('Start edit flow');
+    log.info(#cred, 'Start edit flow');
 
     final newAlias = await showDialog<String>(
       context: context,
@@ -97,10 +95,10 @@ class _CredentialsDetailState
       ),
     );
 
-    logger.info('Edit flow answered with: $newAlias');
+    log.info(#cred, 'Edit flow answered with: $newAlias');
 
     if (newAlias != null && newAlias != widget.item.alias) {
-      logger.info('New alias is different, going to update credential');
+      log.info(#cred, 'New alias is different, going to update credential');
 
       final newCredential = CredentialModel(
           id: widget.item.id,

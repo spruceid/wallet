@@ -269,6 +269,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.5.0"
+  fpdart:
+    dependency: "direct main"
+    description:
+      name: fpdart
+      sha256: "4a0d047c3359a4bdd19e4941603bbe394bd133b3772a38049e17f9534d47106e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   google_fonts:
     dependency: "direct main"
     description:
@@ -373,14 +381,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.10"
-  logging:
-    dependency: "direct main"
-    description:
-      name: logging
-      sha256: "623a88c9594aa774443aa3eb2d41807a48486b5613e67599fb4c41c0ad47c340"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.0"
   markdown:
     dependency: transitive
     description:

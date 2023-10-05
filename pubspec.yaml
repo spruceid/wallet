@@ -52,11 +52,11 @@ dependencies:
   package_info_plus: ^4.1.0
   flutter_markdown: ^0.6.15
   url_launcher: ^6.1.11
-  logging: ^1.0.2
   shared_preferences: ^2.1.1
   local_auth: ^2.1.6
   secure_application: ^3.8.0
   provider: ^6.0.5
+  fpdart: ^0.6.0
 
 dev_dependencies:
   flutter_test:
