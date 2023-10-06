@@ -1,14 +1,12 @@
-import 'package:credible/app/pages/did/widget/document.dart';
-import 'package:credible/app/shared/config.dart';
+import 'package:credible/app/pages/chain/widget/error.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:credible/app/pages/chain/models/chain.dart';
 import 'package:credible/app/pages/chain/widget/chain.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:credible/app/shared/constants.dart';
 
 class DIDChainDisplayPage extends StatefulWidget {
   final String did;
@@ -23,38 +21,31 @@ class DIDChainDisplayPage extends StatefulWidget {
 }
 
 class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
-  Future<DIDChainModel> get_did_chain(String did) async {
-    final url = (await ffi_config_instance.get_trustchain_endpoint()) +
-        '/did/chain/' +
-        did;
-    final queryParams = {
-      'root_event_time':
-          (await ffi_config_instance.get_root_event_time()).toString(),
-    };
-    final url_split = url.split('/');
-    final route = '/' + url_split.sublist(1).join('/');
-    final uri = Uri.http(url_split[0], route, queryParams);
-    return DIDChainModel.fromMap(jsonDecode((await http.get(uri)).body));
-  }
-
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return BasePage(
-        title: 'DID Trustchain',
+        title: 'DID chain',
         titleLeading: BackLeadingButton(),
         scrollView: false,
         body: Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.all(8.0),
           child: FutureBuilder<DIDChainModel>(
-              future: get_did_chain(widget.did),
+              future: resolveDidChain(widget.did),
               builder: (BuildContext context,
                   AsyncSnapshot<DIDChainModel> snapshot) {
+                var message = 'Default message.';
                 if (snapshot.hasData) {
                   return DIDChainWidget(
                       model: DIDChainWidgetModel.fromDIDChainModel(
                           snapshot.data!));
+                } else if (snapshot.hasError) {
+                  message = 'Chain resolution failed';
+                  if (snapshot.error is DioError) {
+                    message = (snapshot.error as DioError).message;
+                  }
+                  return CustomErrorWidget(errorMessage: message);
                 } else {
                   return Center(
                       child: Column(

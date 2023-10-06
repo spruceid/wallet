@@ -1,6 +1,8 @@
 import 'package:credible/app/pages/chain/models/chain.dart';
+import 'package:credible/app/pages/chain/widget/tile.dart';
 import 'package:credible/app/pages/did/widget/document.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DIDChainWidgetModel {
   final List<DIDDocumentWidgetModel> data;
@@ -24,35 +26,24 @@ class DIDChainWidget extends StatelessWidget {
     this.trailing,
   }) : super(key: key);
 
-  Widget customChain(DIDDocumentWidgetModel documentWidget, [Color? color]) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 20,
-              child: (color == null)
-                  ? DIDDocumentWidget(
-                      model: documentWidget,
-                    )
-                  : DIDDocumentWidget(
-                      model: documentWidget,
-                      color: color,
-                    )),
-          Expanded(
-              flex: 2,
-              child: Icon(Icons.check_circle_rounded,
-                  size: 40, color: Color.fromARGB(255, 7, 111, 10)))
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) => ListView(
-      children: model.data
-              .take(1)
-              .map((w) => customChain(w, Color.fromARGB(255, 208, 182, 66)))
-              .toList() +
-          model.data.skip(1).map((w) => customChain(w)).toList());
+        padding: const EdgeInsets.all(8.0),
+        children: model.data.isNotEmpty
+            ? model.data.asMap().entries.map((entry) {
+                final index = entry.key;
+                final item = entry.value;
+                final isFirst = index == 0;
+                final isLast = index == model.data.length - 1;
+
+                return CustomTile(
+                  model: item,
+                  isFirst: isFirst,
+                  isLast: isLast,
+                  rootEventDate:
+                      DateFormat('dd MMM yyyy', 'en_UK').format(DateTime.now()),
+                );
+              }).toList()
+            : [],
+      );
 }

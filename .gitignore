@@ -100,3 +100,6 @@ app.*.map.json
 
 # flutter rust bridge ffi
 android/app/src/main/jniLibs
+
+# Flutter config
+flutter-config.json

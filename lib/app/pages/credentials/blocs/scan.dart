@@ -173,56 +173,20 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
           ? jsonDecode(credential.data)
           : credential.data;
 
-      // TODO [TC]: This is where `trustchain-cli vc verify` could be called
-      // once FFI is implemented
       final vcStr = jsonEncode(jsonCredential);
-      // final optStr = jsonEncode({
-      //   // 'proofPurpose': 'assertionMethod'
-      //   'rootEventTime': Constants.rootEventTime,
-      //   'signatureOnly': false
-      // });
-
+      // Currently credentials that are not verified are still received but the
+      // verification status will show failed upon viewing.
+      // Previous DIDKit usage removed below try/catch block
       try {
-        // Modify FFI condif as required
+        // Modify FFI config as required
         final ffiConfig = await ffi_config_instance.get_ffi_config();
-        // Add short delay for small time differences
+        // Add short delay for small time differences between mobile and server
         await Future.delayed(Duration(seconds: 1));
-        final verification = await trustchain_ffi.vcVerifyCredential(
+        await trustchain_ffi.vcVerifyCredential(
             credential: vcStr, opts: jsonEncode(ffiConfig));
-        log.warning('VERIFIED: $verification');
       } on FfiException catch (err) {
         log.warning(err);
       }
-
-      // // Commented out spruceid / DIDKit verification block
-      //
-      // // TODO [bug] verification fails here for unknown reason
-      // final verification =
-      //     await DIDKitProvider.instance.verifyCredential(vcStr, optStr);
-      //
-      // print('[credible/credential-offer/verify/vc] $vcStr');
-      // print('[credible/credential-offer/verify/options] $optStr');
-      // print('[credible/credential-offer/verify/result] $verification');
-      //
-      // final jsonVerification = jsonDecode(verification);
-      //
-      // if (jsonVerification['warnings'].isNotEmpty) {
-      //   log.warning('credential verification return warnings',
-      //       jsonVerification['warnings']);
-      //
-      //   yield ScanStateMessage(StateMessage.warning(
-      //       'Credential verification returned some warnings. '
-      //       'Check the logs for more information.'));
-      // }
-      //
-      // if (jsonVerification['errors'].isNotEmpty) {
-      //   log.severe('failed to verify credential', jsonVerification['errors']);
-      //
-      //   yield ScanStateMessage(
-      //       StateMessage.error('Failed to verify credential. '
-      //           'Check the logs for more information.'));
-      // }
-      // // EOF commented out block
 
       final repository = Modular.get<CredentialsRepository>();
       await repository.insert(
@@ -275,23 +239,14 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
             ? credentials.first.data
             : credentials.map((c) => c.data).toList(),
       });
+
+      // TODO [#33]: for reference in case incorporating challenge/domain
       // final opts = jsonEncode({
       //   'verificationMethod': verificationMethod,
       //   'proofPurpose': 'authentication',
       //   'challenge': challenge,
       //   'domain': domain,
       // });
-
-      // TODO: currently failing to issue presentation, currently just uses
-      // credential instead. This will be updated to use:
-      //   `trustchain vc issue-presentation`
-      // with FFI.
-      // final presentation = await DIDKitProvider.instance.issuePresentation(
-      //   cred,
-      //   opts,
-      //   key,
-      // );
-
       // Issue presentation with Trustchain FFI
       final ffiConfig = await ffi_config_instance.get_ffi_config();
       try {
@@ -310,13 +265,6 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       } on FfiException catch (err) {
         log.severe(err);
       }
-
-      // TODO: remove once VP implementation complete
-      // final credential = jsonEncode({
-      //   'presentationOrCredential': {'credential': credentials.first.data},
-      //   'rootEventTime': await ffi_config_instance.get_root_event_time()
-      // });
-      // await client.post(url.toString(), data: credential);
 
       yield ScanStateMessage(
           StateMessage.success('Successfully presented your credential!'));
