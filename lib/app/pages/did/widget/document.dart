@@ -71,16 +71,21 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
   final DIDDocumentWidgetModel model;
   final Color? color;
   final Widget? trailing;
+  final bool isRoot;
+  final String rootEventDate;
 
   const HumanFriendlyDIDDocumentWidget({
     Key? key,
     this.color = const Color.fromARGB(255, 17, 0, 255),
     required this.model,
+    required this.isRoot,
+    required this.rootEventDate,
     this.trailing,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Container(
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
         decoration: BaseBoxDecoration(
           // TODO [#29]: update with different palette for DIDs
           // color: UiKit.palette.credentialBackground,
@@ -97,14 +102,20 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 12.0),
-              ChainItemWidget(did: model.did, endpoint: model.endpoint),
-              const SizedBox(height: 12.0),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 12.0),
+                ChainItemWidget(
+                    did: model.did,
+                    endpoint: model.endpoint,
+                    rootEventDate: rootEventDate,
+                    isRoot: isRoot),
+                const SizedBox(height: 12.0),
+              ],
+            ),
           ),
         ),
       );
