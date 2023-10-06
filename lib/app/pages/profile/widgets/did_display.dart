@@ -43,15 +43,13 @@ class DIDDisplay extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                      child: BaseButton.primary(
-                    onPressed: () {
-                      Modular.to.pushNamed(
-                        '/did/display',
-                        arguments: [
-                          did,
-                        ],
-                      );
-                    },
+                      child: GestureDetector(
+                    onTap: () => Modular.to.pushNamed(
+                      '/did/display',
+                      arguments: [
+                        did,
+                      ],
+                    ),
                     child: Text(
                       did,
                       style: Theme.of(context).textTheme.overline!,
