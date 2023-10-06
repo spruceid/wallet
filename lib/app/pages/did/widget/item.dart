@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:credible/app/shared/widget/base/box_decoration.dart';
 import 'package:flutter_json_viewer/flutter_json_viewer.dart';
 
-import 'document.dart';
-
 class DocumentItemWidget extends StatelessWidget {
   final String label;
   final String value;
+  final String rootEventDate;
 
   const DocumentItemWidget({
     Key? key,
     required this.label,
     required this.value,
+    this.rootEventDate = '',
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class DocumentItemWidget extends StatelessWidget {
             label,
             style: Theme.of(context)
                 .textTheme
-                .overline!
+                .labelSmall!
                 .apply(color: UiKit.palette.credentialText.withOpacity(0.6)),
           ),
           const SizedBox(height: 2.0),
@@ -33,7 +33,7 @@ class DocumentItemWidget extends StatelessWidget {
             value,
             style: Theme.of(context)
                 .textTheme
-                .caption!
+                .bodySmall!
                 .apply(color: UiKit.palette.credentialText),
             maxLines: null,
             softWrap: true,
@@ -45,12 +45,16 @@ class DocumentItemWidget extends StatelessWidget {
 class ChainItemWidget extends StatelessWidget {
   final String did;
   final String endpoint;
+  final bool isRoot;
+  final String rootEventDate;
 
-  const ChainItemWidget({
-    Key? key,
-    required this.did,
-    required this.endpoint,
-  }) : super(key: key);
+  const ChainItemWidget(
+      {Key? key,
+      required this.did,
+      required this.endpoint,
+      required this.rootEventDate,
+      required this.isRoot})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) => Column(
@@ -64,6 +68,14 @@ class ChainItemWidget extends StatelessWidget {
             header: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                if (isRoot)
+                  (Text(
+                    rootEventDate,
+                    style: Theme.of(context)
+                        .textTheme
+                        .caption!
+                        .apply(color: UiKit.palette.credentialText),
+                  )),
                 Text(
                   humanReadableEndpoint(endpoint),
                   style: Theme.of(context)
@@ -92,15 +104,14 @@ class ChainItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 12.0, 8.0, 12.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          JsonViewer({'DID': did, 'endpoint': endpoint})
-                        ],
-                      ),
-                    ))
+                        padding: EdgeInsets.fromLTRB(0.0, 12.0, 8.0, 12.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            JsonViewer({'DID': did, 'endpoint': endpoint})
+                          ],
+                        )))
               ],
             ),
           )
