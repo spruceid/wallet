@@ -41,7 +41,7 @@ class DIDChainWidget extends StatelessWidget {
                   isFirst: isFirst,
                   isLast: isLast,
                   rootEventDate:
-                      DateFormat('dd MMM yyyy', 'en_US').format(DateTime.now()),
+                      DateFormat('dd MMM yyyy', 'en_UK').format(DateTime.now()),
                 );
               }).toList()
             : [],
