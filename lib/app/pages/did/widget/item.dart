@@ -104,15 +104,14 @@ class ChainItemWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 12.0, 8.0, 12.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          JsonViewer({'DID': did, 'endpoint': endpoint})
-                        ],
-                      ),
-                    ))
+                        padding: EdgeInsets.fromLTRB(0.0, 12.0, 8.0, 12.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            JsonViewer({'DID': did, 'endpoint': endpoint})
+                          ],
+                        )))
               ],
             ),
           )

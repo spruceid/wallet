@@ -102,18 +102,20 @@ class HumanFriendlyDIDDocumentWidget extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 12.0),
-              ChainItemWidget(
-                  did: model.did,
-                  endpoint: model.endpoint,
-                  rootEventDate: rootEventDate,
-                  isRoot: isRoot),
-              const SizedBox(height: 12.0),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const SizedBox(height: 12.0),
+                ChainItemWidget(
+                    did: model.did,
+                    endpoint: model.endpoint,
+                    rootEventDate: rootEventDate,
+                    isRoot: isRoot),
+                const SizedBox(height: 12.0),
+              ],
+            ),
           ),
         ),
       );
