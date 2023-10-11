@@ -70,9 +70,9 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
     try {
       // Decode JSON string
       final didCode = jsonDecode(event.data);
-      final did = didCode['did'];
-      final route = didCode['route'];
-      final uuid = didCode['id'];
+      final String did = didCode['did'];
+      final String route = didCode['route'];
+      final String uuid = didCode['id'];
       // Verify DID first with FFI call
       final ffiConfig = await ffi_config_instance.get_ffi_config();
       try {
@@ -91,6 +91,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       try {
         print(e.message);
         uri = Uri.parse(event.data);
+        yield QRCodeStateHost(uri, false);
       } on FormatException catch (e) {
         print(e.message);
         yield QRCodeStateMessage(StateMessage.error(
@@ -101,8 +102,6 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       yield QRCodeStateMessage(
           StateMessage.error('This QRCode does not contain a valid message.'));
     }
-
-    yield QRCodeStateHost(uri, false);
   }
 
   Stream<QRCodeState> _accept(
