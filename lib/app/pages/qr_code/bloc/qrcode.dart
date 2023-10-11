@@ -72,7 +72,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       final didCode = jsonDecode(event.data);
       final did = didCode['did'];
       final route = didCode['route'];
-      final uuid = didCode['uuid'];
+      final uuid = didCode['id'];
       // Verify DID first with FFI call
       final ffiConfig = await ffi_config_instance.get_ffi_config();
       try {
@@ -82,15 +82,9 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
             StateMessage.error('Failed verification of $did'));
       }
       // Resolve DID
-      final resolverUri = Uri.parse(
-          (await ffi_config_instance.get_trustchain_endpoint()) +
-              '/did/' +
-              did);
-      final response = await client.getUri(resolverUri);
+      final didModel = await resolveDid(did);
       final endpoint =
-          extractEndpoint(response.data['didDocument'], '#TrustchainHTTP')!;
-      // TODO: Uncomment to alternatively use config endpoint
-      // final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
+          extractEndpoint(didModel.data['didDocument'], '#TrustchainHTTP')!;
       uri = Uri.parse(endpoint + route + uuid);
       yield QRCodeStateHost(uri, true);
     } on FormatException catch (e) {
