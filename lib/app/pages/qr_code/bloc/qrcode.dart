@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:credible/app/interop/trustchain/trustchain.dart';
 import 'package:credible/app/pages/credentials/blocs/scan.dart';
-import 'package:credible/app/pages/did/models/did.dart';
 import 'package:credible/app/shared/config.dart';
+import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/model/message.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_rust_bridge/flutter_rust_bridge.dart';
@@ -88,7 +88,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
               did);
       final response = await client.getUri(resolverUri);
       final endpoint =
-          extractEndpoint(response.data['didDocument'], '#TrustchainHTTP');
+          extractEndpoint(response.data['didDocument'], '#TrustchainHTTP')!;
       // TODO: Uncomment to alternatively use config endpoint
       // final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
       uri = Uri.parse(endpoint + route + uuid);
@@ -102,6 +102,10 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
         yield QRCodeStateMessage(StateMessage.error(
             'This QRCode does not contain a valid message.'));
       }
+    } catch (e) {
+      print(e);
+      yield QRCodeStateMessage(
+          StateMessage.error('This QRCode does not contain a valid message.'));
     }
 
     yield QRCodeStateHost(uri, false);

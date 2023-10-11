@@ -1,14 +1,4 @@
-String extractEndpoint(dynamic did_document, String service_id) {
-  // TODO: refine handling when sevice not found
-  var ep = '';
-  for (var service in did_document['service']) {
-    if (service['id'] == service_id) {
-      ep = service['serviceEndpoint'];
-      break;
-    }
-  }
-  return ep;
-}
+import 'package:credible/app/shared/globals.dart';
 
 class DIDModel {
   final String did;
@@ -33,7 +23,9 @@ class DIDModel {
 
     // Extract service endpoint for "TrustchainID".
     assert(didDocument.containsKey('service'));
-    final endpoint = extractEndpoint(didDocument, '#TrustchainID');
+
+    // TODO: consider more complete handling of non-trustchain DIDs
+    final endpoint = extractEndpoint(didDocument, '#TrustchainID') ?? '';
 
     return DIDModel(
       did: did,
