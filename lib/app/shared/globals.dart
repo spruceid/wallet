@@ -41,3 +41,12 @@ Map<String, dynamic> stripContext(Map<String, dynamic> map) {
   });
   return result;
 }
+
+String? extractEndpoint(dynamic did_document, String service_id) {
+  for (var service in did_document['service']) {
+    if (service['id'] == service_id) {
+      return service['serviceEndpoint'];
+    }
+  }
+  return null;
+}
