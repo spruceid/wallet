@@ -18,6 +18,13 @@ class DIDModel {
     final didDocument = data['didDocument'];
     assert(didDocument.containsKey('id'));
     final did = didDocument['id'];
+    if (did.toString().startsWith('did:key')) {
+      return DIDModel(
+        did: did,
+        endpoint: '',
+        data: data,
+      );
+    }
     // TODO: add robust checks for converting HTTP API DID result into DIDModel.
     // E.g. multiple services, field existence, etc
 
