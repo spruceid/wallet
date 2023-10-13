@@ -101,7 +101,8 @@ Future<RootCandidatesModel> getRootCandidates(DateTime date) async {
     'month': date.month.toString(),
     'day': date.day.toString(),
   };
-  final uri = Uri.https(endpoint, route, queryParameters);
+  final uri =
+      Uri.parse(endpoint + route).replace(queryParameters: queryParameters);
   return RootCandidatesModel.fromMap((await Dio().getUri(uri)).data);
 }
 
@@ -114,7 +115,7 @@ class TimestampModel {
   // Throws a FormatException if the 'timestamp' string cannot be parsed.
   factory TimestampModel.fromMap(Map<String, dynamic> data) {
     assert(data.containsKey('timestamp'));
-    final timestamp = int.parse(data['timestamp']);
+    final timestamp = int.parse(data['timestamp'].toString());
 
     return TimestampModel(timestamp: timestamp);
   }
@@ -123,6 +124,7 @@ class TimestampModel {
 Future<TimestampModel> getBlockTimestamp(int blockHeight) async {
   final endpoint = (await ffi_config_instance.get_trustchain_endpoint());
   final route = '/root/timestamp/' + blockHeight.toString();
-  final uri = Uri.https(endpoint, route);
-  return TimestampModel.fromMap((await Dio().getUri(uri)).data);
+  final uri = Uri.parse(endpoint + route);
+  final data = (await Dio().getUri(uri)).data;
+  return TimestampModel.fromMap(data);
 }
