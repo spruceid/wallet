@@ -1,6 +1,8 @@
+import 'package:credible/app/pages/chain/widget/error.dart';
 import 'package:credible/app/shared/globals.dart';
 import 'package:credible/app/shared/widget/back_leading_button.dart';
 import 'package:credible/app/shared/widget/base/page.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:credible/app/pages/chain/models/chain.dart';
@@ -33,10 +35,17 @@ class _DIDChainDisplayPageState extends State<DIDChainDisplayPage> {
               future: resolveDidChain(widget.did),
               builder: (BuildContext context,
                   AsyncSnapshot<DIDChainModel> snapshot) {
+                var message = 'Default message.';
                 if (snapshot.hasData) {
                   return DIDChainWidget(
                       model: DIDChainWidgetModel.fromDIDChainModel(
                           snapshot.data!));
+                } else if (snapshot.hasError) {
+                  message = 'Chain resolution failed';
+                  if (snapshot.error is DioError) {
+                    message = (snapshot.error as DioError).message;
+                  }
+                  return CustomErrorWidget(errorMessage: message);
                 } else {
                   return Center(
                       child: Column(

@@ -1,6 +1,9 @@
+import 'package:credible/app/shared/globals.dart';
+
 class DIDModel {
   final String did;
-  // TODO: consider optionality to endpoint presence, currently asserting always present in the returned 'didDocument'
+  // TODO: consider optionality to endpoint presence, currently asserting always
+  // present in the returned 'didDocument'
   final String endpoint;
   final Map<String, dynamic> data;
 
@@ -15,20 +18,21 @@ class DIDModel {
     final didDocument = data['didDocument'];
     assert(didDocument.containsKey('id'));
     final did = didDocument['id'];
-    // TODO: add robust checks for converting HTTP API DID result into DIDModel. E.g. multiple services, field existence, etc
-
-    // Loop over services (must be more than 0) and extract service endpoint for
-    // service with service["id"] == "TrustchainID".
-    assert(didDocument.containsKey('service'));
-    var ep;
-    for (var s in didDocument['service']) {
-      if (s['id'] == '#TrustchainID') {
-        ep = s['serviceEndpoint'];
-        break;
-      }
+    if (did.toString().startsWith('did:key')) {
+      return DIDModel(
+        did: did,
+        endpoint: '',
+        data: data,
+      );
     }
-    final endpoint = ep;
-    assert(endpoint != null);
+    // TODO: add robust checks for converting HTTP API DID result into DIDModel.
+    // E.g. multiple services, field existence, etc
+
+    // Extract service endpoint for "TrustchainID".
+    assert(didDocument.containsKey('service'));
+
+    // TODO: consider more complete handling of non-trustchain DIDs
+    final endpoint = extractEndpoint(didDocument, '#TrustchainID') ?? '';
 
     return DIDModel(
       did: did,
