@@ -42,6 +42,21 @@ Map<String, dynamic> stripContext(Map<String, dynamic> map) {
   return result;
 }
 
+// Checks that a given Unix (UTC) timestamp falls within the 24 hours of the given date.
+bool validate_timestamp(int timestamp, DateTime date) {
+  var date_utc = DateTime.utc(date.year, date.month, date.day, 0, 0, 0);
+  var lower_bound = (date_utc.millisecondsSinceEpoch / 1000).round();
+  if (timestamp < lower_bound) {
+    return false;
+  }
+  date_utc = date_utc.add(const Duration(days: 1));
+  var upper_bound = (date_utc.millisecondsSinceEpoch / 1000).round();
+  if (!(timestamp < upper_bound)) {
+    return false;
+  }
+  return true;
+}
+
 String? extractEndpoint(dynamic did_document, String service_id) {
   for (var service in did_document['service']) {
     if (service['id'] == service_id) {

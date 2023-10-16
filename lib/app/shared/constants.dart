@@ -12,4 +12,5 @@ class Constants {
     'trustchainOptions': {'rootEventTime': 1666971942, 'signatureOnly': false},
     'linkedDataProofOptions': {}
   };
+  static final int confirmationCodeMinimumLength = 3;
 }
