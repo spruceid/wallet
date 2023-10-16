@@ -65,6 +65,9 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
       final rootTxid =
           await SecureStorageProvider.instance.get(ConfigModel.rootTxidKey) ??
               '';
+      final rootBlockHeight = await SecureStorageProvider.instance
+              .get(ConfigModel.rootBlockHeightKey) ??
+          '';
       final rootEventTime = await SecureStorageProvider.instance
               .get(ConfigModel.rootEventTimeKey) ??
           '';
@@ -77,6 +80,7 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
         confirmationCode: confirmationCode,
         rootDid: rootDid,
         rootTxid: rootTxid,
+        rootBlockHeight: rootBlockHeight,
         rootEventTime: rootEventTime,
       );
 
@@ -106,16 +110,36 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
         did,
       );
       await SecureStorageProvider.instance.set(
-        ConfigModel.rootEventTimeKey,
-        event.model.rootEventTime,
-      );
-      await SecureStorageProvider.instance.set(
         ConfigModel.ionEndpointKey,
         event.model.ionEndpoint,
       );
       await SecureStorageProvider.instance.set(
         ConfigModel.trustchainEndpointKey,
         event.model.trustchainEndpoint,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.rootEventDateKey,
+        event.model.rootEventDate,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.confirmationCodeKey,
+        event.model.confirmationCode,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.rootDidKey,
+        event.model.rootDid,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.rootTxidKey,
+        event.model.rootTxid,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.rootBlockHeightKey,
+        event.model.rootBlockHeight,
+      );
+      await SecureStorageProvider.instance.set(
+        ConfigModel.rootEventTimeKey,
+        event.model.rootEventTime,
       );
 
       yield ConfigStateDefault(event.model);
