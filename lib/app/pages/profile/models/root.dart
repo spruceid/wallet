@@ -106,7 +106,7 @@ Future<RootCandidatesModel> getRootCandidates(DateTime date) async {
   return RootCandidatesModel.fromMap((await Dio().getUri(uri)).data);
 }
 
-// Represents a list of root DID candidates for a given calendar date.
+// Represents a Unix timestamp.
 class TimestampModel {
   final int timestamp;
 
