@@ -15,11 +15,6 @@ class FFIConfig {
         .get(ConfigModel.trustchainEndpointKey))!;
   }
 
-  Future<String> get_ion_endpoint() async {
-    return (await SecureStorageProvider.instance
-        .get(ConfigModel.ionEndpointKey))!;
-  }
-
   Future<String> get_did() async {
     return (await SecureStorageProvider.instance.get(ConfigModel.didKey))!;
   }
@@ -28,13 +23,7 @@ class FFIConfig {
     var ffiConfig = Constants.ffiConfig;
     ffiConfig['trustchainOptions']!['rootEventTime'] =
         await get_root_event_time();
-    final ionEndpoint = await get_ion_endpoint();
     final trustchainEndpoint = await get_trustchain_endpoint();
-    final ionEndpointUri = Uri.parse(ionEndpoint);
-
-    ffiConfig['endpointOptions']!['ionEndpoint']!['host'] =
-        ionEndpointUri.toString();
-    ffiConfig['endpointOptions']!['ionEndpoint']!['port'] = ionEndpointUri.port;
     final trustchainEndpointUri = Uri.parse(trustchainEndpoint);
     ffiConfig['endpointOptions']!['trustchainEndpoint']!['host'] =
         trustchainEndpointUri.toString();

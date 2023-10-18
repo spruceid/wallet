@@ -176,7 +176,6 @@ This runs the code from the branch you have checked out. The mobile app should n
 - Update `flutter-config.json` with your default values, for example:
   ```json
   {
-    "ionEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:3000",
     "trustchainEndpoint": "http://trustchain.uksouth.cloudapp.azure.com:8081",
     "rootEventTime": "1666971942"
   }

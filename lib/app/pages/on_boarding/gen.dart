@@ -40,8 +40,6 @@ class _OnBoardingGenPageState extends State<OnBoardingGenPage> {
       await SecureStorageProvider.instance.set(
           ConfigModel.trustchainEndpointKey,
           const String.fromEnvironment('trustchainEndpoint', defaultValue: ''));
-      await SecureStorageProvider.instance.set(ConfigModel.ionEndpointKey,
-          const String.fromEnvironment('ionEndpoint', defaultValue: ''));
       await Modular.to.pushReplacementNamed('/on-boarding/success');
     } catch (error) {
       log.severe('something went wrong when generating a key', error);

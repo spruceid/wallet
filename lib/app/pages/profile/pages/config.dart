@@ -28,7 +28,6 @@ class ConfigPage extends StatefulWidget {
 
 class _ConfigPageState extends State<ConfigPage> {
   late TextEditingController did;
-  late TextEditingController ionEndpoint;
   late TextEditingController trustchainEndpoint;
   late RootConfigModel rootConfigModel;
   late TextEditingController confirmationCodeController;
@@ -41,7 +40,6 @@ class _ConfigPageState extends State<ConfigPage> {
     final config_model =
         config_state is ConfigStateDefault ? config_state.model : ConfigModel();
     did = TextEditingController(text: config_model.did);
-    ionEndpoint = TextEditingController(text: config_model.ionEndpoint);
     trustchainEndpoint =
         TextEditingController(text: config_model.trustchainEndpoint);
     // Initialise the root config model:
@@ -76,7 +74,6 @@ class _ConfigPageState extends State<ConfigPage> {
           // TODO: save not working here
           Modular.get<ConfigBloc>().add(ConfigEventUpdate(ConfigModel(
             did: did.text,
-            ionEndpoint: ionEndpoint.text,
             trustchainEndpoint: trustchainEndpoint.text,
             rootEventDate: _rootEventDateIsSet.value
                 ? rootConfigModel.date.toString()
@@ -196,13 +193,6 @@ class _ConfigPageState extends State<ConfigPage> {
                 );
               },
             ),
-          ),
-          const SizedBox(height: 16.0),
-          BaseTextField(
-            label: localizations.ionEndpoint,
-            controller: ionEndpoint,
-            icon: Icons.http_sharp,
-            textCapitalization: TextCapitalization.words,
           ),
           const SizedBox(height: 16.0),
           BaseTextField(

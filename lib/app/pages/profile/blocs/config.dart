@@ -47,9 +47,6 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
 
       final did =
           await SecureStorageProvider.instance.get(ConfigModel.didKey) ?? '';
-      final ionEndpoint = await SecureStorageProvider.instance
-              .get(ConfigModel.ionEndpointKey) ??
-          '';
       final trustchainEndpoint = await SecureStorageProvider.instance
               .get(ConfigModel.trustchainEndpointKey) ??
           '';
@@ -74,7 +71,6 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
 
       final model = ConfigModel(
         did: did,
-        ionEndpoint: ionEndpoint,
         trustchainEndpoint: trustchainEndpoint,
         rootEventDate: rootEventDate,
         confirmationCode: confirmationCode,
@@ -108,10 +104,6 @@ class ConfigBloc extends Bloc<ConfigEvent, ConfigState> {
       await SecureStorageProvider.instance.set(
         ConfigModel.didKey,
         did,
-      );
-      await SecureStorageProvider.instance.set(
-        ConfigModel.ionEndpointKey,
-        event.model.ionEndpoint,
       );
       await SecureStorageProvider.instance.set(
         ConfigModel.trustchainEndpointKey,

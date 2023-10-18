@@ -4,9 +4,6 @@ class ConfigModel {
   static const String didKey = 'config/did';
   final String did;
 
-  static const String ionEndpointKey = 'config/ionEndpoint';
-  final String ionEndpoint;
-
   static const String trustchainEndpointKey = 'config/trustchainEndpoint';
   final String trustchainEndpoint;
 
@@ -30,7 +27,6 @@ class ConfigModel {
 
   const ConfigModel({
     this.did = '',
-    this.ionEndpoint = '',
     this.trustchainEndpoint = '',
     this.rootEventDate = '',
     this.confirmationCode = '',

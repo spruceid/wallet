@@ -167,7 +167,6 @@
   "configSubtitle": "Settings",
   "didLabel": "My DID:",
   "rootEventTime": "Root Event Time:",
-  "ionEndpoint": "ION endpoint:",
   "trustchainEndpoint": "Trustchain endpoint:",
   "rootEventDate": "Root event date:",
   "setRootEventDate": "Set root event date",
