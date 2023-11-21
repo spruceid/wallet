@@ -194,7 +194,7 @@ class _CredentialsDetailState
                   verification.message,
                   style: Theme.of(context)
                       .textTheme
-                      .caption!
+                      .bodySmall!
                       .apply(color: verification.color),
                 ),
               ],
@@ -213,7 +213,7 @@ class _CredentialsDetailState
               localizations.credentialDetailDelete,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText1!
+                  .bodyLarge!
                   .apply(color: Colors.redAccent),
             ),
           ),

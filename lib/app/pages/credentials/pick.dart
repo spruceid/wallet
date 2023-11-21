@@ -80,7 +80,7 @@ class _CredentialsPickPageState extends State<CredentialsPickPage> {
         children: <Widget>[
           Text(
             localizations.credentialPickSelect,
-            style: Theme.of(context).textTheme.bodyText1,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           const SizedBox(height: 32.0),
           ...List.generate(

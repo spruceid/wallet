@@ -14,6 +14,12 @@ abstract class DIDKitProvider {
 
   String generateEd25519Key();
 
+  String generateSecp256r1Key();
+
+  String generateSecp256k1Key();
+
+  String generateSecp384r1Key();
+
   String keyToDID(String methodName, String key);
 
   Future<String> keyToVerificationMethod(String methodName, String key);
@@ -21,24 +27,28 @@ abstract class DIDKitProvider {
   Future<String> issueCredential(
     String credential,
     String options,
-    String key,
-  );
+    String key, [
+    String? contextMap,
+  ]);
 
   Future<String> verifyCredential(
     String credential,
-    String options,
-  );
+    String options, [
+    String? contextMap,
+  ]);
 
   Future<String> issuePresentation(
     String presentation,
     String options,
-    String key,
-  );
+    String key, [
+    String? contextMap,
+  ]);
 
   Future<String> verifyPresentation(
     String presentation,
-    String options,
-  );
+    String options, [
+    String? contextMap,
+  ]);
 
   Future<String> resolveDID(
     String did,
@@ -50,9 +60,45 @@ abstract class DIDKitProvider {
     String inputMetadata,
   );
 
-  Future<String> DIDAuth(
+  Future<String> didAuth(
     String did,
     String options,
-    String key,
+    String key, [
+    String? contextMap,
+  ]);
+
+  Future<String> createContext(
+    String url,
+    String json,
+  );
+
+  Future<String> createContextMap(
+    List<String> contexts,
+  );
+
+  Future<String> prepareIssueCredential(
+    String credential,
+    String options,
+    String key, [
+    String? contextMap,
+  ]);
+
+  Future<String> completeIssueCredential(
+    String credential,
+    String preparation,
+    String signature,
+  );
+
+  Future<String> prepareIssuePresentation(
+    String presentation,
+    String options,
+    String key, [
+    String? contextMap,
+  ]);
+
+  Future<String> completeIssuePresentation(
+    String presentation,
+    String preparation,
+    String signature,
   );
 }

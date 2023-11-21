@@ -14,6 +14,15 @@ external String _getVersion();
 @JS('window.DIDKit.generateEd25519Key')
 external String _generateEd25519Key();
 
+@JS('window.DIDKit.generateSecp256r1Key')
+external String _generateSecp256r1Key();
+
+@JS('window.DIDKit.generateSecp256k1Key')
+external String _generateSecp256k1Key();
+
+@JS('window.DIDKit.generateSecp384r1Key')
+external String _generateSecp384r1Key();
+
 @JS('window.DIDKit.keyToDID')
 external String _keyToDID(String methodName, String key);
 
@@ -25,12 +34,14 @@ external String _issueCredential(
   String credential,
   String options,
   String key,
+  String? contextMap,
 );
 
 @JS('window.DIDKit.verifyCredential')
 external String _verifyCredential(
   String credential,
   String options,
+  String? contextMap,
 );
 
 @JS('window.DIDKit.issuePresentation')
@@ -38,12 +49,14 @@ external String _issuePresentation(
   String presentation,
   String options,
   String key,
+  String? contextMap,
 );
 
 @JS('window.DIDKit.verifyPresentation')
 external String _verifyPresentation(
   String presentation,
   String options,
+  String? contextMap,
 );
 
 @JS('window.DIDKit.resolveDID')
@@ -59,10 +72,52 @@ external String _dereferenceDIDURL(
 );
 
 @JS('window.DIDKit.DIDAuth')
-external String _DIDAuth(
+external String _didAuth(
   String did,
   String options,
   String key,
+  String? contextMap,
+);
+
+@JS('window.DIDKit.createContext')
+external String _createContext(
+  String url,
+  String json,
+);
+
+@JS('window.DIDKit.createContextMap')
+external String _createContextMap(
+  List<String> contexts,
+);
+
+@JS('window.DIDKit.prepareIssueCredential')
+external String _prepareIssueCredential(
+  String credential,
+  String options,
+  String key,
+  String? contextMap,
+);
+
+@JS('window.DIDKit.completeIssueCredential')
+external String _completeIssueCredential(
+  String credential,
+  String preparation,
+  String signature,
+);
+
+@JS('window.DIDKit.prepareIssuePresentation')
+external String _prepareIssuePresentation(
+  String presentation,
+  String options,
+  String key,
+  String? contextMap,
+);
+
+@JS('window.DIDKit.completeIssuePresentation')
+external String _completeIssuePresentation(
+  String presentation,
+  String preparation,
+  String signature,
 );
 
 class DIDKitWeb extends DIDKitProvider {
@@ -74,6 +129,21 @@ class DIDKitWeb extends DIDKitProvider {
   @override
   String generateEd25519Key() {
     return _generateEd25519Key();
+  }
+
+  @override
+  String generateSecp256r1Key() {
+    return _generateSecp256r1Key();
+  }
+
+  @override
+  String generateSecp256k1Key() {
+    return _generateSecp256k1Key();
+  }
+
+  @override
+  String generateSecp384r1Key() {
+    return _generateSecp384r1Key();
   }
 
   @override
@@ -90,23 +160,27 @@ class DIDKitWeb extends DIDKitProvider {
   Future<String> issueCredential(
     String credential,
     String options,
-    String key,
-  ) async {
+    String key, [
+    String? contextMap,
+  ]) async {
     return await promiseToFuture(_issueCredential(
       credential,
       options,
       key,
+      contextMap,
     ));
   }
 
   @override
   Future<String> verifyCredential(
     String credential,
-    String options,
-  ) async {
+    String options, [
+    String? contextMap,
+  ]) async {
     return await promiseToFuture(_verifyCredential(
       credential,
       options,
+      contextMap,
     ));
   }
 
@@ -114,23 +188,27 @@ class DIDKitWeb extends DIDKitProvider {
   Future<String> issuePresentation(
     String presentation,
     String options,
-    String key,
-  ) async {
+    String key, [
+    String? contextMap,
+  ]) async {
     return await promiseToFuture(_issuePresentation(
       presentation,
       options,
       key,
+      contextMap,
     ));
   }
 
   @override
   Future<String> verifyPresentation(
     String presentation,
-    String options,
-  ) async {
+    String options, [
+    String? contextMap,
+  ]) async {
     return await promiseToFuture(_verifyPresentation(
       presentation,
       options,
+      contextMap,
     ));
   }
 
@@ -157,15 +235,93 @@ class DIDKitWeb extends DIDKitProvider {
   }
 
   @override
-  Future<String> DIDAuth(
+  Future<String> didAuth(
     String did,
     String options,
-    String key,
-  ) async {
-    return await promiseToFuture(_DIDAuth(
+    String key, [
+    String? contextMap,
+  ]) async {
+    return await promiseToFuture(_didAuth(
       did,
       options,
       key,
+      contextMap,
+    ));
+  }
+
+  @override
+  Future<String> createContext(
+    String url,
+    String json,
+  ) async {
+    return await promiseToFuture(_createContext(
+      url,
+      json,
+    ));
+  }
+
+  @override
+  Future<String> createContextMap(
+    List<String> contexts,
+  ) async {
+    return await promiseToFuture(_createContextMap(
+      contexts,
+    ));
+  }
+
+  @override
+  Future<String> prepareIssueCredential(
+    String credential,
+    String options,
+    String key, [
+    String? contextMap,
+  ]) async {
+    return await promiseToFuture(_prepareIssueCredential(
+      credential,
+      options,
+      key,
+      contextMap,
+    ));
+  }
+
+  @override
+  Future<String> completeIssueCredential(
+    String credential,
+    String preparation,
+    String signature,
+  ) async {
+    return await promiseToFuture(_completeIssueCredential(
+      credential,
+      preparation,
+      signature,
+    ));
+  }
+
+  @override
+  Future<String> prepareIssuePresentation(
+    String presentation,
+    String options,
+    String key, [
+    String? contextMap,
+  ]) async {
+    return await promiseToFuture(_prepareIssuePresentation(
+      presentation,
+      options,
+      key,
+      contextMap,
+    ));
+  }
+
+  @override
+  Future<String> completeIssuePresentation(
+    String presentation,
+    String preparation,
+    String signature,
+  ) async {
+    return await promiseToFuture(_completeIssuePresentation(
+      presentation,
+      preparation,
+      signature,
     ));
   }
 }

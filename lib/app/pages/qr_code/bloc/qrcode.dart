@@ -86,7 +86,7 @@ class QRCodeBloc extends Bloc<QRCodeEvent, QRCodeState> {
       final response = await client.get(url);
       data =
           response.data is String ? jsonDecode(response.data) : response.data;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       log.severe('An error occurred while connecting to the server.', e);
 
       yield QRCodeStateMessage(StateMessage.error(

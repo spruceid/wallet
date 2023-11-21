@@ -384,7 +384,7 @@ class ScanBloc extends Bloc<ScanEvent, ScanState> {
       final verificationMethod = await DIDKitProvider.instance
           .keyToVerificationMethod(Constants.defaultDIDMethod, key);
 
-      final presentation = await DIDKitProvider.instance.DIDAuth(
+      final presentation = await DIDKitProvider.instance.didAuth(
         did,
         jsonEncode({
           'verificationMethod': verificationMethod,

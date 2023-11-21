@@ -1,4 +1,6 @@
 class Constants {
-  static final String defaultDIDMethod = 'tz';
-  static final String databaseFilename = 'wallet.db';
+  static const String defaultDIDMethod = 'tz';
+  static const String databaseFilename = 'wallet.db';
+  static const String defaultAliasEncrypt = 'sprucekit-wallet-encrypt';
+  static const String defaultAliasSign = 'sprucekit-wallet-sign';
 }
