@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> As we do not use the DIDKit bindings internally anymore, we have decided to archive their respective repositories. If you are looking for alternatives, our Rust library [`ssi`](https://github.com/spruceid/ssi/) (on which DIDKit was built) is still in active deployment, and we have new mobile-focused libraries with [`sprucekit-mobile`](https://github.com/spruceid/sprucekit-mobile). And as always, you are welcome to fork our repositories.
+
 ![Credible header](https://spruceid.dev/assets/images/crediblehead-9f539ffe32f0082fb362572e7d308c6e.png)
 
 [![](https://img.shields.io/badge/Flutter-1.22.6-blue)](https://flutter.dev/docs/get-started/install) [![](https://img.shields.io/badge/ssi-v0.1-green)](https://www.github.com/spruceid/ssi) [![](https://img.shields.io/badge/DIDKit-v0.1-green)](https://www.github.com/spruceid/didkit) [![](https://img.shields.io/badge/License-Apache--2.0-green)](https://github.com/spruceid/credible/blob/main/LICENSE) [![](https://img.shields.io/twitter/follow/sprucesystems?label=Follow&style=social)](https://twitter.com/sprucesystems)
