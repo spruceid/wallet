@@ -101,6 +101,8 @@ we recommend cloning into your `${HOME}`, to avoid having to specify the
 ```bash
 $ git clone https://github.com/WebAssembly/binaryen ~/binaryen
 $ cd ~/binaryen
+$ git submodule init
+$ git submodule update
 $ cmake . && make
 ```
 
